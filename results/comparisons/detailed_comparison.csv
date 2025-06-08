@@ -1,0 +1,7 @@
+Architecture,Dataset,Test Loss,Training Epochs,Training Time (min),Parameters (M),Loss per Epoch,Loss per Minute,Efficiency Score
+Simple CortexFlow,Miyawaki,0.018006,58,0.2,6.0,0.00031045,0.090030,277.69
+Simple CortexFlow,Vangerven,0.037846,53,0.2,8.2,0.00071408,0.189230,132.11
+Hierarchical CortexFlow,Miyawaki,0.079622,107,1.1,20.3,0.00074413,0.072384,11.42
+Hierarchical CortexFlow,Vangerven,0.108537,32,0.5,29.0,0.00339178,0.217074,18.43
+Enhanced CortexFlow,Miyawaki,0.056370,71,3.6,20.4,0.00079394,0.015658,4.93
+Enhanced CortexFlow,Vangerven,0.080576,50,2.4,29.1,0.00161152,0.033573,5.17
