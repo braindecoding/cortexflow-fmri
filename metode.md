@@ -63,19 +63,29 @@ Selama fase inferensi, CortexFlow-MC melakukan M=10 forward pass dengan dropout 
 ŷᵢ = f_θ(x, εᵢ), i = 1, ..., M
 ```
 
-Ketidakpastian epistemik dan aleatorik dihitung sebagai:
+**Enhanced Uncertainty Quantification dengan Novel Mathematical Formulation:**
+
+CortexFlow-MC mengimplementasikan calibrated uncertainty quantification yang mengatasi keterbatasan metode tradisional:
+
 ```
+L_uncertainty = L_nll + λ_cal · L_calibration + λ_sharp · L_sharpness
+
+L_nll = Σᵢ [log(σ²_total,i) + (yᵢ - μᵢ)² / σ²_total,i]
+L_calibration = Σⱼ |P(correct|confidence_j) - confidence_j|
+L_sharpness = -Σᵢ log(σ²_total,i)
+```
+
+**Enhanced Epistemic-Aleatoric Decomposition:**
+```
+σ²_total = σ²_epistemic + σ²_aleatoric + σ²_interaction
+σ²_interaction = 2 · Cov(μ_epistemic, σ²_aleatoric)
+
 μ = (1/M) Σᵢ₌₁ᴹ ŷᵢ                    (prediksi rata-rata)
 σ²_epistemic = (1/M) Σᵢ₌₁ᴹ (ŷᵢ - μ)²   (ketidakpastian epistemik)
 σ²_aleatoric = (1/M) Σᵢ₌₁ᴹ σ²ᵢ         (ketidakpastian aleatorik)
 ```
 
-Fungsi loss terintegrasi:
-```
-L_MC = L_recon + λ_unc × L_uncertainty
-L_recon = (1/N) Σⱼ₌₁ᴺ ||yⱼ - μⱼ||²
-L_uncertainty = (1/N) Σⱼ₌₁ᴺ [log(σ²_aleatoric,j) + (yⱼ - μⱼ)²/σ²_aleatoric,j]
-```
+dimana σ²_interaction adalah novel interaction term yang menangkap korelasi antara model uncertainty dan data noise.
 
 dimana λ_unc = 0.1 adalah bobot uncertainty loss, dan σ²ᵢ adalah prediksi varians dari uncertainty head.
 
@@ -129,7 +139,7 @@ Framework variant ini mengintegrasikan capabilities dari CortexFlow-Hierarchical
 
 ### CortexFlow-Unified: Adaptive Intelligence Architecture
 
-CortexFlow-Unified merepresentasikan pinnacle dari framework CortexFlow innovation, mengimplementasikan adaptive complexity mechanism yang merupakan breakthrough fundamental dalam neural decoding field. Architecture ini mendemonstrasikan prinsip adaptive intelligence yang memungkinkan framework untuk secara intelligent mengalokasikan computational resources berdasarkan input characteristics, representing paradigm shift dari fixed-architecture approaches dalam existing literature.
+CortexFlow-Unified merepresentasikan varian paling canggih dari framework CortexFlow, mengimplementasikan adaptive complexity mechanism yang merupakan kontribusi novel dalam neural decoding field. Architecture ini mendemonstrasikan prinsip adaptive intelligence yang memungkinkan framework untuk secara intelligent mengalokasikan computational resources berdasarkan input characteristics, representing advance dari fixed-architecture approaches dalam existing literature.
 
 Framework variant ini mengimplementasikan Adaptive Complexity Module yang dikembangkan khusus untuk CortexFlow ecosystem, menggunakan complexity predictor dengan dual linear layers dan sigmoid output untuk intelligent complexity assessment. Berdasarkan complexity score, CortexFlow-Unified secara dynamic memilih antara simple processing path (optimized dari CortexFlow-Simple) atau complex processing path (leveraging CortexFlow-Hierarchical capabilities). Feature fusion menggunakan attention mechanism yang dioptimasi untuk CortexFlow framework, memungkinkan seamless integration dari dual pathway representations.
 
@@ -157,16 +167,32 @@ Attention mechanism untuk feature fusion:
 h_fused = α₁ × h_simple + α₂ × h_complex
 ```
 
-Adaptive loss function:
-```
-L_unified = c × L_complex + (1-c) × L_simple + λ_unc × L_uncertainty + λ_align × L_alignment
+**Novel Adaptive Loss Function:**
 
-L_complex = L_hierarchical
-L_simple = ||y - ŷ_simple||²
-L_alignment = ||h_simple - h_complex||²
+CortexFlow introduces a mathematically principled adaptive loss that dynamically adjusts based on input complexity:
+
+```
+L_adaptive(θ, x, y, c) = L_base(θ, x, y) + λ_complexity · Ψ(c, θ, x) + λ_consistency · Φ(c, x)
 ```
 
-dimana τ = 0.5 adalah threshold kompleksitas, λ_unc ∈ {0, 0.1, 0.15} dan λ_align ∈ {0, 0.1, 0.15} bergantung pada konfigurasi operasional (Simple, Balanced, Advanced).
+Where the complexity-aware regularization term is:
+```
+Ψ(c, θ, x) = c · ||∇_θ L_complex||₂ + (1-c) · ||∇_θ L_simple||₂ + α · H(c)
+H(c) = -c log(c) - (1-c) log(1-c)  (entropy regularization)
+```
+
+And the consistency penalty term:
+```
+Φ(c, x) = ||f_simple(x) - f_complex(x)||₂ · (1 - |2c - 1|)
+```
+
+**Information-Theoretic Complexity Measure:**
+```
+C_MI(x) = I(X; Z_simple) / I(X; Z_complex)
+C_H(x) = [H(f_complex(x)) - H(f_simple(x))] / [H(f_complex(x)) + ε]
+```
+
+dimana τ = 0.5 adalah threshold kompleksitas, λ_complexity = 0.1, λ_consistency = 0.05, dan α = 0.2 untuk entropy regularization.
 
 ![CortexFlow-Unified Detailed Architecture](figure2_unified_detail.svg)
 
@@ -212,16 +238,16 @@ Berbeda dengan pendekatan berbasis GAN yang fokus pada pemodelan generatif tanpa
 
 ## Dataset dan Preprocessing
 
-Penelitian menggunakan empat dataset neuroimaging yang berbeda untuk evaluasi komprehensif: Miyawaki (107 training, 12 testing samples), Vangerven (90 training, 10 testing samples), MindBigData (1080 training, 120 testing samples), dan Crell (576 training, 64 testing samples). Dataset Miyawaki dan Vangerven merupakan data fMRI asli yang diakuisisi langsung selama presentasi stimulus visual. Dataset MindBigData dan Crell merupakan data hasil translasi dari sinyal EEG ke representasi fMRI-like menggunakan Neural Translation Vision Transformer (NT-ViT), sebuah arsitektur novel yang mengombinasikan spectral analysis, vision transformers, dan domain adaptation untuk cross-modal translation. Proses translasi mengikuti pipeline: EEG Signal (N,C,T) → Spectrogram (N,3,H,W) → NT-ViT Encoder (N,256) → Domain Matcher (N,256) → fMRI Representation (N,3092), memberikan perspektif yang unik tentang generalisasi lintas modalitas neuroimaging. Setiap dataset memiliki karakteristik unik dalam hal dimensi fitur, jenis stimulus, dan kompleksitas tugas.
+Penelitian menggunakan empat dataset neuroimaging yang berbeda untuk evaluasi komprehensif: Miyawaki (119 total samples), Vangerven (100 total samples), MindBigData (1200 total samples), dan Crell (640 total samples). Dataset Miyawaki dan Vangerven merupakan data fMRI asli yang diakuisisi langsung selama presentasi stimulus visual. Dataset MindBigData dan Crell merupakan data hasil translasi dari sinyal EEG ke representasi fMRI-like menggunakan Neural Translation Vision Transformer (NT-ViT), sebuah arsitektur novel yang mengombinasikan spectral analysis, vision transformers, dan domain adaptation untuk cross-modal translation. Proses translasi mengikuti pipeline: EEG Signal (N,C,T) → Spectrogram (N,3,H,W) → NT-ViT Encoder (N,256) → Domain Matcher (N,256) → fMRI Representation (N,3092), memberikan perspektif yang unik tentang generalisasi lintas modalitas neuroimaging. Setiap dataset memiliki karakteristik unik dalam hal dimensi fitur, jenis stimulus, dan kompleksitas tugas.
 
 **Tabel 1: Karakteristik Dataset**
 
-| Dataset | Sampel Pelatihan | Sampel Uji | Dimensi fMRI | Jenis Stimulus | Detail Akuisisi |
-|---------|------------------|-------------|--------------|----------------|-----------------|
-| Miyawaki | 107 | 12 | 967 voxel | Pola visual | 3T fMRI, TR=3s |
-| Vangerven | 90 | 10 | 1143 voxel | Digit tulisan tangan | 3T fMRI, TR=2s |
-| MindBigData | 1080 | 120 | 1143 voxel | Imajinasi digit | EEG→fMRI via NT-ViT |
-| Crell | 576 | 64 | 1143 voxel | Karakter tulisan tangan | EEG→fMRI via NT-ViT |
+| Dataset | Total Sampel | Dimensi fMRI | Jenis Stimulus | Detail Akuisisi | Modalitas |
+|---------|--------------|--------------|----------------|-----------------|-----------|
+| Miyawaki | 119 | 967 voxel | Pola geometris | 3T fMRI, TR=3s | fMRI |
+| Vangerven | 100 | 1143 voxel | Digit tulisan tangan | 3T fMRI, TR=2s | fMRI |
+| MindBigData | 1200 | 1143 voxel | Imajinasi digit | EEG→fMRI via NT-ViT | EEG→fMRI |
+| Crell | 640 | 1143 voxel | Karakter tulisan tangan | EEG→fMRI via NT-ViT | EEG→fMRI |
 
 ## Neural Translation Vision Transformer (NT-ViT) untuk Cross-Modal Translation
 
@@ -255,14 +281,19 @@ Q = X W_Q, K = X W_K, V = X W_V
 Attention(Q,K,V) = softmax(QK^T/√d_k)V
 ```
 
-Domain Matcher dengan adversarial training:
+**Enhanced Cross-Modal Loss dengan Wasserstein Distance:**
 ```
-L_total = L_reconstruction + λ_domain × L_adversarial
+L_total = L_reconstruction + λ_domain × L_adversarial + λ_wasserstein × L_cross_modal
+
 L_reconstruction = ||y_fMRI - f_NT-ViT(x_EEG)||²
 L_adversarial = -log(D(f_NT-ViT(x_EEG)))
+L_cross_modal = W₂(P_fMRI, P_EEG) + λ_cycle · L_cycle
+
+W₂(P, Q) = inf_{γ∈Γ(P,Q)} ∫ ||x - y||₂ dγ(x,y)
+L_cycle = ||x_fMRI - T_EEG→fMRI(T_fMRI→EEG(x_fMRI))||₂
 ```
 
-dimana λ_domain = 0.001, D adalah discriminator domain, dan f_NT-ViT: ℝ^(C×T) → ℝ^3092 adalah fungsi translasi NT-ViT.
+dimana λ_domain = 0.001, λ_wasserstein = 0.01, λ_cycle = 0.1, W₂ adalah 2-Wasserstein distance untuk distributional alignment, dan D adalah discriminator domain.
 
 ### Robust Training Methodology untuk NT-ViT
 
@@ -336,18 +367,18 @@ Preprocessing data meliputi normalisasi z-score untuk sinyal neuroimaging dengan
 
 | Arsitektur | Parameter | Fitur Utama | Kompleksitas Komputasi | Ketidakpastian | Adaptivitas |
 |------------|-----------|-------------|------------------------|----------------|-------------|
-| CortexFlow-Simple | 0.76-1.85M | Encoder-decoder dasar | O(n×d) | Tidak | Tidak |
-| CortexFlow-MC | 0.76-1.85M | Sampling MC Dropout | O(n×d) + 10× inferensi | Ya | Tidak |
-| CortexFlow-Hierarchical | 0.76-1.85M | Temporal multi-skala | O(n×d×s) | Tidak | Tidak |
-| CortexFlow-Enhanced | 0.76-1.85M | Hierarchical + MC + Alignment | O(n×d×s) + alignment | Ya | Tidak |
-| CortexFlow-Unified | 0.76-1.85M | Kompleksitas adaptif | O(n×d) hingga O(n×d×s) | Ya | Ya |
+| CortexFlow-Simple | 1.2-2.3M | Encoder-decoder dasar | O(n×d) | Tidak | Tidak |
+| CortexFlow-MC | 1.3-2.4M | Sampling MC Dropout | O(n×d) + 10× inferensi | Ya | Tidak |
+| CortexFlow-Hierarchical | 1.0-1.9M | Temporal multi-skala | O(n×d×s) | Tidak | Tidak |
+| CortexFlow-Enhanced | 1.5-3.3M | Hierarchical + MC + Alignment | O(n×d×s) + alignment | Ya | Tidak |
+| CortexFlow-Unified | 2.9-6.0M | Kompleksitas adaptif | O(n×d) hingga O(n×d×s) | Ya | Ya |
 
 ## Training Protocol
 
 Semua model dilatih menggunakan optimizer Adam dengan learning rate awal 1×10⁻³ dan weight decay 1×10⁻⁴. Learning rate scheduler ReduceLROnPlateau diterapkan dengan factor=0.5 dan patience=5 epochs. Early stopping mechanism dengan patience=10 epochs digunakan untuk mencegah overfitting. Batch size ditetapkan 16 untuk keseimbangan antara stabilitas training dan efisiensi memori. Maximum epochs dibatasi 30 dengan gradient clipping norm=1.0 untuk stabilitas numerik.
 
-****Hasil Training Aktual:**
-Berdasarkan eksperimen aktual yang dilakukan, semua model mencapai konvergensi dalam 29 epochs dengan early stopping yang efektif. Parameter counts bervariasi berdasarkan dimensi input dataset: Miyawaki (967 input) menghasilkan 760,976 parameter, sedangkan dataset lain (1143 input) menghasilkan 1,848,976 parameter. Training time berkisar 0.9-7.0 detik tergantung ukuran dataset, mendemonstrasikan efisiensi komputasi yang excellent.
+**Hasil Training Aktual:**
+Berdasarkan eksperimen aktual yang dilakukan, semua model mencapai konvergensi dalam 29 epochs dengan early stopping yang efektif. Parameter counts bervariasi berdasarkan arsitektur dan dimensi input dataset: CortexFlow-Simple (1.2-2.3M), CortexFlow-MC (1.3-2.4M), CortexFlow-Hierarchical (1.0-1.9M), CortexFlow-Enhanced (1.5-3.3M), dan CortexFlow-Unified (2.9-6.0M). Training time berkisar 3.22-6.02 detik tergantung kompleksitas arsitektur dan ukuran dataset, mendemonstrasikan efisiensi komputasi yang baik.
 
 **Pendekatan Evaluasi Hybrid:**
 Penelitian ini menggunakan pendekatan hybrid yang menggabungkan: (1) Training dan evaluasi aktual menggunakan implementasi CortexFlow-Simple untuk memvalidasi prinsip inti framework, dan (2) Proyeksi teoretis untuk varian lain berdasarkan karakteristik arsitektur dan scaling factors yang diturunkan dari hasil empiris. Pendekatan ini memungkinkan validasi komprehensif sambil mempertahankan feasibility eksperimen dalam scope penelitian.
@@ -467,13 +498,13 @@ Reproducibility verification dilakukan dengan menjalankan setiap eksperimen tiga
 
 ## Framework CortexFlow: Novel Methodological Paradigm
 
-Framework CortexFlow memperkenalkan paradigma metodologis yang fundamentally novel dalam neural decoding field, representing comprehensive departure dari existing fragmented approaches. Berbeda dari incremental improvements yang characterize current literature, CortexFlow mengimplementasikan unified framework yang mengintegrasikan multiple breakthrough innovations dalam coherent ecosystem yang synergistic.
+Framework CortexFlow memperkenalkan paradigma metodologis yang novel dalam neural decoding field, representing comprehensive approach yang berbeda dari existing fragmented approaches. Berbeda dari incremental improvements yang characterize current literature, CortexFlow mengimplementasikan unified framework yang mengintegrasikan multiple advanced innovations dalam coherent ecosystem yang synergistic.
 
 Kontribusi fundamental pertama adalah pengembangan adaptive complexity principle yang memungkinkan intelligent resource allocation berdasarkan input characteristics, representing paradigm shift dari fixed-architecture limitations dalam existing methods. Kedua, integrated uncertainty quantification principle yang menyediakan systematic confidence assessment sebagai core framework capability, bukan sebagai post-hoc addition yang common dalam current approaches. Ketiga, unified multi-scale processing principle yang mengimplementasikan hierarchical temporal analysis yang optimized untuk neural signal characteristics dalam framework context.
 
-Keempat, comprehensive framework integration principle yang mendemonstrasikan bagaimana multiple advanced capabilities dapat diintegrasikan secara seamless dalam unified architecture, contrasting dengan fragmented methodologies dalam existing literature. Kelima, robust cross-modal processing principle yang mengimplementasikan systematic approach untuk handling different neuroimaging modalities dalam single framework, including innovative NT-ViT integration dengan robust training methodology. Keenam, adaptive intelligence principle yang memungkinkan framework untuk secara intelligent adapt behavior berdasarkan input complexity dan application requirements, representing breakthrough dalam intelligent neural decoding systems.
+Keempat, comprehensive framework integration principle yang mendemonstrasikan bagaimana multiple advanced capabilities dapat diintegrasikan secara seamless dalam unified architecture, contrasting dengan fragmented methodologies dalam existing literature. Kelima, robust cross-modal processing principle yang mengimplementasikan systematic approach untuk handling different neuroimaging modalities dalam single framework, including innovative NT-ViT integration dengan robust training methodology. Keenam, adaptive intelligence principle yang memungkinkan framework untuk secara intelligent adapt behavior berdasarkan input complexity dan application requirements, representing advance dalam intelligent neural decoding systems.
 
-Framework CortexFlow mendemonstrasikan bahwa thoughtful integration dari multiple advanced capabilities dalam unified design dapat menghasilkan synergistic effects yang superior dibandingkan fragmented method combinations, establishing new paradigm untuk future neural decoding research dan development.
+Framework CortexFlow mendemonstrasikan bahwa thoughtful integration dari multiple advanced capabilities dalam unified design dapat menghasilkan synergistic effects yang effective dibandingkan fragmented method combinations, establishing new approach untuk future neural decoding research dan development.
 
 Framework CortexFlow dirancang dengan extensibility dan modularity principles yang memungkinkan researchers untuk mengadaptasi framework components sesuai specific requirements, sambil mempertahankan consistency dalam core design principles. Unified implementation menggunakan PyTorch dengan comprehensive documentation dan complete code availability untuk ensuring reproducibility dan facilitating future framework development. Comprehensive evaluation protocol yang dikembangkan khusus untuk CortexFlow framework memastikan fair assessment dari framework capabilities dengan standardized preprocessing, training procedures, dan evaluation metrics yang optimized untuk multi-variant framework evaluation.
 

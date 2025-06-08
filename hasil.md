@@ -89,59 +89,50 @@ Dataset fMRI asli (Miyawaki, Vangerven) menyediakan ground truth untuk evaluasi 
 | **Crell** | 0.032354 | 0.032837 | **0.032285** | 0.033239 | 0.032361 | Hierarchical |
 | **Mean** | 0.049200 | 0.043197 | 0.041914 | **0.035719** | 0.038903 | Enhanced |
 
-**Key Insights:**
-- 🥇 **CortexFlow-Enhanced**: Best overall performance (27.4% improvement over baseline)
-- 🏆 **Breakthrough on Miyawaki**: 0.008456 MSE - exceptional performance
-- 🔄 **Cross-modal strength**: Hierarchical excels on EEG-translated datasets
-- ⚡ **Parameter efficiency**: Hierarchical achieves excellent results with fewer parameters
+**Key Findings:**
+CortexFlow-Enhanced demonstrates the best overall performance with 27.4% improvement over baseline methods. The framework achieves breakthrough performance on the Miyawaki dataset with MSE of 0.008456, representing exceptional reconstruction quality. Cross-modal analysis reveals that the Hierarchical variant excels on EEG-translated datasets, while maintaining superior parameter efficiency with fewer computational resources compared to other variants.
 
 ## Visualisasi Rekonstruksi Komprehensif
 
 Untuk validasi visual kualitas rekonstruksi, semua 5 varian CortexFlow telah dievaluasi pada semua 4 dataset dengan visualisasi publication-quality yang menampilkan perbandingan langsung antara stimulus asli dan hasil rekonstruksi.
 
-### 📊 **Visualisasi Rekonstruksi per Dataset:**
+### Reconstruction Visualizations by Dataset
 
-#### **Dataset Miyawaki (fMRI Native - Visual Cortex):**
-- ![CortexFlow-Simple Miyawaki](results/publication_visualizations/simple_miyawaki_publication.png)
-- ![CortexFlow-MC Miyawaki](results/publication_visualizations/mc_miyawaki_publication.png)
-- ![CortexFlow-Hierarchical Miyawaki](results/publication_visualizations/hierarchical_miyawaki_publication.png)
-- ![CortexFlow-Enhanced Miyawaki](results/publication_visualizations/enhanced_miyawaki_publication.png)
-- ![CortexFlow-Unified Miyawaki](results/publication_visualizations/unified_miyawaki_publication.png)
+#### Dataset Miyawaki (fMRI Native - Visual Cortex)
+![CortexFlow-Simple Miyawaki](results/publication_visualizations/simple_miyawaki_publication.png)
+![CortexFlow-MC Miyawaki](results/publication_visualizations/mc_miyawaki_publication.png)
+![CortexFlow-Hierarchical Miyawaki](results/publication_visualizations/hierarchical_miyawaki_publication.png)
+![CortexFlow-Enhanced Miyawaki](results/publication_visualizations/enhanced_miyawaki_publication.png)
+![CortexFlow-Unified Miyawaki](results/publication_visualizations/unified_miyawaki_publication.png)
 
-#### **Dataset Vangerven (fMRI Native - Digit Recognition):**
-- ![CortexFlow-Simple Vangerven](results/publication_visualizations/simple_vangerven_publication.png)
-- ![CortexFlow-MC Vangerven](results/publication_visualizations/mc_vangerven_publication.png)
-- ![CortexFlow-Hierarchical Vangerven](results/publication_visualizations/hierarchical_vangerven_publication.png)
-- ![CortexFlow-Enhanced Vangerven](results/publication_visualizations/enhanced_vangerven_publication.png)
-- ![CortexFlow-Unified Vangerven](results/publication_visualizations/unified_vangerven_publication.png)
+#### Dataset Vangerven (fMRI Native - Digit Recognition)
+![CortexFlow-Simple Vangerven](results/publication_visualizations/simple_vangerven_publication.png)
+![CortexFlow-MC Vangerven](results/publication_visualizations/mc_vangerven_publication.png)
+![CortexFlow-Hierarchical Vangerven](results/publication_visualizations/hierarchical_vangerven_publication.png)
+![CortexFlow-Enhanced Vangerven](results/publication_visualizations/enhanced_vangerven_publication.png)
+![CortexFlow-Unified Vangerven](results/publication_visualizations/unified_vangerven_publication.png)
 
-#### **Dataset MindBigData (EEG-to-fMRI Translated):**
-- ![CortexFlow-Simple MindBigData](results/publication_visualizations/simple_mindbigdata_publication.png)
-- ![CortexFlow-MC MindBigData](results/publication_visualizations/mc_mindbigdata_publication.png)
-- ![CortexFlow-Hierarchical MindBigData](results/publication_visualizations/hierarchical_mindbigdata_publication.png)
-- ![CortexFlow-Enhanced MindBigData](results/publication_visualizations/enhanced_mindbigdata_publication.png)
-- ![CortexFlow-Unified MindBigData](results/publication_visualizations/unified_mindbigdata_publication.png)
+#### Dataset MindBigData (EEG-to-fMRI Translated)
+![CortexFlow-Simple MindBigData](results/publication_visualizations/simple_mindbigdata_publication.png)
+![CortexFlow-MC MindBigData](results/publication_visualizations/mc_mindbigdata_publication.png)
+![CortexFlow-Hierarchical MindBigData](results/publication_visualizations/hierarchical_mindbigdata_publication.png)
+![CortexFlow-Enhanced MindBigData](results/publication_visualizations/enhanced_mindbigdata_publication.png)
+![CortexFlow-Unified MindBigData](results/publication_visualizations/unified_mindbigdata_publication.png)
 
-#### **Dataset Crell (EEG-to-fMRI Translated - Handwritten Characters):**
-- ![CortexFlow-Simple Crell](results/publication_visualizations/simple_crell_publication.png)
-- ![CortexFlow-MC Crell](results/publication_visualizations/mc_crell_publication.png)
-- ![CortexFlow-Hierarchical Crell](results/publication_visualizations/hierarchical_crell_publication.png)
-- ![CortexFlow-Enhanced Crell](results/publication_visualizations/enhanced_crell_publication.png)
-- ![CortexFlow-Unified Crell](results/publication_visualizations/unified_crell_publication.png)
+#### Dataset Crell (EEG-to-fMRI Translated - Handwritten Characters)
+![CortexFlow-Simple Crell](results/publication_visualizations/simple_crell_publication.png)
+![CortexFlow-MC Crell](results/publication_visualizations/mc_crell_publication.png)
+![CortexFlow-Hierarchical Crell](results/publication_visualizations/hierarchical_crell_publication.png)
+![CortexFlow-Enhanced Crell](results/publication_visualizations/enhanced_crell_publication.png)
+![CortexFlow-Unified Crell](results/publication_visualizations/unified_crell_publication.png)
 
-### 🎯 **Analisis Visual Quality:**
+### Visual Quality Analysis
 
-**Miyawaki Dataset (Excellent Visual Quality):**
-- CortexFlow-Enhanced: SSIM 0.896, MSE 0.010654 - **Outstanding reconstruction**
-- CortexFlow-Hierarchical: SSIM 0.896, MSE 0.010441 - **Excellent detail preservation**
-- CortexFlow-MC: SSIM 0.882, MSE 0.014781 - **High-quality with uncertainty**
+The Miyawaki dataset demonstrates good visual reconstruction quality across all variants. CortexFlow-Enhanced achieves the highest structural similarity (SSIM 0.896) with MSE of 0.010654, representing high reconstruction fidelity. CortexFlow-Hierarchical demonstrates comparable performance (SSIM 0.896, MSE 0.010441) with effective detail preservation capabilities. CortexFlow-MC maintains good reconstruction quality (SSIM 0.882, MSE 0.014781) while providing uncertainty quantification.
 
-**Cross-Modal Datasets (Good Generalization):**
-- Vangerven: SSIM 0.352-0.483 - **Reasonable digit reconstruction**
-- MindBigData: SSIM 0.206-0.245 - **Challenging but recognizable**
-- Crell: SSIM 0.350-0.385 - **Good character preservation**
+Cross-modal datasets show good generalization capabilities. The Vangerven dataset achieves reasonable digit reconstruction quality with SSIM ranging from 0.352 to 0.483. MindBigData presents more challenging reconstruction conditions but maintains recognizable patterns (SSIM 0.206-0.245). The Crell dataset demonstrates good character preservation with SSIM values between 0.350 and 0.385.
 
-Visualisasi mendemonstrasikan kemampuan superior CortexFlow dalam merekonstruksi stimulus visual dari sinyal neuroimaging, dengan kualitas terbaik pada dataset fMRI native dan generalisasi yang baik pada data EEG-to-fMRI translated.
+Visualisasi mendemonstrasikan kemampuan CortexFlow dalam merekonstruksi stimulus visual dari sinyal neuroimaging, dengan kualitas yang baik pada dataset fMRI native dan generalisasi yang memadai pada data EEG-to-fMRI translated.
 
 ## Metodologi Penelitian: Implementasi Komprehensif Semua Varian
 
@@ -157,24 +148,17 @@ Semua varian dilatih pada 4 dataset neuroimaging (total 20 eksperimen) dengan pr
 
 ## Key Findings dari Full Training Experiment
 
-### 🏆 **BEST PERFORMERS BY DATASET:**
-- **Miyawaki**: CortexFlow-Enhanced (MSE: 0.008456) - **BREAKTHROUGH PERFORMANCE**
-- **Vangerven**: CortexFlow-Enhanced (MSE: 0.044265) - **SUPERIOR ACCURACY**
-- **MindBigData**: CortexFlow-Hierarchical (MSE: 0.056108) - **CROSS-MODAL EXCELLENCE**
-- **Crell**: CortexFlow-Hierarchical (MSE: 0.032285) - **ROBUST GENERALIZATION**
+### Performance Analysis by Dataset
 
-### 📊 **VARIANT PERFORMANCE RANKING:**
-1. **CortexFlow-Enhanced**: 0.035719 (mean MSE) - **BEST OVERALL** 🥇
-2. **CortexFlow-Unified**: 0.038903 (mean MSE) - **ADAPTIVE INTELLIGENCE** 🥈
-3. **CortexFlow-Hierarchical**: 0.041914 (mean MSE) - **MOST EFFICIENT** 🥉
-4. **CortexFlow-MC**: 0.043197 (mean MSE) - **UNCERTAINTY-AWARE**
-5. **CortexFlow-Simple**: 0.049200 (mean MSE) - **BASELINE**
+CortexFlow-Enhanced achieves the best performance on the Miyawaki dataset with MSE of 0.008456, representing high reconstruction accuracy. On the Vangerven dataset, CortexFlow-Enhanced maintains good accuracy with MSE of 0.044265. For cross-modal datasets, CortexFlow-Hierarchical performs well on MindBigData (MSE: 0.056108) and Crell (MSE: 0.032285), demonstrating effective generalization capabilities across different neuroimaging modalities.
 
-### 🔄 **CROSS-MODAL ROBUSTNESS:**
-- **fMRI Native** (Miyawaki, Vangerven): 0.038526 mean MSE
-- **EEG-Translated** (MindBigData, Crell): 0.044647 mean MSE
-- **Difference**: 15.9% - **EXCELLENT robustness**
-- **Assessment**: Framework demonstrates superior generalization across neuroimaging modalities
+### Variant Performance Ranking
+
+The comprehensive evaluation reveals a clear performance hierarchy among CortexFlow variants. CortexFlow-Enhanced achieves the best overall performance with mean MSE of 0.035719, representing the optimal integration of hierarchical processing, uncertainty quantification, and feature alignment. CortexFlow-Unified demonstrates adaptive intelligence capabilities with mean MSE of 0.038903. CortexFlow-Hierarchical provides the most efficient solution with mean MSE of 0.041914 while maintaining lower computational requirements. CortexFlow-MC offers uncertainty-aware processing with mean MSE of 0.043197. CortexFlow-Simple serves as the baseline implementation with mean MSE of 0.049200.
+
+### Cross-Modal Robustness Analysis
+
+The framework demonstrates good cross-modal robustness with moderate performance degradation between native fMRI and EEG-translated datasets. Native fMRI datasets (Miyawaki, Vangerven) achieve mean MSE of 0.038526, while EEG-translated datasets (MindBigData, Crell) achieve mean MSE of 0.044647. The performance difference of 15.9% indicates reasonable robustness and effective generalization capabilities across different neuroimaging modalities, validating the framework's ability to handle heterogeneous data sources.
 
 ![Framework CortexFlow Comprehensive Performance Analysis](results/full_experiments/figures/comprehensive_performance_analysis.png)
 
@@ -331,11 +315,7 @@ Ablation studies memvalidasi kontribusi setiap komponen arsitektur, dengan adapt
 Eksperimen komprehensif dilakukan menggunakan dataset neuroimaging asli untuk memvalidasi kinerja kerangka kerja CortexFlow. Setiap varian dilatih dan dievaluasi pada keempat dataset dengan protokol yang konsisten, menghasilkan hasil yang dapat direproduksi dan statistik signifikan.
 
 **Protokol Eksperimental:**
-- **Training/Validation/Test Split**: 70%/15%/15% untuk semua dataset
-- **Cross-validation**: 5-fold untuk robustness validation
-- **Hardware**: GPU CUDA dengan precision float32
-- **Reproducibility**: Fixed random seed (42) untuk semua eksperimen
-- **Early stopping**: Patience 20 epochs berdasarkan validation loss
+Semua eksperimen menggunakan pembagian data training/validation/test dengan rasio 70%/15%/15% untuk memastikan evaluasi yang fair. Validasi robustness dilakukan menggunakan 5-fold cross-validation. Semua training dilakukan pada GPU CUDA dengan precision float32 untuk konsistensi komputasi. Reproducibility dijamin melalui penggunaan fixed random seed (42) untuk semua eksperimen. Early stopping mechanism diterapkan dengan patience 20 epochs berdasarkan validation loss untuk mencegah overfitting.
 
 **Validasi Statistik:**
 Semua hasil telah divalidasi menggunakan paired t-test dengan α = 0.05. CortexFlow-Unified menunjukkan significant improvement (p < 0.01) dibandingkan semua baseline variants pada dataset cross-modal, dengan effect size large (Cohen's d > 1.2) yang mengkonfirmasi practical significance dari adaptive intelligence mechanism.
@@ -384,9 +364,9 @@ Hasil menunjukkan bahwa arsitektur yang lebih sederhana (Simple, Hierarchical) m
 
 **Tabel 6: Uncertainty Quantification Metrics**
 
-| Dataset | CortexFlow-MC | CortexFlow-Enhanced | |||
-|---------|---------------|---------------------|---|---|
-| | Epistemic σ² | Aleatoric σ² | Epistemic σ² | Aleatoric σ² |
+| Dataset | CortexFlow-MC |  | CortexFlow-Enhanced |  |
+|---------|---------------|------------------|---------------------|------------------|
+|  | Epistemic σ² | Aleatoric σ² | Epistemic σ² | Aleatoric σ² |
 | Miyawaki | 0.024±0.003 | 0.018±0.002 | 0.035±0.004 | 0.025±0.003 |
 | Vangerven | 0.031±0.004 | 0.022±0.003 | 0.038±0.005 | 0.028±0.004 |
 | MindBigData | 0.045±0.006 | 0.035±0.005 | 0.055±0.007 | 0.042±0.006 |
