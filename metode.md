@@ -141,6 +141,42 @@ Framework variant ini mengintegrasikan capabilities dari CortexFlow-Hierarchical
 
 CortexFlow-Unified merepresentasikan varian paling canggih dari framework CortexFlow, mengimplementasikan adaptive complexity mechanism yang merupakan kontribusi novel dalam neural decoding field. Architecture ini mendemonstrasikan prinsip adaptive intelligence yang memungkinkan framework untuk secara intelligent mengalokasikan computational resources berdasarkan input characteristics, representing advance dari fixed-architecture approaches dalam existing literature.
 
+### CortexFlow-Ensemble: Adaptive Multi-Model Integration
+
+CortexFlow-Ensemble merepresentasikan breakthrough innovation dalam neural decoding, mengimplementasikan intelligent ensemble integration yang menggabungkan semua varian CortexFlow dalam unified adaptive system. Architecture ini mendemonstrasikan prinsip intelligent model selection dan dynamic ensemble weighting, representing paradigm shift dari fixed ensemble approaches dalam existing literature.
+
+**Novel Adaptive Ensemble Weighting:**
+
+Framework ini mengimplementasikan dynamic ensemble weighting berdasarkan input characteristics, individual model uncertainties, dan cross-model agreement patterns:
+
+```
+w = softmax(f_weight(x, c, σ, A))
+
+f_weight(x, c, σ, A) = W_ensemble · [φ_complexity(c); φ_uncertainty(σ); φ_agreement(A)]
+```
+
+dimana c adalah complexity score, σ adalah uncertainty estimates, dan A adalah agreement matrix antar models.
+
+**Hierarchical Ensemble Uncertainty:**
+
+```
+σ²_ensemble = σ²_within + σ²_between + σ²_interaction
+
+σ²_within = Σ w_i * σ²_i                           (individual model uncertainties)
+σ²_between = Σ w_i * (μ_i - μ_ensemble)²          (inter-model variance)
+σ²_interaction = 2 * Cov(w, σ²_individual)        (novel interaction term)
+```
+
+**Intelligent Model Selection:**
+
+```
+S* = argmax_{S⊆Models} [I_gain(S) - λ_complexity * |S|]
+
+I_gain(S) = H(Y|X) - H(Y|X, S)
+```
+
+dimana S adalah subset models yang dipilih, I_gain adalah information gain, dan λ_complexity mengontrol trade-off antara performance dan computational cost.
+
 Framework variant ini mengimplementasikan Adaptive Complexity Module yang dikembangkan khusus untuk CortexFlow ecosystem, menggunakan complexity predictor dengan dual linear layers dan sigmoid output untuk intelligent complexity assessment. Berdasarkan complexity score, CortexFlow-Unified secara dynamic memilih antara simple processing path (optimized dari CortexFlow-Simple) atau complex processing path (leveraging CortexFlow-Hierarchical capabilities). Feature fusion menggunakan attention mechanism yang dioptimasi untuk CortexFlow framework, memungkinkan seamless integration dari dual pathway representations.
 
 **Formulasi Matematis CortexFlow-Unified:**
