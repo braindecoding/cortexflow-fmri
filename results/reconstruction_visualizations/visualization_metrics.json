@@ -1,0 +1,90 @@
+{
+  "miyawaki": {
+    "simple": {
+      "mse": 0.051403604447841644,
+      "visualization": "results\\reconstruction_visualizations\\simple_miyawaki_reconstruction.png"
+    },
+    "mc": {
+      "mse": 0.04676320403814316,
+      "visualization": "results\\reconstruction_visualizations\\mc_miyawaki_reconstruction.png"
+    },
+    "hierarchical": {
+      "mse": 0.03982192277908325,
+      "visualization": "results\\reconstruction_visualizations\\hierarchical_miyawaki_reconstruction.png"
+    },
+    "enhanced": {
+      "mse": 0.033603735268116,
+      "visualization": "results\\reconstruction_visualizations\\enhanced_miyawaki_reconstruction.png"
+    },
+    "unified": {
+      "mse": 0.05141300708055496,
+      "visualization": "results\\reconstruction_visualizations\\unified_miyawaki_reconstruction.png"
+    }
+  },
+  "vangerven": {
+    "simple": {
+      "mse": 0.059065304696559906,
+      "visualization": "results\\reconstruction_visualizations\\simple_vangerven_reconstruction.png"
+    },
+    "mc": {
+      "mse": 0.062328487634658813,
+      "visualization": "results\\reconstruction_visualizations\\mc_vangerven_reconstruction.png"
+    },
+    "hierarchical": {
+      "mse": 0.049549005925655365,
+      "visualization": "results\\reconstruction_visualizations\\hierarchical_vangerven_reconstruction.png"
+    },
+    "enhanced": {
+      "mse": 0.05675172805786133,
+      "visualization": "results\\reconstruction_visualizations\\enhanced_vangerven_reconstruction.png"
+    },
+    "unified": {
+      "mse": 0.05660326033830643,
+      "visualization": "results\\reconstruction_visualizations\\unified_vangerven_reconstruction.png"
+    }
+  },
+  "mindbigdata": {
+    "simple": {
+      "mse": 0.056067951023578644,
+      "visualization": "results\\reconstruction_visualizations\\simple_mindbigdata_reconstruction.png"
+    },
+    "mc": {
+      "mse": 0.04955119267106056,
+      "visualization": "results\\reconstruction_visualizations\\mc_mindbigdata_reconstruction.png"
+    },
+    "hierarchical": {
+      "mse": 0.05977556109428406,
+      "visualization": "results\\reconstruction_visualizations\\hierarchical_mindbigdata_reconstruction.png"
+    },
+    "enhanced": {
+      "mse": 0.05724451690912247,
+      "visualization": "results\\reconstruction_visualizations\\enhanced_mindbigdata_reconstruction.png"
+    },
+    "unified": {
+      "mse": 0.05916354060173035,
+      "visualization": "results\\reconstruction_visualizations\\unified_mindbigdata_reconstruction.png"
+    }
+  },
+  "crell": {
+    "simple": {
+      "mse": 0.03557082265615463,
+      "visualization": "results\\reconstruction_visualizations\\simple_crell_reconstruction.png"
+    },
+    "mc": {
+      "mse": 0.0333893820643425,
+      "visualization": "results\\reconstruction_visualizations\\mc_crell_reconstruction.png"
+    },
+    "hierarchical": {
+      "mse": 0.03378397971391678,
+      "visualization": "results\\reconstruction_visualizations\\hierarchical_crell_reconstruction.png"
+    },
+    "enhanced": {
+      "mse": 0.03551916033029556,
+      "visualization": "results\\reconstruction_visualizations\\enhanced_crell_reconstruction.png"
+    },
+    "unified": {
+      "mse": 0.03404507786035538,
+      "visualization": "results\\reconstruction_visualizations\\unified_crell_reconstruction.png"
+    }
+  }
+}

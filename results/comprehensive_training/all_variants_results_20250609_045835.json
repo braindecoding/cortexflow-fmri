@@ -1,0 +1,170 @@
+{
+  "miyawaki": {
+    "simple": {
+      "variant": "simple",
+      "dataset": "miyawaki",
+      "test_loss": 0.015825260430574417,
+      "training_time": 1.6559946537017822,
+      "parameters": 1226640,
+      "epochs": 50
+    },
+    "mc": {
+      "variant": "mc",
+      "dataset": "miyawaki",
+      "test_loss": 0.013288615271449089,
+      "training_time": 1.5719609260559082,
+      "parameters": 1285856,
+      "epochs": 48
+    },
+    "hierarchical": {
+      "variant": "hierarchical",
+      "dataset": "miyawaki",
+      "test_loss": 0.024799290113151073,
+      "training_time": 2.463747501373291,
+      "parameters": 2225872,
+      "epochs": 50
+    },
+    "enhanced": {
+      "variant": "enhanced",
+      "dataset": "miyawaki",
+      "test_loss": 0.021183762699365616,
+      "training_time": 2.788722276687622,
+      "parameters": 2576128,
+      "epochs": 50
+    },
+    "unified": {
+      "variant": "unified",
+      "dataset": "miyawaki",
+      "test_loss": 0.026550408452749252,
+      "training_time": 4.162418365478516,
+      "parameters": 4475251,
+      "epochs": 50
+    }
+  },
+  "vangerven": {
+    "simple": {
+      "variant": "simple",
+      "dataset": "vangerven",
+      "test_loss": 0.04869167320430279,
+      "training_time": 1.3322968482971191,
+      "parameters": 2314640,
+      "epochs": 50
+    },
+    "mc": {
+      "variant": "mc",
+      "dataset": "vangerven",
+      "test_loss": 0.054863762110471725,
+      "training_time": 1.3304593563079834,
+      "parameters": 2373856,
+      "epochs": 45
+    },
+    "hierarchical": {
+      "variant": "hierarchical",
+      "dataset": "vangerven",
+      "test_loss": 0.052573299035429955,
+      "training_time": 2.1163246631622314,
+      "parameters": 3857872,
+      "epochs": 48
+    },
+    "enhanced": {
+      "variant": "enhanced",
+      "dataset": "vangerven",
+      "test_loss": 0.044508688151836395,
+      "training_time": 2.3998873233795166,
+      "parameters": 4752128,
+      "epochs": 50
+    },
+    "unified": {
+      "variant": "unified",
+      "dataset": "vangerven",
+      "test_loss": 0.08281289413571358,
+      "training_time": 1.082801103591919,
+      "parameters": 8283251,
+      "epochs": 14
+    }
+  },
+  "mindbigdata": {
+    "simple": {
+      "variant": "simple",
+      "dataset": "mindbigdata",
+      "test_loss": 0.05667393574757235,
+      "training_time": 12.990884065628052,
+      "parameters": 2314640,
+      "epochs": 50
+    },
+    "mc": {
+      "variant": "mc",
+      "dataset": "mindbigdata",
+      "test_loss": 0.05782961792179516,
+      "training_time": 11.821520805358887,
+      "parameters": 2373856,
+      "epochs": 37
+    },
+    "hierarchical": {
+      "variant": "hierarchical",
+      "dataset": "mindbigdata",
+      "test_loss": 0.055685526824423244,
+      "training_time": 17.824831247329712,
+      "parameters": 3857872,
+      "epochs": 39
+    },
+    "enhanced": {
+      "variant": "enhanced",
+      "dataset": "mindbigdata",
+      "test_loss": 0.05809192545711994,
+      "training_time": 12.234338760375977,
+      "parameters": 4752128,
+      "epochs": 24
+    },
+    "unified": {
+      "variant": "unified",
+      "dataset": "mindbigdata",
+      "test_loss": 0.05789475009909698,
+      "training_time": 23.068712949752808,
+      "parameters": 8283251,
+      "epochs": 29
+    }
+  },
+  "crell": {
+    "simple": {
+      "variant": "simple",
+      "dataset": "crell",
+      "test_loss": 0.0326723565813154,
+      "training_time": 5.661120414733887,
+      "parameters": 2314640,
+      "epochs": 39
+    },
+    "mc": {
+      "variant": "mc",
+      "dataset": "crell",
+      "test_loss": 0.030768878990784287,
+      "training_time": 3.7239911556243896,
+      "parameters": 2373856,
+      "epochs": 23
+    },
+    "hierarchical": {
+      "variant": "hierarchical",
+      "dataset": "crell",
+      "test_loss": 0.030980643583461642,
+      "training_time": 9.59868860244751,
+      "parameters": 3857872,
+      "epochs": 39
+    },
+    "enhanced": {
+      "variant": "enhanced",
+      "dataset": "crell",
+      "test_loss": 0.03311774064786732,
+      "training_time": 7.67864727973938,
+      "parameters": 4752128,
+      "epochs": 28
+    },
+    "unified": {
+      "variant": "unified",
+      "dataset": "crell",
+      "test_loss": 0.03360377065837383,
+      "training_time": 9.629781246185303,
+      "parameters": 8283251,
+      "epochs": 22
+    }
+  }
+}
