@@ -19,8 +19,8 @@ from dataclasses import dataclass
 from typing import Dict, Tuple, Any, Optional
 
 # Add src to path
-sys.path.append('src')
-sys.path.append('src/models')
+sys.path.append('../../src')
+sys.path.append('../../src/models')
 
 # Import hierarchical architecture
 from hierarchical import HierarchicalCortexFlow, HierarchicalConfig, create_hierarchical_model
@@ -164,7 +164,7 @@ def create_data_loaders(dataset_path: str, config: HierarchicalConfig) -> Tuple[
 def save_hierarchical_checkpoint(model: HierarchicalCortexFlow, optimizer, epoch: int,
                                 best_loss: float, dataset_name: str, **kwargs):
     """Save hierarchical model checkpoint."""
-    os.makedirs('checkpoints', exist_ok=True)
+    os.makedirs('../../checkpoints', exist_ok=True)
     checkpoint = {
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -388,7 +388,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"\n🎮 Using device: {device}")
 
-    os.makedirs('results', exist_ok=True)
+    os.makedirs('../../results', exist_ok=True)
 
     # Enhanced hierarchical configuration
     config = HierarchicalConfig(
@@ -404,8 +404,8 @@ def main():
     )
 
     datasets = [
-        ('Miyawaki', 'data/miyawaki_structured_28x28.mat'),
-        ('Vangerven', 'data/digit69_28x28.mat'),
+        ('Miyawaki', '../../data/processed/miyawaki_structured_28x28.mat'),
+        ('Vangerven', '../../data/processed/digit69_28x28.mat'),
     ]
 
     results = {}

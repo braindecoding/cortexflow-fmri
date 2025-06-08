@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from typing import Dict, Tuple, Any, Optional
 
 # Add src to path
-sys.path.append('src')
+sys.path.append('../../src')
 
 try:
     from data.data_loader import FMRIDataLoader
@@ -270,7 +270,7 @@ def create_data_loaders(dataset_path: str, config: Config = Config()) -> Tuple[A
 def save_model_checkpoint(model: SimpleCortexFlow, optimizer, epoch: int,
                          best_loss: float, dataset_name: str, **kwargs):
     """Save model checkpoint."""
-    os.makedirs('checkpoints', exist_ok=True)
+    os.makedirs('../../checkpoints', exist_ok=True)
     checkpoint = {
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -381,11 +381,11 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"\n🎮 Using device: {device}")
 
-    os.makedirs('results', exist_ok=True)
+    os.makedirs('../../results', exist_ok=True)
 
     datasets = [
-        ('Miyawaki', 'data/miyawaki_structured_28x28.mat'),
-        ('Vangerven', 'data/digit69_28x28.mat'),
+        ('Miyawaki', '../../data/processed/miyawaki_structured_28x28.mat'),
+        ('Vangerven', '../../data/processed/digit69_28x28.mat'),
     ]
 
     results = {}

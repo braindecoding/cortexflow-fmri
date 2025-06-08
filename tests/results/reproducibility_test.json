@@ -1,0 +1,276 @@
+{
+  "timestamp": "2025-06-08T08:06:10.752188",
+  "device": "cuda",
+  "data_loading": {
+    "miyawaki_structured_28x28": {
+      "is_reproducible": true,
+      "checksums": [
+        [
+          1410.9597516528652,
+          22914.0
+        ],
+        [
+          1410.9597516528652,
+          22914.0
+        ],
+        [
+          1410.9597516528652,
+          22914.0
+        ]
+      ],
+      "shapes": [
+        [
+          [
+            107,
+            967
+          ],
+          [
+            107,
+            784
+          ]
+        ],
+        [
+          [
+            107,
+            967
+          ],
+          [
+            107,
+            784
+          ]
+        ],
+        [
+          [
+            107,
+            967
+          ],
+          [
+            107,
+            784
+          ]
+        ]
+      ]
+    },
+    "digit69_28x28": {
+      "is_reproducible": true,
+      "checksums": [
+        [
+          3182.7261384375593,
+          "2368106"
+        ],
+        [
+          3182.7261384375593,
+          "2368106"
+        ],
+        [
+          3182.7261384375593,
+          "2368106"
+        ]
+      ],
+      "shapes": [
+        [
+          [
+            90,
+            3092
+          ],
+          [
+            90,
+            784
+          ]
+        ],
+        [
+          [
+            90,
+            3092
+          ],
+          [
+            90,
+            784
+          ]
+        ],
+        [
+          [
+            90,
+            3092
+          ],
+          [
+            90,
+            784
+          ]
+        ]
+      ]
+    }
+  },
+  "inference_tests": [
+    {
+      "model_name": "HierarchicalCortexFlow",
+      "num_runs": 3,
+      "is_reproducible": "True",
+      "mean_variance": 0.0,
+      "std_variance": 0.0,
+      "sum_variance": 0.0,
+      "results": [
+        {
+          "run": 1,
+          "reconstruction_mean": 0.49972227215766907,
+          "reconstruction_std": 0.18827763199806213,
+          "reconstruction_sum": 3917.82275390625,
+          "model_params": 16759118,
+          "output_shape": [
+            10,
+            1,
+            28,
+            28
+          ]
+        },
+        {
+          "run": 2,
+          "reconstruction_mean": 0.49972227215766907,
+          "reconstruction_std": 0.18827763199806213,
+          "reconstruction_sum": 3917.82275390625,
+          "model_params": 16759118,
+          "output_shape": [
+            10,
+            1,
+            28,
+            28
+          ]
+        },
+        {
+          "run": 3,
+          "reconstruction_mean": 0.49972227215766907,
+          "reconstruction_std": 0.18827763199806213,
+          "reconstruction_sum": 3917.82275390625,
+          "model_params": 16759118,
+          "output_shape": [
+            10,
+            1,
+            28,
+            28
+          ]
+        }
+      ]
+    },
+    {
+      "model_name": "EnhancedHierarchicalCortexFlow",
+      "num_runs": 3,
+      "is_reproducible": "True",
+      "mean_variance": 0.0,
+      "std_variance": 0.0,
+      "sum_variance": 0.0,
+      "results": [
+        {
+          "run": 1,
+          "reconstruction_mean": 0.49972230195999146,
+          "reconstruction_std": 0.18827763199806213,
+          "reconstruction_sum": 3917.822998046875,
+          "model_params": 16825550,
+          "output_shape": [
+            10,
+            1,
+            28,
+            28
+          ]
+        },
+        {
+          "run": 2,
+          "reconstruction_mean": 0.49972230195999146,
+          "reconstruction_std": 0.18827763199806213,
+          "reconstruction_sum": 3917.822998046875,
+          "model_params": 16825550,
+          "output_shape": [
+            10,
+            1,
+            28,
+            28
+          ]
+        },
+        {
+          "run": 3,
+          "reconstruction_mean": 0.49972230195999146,
+          "reconstruction_std": 0.18827763199806213,
+          "reconstruction_sum": 3917.822998046875,
+          "model_params": 16825550,
+          "output_shape": [
+            10,
+            1,
+            28,
+            28
+          ]
+        }
+      ]
+    }
+  ],
+  "training_tests": [
+    {
+      "model_name": "HierarchicalCortexFlow",
+      "num_training_runs": 2,
+      "num_epochs": 3,
+      "is_training_reproducible": "True",
+      "final_loss_variance": 0.0,
+      "training_results": [
+        {
+          "run": 1,
+          "final_loss": 1.8110861778259277,
+          "epoch_losses": [
+            2.421675205230713,
+            1.9389547109603882,
+            1.8110861778259277
+          ],
+          "loss_progression": [
+            -0.4827204942703247,
+            -0.12786853313446045
+          ]
+        },
+        {
+          "run": 2,
+          "final_loss": 1.8110861778259277,
+          "epoch_losses": [
+            2.421675205230713,
+            1.9389547109603882,
+            1.8110861778259277
+          ],
+          "loss_progression": [
+            -0.4827204942703247,
+            -0.12786853313446045
+          ]
+        }
+      ]
+    },
+    {
+      "model_name": "EnhancedHierarchicalCortexFlow",
+      "num_training_runs": 2,
+      "num_epochs": 3,
+      "is_training_reproducible": "True",
+      "final_loss_variance": 0.0,
+      "training_results": [
+        {
+          "run": 1,
+          "final_loss": 1.2881008386611938,
+          "epoch_losses": [
+            1.6273748874664307,
+            1.3673142194747925,
+            1.2881008386611938
+          ],
+          "loss_progression": [
+            -0.2600606679916382,
+            -0.07921338081359863
+          ]
+        },
+        {
+          "run": 2,
+          "final_loss": 1.2881008386611938,
+          "epoch_losses": [
+            1.6273748874664307,
+            1.3673142194747925,
+            1.2881008386611938
+          ],
+          "loss_progression": [
+            -0.2600606679916382,
+            -0.07921338081359863
+          ]
+        }
+      ]
+    }
+  ]
+}

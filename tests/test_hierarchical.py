@@ -10,7 +10,7 @@ import torch.nn.functional as F
 import numpy as np
 
 # Add src to path
-sys.path.append('src/models')
+sys.path.append('../src/models')
 
 from hierarchical import HierarchicalCortexFlow, HierarchicalConfig, create_hierarchical_model
 

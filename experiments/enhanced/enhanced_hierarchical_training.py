@@ -20,8 +20,8 @@ from dataclasses import dataclass
 from typing import Dict, Tuple, Any, Optional, List
 
 # Add src to path
-sys.path.append('src')
-sys.path.append('src/models')
+sys.path.append('../../src')
+sys.path.append('../../src/models')
 
 # Import hierarchical architecture
 from hierarchical import HierarchicalCortexFlow, HierarchicalConfig, create_hierarchical_model
@@ -416,7 +416,7 @@ def create_data_loaders(dataset_path: str, config: EnhancedConfig) -> Tuple[Any,
 def save_enhanced_checkpoint(model: EnhancedHierarchicalCortexFlow, optimizer, epoch: int,
                            best_loss: float, dataset_name: str, **kwargs):
     """Save enhanced model checkpoint."""
-    os.makedirs('checkpoints', exist_ok=True)
+    os.makedirs('../../checkpoints', exist_ok=True)
     checkpoint = {
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -690,12 +690,12 @@ def main():
     datasets = [
         {
             'name': 'Miyawaki',
-            'path': 'data/miyawaki_structured_28x28.mat',
+            'path': '../../data/processed/miyawaki_structured_28x28.mat',
             'description': 'Visual cortex fMRI → handwritten digits'
         },
         {
             'name': 'Vangerven',
-            'path': 'data/digit69_28x28.mat',
+            'path': '../../data/processed/digit69_28x28.mat',
             'description': 'Visual cortex fMRI → digit recognition'
         }
     ]
@@ -795,7 +795,7 @@ def main():
             print(f"   ⏱️  Training Time: {result.training_time_minutes:.1f} minutes")
 
     print(f"\n🎉 Enhanced HierarchicalCortexFlow training completed successfully!")
-    print(f"📁 Check 'results/' for enhanced visualizations with uncertainty maps")
+    print(f"📁 Check '../../results/' for enhanced visualizations with uncertainty maps")
     print(f"💾 Check 'checkpoints/' for saved enhanced models")
 
 
