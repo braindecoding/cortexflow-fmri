@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7ED321;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5BA517;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D0021B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B71C1C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9013FE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6200EA;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D1890B;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">
+    CortexFlow Framework: Integrated Uncertainty Quantification
+  </text>
+  
+  <!-- Input -->
+  <rect x="50" y="80" width="100" height="50" fill="url(#blueGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="100" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">fMRI Input</text>
+  <text x="100" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">x ∈ ℝ^(N×D)</text>
+  
+  <!-- MC Sampling Loop -->
+  <rect x="200" y="60" width="120" height="90" fill="url(#purpleGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="260" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">MC Sampling</text>
+  <text x="260" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">M = 10 iterations</text>
+  <text x="260" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">for i = 1 to M:</text>
+  <text x="260" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">  model.train()</text>
+  <text x="260" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">  ŷᵢ = f(x, dropout=True)</text>
+  <text x="260" y="146" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">  σₐᵢ = UncertaintyHead(h)</text>
+  
+  <!-- Predictions Collection -->
+  <rect x="360" y="80" width="120" height="50" fill="url(#greenGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="420" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Predictions</text>
+  <text x="420" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">{ŷ₁, ŷ₂, ..., ŷₘ}</text>
+  
+  <!-- Uncertainty Collection -->
+  <rect x="360" y="150" width="120" height="50" fill="url(#orangeGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="420" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Uncertainties</text>
+  <text x="420" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">{σₐ₁, σₐ₂, ..., σₐₘ}</text>
+  
+  <!-- Statistical Aggregation -->
+  <rect x="520" y="80" width="120" height="120" fill="url(#redGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="580" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Statistical</text>
+  <text x="580" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Aggregation</text>
+  <text x="580" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">ŷ = Mean({ŷᵢ})</text>
+  <text x="580" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">σₑ = Var({ŷᵢ})</text>
+  <text x="580" y="161" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">σₐ = Mean({σₐᵢ})</text>
+  <text x="580" y="174" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">σₜₒₜₐₗ = σₑ + σₐ</text>
+  <text x="580" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Epistemic + Aleatoric</text>
+  
+  <!-- Arrows -->
+  <path d="M 150 105 L 195 105" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 320 105 L 355 105" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 320 125 L 355 175" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 480 105 L 515 120" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 480 175 L 515 160" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Uncertainty Types Explanation -->
+  <g id="uncertaintyTypes">
+    <rect x="50" y="250" width="700" height="200" fill="#f8f9fa" stroke="#333" stroke-width="2" rx="10"/>
+    <text x="400" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">
+      CortexFlow Framework: Systematic Uncertainty Decomposition
+    </text>
+    
+    <!-- Epistemic Uncertainty -->
+    <rect x="80" y="300" width="300" height="120" fill="#ffe8e8" stroke="#D0021B" stroke-width="2" rx="8"/>
+    <text x="230" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">Epistemic Uncertainty (σₑ)</text>
+    <text x="90" y="340" font-family="Arial, sans-serif" font-size="11" fill="#333">• Model uncertainty (what the model doesn't know)</text>
+    <text x="90" y="355" font-family="Arial, sans-serif" font-size="11" fill="#333">• Reducible with more training data</text>
+    <text x="90" y="370" font-family="Arial, sans-serif" font-size="11" fill="#333">• Computed as: σₑ = Var({ŷ₁, ŷ₂, ..., ŷₘ})</text>
+    <text x="90" y="385" font-family="Arial, sans-serif" font-size="11" fill="#333">• High when model predictions vary across MC samples</text>
+    <text x="90" y="400" font-family="Arial, sans-serif" font-size="11" fill="#333">• Indicates regions of input space poorly learned</text>
+    
+    <!-- Aleatoric Uncertainty -->
+    <rect x="420" y="300" width="300" height="120" fill="#e8f5e8" stroke="#7ED321" stroke-width="2" rx="8"/>
+    <text x="570" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">Aleatoric Uncertainty (σₐ)</text>
+    <text x="430" y="340" font-family="Arial, sans-serif" font-size="11" fill="#333">• Data uncertainty (inherent noise in observations)</text>
+    <text x="430" y="355" font-family="Arial, sans-serif" font-size="11" fill="#333">• Irreducible even with infinite data</text>
+    <text x="430" y="370" font-family="Arial, sans-serif" font-size="11" fill="#333">• Computed as: σₐ = Mean({σₐ₁, σₐ₂, ..., σₐₘ})</text>
+    <text x="430" y="385" font-family="Arial, sans-serif" font-size="11" fill="#333">• Learned by dedicated uncertainty head</text>
+    <text x="430" y="400" font-family="Arial, sans-serif" font-size="11" fill="#333">• Captures measurement noise and ambiguity</text>
+  </g>
+  
+  <!-- Mathematical Formulation -->
+  <g id="mathFormulation">
+    <rect x="50" y="480" width="700" height="100" fill="#e3f2fd" stroke="#4A90E2" stroke-width="2" rx="8"/>
+    <text x="400" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">
+      Mathematical Formulation
+    </text>
+    
+    <text x="60" y="525" font-family="Arial, sans-serif" font-size="12" fill="#333">
+      1. MC Sampling: ŷᵢ = f(x; θ, ξᵢ), where ξᵢ ~ Bernoulli(p) represents dropout mask
+    </text>
+    <text x="60" y="545" font-family="Arial, sans-serif" font-size="12" fill="#333">
+      2. Epistemic: σₑ² = (1/M) Σᵢ(ŷᵢ - ŷ̄)², where ŷ̄ = (1/M) Σᵢŷᵢ
+    </text>
+    <text x="60" y="565" font-family="Arial, sans-serif" font-size="12" fill="#333">
+      3. Total Uncertainty: σₜₒₜₐₗ² = σₑ² + σₐ² (assuming independence)
+    </text>
+  </g>
+</svg>

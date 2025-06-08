@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <radialGradient id="centerGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="variantGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7ED321;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5BA517;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="principleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D1890B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="innovationGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9013FE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6200EA;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#333">
+    Framework CortexFlow: Unified Neural Decoding Ecosystem
+  </text>
+  
+  <!-- Central Framework Core -->
+  <circle cx="450" cy="300" r="80" fill="url(#centerGrad)" stroke="#333" stroke-width="3"/>
+  <text x="450" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Framework</text>
+  <text x="450" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">CortexFlow</text>
+  <text x="450" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Unified Ecosystem</text>
+  
+  <!-- Architectural Variants (surrounding the core) -->
+  <!-- CortexFlow-Simple -->
+  <circle cx="300" cy="150" r="50" fill="url(#variantGrad)" stroke="#333" stroke-width="2"/>
+  <text x="300" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">CortexFlow</text>
+  <text x="300" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Simple</text>
+  <text x="300" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Foundation</text>
+  
+  <!-- CortexFlow-MC -->
+  <circle cx="600" cy="150" r="50" fill="url(#variantGrad)" stroke="#333" stroke-width="2"/>
+  <text x="600" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">CortexFlow</text>
+  <text x="600" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">MC</text>
+  <text x="600" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Uncertainty</text>
+  
+  <!-- CortexFlow-Hierarchical -->
+  <circle cx="200" cy="350" r="50" fill="url(#variantGrad)" stroke="#333" stroke-width="2"/>
+  <text x="200" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">CortexFlow</text>
+  <text x="200" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Hierarchical</text>
+  <text x="200" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Multi-Scale</text>
+  
+  <!-- CortexFlow-Enhanced -->
+  <circle cx="700" cy="350" r="50" fill="url(#variantGrad)" stroke="#333" stroke-width="2"/>
+  <text x="700" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">CortexFlow</text>
+  <text x="700" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Enhanced</text>
+  <text x="700" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Integration</text>
+  
+  <!-- CortexFlow-Unified -->
+  <circle cx="450" cy="500" r="50" fill="url(#variantGrad)" stroke="#333" stroke-width="2"/>
+  <text x="450" y="495" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">CortexFlow</text>
+  <text x="450" y="508" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Unified</text>
+  <text x="450" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Adaptive</text>
+  
+  <!-- Connecting lines from core to variants -->
+  <path d="M 400 250 L 340 180" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <path d="M 500 250 L 560 180" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <path d="M 380 320 L 250 350" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <path d="M 520 320 L 650 350" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <path d="M 450 380 L 450 450" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  
+  <!-- Framework Principles (corners) -->
+  <!-- Adaptive Intelligence -->
+  <rect x="50" y="80" width="120" height="60" fill="url(#principleGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="110" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Adaptive</text>
+  <text x="110" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Intelligence</text>
+  <text x="110" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Dynamic Resource</text>
+  
+  <!-- Systematic Uncertainty -->
+  <rect x="730" y="80" width="120" height="60" fill="url(#principleGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="790" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Systematic</text>
+  <text x="790" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Uncertainty</text>
+  <text x="790" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Principled Confidence</text>
+  
+  <!-- Cross-Modal Robustness -->
+  <rect x="50" y="460" width="120" height="60" fill="url(#principleGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="110" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Cross-Modal</text>
+  <text x="110" y="495" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Robustness</text>
+  <text x="110" y="510" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Universal Applicability</text>
+  
+  <!-- Synergistic Integration -->
+  <rect x="730" y="460" width="120" height="60" fill="url(#principleGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="790" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Synergistic</text>
+  <text x="790" y="495" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Integration</text>
+  <text x="790" y="510" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">Coherent Design</text>
+  
+  <!-- Innovation Highlights -->
+  <rect x="350" y="50" width="200" height="40" fill="url(#innovationGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="450" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Novel Paradigm in Neural Decoding</text>
+  <text x="450" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Unified Framework • Not Incremental Improvement</text>
+  
+  <!-- Connecting lines from principles to core -->
+  <path d="M 170 110 L 380 250" stroke="#F5A623" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M 730 110 L 520 250" stroke="#F5A623" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M 170 490 L 380 350" stroke="#F5A623" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M 730 490 L 520 350" stroke="#F5A623" stroke-width="1" stroke-dasharray="3,3"/>
+  
+  <!-- Framework Benefits Box -->
+  <rect x="250" y="550" width="400" height="40" fill="#f8f9fa" stroke="#333" stroke-width="1" rx="5"/>
+  <text x="450" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">
+    Framework Benefits: Unified • Adaptive • Robust • Intelligent • Synergistic
+  </text>
+  <text x="450" y="582" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#333">
+    Paradigm shift from fragmented methods to coherent ecosystem
+  </text>
+</svg>

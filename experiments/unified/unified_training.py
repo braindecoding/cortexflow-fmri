@@ -290,10 +290,18 @@ def main():
     print("🔬 UNIFIED CORTEXFLOW TRAINING")
     print("=" * 80)
     print(f"Experiment start: {time.strftime('%Y-%m-%d %H:%M:%S')}")
-    
+
     # Device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"🎮 Using device: {device}")
+
+    print("🔍 Testing imports...")
+    try:
+        from src.models.unified_cortexflow_fixed import create_unified_model
+        print("✅ Import successful")
+    except Exception as e:
+        print(f"❌ Import failed: {e}")
+        return
     
     # Test different configurations
     configs = ['simple', 'balanced', 'advanced']

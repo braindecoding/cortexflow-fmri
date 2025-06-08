@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7ED321;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5BA517;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D1890B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9013FE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6200EA;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D0021B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B71C1C;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    
+    <!-- Decision diamond marker -->
+    <marker id="diamond" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <polygon points="6 0, 12 6, 6 12, 0 6" fill="#F5A623" stroke="#333" stroke-width="1"/>
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">
+    Unified CortexFlow: Adaptive Complexity Architecture
+  </text>
+  
+  <!-- Input -->
+  <rect x="50" y="80" width="100" height="50" fill="url(#blueGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="100" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">fMRI Input</text>
+  <text x="100" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">(N, D)</text>
+  <text x="100" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">D ∈ {967, 3092}</text>
+  
+  <!-- Complexity Predictor -->
+  <rect x="200" y="60" width="120" height="60" fill="url(#redGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="260" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Complexity</text>
+  <text x="260" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Predictor</text>
+  <text x="260" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Linear(D→128→1)</text>
+  <text x="260" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">c = σ(h).mean()</text>
+  
+  <!-- Decision Diamond -->
+  <polygon points="400 90, 430 105, 400 120, 370 105" fill="url(#orangeGrad)" stroke="#333" stroke-width="2"/>
+  <text x="400" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">c > τ?</text>
+  <text x="400" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">τ = 0.5</text>
+  
+  <!-- Simple Path -->
+  <rect x="200" y="180" width="120" height="50" fill="url(#greenGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="260" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Simple Path</text>
+  <text x="260" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Linear(D→512→256)</text>
+  <text x="260" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">h_simple ∈ ℝ^(N×256)</text>
+  
+  <!-- Complex Path -->
+  <rect x="200" y="260" width="120" height="80" fill="url(#purpleGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="260" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Complex Path</text>
+  <text x="260" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Hierarchical</text>
+  <text x="260" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Multi-scale: [1,2,4,8]</text>
+  <text x="260" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Feature Pyramid</text>
+  <text x="260" y="332" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">h_complex ∈ ℝ^(N×256)</text>
+  
+  <!-- Feature Fusion -->
+  <rect x="400" y="200" width="120" height="80" fill="url(#orangeGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="460" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Feature Fusion</text>
+  <text x="460" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Attention Mechanism</text>
+  <text x="460" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">h_cat = [h_simple; h_complex]</text>
+  <text x="460" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">h_fused = Attention(h_cat)</text>
+  <text x="460" y="272" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">h_fused ∈ ℝ^(N×256)</text>
+  
+  <!-- Uncertainty Estimator -->
+  <rect x="580" y="160" width="120" height="60" fill="url(#redGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="640" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Uncertainty</text>
+  <text x="640" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Estimator</text>
+  <text x="640" y="208" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">MC Dropout (M=10-15)</text>
+  <text x="640" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">σ_e, σ_a estimation</text>
+  
+  <!-- Decoder -->
+  <rect x="580" y="260" width="120" height="80" fill="url(#greenGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="640" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Adaptive</text>
+  <text x="640" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Decoder</text>
+  <text x="640" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Linear(256→512→1024→784)</text>
+  <text x="640" y="328" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">ReLU + Dropout + Sigmoid</text>
+  
+  <!-- Output -->
+  <rect x="750" y="200" width="120" height="80" fill="url(#blueGrad)" stroke="#333" stroke-width="2" rx="8"/>
+  <text x="810" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Unified Output</text>
+  <text x="810" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Reconstruction</text>
+  <text x="810" y="258" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">ŷ ∈ ℝ^(N×784)</text>
+  <text x="810" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">+ Uncertainty σ</text>
+  
+  <!-- Arrows and Connections -->
+  <!-- Input to Complexity Predictor -->
+  <path d="M 150 105 L 195 90" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Complexity Predictor to Decision -->
+  <path d="M 320 90 L 365 105" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Input to Paths -->
+  <path d="M 150 105 L 195 205" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 150 105 L 195 300" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Decision to Fusion (Yes path) -->
+  <path d="M 430 105 L 460 200" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <text x="445" y="150" font-family="Arial, sans-serif" font-size="10" fill="#333" font-weight="bold">Yes</text>
+  
+  <!-- Decision to Simple (No path) -->
+  <path d="M 370 105 L 320 205" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <text x="340" y="150" font-family="Arial, sans-serif" font-size="10" fill="#333" font-weight="bold">No</text>
+  
+  <!-- Paths to Fusion -->
+  <path d="M 320 205 L 395 220" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 320 300 L 395 260" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Fusion to Uncertainty and Decoder -->
+  <path d="M 520 240 L 575 190" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 520 240 L 575 300" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- To Output -->
+  <path d="M 700 190 L 745 220" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 700 300 L 745 260" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Configuration Boxes -->
+  <g id="configurations">
+    <rect x="50" y="400" width="800" height="250" fill="#f8f9fa" stroke="#333" stroke-width="2" rx="10"/>
+    <text x="450" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">
+      Unified CortexFlow Configurations
+    </text>
+    
+    <!-- Simple Config -->
+    <rect x="80" y="450" width="220" height="120" fill="#e8f5e8" stroke="#7ED321" stroke-width="2" rx="8"/>
+    <text x="190" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Simple Configuration</text>
+    <text x="90" y="490" font-family="Arial, sans-serif" font-size="10" fill="#333">• Uncertainty: Disabled</text>
+    <text x="90" y="505" font-family="Arial, sans-serif" font-size="10" fill="#333">• Alignment: Disabled</text>
+    <text x="90" y="520" font-family="Arial, sans-serif" font-size="10" fill="#333">• Complexity: Force Simple</text>
+    <text x="90" y="535" font-family="Arial, sans-serif" font-size="10" fill="#333">• Parameters: ~3M</text>
+    <text x="90" y="550" font-family="Arial, sans-serif" font-size="10" fill="#333">• Use Case: Fast baseline</text>
+    
+    <!-- Balanced Config -->
+    <rect x="340" y="450" width="220" height="120" fill="#fff3e0" stroke="#F5A623" stroke-width="2" rx="8"/>
+    <text x="450" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Balanced Configuration</text>
+    <text x="350" y="490" font-family="Arial, sans-serif" font-size="10" fill="#333">• Uncertainty: Enabled (w=0.1)</text>
+    <text x="350" y="505" font-family="Arial, sans-serif" font-size="10" fill="#333">• Alignment: Enabled (w=0.1)</text>
+    <text x="350" y="520" font-family="Arial, sans-serif" font-size="10" fill="#333">• Complexity: Adaptive</text>
+    <text x="350" y="535" font-family="Arial, sans-serif" font-size="10" fill="#333">• MC Samples: 10</text>
+    <text x="350" y="550" font-family="Arial, sans-serif" font-size="10" fill="#333">• Use Case: General purpose</text>
+    
+    <!-- Advanced Config -->
+    <rect x="600" y="450" width="220" height="120" fill="#f3e5f5" stroke="#9013FE" stroke-width="2" rx="8"/>
+    <text x="710" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Advanced Configuration</text>
+    <text x="610" y="490" font-family="Arial, sans-serif" font-size="10" fill="#333">• Uncertainty: Enabled (w=0.15)</text>
+    <text x="610" y="505" font-family="Arial, sans-serif" font-size="10" fill="#333">• Alignment: Enabled (w=0.15)</text>
+    <text x="610" y="520" font-family="Arial, sans-serif" font-size="10" fill="#333">• Complexity: Full adaptive</text>
+    <text x="610" y="535" font-family="Arial, sans-serif" font-size="10" fill="#333">• MC Samples: 15</text>
+    <text x="610" y="550" font-family="Arial, sans-serif" font-size="10" fill="#333">• Use Case: Research/precision</text>
+  </g>
+  
+  <!-- Algorithm Reference -->
+  <rect x="50" y="580" width="800" height="60" fill="#e3f2fd" stroke="#4A90E2" stroke-width="2" rx="8"/>
+  <text x="450" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">
+    Algorithm 1: Adaptive Complexity Selection Implementation
+  </text>
+  <text x="60" y="620" font-family="Arial, sans-serif" font-size="10" fill="#333">
+    1. Predict complexity: c = σ(Linear(ReLU(Linear(x)))).mean()
+  </text>
+  <text x="60" y="635" font-family="Arial, sans-serif" font-size="10" fill="#333">
+    2. Route adaptively: if c > τ then h_fused = Attention([h_simple; h_complex]) else h_fused = h_simple
+  </text>
+</svg>
