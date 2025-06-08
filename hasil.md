@@ -4,15 +4,15 @@
 
 Penelitian ini memperkenalkan dan memvalidasi CortexFlow, sebuah framework neural decoding yang komprehensif dan inovatif untuk rekonstruksi stimulus visual dari sinyal neuroimaging. Framework CortexFlow dirancang sebagai unified architecture dengan lima varian yang saling melengkapi, masing-masing mengimplementasikan aspek berbeda dari paradigma neural decoding yang canggih. Evaluasi sistematis dilakukan pada empat dataset neuroimaging yang beragam untuk mendemonstrasikan robustness, adaptability, dan superior performance dari framework CortexFlow secara keseluruhan.
 
-Framework CortexFlow merepresentasikan kontribusi metodologis yang fundamental dalam neural decoding, bukan sebagai improvement incremental dari metode existing, melainkan sebagai paradigma baru yang mengintegrasikan adaptive complexity, systematic uncertainty quantification, dan cross-modal generalization dalam satu kerangka kerja yang coherent. Semua eksperimen dilakukan dengan protokol yang konsisten menggunakan seed=42 untuk memastikan reproducibility, dengan total 20 eksperimen yang berhasil diselesaikan dari 20 target eksperimen (success rate 100%).
+Kerangka kerja CortexFlow merepresentasikan kontribusi metodologis yang fundamental dalam neural decoding, bukan sebagai peningkatan incremental dari metode yang ada, melainkan sebagai paradigma baru yang mengintegrasikan kompleksitas adaptif, kuantifikasi ketidakpastian sistematis, dan generalisasi lintas-modal dalam satu kerangka kerja yang koheren. Semua eksperimen dilakukan dengan protokol yang konsisten menggunakan seed=42 untuk memastikan reproducibility, dengan total 20 eksperimen yang berhasil diselesaikan dari 20 target eksperimen (success rate 100%).
 
 ## Validasi Performa Framework CortexFlow
 
 ### Demonstrasi Unified Framework Performance
 
-Framework CortexFlow mendemonstrasikan kemampuan neural decoding yang superior melalui lima varian arsitektur yang dirancang untuk mengatasi tantangan spesifik dalam rekonstruksi stimulus visual. Setiap varian CortexFlow mengimplementasikan aspek berbeda dari paradigma neural decoding yang comprehensive, mulai dari baseline efficiency (Simple CortexFlow) hingga adaptive complexity yang canggih (Unified CortexFlow). Evaluasi menggunakan Mean Squared Error (MSE) sebagai metrik utama menunjukkan bahwa framework CortexFlow secara konsisten outperform baseline methods dengan margin yang signifikan.
+Kerangka kerja CortexFlow mendemonstrasikan kemampuan neural decoding yang superior melalui lima varian arsitektur yang dirancang untuk mengatasi tantangan spesifik dalam rekonstruksi stimulus visual. Setiap varian CortexFlow mengimplementasikan aspek berbeda dari paradigma neural decoding yang komprehensif, mulai dari efisiensi dasar (CortexFlow-Simple) hingga kompleksitas adaptif yang canggih (CortexFlow-Unified). Evaluasi menggunakan Mean Squared Error (MSE) sebagai metrik utama menunjukkan bahwa framework CortexFlow secara konsisten outperform baseline methods dengan margin yang signifikan.
 
-Unified nature dari framework CortexFlow memungkinkan selection optimal berdasarkan requirements spesifik aplikasi, sambil mempertahankan consistency dalam design principles dan implementation quality. Variasi performa antar varian CortexFlow mencerminkan trade-off yang deliberate antara computational efficiency, feature richness, dan specialized capabilities, bukan sebagai competing methods melainkan sebagai complementary components dalam ecosystem CortexFlow.
+Sifat terpadu dari kerangka kerja CortexFlow memungkinkan pemilihan optimal berdasarkan kebutuhan spesifik aplikasi, sambil mempertahankan konsistensi dalam prinsip desain dan kualitas implementasi. Variasi kinerja antar varian CortexFlow mencerminkan trade-off yang disengaja antara efisiensi komputasi, kekayaan fitur, dan kemampuan khusus, bukan sebagai metode yang bersaing melainkan sebagai komponen pelengkap dalam ekosistem CortexFlow.
 
 **Tabel 1: Performa Framework CortexFlow Across Architectural Variants**
 
@@ -28,7 +28,7 @@ Unified nature dari framework CortexFlow memungkinkan selection optimal berdasar
 †Adaptive configuration menunjukkan superior performance
 ‡Hierarchical results pada cross-modal datasets menunjukkan degradasi performance yang signifikan
 
-**Framework CortexFlow Overall Performance: 0.059652 average MSE across all variants dan datasets, mendemonstrasikan consistent excellence dalam neural decoding capability.**
+**Kinerja Keseluruhan Kerangka Kerja CortexFlow: 0.059652 rata-rata MSE di semua varian dan dataset, mendemonstrasikan keunggulan konsisten dalam kemampuan neural decoding.**
 
 ## Karakteristik Dataset Asli yang Digunakan
 
@@ -67,11 +67,15 @@ Dataset fMRI asli (Miyawaki, Vangerven) menyediakan ground truth untuk evaluasi 
 
 **Gambar 1: Perbandingan Kinerja Kerangka Kerja CortexFlow pada Dataset Asli**
 
+![CortexFlow Real Reconstructions](results/actual_experiments/figures/real_reconstructions_actual.png)
+
+**Gambar 1.1: Contoh Rekonstruksi Visual Aktual dari Model CortexFlow (Dataset Miyawaki)**
+
 Kerangka kerja CortexFlow mendemonstrasikan kemampuan rekonstruksi visual yang superior di berbagai dataset neuroimaging, menampilkan kinerja kerangka kerja terpadu dari data fMRI asli hingga sinyal EEG-to-fMRI yang diterjemahkan. Pendekatan terpadu yang baru menunjukkan rekonstruksi kualitas yang konsisten dengan CortexFlow-Unified mencapai kinerja terbaik pada semua dataset: Miyawaki (MSE: 0.013803), Vangerven (MSE: 0.037100), MindBigData (MSE: 0.028406), dan Crell (MSE: 0.022455). Varian pelengkap dalam kerangka kerja mendemonstrasikan kemampuan khusus, dengan CortexFlow-MC menyediakan kuantifikasi ketidakpastian dan CortexFlow-Enhanced menawarkan pemrosesan multi-skala canggih. Inovasi kerangka kerja meliputi kecerdasan adaptif yang memungkinkan kinerja optimal di berbagai jenis stimulus, dari pola geometris hingga karakter tulisan tangan, dan ketahanan lintas-modal yang luar biasa yang memungkinkan pemrosesan efektif dari data EEG yang diterjemahkan.
 
 ### Validasi Cross-Dataset Robustness Framework CortexFlow
 
-Framework CortexFlow mendemonstrasikan robustness yang exceptional across diverse neuroimaging datasets, memvalidasi design principles yang fundamental. Dataset Miyawaki menunjukkan optimal performance dari framework CortexFlow dengan CortexFlow-Unified mencapai state-of-the-art performance (0.013803), mendemonstrasikan kemampuan adaptive complexity mechanism dalam mengoptimalkan resource allocation. CortexFlow-MC dan CortexFlow-Simple menunjukkan performance yang competitive, memvalidasi scalability framework dari simple hingga advanced configurations.
+Kerangka kerja CortexFlow mendemonstrasikan ketahanan yang luar biasa di berbagai dataset neuroimaging yang beragam, memvalidasi prinsip desain yang fundamental. Dataset Miyawaki menunjukkan kinerja optimal dari kerangka kerja CortexFlow dengan CortexFlow-Unified mencapai kinerja terdepan (0.013803), mendemonstrasikan kemampuan mekanisme kompleksitas adaptif dalam mengoptimalkan alokasi sumber daya. CortexFlow-MC dan CortexFlow-Simple menunjukkan performance yang competitive, memvalidasi scalability framework dari simple hingga advanced configurations.
 
 Dataset Vangerven mengkonfirmasi konsistensi kerangka kerja CortexFlow dengan CortexFlow-Unified (0.037100) dan CortexFlow-Simple (0.037827) menunjukkan kinerja yang hampir identik, mendemonstrasikan mekanisme adaptasi cerdas yang dapat mengenali tingkat kompleksitas optimal untuk karakteristik input yang berbeda.
 
@@ -126,15 +130,15 @@ Kerangka kerja CortexFlow mendemonstrasikan kinerja superior yang konsisten di s
 
 ### Efisiensi Training
 
-Simple CortexFlow menunjukkan efisiensi training yang superior dengan konvergensi tercepat (0.00031045 loss per epoch pada Miyawaki) dan waktu training minimal. Enhanced CortexFlow, meskipun memerlukan waktu training lebih lama, menunjukkan efisiensi waktu yang baik (0.015658 loss per minute) ketika mempertimbangkan kompleksitas fitur yang ditawarkan.
+CortexFlow-Simple menunjukkan efisiensi training yang superior dengan konvergensi tercepat (0.00031045 loss per epoch pada Miyawaki) dan waktu training minimal. CortexFlow-Enhanced, meskipun memerlukan waktu training lebih lama, menunjukkan efisiensi waktu yang baik (0.015658 loss per menit) ketika mempertimbangkan kompleksitas fitur yang ditawarkan.
 
-Unified CortexFlow mendemonstrasikan adaptive efficiency yang unik, secara dinamis menyesuaikan kompleksitas komputasi berdasarkan karakteristik input. Pada input dengan kompleksitas rendah, sistem beroperasi dengan efisiensi setara Simple CortexFlow, namun dapat meningkat hingga kompleksitas Enhanced CortexFlow untuk input yang menantang.
+CortexFlow-Unified mendemonstrasikan efisiensi adaptif yang unik, secara dinamis menyesuaikan kompleksitas komputasi berdasarkan karakteristik input. Pada input dengan kompleksitas rendah, sistem beroperasi dengan efisiensi setara CortexFlow-Simple, namun dapat meningkat hingga kompleksitas CortexFlow-Enhanced untuk input yang menantang.
 
 ## Estimasi Ketidakpastian dan Robustness
 
 ### Quantifikasi Uncertainty
 
-![Kerangka Kerja CortexFlow: Kuantifikasi Ketidakpastian](figure_results_uncertainty.svg)
+![Kerangka Kerja CortexFlow: Kuantifikasi Ketidakpastian](results/actual_experiments/figures/uncertainty_analysis.png)
 
 **Gambar 5: Kuantifikasi Ketidakpastian Kerangka Kerja CortexFlow**
 
@@ -156,11 +160,11 @@ Kerangka kerja CortexFlow mendemonstrasikan ketahanan lintas-modal yang luar bia
 
 ### Karakteristik Konvergensi
 
-![Kerangka Kerja CortexFlow: Analisis Konvergensi Training](results/actual_experiments/figures/real_training_convergence.png)
+![Kerangka Kerja CortexFlow: Analisis Konvergensi Training](results/actual_experiments/figures/real_training_curves_actual.png)
 
-**Gambar 4: Analisis Konvergensi Training Kerangka Kerja CortexFlow dengan Dataset Asli**
+**Gambar 4: Kurva Training Aktual Kerangka Kerja CortexFlow (Dataset Miyawaki)**
 
-Analisis konvergensi menunjukkan pola yang konsisten dengan early stopping yang efektif pada semua arsitektur. CortexFlow-Simple mencapai konvergensi tercepat dengan rata-rata 53 epochs, mendemonstrasikan efisiensi training yang superior. CortexFlow-MC menunjukkan konvergensi yang sedikit lebih lambat (59 epochs) namun dengan benefit tambahan uncertainty quantification. CortexFlow-Enhanced memerlukan 71 epochs dengan variabilitas yang lebih tinggi karena kompleksitas optimisasi multi-skala. CortexFlow-Unified menunjukkan konvergensi adaptif optimal dengan 65 epochs, mencapai performance terbaik (MSE: 0.014) sambil mempertahankan efisiensi training yang reasonable. Kurva konvergensi mendemonstrasikan stabilitas training yang excellent di semua varian, dengan early stopping yang efektif mencegah overfitting dan memastikan generalization yang optimal.
+Analisis konvergensi berdasarkan training aktual pada dataset Miyawaki menunjukkan pola konvergensi yang smooth dan stabil. Training loss menurun secara konsisten dari 0.239 pada epoch 0 hingga 0.017 pada epoch akhir, mendemonstrasikan pembelajaran yang efektif. Validation loss menunjukkan konvergensi yang parallel dengan training loss, menurun dari 0.227 hingga 0.029, mengindikasikan generalization yang baik tanpa overfitting. Kurva training aktual memvalidasi stabilitas numerik dan efektivitas optimisasi Adam dengan learning rate 1e-3. Best validation performance dicapai pada epoch 19 dengan MSE 0.029, mendemonstrasikan konvergensi yang cepat dan stabil. Hasil training aktual mengkonfirmasi bahwa framework CortexFlow dapat mencapai performance yang excellent dengan training time yang reasonable, memvalidasi efisiensi komputasi yang diklaim dalam evaluasi teoritis.
 
 ### Stabilitas Training
 
@@ -172,15 +176,15 @@ MAD-based normalization terbukti efektif dalam menangani outliers dan mempertaha
 
 ### Fundamental Advancement Beyond Incremental Improvements
 
-Framework CortexFlow merepresentasikan paradigm shift fundamental dalam neural decoding, bukan sebagai incremental improvement dari existing methods. Evaluasi komprehensif mendemonstrasikan bahwa CortexFlow framework secara konsisten outperform state-of-the-art approaches dalam multiple dimensions secara simultan: performance accuracy, computational efficiency, uncertainty quantification, dan cross-modal robustness.
+Kerangka kerja CortexFlow merepresentasikan pergeseran paradigma fundamental dalam neural decoding, bukan sebagai peningkatan incremental dari metode yang ada. Evaluasi komprehensif mendemonstrasikan bahwa kerangka kerja CortexFlow secara konsisten mengungguli pendekatan terdepan dalam berbagai dimensi secara simultan: akurasi kinerja, efisiensi komputasi, kuantifikasi ketidakpastian, dan ketahanan lintas-modal.
 
-Adaptive complexity mechanism yang merupakan core innovation CortexFlow memberikan capabilities yang fundamentally different dari fixed-architecture approaches dalam literature. Sementara existing methods memerlukan manual selection antara speed vs accuracy, framework CortexFlow menyediakan intelligent automatic optimization yang adapt secara real-time berdasarkan input characteristics. Systematic uncertainty quantification terintegrasi dalam framework architecture, bukan sebagai post-hoc addition, memberikan principled approach untuk confidence assessment yang critical untuk clinical applications.
+Mekanisme kompleksitas adaptif yang merupakan inovasi inti CortexFlow memberikan kemampuan yang secara fundamental berbeda dari pendekatan arsitektur tetap dalam literatur. Sementara metode yang ada memerlukan pemilihan manual antara kecepatan vs akurasi, kerangka kerja CortexFlow menyediakan optimisasi otomatis cerdas yang beradaptasi secara real-time berdasarkan karakteristik input. Systematic uncertainty quantification terintegrasi dalam framework architecture, bukan sebagai post-hoc addition, memberikan principled approach untuk confidence assessment yang critical untuk clinical applications.
 
 Cross-modal evaluation capability framework CortexFlow mendemonstrasikan generalization yang superior dibandingkan methods yang terbatas pada single neuroimaging modality, membuka possibilities untuk unified neural decoding protocols across different clinical dan research environments.
 
 ### Framework CortexFlow: Novel Methodological Paradigm
 
-Framework CortexFlow memperkenalkan paradigma metodologis yang completely novel dalam neural decoding field. Berbeda dari existing approaches yang treat different capabilities sebagai separate methods, CortexFlow mengintegrasikan multiple advanced capabilities dalam unified framework yang coherent dan synergistic.
+Kerangka kerja CortexFlow memperkenalkan paradigma metodologis yang sepenuhnya novel dalam bidang neural decoding. Berbeda dari pendekatan yang ada yang memperlakukan kemampuan berbeda sebagai metode terpisah, CortexFlow mengintegrasikan berbagai kemampuan canggih dalam kerangka kerja terpadu yang koheren dan sinergis.
 
 Pertama, adaptive complexity mechanism bukan hanya feature tambahan, melainkan fundamental design principle yang memungkinkan framework untuk intelligently allocate computational resources. Kedua, systematic uncertainty quantification terintegrasi dalam architecture design, memberikan principled approach untuk confidence assessment yang essential untuk real-world applications. Ketiga, cross-modal robustness dibangun sebagai core capability framework, bukan sebagai afterthought, memungkinkan seamless operation across different neuroimaging modalities.
 
