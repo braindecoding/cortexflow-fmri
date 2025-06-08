@@ -427,7 +427,7 @@ def save_enhanced_checkpoint(model: EnhancedHierarchicalCortexFlow, optimizer, e
         'config': model.enhanced_config,
         **kwargs
     }
-    torch.save(checkpoint, f'checkpoints/enhanced_{dataset_name.lower()}_model.pt')
+    torch.save(checkpoint, f'../../checkpoints/enhanced/enhanced_{dataset_name.lower()}_model.pt')
 
 
 def generate_enhanced_visualizations(model: EnhancedHierarchicalCortexFlow, test_loader,
@@ -455,14 +455,14 @@ def generate_enhanced_visualizations(model: EnhancedHierarchicalCortexFlow, test
         plot_reconstruction_comparison(
             images_viz,
             main_viz,
-            save_path=f'results/enhanced_{dataset_name.lower()}_reconstructions.png',
+            save_path=f'../../results/enhanced/enhanced_{dataset_name.lower()}_reconstructions.png',
             title=f'Enhanced HierarchicalCortexFlow: {dataset_name} Reconstructions'
         )
 
         # Uncertainty visualization
         plot_uncertainty_visualization(
             images_viz, main_viz, uncertainty_viz,
-            save_path=f'results/enhanced_{dataset_name.lower()}_uncertainty.png',
+            save_path=f'../../results/enhanced/enhanced_{dataset_name.lower()}_uncertainty.png',
             title=f'Enhanced HierarchicalCortexFlow: {dataset_name} Uncertainty'
         )
 

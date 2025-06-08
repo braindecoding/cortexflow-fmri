@@ -279,7 +279,7 @@ def save_model_checkpoint(model: SimpleCortexFlow, optimizer, epoch: int,
         'dataset': dataset_name,
         **kwargs
     }
-    torch.save(checkpoint, f'checkpoints/{dataset_name.lower()}_model.pt')
+    torch.save(checkpoint, f'../../checkpoints/simple/{dataset_name.lower()}_model.pt')
 
 
 def generate_visualizations(model: SimpleCortexFlow, test_loader, device: torch.device,
@@ -302,7 +302,7 @@ def generate_visualizations(model: SimpleCortexFlow, test_loader, device: torch.
         plot_reconstruction_comparison(
             images_viz,
             reconstructions_viz,
-            save_path=f'results/{dataset_name.lower()}_reconstructions.png',
+            save_path=f'../../results/simple/{dataset_name.lower()}_reconstructions.png',
             title=f'CortexFlow: {dataset_name} Reconstructions'
         )
 

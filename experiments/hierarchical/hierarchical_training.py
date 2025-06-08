@@ -175,7 +175,7 @@ def save_hierarchical_checkpoint(model: HierarchicalCortexFlow, optimizer, epoch
         'config': model.config,
         **kwargs
     }
-    torch.save(checkpoint, f'checkpoints/hierarchical_{dataset_name.lower()}_model.pt')
+    torch.save(checkpoint, f'../../checkpoints/hierarchical/hierarchical_{dataset_name.lower()}_model.pt')
 
 
 def generate_hierarchical_visualizations(model: HierarchicalCortexFlow, test_loader, 
@@ -202,14 +202,14 @@ def generate_hierarchical_visualizations(model: HierarchicalCortexFlow, test_loa
         plot_reconstruction_comparison(
             images_viz,
             main_viz,
-            save_path=f'results/hierarchical_{dataset_name.lower()}_reconstructions.png',
+            save_path=f'../../results/hierarchical/hierarchical_{dataset_name.lower()}_reconstructions.png',
             title=f'HierarchicalCortexFlow: {dataset_name} Main Reconstructions'
         )
         
         # Progressive reconstruction visualization
         plot_progressive_reconstructions(
             images_viz, progressive_outputs, 
-            save_path=f'results/hierarchical_{dataset_name.lower()}_progressive.png',
+            save_path=f'../../results/hierarchical/hierarchical_{dataset_name.lower()}_progressive.png',
             title=f'HierarchicalCortexFlow: {dataset_name} Progressive Reconstructions'
         )
 
