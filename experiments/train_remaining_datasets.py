@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🚀 TRAIN REMAINING DATASETS (MINDBIGDATA & CRELL)
+🚀 TRAIN ALL 4 DATASETS (MIYAWAKI, VANGERVEN, MINDBIGDATA & CRELL)
 ================================================================================
-Complete training for MindBigData and Crell datasets with Monte Carlo Simple CortexFlow
+Complete training for all 4 datasets with Monte Carlo Simple CortexFlow
 ================================================================================
 """
 
@@ -38,6 +38,16 @@ class TrainingConfig:
     
     # Datasets to train
     DATASETS = {
+        'miyawaki': {
+            'file': 'data/processed/miyawaki_structured_28x28.mat',
+            'input_dim': 967,
+            'description': 'Visual Cortex fMRI'
+        },
+        'vangerven': {
+            'file': 'data/processed/digit69_28x28.mat',
+            'input_dim': 3092,
+            'description': 'Digit Recognition fMRI'
+        },
         'mindbigdata': {
             'file': 'data/processed/mindbigdata.mat',
             'input_dim': 3092,
@@ -54,28 +64,62 @@ def load_dataset(dataset_name):
     """Load and preprocess dataset."""
     config = TrainingConfig.DATASETS[dataset_name]
     filepath = config['file']
-    
+
     print(f"📁 Loading {dataset_name} from: {filepath}")
-    
+
     try:
         data = scipy.io.loadmat(filepath)
-        
-        # Extract data
-        fmri_train = torch.FloatTensor(data['fmriTrn'])
-        stim_train = torch.FloatTensor(data['stimTrn'])
-        fmri_test = torch.FloatTensor(data['fmriTest'])
-        stim_test = torch.FloatTensor(data['stimTest'])
-        
+
+        # Check dataset format and extract data accordingly
+        if 'fmriTrn' in data and 'stimTrn' in data:
+            # Standard format (miyawaki, vangerven)
+            fmri_train = torch.FloatTensor(data['fmriTrn'])
+            stim_train = torch.FloatTensor(data['stimTrn'])
+            fmri_test = torch.FloatTensor(data['fmriTest'])
+            stim_test = torch.FloatTensor(data['stimTest'])
+
+            print(f"  ✅ fmriTrn: {fmri_train.shape}")
+            print(f"  ✅ stimTrn: {stim_train.shape}")
+            print(f"  ✅ fmriTest: {fmri_test.shape}")
+            print(f"  ✅ stimTest: {stim_test.shape}")
+
+        elif 'fmri' in data and 'stim' in data:
+            # Alternative format (mindbigdata, crell) - need to split into train/test
+            fmri_all = torch.FloatTensor(data['fmri'])
+            stim_all = torch.FloatTensor(data['stim'])
+
+            print(f"  📊 Total fmri: {fmri_all.shape}")
+            print(f"  📊 Total stim: {stim_all.shape}")
+
+            # Split into train/test (80/20 split)
+            n_samples = fmri_all.shape[0]
+            n_train = int(0.8 * n_samples)
+
+            # Shuffle indices for random split (use fixed seed for reproducibility)
+            torch.manual_seed(42)
+            indices = torch.randperm(n_samples)
+            train_indices = indices[:n_train]
+            test_indices = indices[n_train:]
+
+            fmri_train = fmri_all[train_indices]
+            stim_train = stim_all[train_indices]
+            fmri_test = fmri_all[test_indices]
+            stim_test = stim_all[test_indices]
+
+            print(f"  ✅ fmriTrn: {fmri_train.shape} (80% split)")
+            print(f"  ✅ stimTrn: {stim_train.shape}")
+            print(f"  ✅ fmriTest: {fmri_test.shape} (20% split)")
+            print(f"  ✅ stimTest: {stim_test.shape}")
+
+        else:
+            raise ValueError(f"Unknown dataset format. Available keys: {list(data.keys())}")
+
         # Normalize stimuli to [0, 1] if needed
         if stim_train.max() > 1.0:
             stim_train = stim_train / 255.0
             stim_test = stim_test / 255.0
-            
-        print(f"  ✅ fmriTrn: {fmri_train.shape}")
-        print(f"  ✅ stimTrn: {stim_train.shape}")
-        print(f"  ✅ fmriTest: {fmri_test.shape}")
-        print(f"  ✅ stimTest: {stim_test.shape}")
-        
+            print(f"  🔧 Normalized stimuli from [0, 255] to [0, 1]")
+
         return {
             'train_fmri': fmri_train,
             'train_stim': stim_train,
@@ -83,9 +127,11 @@ def load_dataset(dataset_name):
             'test_stim': stim_test,
             'input_dim': config['input_dim']
         }
-        
+
     except Exception as e:
         print(f"❌ Error loading {dataset_name}: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 def train_model(model, dataset, dataset_name):
@@ -220,7 +266,14 @@ def create_uncertainty_visualization(model, dataset, dataset_name):
         axes[1, i].axis('off')
         
         # Total Uncertainty
-        uncertainty_img = total_uncertainty[i].view(28, 28).cpu().numpy()
+        # Handle different uncertainty tensor shapes
+        uncertainty_tensor = total_uncertainty[i]
+        if uncertainty_tensor.numel() == 784:  # 28*28
+            uncertainty_img = uncertainty_tensor.view(28, 28).cpu().numpy()
+        else:
+            # If uncertainty is scalar or different shape, create a placeholder
+            uncertainty_img = torch.ones(28, 28).cpu().numpy() * uncertainty_tensor.mean().item()
+
         im = axes[2, i].imshow(uncertainty_img, cmap='hot')
         axes[2, i].set_title(f'Uncertainty {i+1}')
         axes[2, i].axis('off')
@@ -241,16 +294,16 @@ def create_uncertainty_visualization(model, dataset, dataset_name):
 
 def main():
     """Main training function."""
-    print("🚀 TRAINING REMAINING DATASETS WITH MONTE CARLO SIMPLE CORTEXFLOW")
+    print("🚀 TRAINING ALL 4 DATASETS WITH MONTE CARLO SIMPLE CORTEXFLOW")
     print("="*80)
     print(f"Training start: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"🎮 Using device: {TrainingConfig.DEVICE}")
-    
+
     # Store all results
     all_results = {}
     experiment_start = time.time()
-    
-    # Train each remaining dataset
+
+    # Train each dataset
     for dataset_name in TrainingConfig.DATASETS.keys():
         print(f"\n{'='*60}")
         print(f"🧪 TRAINING DATASET: {dataset_name.upper()}")
@@ -287,9 +340,9 @@ def main():
     # Summary
     total_time = time.time() - experiment_start
     
-    print(f"\n🎉 REMAINING DATASET TRAINING COMPLETED!")
+    print(f"\n🎉 ALL DATASET TRAINING COMPLETED!")
     print(f"⏱️  Total time: {total_time/60:.1f} minutes")
-    
+
     print(f"\n📊 RESULTS SUMMARY:")
     print("-" * 80)
     for dataset_name, result in all_results.items():
@@ -299,14 +352,14 @@ def main():
             print(f"✅ {dataset_name:12} : Loss {result['best_loss']:.6f}, "
                   f"Time {result['training_time']:.1f}s, "
                   f"Params {result['parameters']:,}")
-    
+
     # Success rate
     successful = sum(1 for r in all_results.values() if 'error' not in r)
     total = len(all_results)
     print(f"\n📈 SUCCESS RATE: {successful}/{total} ({100*successful/total:.1f}%)")
-    
+
     if successful == total:
-        print("🎉 ALL REMAINING DATASETS TRAINED SUCCESSFULLY!")
+        print("🎉 ALL 4 DATASETS TRAINED SUCCESSFULLY!")
     else:
         print("⚠️  Some datasets failed training")
 

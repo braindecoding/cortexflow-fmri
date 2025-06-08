@@ -155,9 +155,31 @@ def create_complete_summary():
         try:
             # Load dataset
             data = scipy.io.loadmat(config['file'])
-            test_fmri = torch.FloatTensor(data['fmriTest'])
-            test_stim = torch.FloatTensor(data['stimTest'])
-            
+
+            # Handle different dataset formats
+            if 'fmriTest' in data and 'stimTest' in data:
+                # Standard format (miyawaki, vangerven)
+                test_fmri = torch.FloatTensor(data['fmriTest'])
+                test_stim = torch.FloatTensor(data['stimTest'])
+            elif 'fmri' in data and 'stim' in data:
+                # Alternative format (mindbigdata, crell) - need to split
+                fmri_all = torch.FloatTensor(data['fmri'])
+                stim_all = torch.FloatTensor(data['stim'])
+
+                # Use same split as training (80/20)
+                n_samples = fmri_all.shape[0]
+                n_train = int(0.8 * n_samples)
+
+                # Use same random seed for consistent split
+                torch.manual_seed(42)
+                indices = torch.randperm(n_samples)
+                test_indices = indices[n_train:]
+
+                test_fmri = fmri_all[test_indices]
+                test_stim = stim_all[test_indices]
+            else:
+                raise ValueError(f"Unknown dataset format. Available keys: {list(data.keys())}")
+
             # Normalize stimuli if needed
             if test_stim.max() > 1.0:
                 test_stim = test_stim / 255.0

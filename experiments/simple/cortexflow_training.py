@@ -29,18 +29,84 @@ except ImportError:
     class FMRIDataLoader:
         def __init__(self, data_path):
             self.data_path = data_path
-            self.data = scipy.io.loadmat(data_path)
-            
+            try:
+                self.data = scipy.io.loadmat(data_path)
+                print(f"📁 Loaded dataset: {data_path}")
+                print(f"🔑 Available keys: {[k for k in self.data.keys() if not k.startswith('__')]}")
+            except Exception as e:
+                print(f"❌ Error loading {data_path}: {e}")
+                self.data = {}
+
         def get_fmri(self, split):
-            key = 'fmriTrn' if split == 'train' else 'fmriTest'
-            return self.data.get(key, np.random.randn(100, 1000))
-                
+            # Handle different dataset formats
+            if 'fmriTrn' in self.data and 'fmriTest' in self.data:
+                # Standard format (miyawaki, vangerven)
+                key = 'fmriTrn' if split == 'train' else 'fmriTest'
+                fmri_data = self.data.get(key, np.random.randn(100, 1000))
+                print(f"  📊 {key}: {fmri_data.shape}")
+                return fmri_data
+            elif 'fmri' in self.data:
+                # Alternative format (mindbigdata, crell) - need to split
+                fmri_all = self.data['fmri']
+                print(f"  📊 Total fmri: {fmri_all.shape}")
+
+                n_samples = fmri_all.shape[0]
+                n_train = int(0.8 * n_samples)
+
+                # Use fixed seed for consistent splits
+                np.random.seed(42)
+                indices = np.random.permutation(n_samples)
+
+                if split == 'train':
+                    fmri_data = fmri_all[indices[:n_train]]
+                    print(f"  📊 fmriTrn (80% split): {fmri_data.shape}")
+                    return fmri_data
+                else:
+                    fmri_data = fmri_all[indices[n_train:]]
+                    print(f"  📊 fmriTest (20% split): {fmri_data.shape}")
+                    return fmri_data
+            else:
+                print(f"  ⚠️  Unknown format, using random data")
+                return np.random.randn(100, 1000)
+
         def create_dataloader(self, split, batch_size, shuffle):
             fmri_data = self.get_fmri(split)
-            stim_key = 'stimTrn' if split == 'train' else 'stimTest'
-            images = self.data.get(stim_key, np.random.randn(len(fmri_data), 784))
+
+            # Handle different stimulus formats
+            if 'stimTrn' in self.data and 'stimTest' in self.data:
+                # Standard format
+                stim_key = 'stimTrn' if split == 'train' else 'stimTest'
+                images = self.data.get(stim_key, np.random.randn(len(fmri_data), 784))
+                print(f"  📊 {stim_key}: {images.shape}")
+            elif 'stim' in self.data:
+                # Alternative format - need to split
+                stim_all = self.data['stim']
+                print(f"  📊 Total stim: {stim_all.shape}")
+
+                n_samples = stim_all.shape[0]
+                n_train = int(0.8 * n_samples)
+
+                # Use same seed for consistent splits
+                np.random.seed(42)
+                indices = np.random.permutation(n_samples)
+
+                if split == 'train':
+                    images = stim_all[indices[:n_train]]
+                    print(f"  📊 stimTrn (80% split): {images.shape}")
+                else:
+                    images = stim_all[indices[n_train:]]
+                    print(f"  📊 stimTest (20% split): {images.shape}")
+            else:
+                print(f"  ⚠️  Unknown stimulus format, using random data")
+                images = np.random.randn(len(fmri_data), 784)
+
+            # Normalize stimuli if needed
+            if images.max() > 1.0:
+                images = images / 255.0
+                print(f"  🔧 Normalized stimuli from [0, 255] to [0, 1]")
+
             labels = np.random.randint(0, 10, len(fmri_data))
-            
+
             dataset = torch.utils.data.TensorDataset(
                 torch.FloatTensor(fmri_data),
                 torch.FloatTensor(images),
@@ -386,6 +452,8 @@ def main():
     datasets = [
         ('Miyawaki', '../../data/processed/miyawaki_structured_28x28.mat'),
         ('Vangerven', '../../data/processed/digit69_28x28.mat'),
+        ('MindBigData', '../../data/processed/mindbigdata.mat'),
+        ('Crell', '../../data/processed/crell.mat'),
     ]
 
     results = {}

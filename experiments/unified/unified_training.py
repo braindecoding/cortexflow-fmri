@@ -18,7 +18,7 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent.parent
 sys.path.append(str(project_root))
 
-from src.models.unified_cortexflow import create_unified_model, UnifiedCortexFlow, UnifiedLoss
+from src.models.unified_cortexflow_fixed import create_unified_model, UnifiedCortexFlow, UnifiedLoss
 from scipy.io import loadmat
 
 def load_data(data_path):
@@ -298,12 +298,14 @@ def main():
     # Test different configurations
     configs = ['simple', 'balanced', 'advanced']
     datasets = [
-        ('../../data/processed/miyawaki_structured_28x28.mat', 'Miyawaki'),
-        ('../../data/processed/digit69_28x28.mat', 'Vangerven')
+        ('miyawaki_structured_28x28.mat', 'Miyawaki'),
+        ('digit69_28x28.mat', 'Vangerven'),
+        ('mindbigdata.mat', 'MindBigData'),
+        ('crell.mat', 'Crell')
     ]
-    
+
     results = {}
-    
+
     for dataset_file, dataset_name in datasets:
         # Load data
         data_path = f'../../data/processed/{dataset_file}'

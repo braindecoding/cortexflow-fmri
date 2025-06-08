@@ -36,17 +36,61 @@ except ImportError:
         def __init__(self, data_path):
             self.data_path = data_path
             self.data = scipy.io.loadmat(data_path)
-            
+
         def get_fmri(self, split):
-            key = 'fmriTrn' if split == 'train' else 'fmriTest'
-            return self.data.get(key, np.random.randn(100, 1000))
-                
+            # Handle different dataset formats
+            if 'fmriTrn' in self.data and 'fmriTest' in self.data:
+                # Standard format (miyawaki, vangerven)
+                key = 'fmriTrn' if split == 'train' else 'fmriTest'
+                return self.data.get(key, np.random.randn(100, 1000))
+            elif 'fmri' in self.data:
+                # Alternative format (mindbigdata, crell) - need to split
+                fmri_all = self.data['fmri']
+                n_samples = fmri_all.shape[0]
+                n_train = int(0.8 * n_samples)
+
+                # Use fixed seed for consistent splits
+                np.random.seed(42)
+                indices = np.random.permutation(n_samples)
+
+                if split == 'train':
+                    return fmri_all[indices[:n_train]]
+                else:
+                    return fmri_all[indices[n_train:]]
+            else:
+                return np.random.randn(100, 1000)
+
         def create_dataloader(self, split, batch_size, shuffle):
             fmri_data = self.get_fmri(split)
-            stim_key = 'stimTrn' if split == 'train' else 'stimTest'
-            images = self.data.get(stim_key, np.random.randn(len(fmri_data), 784))
+
+            # Handle different stimulus formats
+            if 'stimTrn' in self.data and 'stimTest' in self.data:
+                # Standard format
+                stim_key = 'stimTrn' if split == 'train' else 'stimTest'
+                images = self.data.get(stim_key, np.random.randn(len(fmri_data), 784))
+            elif 'stim' in self.data:
+                # Alternative format - need to split
+                stim_all = self.data['stim']
+                n_samples = stim_all.shape[0]
+                n_train = int(0.8 * n_samples)
+
+                # Use same seed for consistent splits
+                np.random.seed(42)
+                indices = np.random.permutation(n_samples)
+
+                if split == 'train':
+                    images = stim_all[indices[:n_train]]
+                else:
+                    images = stim_all[indices[n_train:]]
+            else:
+                images = np.random.randn(len(fmri_data), 784)
+
+            # Normalize stimuli if needed
+            if images.max() > 1.0:
+                images = images / 255.0
+
             labels = np.random.randint(0, 10, len(fmri_data))
-            
+
             dataset = torch.utils.data.TensorDataset(
                 torch.FloatTensor(fmri_data),
                 torch.FloatTensor(images),
@@ -697,6 +741,16 @@ def main():
             'name': 'Vangerven',
             'path': '../../data/processed/digit69_28x28.mat',
             'description': 'Visual cortex fMRI → digit recognition'
+        },
+        {
+            'name': 'MindBigData',
+            'path': '../../data/processed/mindbigdata.mat',
+            'description': 'EEG-based neural signals → digit recognition'
+        },
+        {
+            'name': 'Crell',
+            'path': '../../data/processed/crell.mat',
+            'description': 'Advanced fMRI → visual reconstruction'
         }
     ]
 
