@@ -7,8 +7,6 @@ checkpoints/
 # C extensions
 *.so
 *.txt
-*.jpg
-*.png
 *.mat
 # Distribution / packaging
 .Python
