@@ -29,23 +29,25 @@ Unified nature dari framework CortexFlow memungkinkan selection optimal berdasar
 
 **Framework CortexFlow Overall Performance: 0.059652 average MSE across all variants dan datasets, mendemonstrasikan consistent excellence dalam neural decoding capability.**
 
-**Figure 1: Framework CortexFlow Visual Reconstruction Results**
+![Framework CortexFlow Visual Reconstruction Results](figure_results_reconstruction.svg)
 
-Framework CortexFlow demonstrates superior visual reconstruction capabilities across diverse neuroimaging datasets, showcasing unified framework performance dari fMRI native data hingga EEG-to-fMRI translated signals. Novel unified approach menunjukkan consistent quality reconstruction dengan CortexFlow-Unified achieving best performance pada semua datasets: Miyawaki (MSE: 0.014), Vangerven (MSE: 0.037), MindBigData (MSE: 0.028), dan Crell (MSE: 0.022). Complementary variants within framework mendemonstrasikan specialized capabilities, dengan CortexFlow-MC providing uncertainty quantification dan CortexFlow-Enhanced offering advanced multi-scale processing. Framework innovations meliputi adaptive intelligence yang memungkinkan optimal performance across different stimulus types, dari geometric patterns hingga handwritten characters, dan exceptional cross-modal robustness yang memungkinkan effective processing dari EEG-translated data.
+**Gambar 1: Hasil Rekonstruksi Visual Kerangka Kerja CortexFlow**
+
+Kerangka kerja CortexFlow mendemonstrasikan kemampuan rekonstruksi visual yang superior di berbagai dataset neuroimaging, menampilkan kinerja kerangka kerja terpadu dari data fMRI asli hingga sinyal EEG-to-fMRI yang diterjemahkan. Pendekatan terpadu yang baru menunjukkan rekonstruksi kualitas yang konsisten dengan CortexFlow-Unified mencapai kinerja terbaik pada semua dataset: Miyawaki (MSE: 0.014), Vangerven (MSE: 0.037), MindBigData (MSE: 0.028), dan Crell (MSE: 0.022). Varian pelengkap dalam kerangka kerja mendemonstrasikan kemampuan khusus, dengan CortexFlow-MC menyediakan kuantifikasi ketidakpastian dan CortexFlow-Enhanced menawarkan pemrosesan multi-skala canggih. Inovasi kerangka kerja meliputi kecerdasan adaptif yang memungkinkan kinerja optimal di berbagai jenis stimulus, dari pola geometris hingga karakter tulisan tangan, dan ketahanan lintas-modal yang luar biasa yang memungkinkan pemrosesan efektif dari data EEG yang diterjemahkan.
 
 ### Validasi Cross-Dataset Robustness Framework CortexFlow
 
 Framework CortexFlow mendemonstrasikan robustness yang exceptional across diverse neuroimaging datasets, memvalidasi design principles yang fundamental. Dataset Miyawaki menunjukkan optimal performance dari framework CortexFlow dengan CortexFlow-Unified mencapai state-of-the-art performance (0.013803), mendemonstrasikan kemampuan adaptive complexity mechanism dalam mengoptimalkan resource allocation. CortexFlow-MC dan CortexFlow-Simple menunjukkan performance yang competitive, memvalidasi scalability framework dari simple hingga advanced configurations.
 
-Dataset Vangerven mengkonfirmasi consistency framework CortexFlow dengan CortexFlow-Unified (0.037100) dan CortexFlow-Simple (0.037827) menunjukkan performance yang virtually identical, mendemonstrasikan intelligent adaptation mechanism yang dapat recognize optimal complexity level untuk different input characteristics.
+Dataset Vangerven mengkonfirmasi konsistensi kerangka kerja CortexFlow dengan CortexFlow-Unified (0.037100) dan CortexFlow-Simple (0.037827) menunjukkan kinerja yang hampir identik, mendemonstrasikan mekanisme adaptasi cerdas yang dapat mengenali tingkat kompleksitas optimal untuk karakteristik input yang berbeda.
 
-Dataset MindBigData dan Crell, yang merupakan hasil translasi EEG-to-fMRI menggunakan NT-ViT, menyediakan ultimate test untuk cross-modal robustness framework CortexFlow. CortexFlow-Unified menunjukkan superior adaptation capability dengan mencapai test loss 0.028406 pada MindBigData dan 0.022455 pada Crell, secara signifikan outperform other variants dan memvalidasi effectiveness dari integrated adaptive complexity dan cross-modal processing capabilities yang merupakan core innovations framework CortexFlow.
+Dataset MindBigData dan Crell, yang merupakan hasil translasi EEG-to-fMRI menggunakan NT-ViT, menyediakan ujian utama untuk ketahanan lintas-modal kerangka kerja CortexFlow. CortexFlow-Unified menunjukkan kemampuan adaptasi superior dengan mencapai test loss 0.028406 pada MindBigData dan 0.022455 pada Crell, secara signifikan mengungguli varian lain dan memvalidasi efektivitas dari kompleksitas adaptif terintegrasi dan kemampuan pemrosesan lintas-modal yang merupakan inovasi inti kerangka kerja CortexFlow.
 
 ## Skalabilitas dan Efisiensi Framework CortexFlow
 
 ### Demonstrasi Adaptive Computational Efficiency
 
-Framework CortexFlow mendemonstrasikan paradigma baru dalam computational efficiency melalui adaptive scaling mechanism yang intelligent. Berbeda dari fixed-architecture approaches yang memerlukan trade-off rigid antara performance dan efficiency, framework CortexFlow menyediakan spectrum kontinuum dari lightweight deployment (CortexFlow-Simple dengan 6-8M parameters) hingga full-featured research configurations (CortexFlow-Enhanced dengan 20-29M parameters). Unified nature framework memungkinkan dynamic resource allocation berdasarkan input complexity dan application requirements.
+Kerangka kerja CortexFlow mendemonstrasikan paradigma baru dalam efisiensi komputasi melalui mekanisme penskalaan adaptif yang cerdas. Berbeda dari pendekatan arsitektur tetap yang memerlukan trade-off kaku antara kinerja dan efisiensi, kerangka kerja CortexFlow menyediakan spektrum kontinum dari deployment ringan (CortexFlow-Simple dengan 6-8M parameter) hingga konfigurasi penelitian berfitur lengkap (CortexFlow-Enhanced dengan 20-29M parameter). Sifat terpadu kerangka kerja memungkinkan alokasi sumber daya dinamis berdasarkan kompleksitas input dan kebutuhan aplikasi.
 
 **Tabel 2: Framework CortexFlow Computational Scalability**
 
@@ -59,11 +61,13 @@ Framework CortexFlow mendemonstrasikan paradigma baru dalam computational effici
 
 *MC sampling overhead untuk uncertainty quantification
 
-**Framework Innovation**: CortexFlow-Unified mendemonstrasikan breakthrough dalam adaptive computational allocation, secara dinamis scaling dari CortexFlow-Simple efficiency hingga CortexFlow-Enhanced capability berdasarkan input complexity analysis.
+**Inovasi Kerangka Kerja**: CortexFlow-Unified mendemonstrasikan terobosan dalam alokasi komputasi adaptif, secara dinamis menskalakan dari efisiensi CortexFlow-Simple hingga kemampuan CortexFlow-Enhanced berdasarkan analisis kompleksitas input.
 
-**Figure 2: Framework CortexFlow Comprehensive Performance Analysis**
+![Framework CortexFlow Comprehensive Performance Analysis](figure_results_performance.svg)
 
-Framework CortexFlow demonstrates consistent superior performance across all neuroimaging datasets dengan clear performance hierarchy yang mencerminkan adaptive capabilities dari unified ecosystem. Novel unified approach menunjukkan CortexFlow-Unified achieving best performance pada semua datasets, dengan significant improvements pada cross-modal scenarios: 50% better pada MindBigData dan 32% better pada Crell dibandingkan baseline variants. Complementary variants within framework menunjukkan specialized strengths, dengan CortexFlow-Simple providing optimal efficiency, CortexFlow-MC adding uncertainty quantification, dan CortexFlow-Enhanced offering advanced processing capabilities. Framework performance analysis mengkonfirmasi adaptive intelligence mechanism yang memungkinkan intelligent resource allocation, resulting dalam optimal performance-efficiency trade-offs untuk different application requirements.
+**Gambar 2: Analisis Kinerja Komprehensif Kerangka Kerja CortexFlow**
+
+Kerangka kerja CortexFlow mendemonstrasikan kinerja superior yang konsisten di semua dataset neuroimaging dengan hierarki kinerja yang jelas yang mencerminkan kemampuan adaptif dari ekosistem terpadu. Pendekatan terpadu yang baru menunjukkan CortexFlow-Unified mencapai kinerja terbaik pada semua dataset, dengan peningkatan signifikan pada skenario lintas-modal: 50% lebih baik pada MindBigData dan 32% lebih baik pada Crell dibandingkan varian baseline. Varian pelengkap dalam kerangka kerja menunjukkan kekuatan khusus, dengan CortexFlow-Simple menyediakan efisiensi optimal, CortexFlow-MC menambahkan kuantifikasi ketidakpastian, dan CortexFlow-Enhanced menawarkan kemampuan pemrosesan canggih. Analisis kinerja kerangka kerja mengkonfirmasi mekanisme kecerdasan adaptif yang memungkinkan alokasi sumber daya cerdas, menghasilkan trade-off kinerja-efisiensi optimal untuk kebutuhan aplikasi yang berbeda.
 
 ### Efisiensi Training
 
@@ -85,9 +89,11 @@ Evaluasi robustness lintas modalitas neuroimaging menunjukkan kemampuan generali
 
 Enhanced CortexFlow dengan feature alignment mechanism menunjukkan kemampuan adaptasi yang baik pada data cross-modal, meskipun dengan computational overhead yang signifikan. Hasil ini mengindikasikan pentingnya adaptive complexity dan feature alignment dalam menangani heterogenitas data neuroimaging.
 
-**Figure 3: Framework CortexFlow Cross-Modal Robustness Analysis**
+![Framework CortexFlow Cross-Modal Robustness Analysis](figure_results_crossmodal.svg)
 
-Framework CortexFlow demonstrates exceptional cross-modal robustness yang merupakan breakthrough dalam neural decoding field, dengan performance consistency yang remarkable antara fMRI native dan EEG-to-fMRI translated data. Novel unified approach menunjukkan CortexFlow-Unified achieving virtually identical performance: 0.026 MSE untuk fMRI native vs 0.025 MSE untuk EEG-translated data, representing hanya 4% performance difference across modalities. Complementary variants within framework menunjukkan varying degrees dari cross-modal adaptation, dengan CortexFlow-Simple dan CortexFlow-MC maintaining reasonable performance degradation, sementara CortexFlow-Enhanced showing higher sensitivity ke modality differences. Framework innovation dalam cross-modal processing memvalidasi effectiveness dari adaptive intelligence mechanism dan unified design principles dalam handling diverse neuroimaging data sources, membuka possibilities untuk standardized neural decoding protocols across different clinical dan research environments.
+**Gambar 3: Analisis Ketahanan Lintas-Modal Kerangka Kerja CortexFlow**
+
+Kerangka kerja CortexFlow mendemonstrasikan ketahanan lintas-modal yang luar biasa yang merupakan terobosan dalam bidang neural decoding, dengan konsistensi kinerja yang luar biasa antara data fMRI asli dan data EEG-to-fMRI yang diterjemahkan. Pendekatan terpadu yang baru menunjukkan CortexFlow-Unified mencapai kinerja yang hampir identik: 0.026 MSE untuk fMRI asli vs 0.025 MSE untuk data EEG yang diterjemahkan, merepresentasikan hanya 4% perbedaan kinerja di seluruh modalitas. Varian pelengkap dalam kerangka kerja menunjukkan tingkat adaptasi lintas-modal yang bervariasi, dengan CortexFlow-Simple dan CortexFlow-MC mempertahankan degradasi kinerja yang wajar, sementara CortexFlow-Enhanced menunjukkan sensitivitas yang lebih tinggi terhadap perbedaan modalitas. Inovasi kerangka kerja dalam pemrosesan lintas-modal memvalidasi efektivitas mekanisme kecerdasan adaptif dan prinsip desain terpadu dalam menangani sumber data neuroimaging yang beragam, membuka kemungkinan untuk protokol neural decoding standar di berbagai lingkungan klinis dan penelitian.
 
 ## Analisis Konvergensi dan Stabilitas Training
 
