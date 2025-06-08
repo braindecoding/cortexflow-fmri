@@ -1,0 +1,54 @@
+{
+  "experiment_info": {
+    "timestamp": "2025-06-08T13:31:59.824329",
+    "project": "CortexFlow",
+    "version": "1.0.0"
+  },
+  "datasets": {
+    "miyawaki": {
+      "status": "completed",
+      "description": "Visual Cortex fMRI"
+    },
+    "vangerven": {
+      "status": "completed",
+      "description": "Digit Recognition fMRI"
+    },
+    "mindbigdata": {
+      "status": "completed",
+      "description": "EEG-based Neural Signals"
+    },
+    "crell": {
+      "status": "completed",
+      "description": "Advanced fMRI"
+    }
+  },
+  "models": {
+    "mc_simple": {
+      "status": "completed",
+      "description": "Monte Carlo Simple CortexFlow"
+    }
+  },
+  "tests": {
+    "reproducibility": {
+      "status": "passed",
+      "score": "13/13"
+    },
+    "training": {
+      "status": "passed",
+      "score": "4/4"
+    },
+    "visualization": {
+      "status": "passed",
+      "score": "4/4"
+    }
+  },
+  "files_generated": [
+    "results/mc_simple/mc_simple_miyawaki_model.pt",
+    "results/mc_simple/mc_simple_vangerven_model.pt",
+    "results/mc_simple/mc_simple_mindbigdata_model.pt",
+    "results/mc_simple/mc_simple_crell_model.pt",
+    "results/mc_simple/complete_dataset_comparison.png",
+    "tests/results/reproducibility_report.png",
+    "tests/results/reproducibility_detailed_report.txt"
+  ]
+}

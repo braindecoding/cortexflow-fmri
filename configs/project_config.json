@@ -1,0 +1,63 @@
+{
+  "project": {
+    "name": "CortexFlow",
+    "version": "1.0.0",
+    "description": "Brain-Computer Interface using Monte Carlo Neural Networks",
+    "authors": [
+      "CortexFlow Team"
+    ],
+    "license": "MIT"
+  },
+  "reproducibility": {
+    "seed": 42,
+    "deterministic": true,
+    "benchmark": false
+  },
+  "models": {
+    "mc_simple": {
+      "hidden_dim": 512,
+      "dropout_rate": 0.15,
+      "mc_samples": 10,
+      "uncertainty_weight": 0.1
+    },
+    "hierarchical": {
+      "levels": 3,
+      "hidden_dims": [
+        512,
+        256,
+        128
+      ],
+      "dropout_rate": 0.15
+    },
+    "enhanced": {
+      "attention_heads": 8,
+      "hidden_dim": 512,
+      "dropout_rate": 0.15
+    }
+  },
+  "training": {
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "patience": 20,
+    "max_epochs": 100
+  },
+  "datasets": {
+    "miyawaki": {
+      "input_dim": 967,
+      "description": "Visual Cortex fMRI"
+    },
+    "vangerven": {
+      "input_dim": 3092,
+      "description": "Digit Recognition fMRI"
+    },
+    "mindbigdata": {
+      "input_dim": 3092,
+      "description": "EEG-based Neural Signals"
+    },
+    "crell": {
+      "input_dim": 3092,
+      "description": "Advanced fMRI"
+    }
+  }
+}
