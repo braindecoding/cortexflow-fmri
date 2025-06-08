@@ -1,8 +1,8 @@
 # METODE PENELITIAN
 
-## Framework CortexFlow: Paradigma Baru Neural Decoding
+## Framework CortexFlow: Unified Neural Decoding Architecture
 
-Neural decoding dari sinyal neuroimaging menghadapi tantangan fundamental yang memerlukan pendekatan yang berbeda secara mendasar dari metode yang ada. Penelitian ini memperkenalkan CortexFlow, sebuah kerangka kerja terpadu yang dirancang dari awal untuk mengatasi keterbatasan yang melekat dalam paradigma neural decoding saat ini. Kerangka kerja CortexFlow merepresentasikan paradigma baru yang mengintegrasikan berbagai kemampuan canggih dalam arsitektur yang koheren dan sinergis, bukan sebagai perbaikan bertahap dari metode yang ada.
+Neural decoding dari sinyal neuroimaging menghadapi tantangan dalam integrasi berbagai kemampuan yang diperlukan untuk aplikasi praktis. Penelitian ini memperkenalkan CortexFlow, sebuah kerangka kerja terpadu yang dirancang untuk mengintegrasikan berbagai kemampuan neural decoding dalam arsitektur yang koheren dan scalable. Kerangka kerja CortexFlow mengintegrasikan berbagai kemampuan canggih dalam desain yang unified, dengan implementasi proof-of-concept yang memvalidasi prinsip inti framework.
 
 Kerangka kerja CortexFlow dibangun berdasarkan tiga prinsip fundamental yang baru dalam bidang neural decoding. Pertama, prinsip kompleksitas adaptif yang memungkinkan alokasi sumber daya dinamis berdasarkan karakteristik input, mengatasi kekakuan pendekatan arsitektur tetap. Kedua, prinsip kuantifikasi ketidakpastian terintegrasi yang menyediakan penilaian kepercayaan sistematis sebagai kemampuan inti, bukan tambahan setelahnya. Ketiga, prinsip pemrosesan lintas-modal terpadu yang memungkinkan operasi mulus di berbagai modalitas neuroimaging dalam satu kerangka kerja.
 
@@ -355,7 +355,7 @@ Penelitian ini menggunakan pendekatan hybrid yang menggabungkan: (1) Training da
 Pelatihan dilakukan dengan seed=42 untuk reprodusibilitas di semua eksperimen. Checkpoint model disimpan setiap kali validation loss mencapai nilai terbaik baru. Metrik monitoring meliputi reconstruction loss, estimasi ketidakpastian (untuk arsitektur yang berlaku), skor kompleksitas (untuk Unified), dan waktu pelatihan. Semua eksperimen dilakukan pada GPU CUDA dengan presisi float32.
 
 **Implementasi Model Aktual:**
-Untuk validasi proof-of-concept, implementasi menggunakan arsitektur CortexFlow-Simple yang dioptimalkan dengan struktur: Linear(input_dim, 512) → ReLU → Dropout(0.2) → Linear(512, 256) → ReLU → Dropout(0.2) → Linear(256, 128) → ReLU → Dropout(0.1) → Linear(128, 784) → Sigmoid. Arsitektur ini menghasilkan parameter counts 760,976 untuk Miyawaki (967 input) dan 1,848,976 untuk dataset lain (1143 input). Varian lain (MC, Hierarchical, Enhanced, Unified) mengikuti prinsip desain yang sama dengan kompleksitas tambahan sesuai spesifikasi teoretis, dengan proyeksi parameter counts dalam range yang sama untuk mempertahankan efisiensi komputasi.
+Untuk validasi proof-of-concept, implementasi menggunakan arsitektur CortexFlow-Simple yang dioptimalkan dengan struktur: Linear(input_dim, 512) → ReLU → Dropout(0.2) → Linear(512, 256) → ReLU → Dropout(0.2) → Linear(256, 128) → ReLU → Dropout(0.1) → Linear(128, 784) → Sigmoid. Arsitektur ini menghasilkan parameter counts 760,976 untuk Miyawaki (967 input) dan 1,848,976 untuk dataset lain (1143 input). Varian lain (MC, Hierarchical, Enhanced, Unified) dirancang secara teoretis dengan spesifikasi yang detailed untuk implementasi future, dengan proyeksi parameter counts dan kompleksitas yang scalable dari hasil empiris CortexFlow-Simple.
 
 ![Framework CortexFlow Training Protocol](figure3_training_protocol.svg)
 
