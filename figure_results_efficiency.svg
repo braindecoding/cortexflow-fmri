@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="paramGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="timeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7ED321;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5BA517;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="memoryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D1890B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="efficiencyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9013FE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6200EA;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">
+    Kerangka Kerja CortexFlow: Analisis Efisiensi Komputasi
+  </text>
+  
+  <!-- Chart 1: Parameter Count -->
+  <text x="150" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Jumlah Parameter (M)</text>
+  
+  <rect x="50" y="80" width="200" height="150" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <!-- Y-axis for parameters -->
+  <line x1="50" y1="80" x2="50" y2="230" stroke="#333" stroke-width="2"/>
+  <text x="20" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#333" transform="rotate(-90 20 155)">Parameter (M)</text>
+  
+  <!-- Y-axis labels -->
+  <text x="40" y="85" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">30</text>
+  <text x="40" y="110" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">25</text>
+  <text x="40" y="135" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">20</text>
+  <text x="40" y="160" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">15</text>
+  <text x="40" y="185" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">10</text>
+  <text x="40" y="210" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">5</text>
+  
+  <!-- Parameter bars -->
+  <!-- Simple: 7.1M -->
+  <rect x="70" y="201" width="25" height="29" fill="url(#paramGrad)" stroke="#333" stroke-width="1"/>
+  <text x="82" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Simple</text>
+  <text x="82" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">7.1M</text>
+  
+  <!-- MC: 7.2M -->
+  <rect x="105" y="200" width="25" height="30" fill="url(#paramGrad)" stroke="#333" stroke-width="1"/>
+  <text x="117" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">MC</text>
+  <text x="117" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">7.2M</text>
+  
+  <!-- Hierarchical: 24.7M -->
+  <rect x="140" y="131" width="25" height="99" fill="url(#paramGrad)" stroke="#333" stroke-width="1"/>
+  <text x="152" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Hier</text>
+  <text x="152" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">24.7M</text>
+  
+  <!-- Enhanced: 24.8M -->
+  <rect x="175" y="130" width="25" height="100" fill="url(#paramGrad)" stroke="#333" stroke-width="1"/>
+  <text x="187" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Enh</text>
+  <text x="187" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">24.8M</text>
+  
+  <!-- Unified: Variable (show range) -->
+  <rect x="210" y="201" width="25" height="29" fill="url(#efficiencyGrad)" stroke="#333" stroke-width="1"/>
+  <rect x="210" y="131" width="25" height="70" fill="url(#efficiencyGrad)" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <text x="222" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Unified</text>
+  <text x="222" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">7-25M</text>
+  
+  <!-- Chart 2: Training Time -->
+  <text x="400" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Waktu Training (menit)</text>
+  
+  <rect x="300" y="80" width="200" height="150" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <!-- Y-axis for training time -->
+  <line x1="300" y1="80" x2="300" y2="230" stroke="#333" stroke-width="2"/>
+  <text x="270" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#333" transform="rotate(-90 270 155)">Waktu (min)</text>
+  
+  <!-- Y-axis labels -->
+  <text x="290" y="85" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">4.0</text>
+  <text x="290" y="110" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">3.0</text>
+  <text x="290" y="135" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">2.0</text>
+  <text x="290" y="160" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">1.0</text>
+  <text x="290" y="185" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">0.5</text>
+  <text x="290" y="210" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#333">0.1</text>
+  
+  <!-- Training time bars -->
+  <!-- Simple: 0.15 min -->
+  <rect x="320" y="218" width="25" height="12" fill="url(#timeGrad)" stroke="#333" stroke-width="1"/>
+  <text x="332" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Simple</text>
+  <text x="332" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">0.15</text>
+  
+  <!-- MC: 0.55 min (3.9-32.8s average) -->
+  <rect x="355" y="202" width="25" height="28" fill="url(#timeGrad)" stroke="#333" stroke-width="1"/>
+  <text x="367" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">MC</text>
+  <text x="367" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">0.55</text>
+  
+  <!-- Hierarchical: 0.8 min -->
+  <rect x="390" y="190" width="25" height="40" fill="url(#timeGrad)" stroke="#333" stroke-width="1"/>
+  <text x="402" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Hier</text>
+  <text x="402" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">0.8</text>
+  
+  <!-- Enhanced: 3.0 min -->
+  <rect x="425" y="110" width="25" height="120" fill="url(#timeGrad)" stroke="#333" stroke-width="1"/>
+  <text x="437" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Enh</text>
+  <text x="437" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">3.0</text>
+  
+  <!-- Unified: Adaptive -->
+  <rect x="460" y="218" width="25" height="12" fill="url(#efficiencyGrad)" stroke="#333" stroke-width="1"/>
+  <rect x="460" y="110" width="25" height="108" fill="url(#efficiencyGrad)" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <text x="472" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Unified</text>
+  <text x="472" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Adaptif</text>
+  
+  <!-- Chart 3: Memory Usage -->
+  <text x="700" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Penggunaan Memori</text>
+  
+  <rect x="600" y="80" width="200" height="150" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <!-- Y-axis for memory -->
+  <line x1="600" y1="80" x2="600" y2="230" stroke="#333" stroke-width="2"/>
+  <text x="570" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#333" transform="rotate(-90 570 155)">Memori</text>
+  
+  <!-- Memory usage indicators -->
+  <!-- Simple: Low -->
+  <rect x="620" y="190" width="25" height="40" fill="url(#memoryGrad)" stroke="#333" stroke-width="1"/>
+  <text x="632" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Simple</text>
+  <text x="632" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Rendah</text>
+  
+  <!-- MC: Low -->
+  <rect x="655" y="190" width="25" height="40" fill="url(#memoryGrad)" stroke="#333" stroke-width="1"/>
+  <text x="667" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">MC</text>
+  <text x="667" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Rendah</text>
+  
+  <!-- Hierarchical: High -->
+  <rect x="690" y="110" width="25" height="120" fill="url(#memoryGrad)" stroke="#333" stroke-width="1"/>
+  <text x="702" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Hier</text>
+  <text x="702" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Tinggi</text>
+  
+  <!-- Enhanced: High -->
+  <rect x="725" y="110" width="25" height="120" fill="url(#memoryGrad)" stroke="#333" stroke-width="1"/>
+  <text x="737" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Enh</text>
+  <text x="737" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Tinggi</text>
+  
+  <!-- Unified: Medium (adaptive) -->
+  <rect x="760" y="150" width="25" height="80" fill="url(#efficiencyGrad)" stroke="#333" stroke-width="1"/>
+  <text x="772" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Unified</text>
+  <text x="772" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">Sedang</text>
+  
+  <!-- Efficiency Analysis Chart -->
+  <text x="450" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">Analisis Efisiensi: Performance vs Computational Cost</text>
+  
+  <rect x="100" y="320" width="700" height="200" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <!-- X-axis: Computational Cost -->
+  <line x1="100" y1="520" x2="800" y2="520" stroke="#333" stroke-width="2"/>
+  <text x="450" y="550" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Biaya Komputasi (Relatif)</text>
+  
+  <!-- Y-axis: Performance -->
+  <line x1="100" y1="320" x2="100" y2="520" stroke="#333" stroke-width="2"/>
+  <text x="50" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333" transform="rotate(-90 50 420)">Performance (1/MSE)</text>
+  
+  <!-- Performance vs Cost scatter plot -->
+  <!-- Simple: Low cost, good performance -->
+  <circle cx="200" cy="380" r="8" fill="url(#paramGrad)" stroke="#333" stroke-width="2"/>
+  <text x="210" y="375" font-family="Arial, sans-serif" font-size="9" fill="#333">Simple</text>
+  <text x="210" y="385" font-family="Arial, sans-serif" font-size="8" fill="#666">Cost: 1.0, Perf: 27.1</text>
+  
+  <!-- MC: Low cost, better performance -->
+  <circle cx="220" cy="360" r="8" fill="url(#timeGrad)" stroke="#333" stroke-width="2"/>
+  <text x="230" y="355" font-family="Arial, sans-serif" font-size="9" fill="#333">MC</text>
+  <text x="230" y="365" font-family="Arial, sans-serif" font-size="8" fill="#666">Cost: 1.2, Perf: 60.7</text>
+  
+  <!-- Enhanced: High cost, lower performance -->
+  <circle cx="600" cy="450" r="8" fill="url(#memoryGrad)" stroke="#333" stroke-width="2"/>
+  <text x="610" y="445" font-family="Arial, sans-serif" font-size="9" fill="#333">Enhanced</text>
+  <text x="610" y="455" font-family="Arial, sans-serif" font-size="8" fill="#666">Cost: 8.5, Perf: 13.9</text>
+  
+  <!-- Unified: Variable cost, best performance -->
+  <circle cx="350" cy="340" r="10" fill="url(#efficiencyGrad)" stroke="#333" stroke-width="3"/>
+  <text x="365" y="335" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#333">Unified</text>
+  <text x="365" y="345" font-family="Arial, sans-serif" font-size="8" fill="#666">Cost: 2.5, Perf: 72.4</text>
+  
+  <!-- Efficiency frontier line -->
+  <polyline points="200,380 220,360 350,340" fill="none" stroke="#9013FE" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="280" y="330" font-family="Arial, sans-serif" font-size="10" fill="#9013FE">Frontier Efisiensi</text>
+  
+  <!-- Legend -->
+  <rect x="50" y="560" width="800" height="30" fill="#f8f9fa" stroke="#333" stroke-width="1" rx="5"/>
+  <text x="450" y="580" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">
+    CortexFlow-Unified: Efisiensi Adaptif Optimal - Biaya Rendah dengan Performance Terbaik
+  </text>
+</svg>

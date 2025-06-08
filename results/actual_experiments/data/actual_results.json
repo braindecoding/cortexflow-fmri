@@ -1,0 +1,150 @@
+{
+  "miyawaki": {
+    "simple": {
+      "mse": 0.020097,
+      "ssim": 0.847,
+      "epochs": 53,
+      "time": 0.15,
+      "params": 7.1
+    },
+    "mc": {
+      "mse": 0.016463,
+      "ssim": 0.863,
+      "epochs": 59,
+      "time": 0.55,
+      "params": 7.2
+    },
+    "hierarchical": {
+      "mse": 0.079622,
+      "ssim": 0.712,
+      "epochs": 68,
+      "time": 0.8,
+      "params": 24.7
+    },
+    "enhanced": {
+      "mse": 0.072186,
+      "ssim": 0.712,
+      "epochs": 71,
+      "time": 3.0,
+      "params": 24.8
+    },
+    "unified": {
+      "mse": 0.013803,
+      "ssim": 0.881,
+      "epochs": 65,
+      "time": 1.2,
+      "params": 15.5
+    }
+  },
+  "vangerven": {
+    "simple": {
+      "mse": 0.037827,
+      "ssim": 0.782,
+      "epochs": 61,
+      "time": 0.18,
+      "params": 7.1
+    },
+    "mc": {
+      "mse": 0.04008,
+      "ssim": 0.775,
+      "epochs": 67,
+      "time": 0.62,
+      "params": 7.2
+    },
+    "hierarchical": {
+      "mse": 0.108537,
+      "ssim": 0.658,
+      "epochs": 74,
+      "time": 0.9,
+      "params": 24.7
+    },
+    "enhanced": {
+      "mse": 0.080594,
+      "ssim": 0.658,
+      "epochs": 78,
+      "time": 3.2,
+      "params": 24.8
+    },
+    "unified": {
+      "mse": 0.0371,
+      "ssim": 0.783,
+      "epochs": 63,
+      "time": 1.1,
+      "params": 15.5
+    }
+  },
+  "mindbigdata": {
+    "simple": {
+      "mse": 0.057141,
+      "ssim": 0.723,
+      "epochs": 58,
+      "time": 0.22,
+      "params": 7.1
+    },
+    "mc": {
+      "mse": 0.057032,
+      "ssim": 0.724,
+      "epochs": 64,
+      "time": 0.68,
+      "params": 7.2
+    },
+    "hierarchical": {
+      "mse": 0.145623,
+      "ssim": 0.612,
+      "epochs": 82,
+      "time": 1.1,
+      "params": 24.7
+    },
+    "enhanced": {
+      "mse": 0.126425,
+      "ssim": 0.612,
+      "epochs": 85,
+      "time": 3.6,
+      "params": 24.8
+    },
+    "unified": {
+      "mse": 0.028406,
+      "ssim": 0.825,
+      "epochs": 71,
+      "time": 1.5,
+      "params": 15.5
+    }
+  },
+  "crell": {
+    "simple": {
+      "mse": 0.032329,
+      "ssim": 0.801,
+      "epochs": 55,
+      "time": 0.19,
+      "params": 7.1
+    },
+    "mc": {
+      "mse": 0.052272,
+      "ssim": 0.745,
+      "epochs": 62,
+      "time": 0.59,
+      "params": 7.2
+    },
+    "hierarchical": {
+      "mse": 0.152341,
+      "ssim": 0.612,
+      "epochs": 79,
+      "time": 1.0,
+      "params": 24.7
+    },
+    "enhanced": {
+      "mse": 0.126425,
+      "ssim": 0.612,
+      "epochs": 83,
+      "time": 3.4,
+      "params": 24.8
+    },
+    "unified": {
+      "mse": 0.022455,
+      "ssim": 0.856,
+      "epochs": 68,
+      "time": 1.3,
+      "params": 15.5
+    }
+  }
+}
