@@ -1,0 +1,240 @@
+{
+  "simple_selection": {
+    "miyawaki": {
+      "dataset": "miyawaki",
+      "selected_variant": "enhanced",
+      "ensemble_mse": 0.008456466137431562,
+      "method": "best_variant_selection",
+      "all_variants": {
+        "simple": 0.04777925927191973,
+        "mc": 0.021819719579070807,
+        "hierarchical": 0.034092795103788376,
+        "enhanced": 0.008456466137431562,
+        "unified": 0.01457382133230567
+      }
+    },
+    "vangerven": {
+      "dataset": "vangerven",
+      "selected_variant": "enhanced",
+      "ensemble_mse": 0.04426450654864311,
+      "method": "best_variant_selection",
+      "all_variants": {
+        "simple": 0.05882602371275425,
+        "mc": 0.0608562920242548,
+        "hierarchical": 0.04516935721039772,
+        "enhanced": 0.04426450654864311,
+        "unified": 0.04962391220033169
+      }
+    },
+    "mindbigdata": {
+      "dataset": "mindbigdata",
+      "selected_variant": "hierarchical",
+      "ensemble_mse": 0.05610759449856622,
+      "method": "best_variant_selection",
+      "all_variants": {
+        "simple": 0.057842228295547624,
+        "mc": 0.05727358641369002,
+        "hierarchical": 0.05610759449856622,
+        "enhanced": 0.05691568713103022,
+        "unified": 0.059055217142616
+      }
+    },
+    "crell": {
+      "dataset": "crell",
+      "selected_variant": "hierarchical",
+      "ensemble_mse": 0.03228549286723137,
+      "method": "best_variant_selection",
+      "all_variants": {
+        "simple": 0.03235398815013468,
+        "mc": 0.032837152713909745,
+        "hierarchical": 0.03228549286723137,
+        "enhanced": 0.03323857137002051,
+        "unified": 0.032360905315726995
+      }
+    }
+  },
+  "adaptive_selection": {
+    "miyawaki": {
+      "dataset": "miyawaki",
+      "selected_variant": "enhanced",
+      "ensemble_mse": 0.008456466137431562,
+      "method": "adaptive_variant_selection",
+      "selection_rule": {
+        "rule": "native_fmri_visual",
+        "preferred": [
+          "enhanced",
+          "hierarchical",
+          "unified"
+        ],
+        "rationale": "Complex visual patterns need sophisticated processing"
+      },
+      "all_variants": {
+        "simple": 0.04777925927191973,
+        "mc": 0.021819719579070807,
+        "hierarchical": 0.034092795103788376,
+        "enhanced": 0.008456466137431562,
+        "unified": 0.01457382133230567
+      }
+    },
+    "vangerven": {
+      "dataset": "vangerven",
+      "selected_variant": "enhanced",
+      "ensemble_mse": 0.04426450654864311,
+      "method": "adaptive_variant_selection",
+      "selection_rule": {
+        "rule": "native_fmri_simple",
+        "preferred": [
+          "enhanced",
+          "hierarchical",
+          "simple"
+        ],
+        "rationale": "Simple digits, but native fMRI benefits from enhancement"
+      },
+      "all_variants": {
+        "simple": 0.05882602371275425,
+        "mc": 0.0608562920242548,
+        "hierarchical": 0.04516935721039772,
+        "enhanced": 0.04426450654864311,
+        "unified": 0.04962391220033169
+      }
+    },
+    "mindbigdata": {
+      "dataset": "mindbigdata",
+      "selected_variant": "hierarchical",
+      "ensemble_mse": 0.05610759449856622,
+      "method": "adaptive_variant_selection",
+      "selection_rule": {
+        "rule": "cross_modal_eeg",
+        "preferred": [
+          "hierarchical",
+          "enhanced",
+          "mc"
+        ],
+        "rationale": "Cross-modal translation needs hierarchical processing"
+      },
+      "all_variants": {
+        "simple": 0.057842228295547624,
+        "mc": 0.05727358641369002,
+        "hierarchical": 0.05610759449856622,
+        "enhanced": 0.05691568713103022,
+        "unified": 0.059055217142616
+      }
+    },
+    "crell": {
+      "dataset": "crell",
+      "selected_variant": "hierarchical",
+      "ensemble_mse": 0.03228549286723137,
+      "method": "adaptive_variant_selection",
+      "selection_rule": {
+        "rule": "cross_modal_text",
+        "preferred": [
+          "hierarchical",
+          "simple",
+          "enhanced"
+        ],
+        "rationale": "Text patterns benefit from hierarchical features"
+      },
+      "all_variants": {
+        "simple": 0.03235398815013468,
+        "mc": 0.032837152713909745,
+        "hierarchical": 0.03228549286723137,
+        "enhanced": 0.03323857137002051,
+        "unified": 0.032360905315726995
+      }
+    }
+  },
+  "weighted_ensemble": {
+    "miyawaki": {
+      "dataset": "miyawaki",
+      "selected_variants": [
+        "enhanced",
+        "unified",
+        "mc"
+      ],
+      "variant_weights": {
+        "enhanced": 0.5081786998087096,
+        "unified": 0.2948710569304684,
+        "mc": 0.19695024326082206
+      },
+      "ensemble_mse": 0.012892193145450048,
+      "method": "weighted_variant_ensemble",
+      "top_k": 3,
+      "all_variants": {
+        "simple": 0.04777925927191973,
+        "mc": 0.021819719579070807,
+        "hierarchical": 0.034092795103788376,
+        "enhanced": 0.008456466137431562,
+        "unified": 0.01457382133230567
+      }
+    },
+    "vangerven": {
+      "dataset": "vangerven",
+      "selected_variants": [
+        "enhanced",
+        "hierarchical",
+        "unified"
+      ],
+      "variant_weights": {
+        "enhanced": 0.34819339655341175,
+        "hierarchical": 0.3412182484663822,
+        "unified": 0.31058835498020604
+      },
+      "ensemble_mse": 0.04623782709160024,
+      "method": "weighted_variant_ensemble",
+      "top_k": 3,
+      "all_variants": {
+        "simple": 0.05882602371275425,
+        "mc": 0.0608562920242548,
+        "hierarchical": 0.04516935721039772,
+        "enhanced": 0.04426450654864311,
+        "unified": 0.04962391220033169
+      }
+    },
+    "mindbigdata": {
+      "dataset": "mindbigdata",
+      "selected_variants": [
+        "hierarchical",
+        "enhanced",
+        "mc"
+      ],
+      "variant_weights": {
+        "hierarchical": 0.3372176697846101,
+        "enhanced": 0.3324298321892579,
+        "mc": 0.3303524980261319
+      },
+      "ensemble_mse": 0.05676141693860902,
+      "method": "weighted_variant_ensemble",
+      "top_k": 3,
+      "all_variants": {
+        "simple": 0.057842228295547624,
+        "mc": 0.05727358641369002,
+        "hierarchical": 0.05610759449856622,
+        "enhanced": 0.05691568713103022,
+        "unified": 0.059055217142616
+      }
+    },
+    "crell": {
+      "dataset": "crell",
+      "selected_variants": [
+        "hierarchical",
+        "simple",
+        "unified"
+      ],
+      "variant_weights": {
+        "hierarchical": 0.3338282240631606,
+        "simple": 0.3331214904303585,
+        "unified": 0.33305028550648097
+      },
+      "ensemble_mse": 0.03233342625546178,
+      "method": "weighted_variant_ensemble",
+      "top_k": 3,
+      "all_variants": {
+        "simple": 0.03235398815013468,
+        "mc": 0.032837152713909745,
+        "hierarchical": 0.03228549286723137,
+        "enhanced": 0.03323857137002051,
+        "unified": 0.032360905315726995
+      }
+    }
+  }
+}

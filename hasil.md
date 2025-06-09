@@ -136,14 +136,14 @@ Visualisasi mendemonstrasikan kemampuan CortexFlow dalam merekonstruksi stimulus
 
 ## Metodologi Penelitian: Implementasi Komprehensif Semua Varian
 
-**VALIDASI EKSPERIMENTAL LENGKAP:** Penelitian ini mengimplementasikan dan melatih semua 6 varian CortexFlow:
+**VALIDASI EKSPERIMENTAL LENGKAP:** Penelitian ini mengimplementasikan dan melatih semua 5 varian CortexFlow plus ensemble utama:
 
 1. **CortexFlow-Simple**: Arsitektur fondasi encoder-decoder dengan regularisasi optimal
 2. **CortexFlow-MC**: Monte Carlo uncertainty quantification dengan dropout sistematis
 3. **CortexFlow-Hierarchical**: Multi-scale temporal processing dengan attention mechanism
 4. **CortexFlow-Enhanced**: Integrasi hierarchical + MC + feature alignment
 5. **CortexFlow-Unified**: Adaptive complexity mechanism dengan dual-pathway processing
-6. **CortexFlow-Ensemble**: Breakthrough adaptive multi-model integration dengan intelligent weighting
+6. **CortexFlow-Variant-Ensemble**: Intelligent variant selection ensemble (MODEL UTAMA)
 
 Semua varian dilatih pada 4 dataset neuroimaging (total 20 eksperimen) dengan protokol training yang konsisten. Hasil menunjukkan validasi empiris lengkap dari semua kemampuan framework dengan performance improvement 27.4% dibandingkan baseline, membuktikan efektivitas pendekatan unified architecture dalam neural decoding.
 
