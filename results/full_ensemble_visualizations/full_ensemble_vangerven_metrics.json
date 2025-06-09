@@ -1,0 +1,162 @@
+[
+  {
+    "sample": 1,
+    "ensemble_mse": 0.037645503878593445,
+    "ensemble_ssim": 0.4864421043066839,
+    "ensemble_uncertainty": 0.06573788821697235,
+    "best_individual_mse": 0.037645503878593445,
+    "best_individual_ssim": 0.4864421326634359,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      2.849565561291456e-08,
+      2.282511957218958e-09,
+      1.0,
+      2.6185054124994167e-09,
+      2.4168858026030193e-09
+    ]
+  },
+  {
+    "sample": 2,
+    "ensemble_mse": 0.014851285144686699,
+    "ensemble_ssim": 0.7213207251105596,
+    "ensemble_uncertainty": 0.03327728435397148,
+    "best_individual_mse": 0.014851284213364124,
+    "best_individual_ssim": 0.7213207904277331,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      4.781271911724616e-08,
+      3.4102412005410088e-09,
+      1.0,
+      3.848157348329551e-09,
+      3.6367595601660696e-09
+    ]
+  },
+  {
+    "sample": 3,
+    "ensemble_mse": 0.024636587128043175,
+    "ensemble_ssim": 0.6507313956491156,
+    "ensemble_uncertainty": 0.03402533382177353,
+    "best_individual_mse": 0.024636587128043175,
+    "best_individual_ssim": 0.6507313956491156,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      3.4053107555998e-11,
+      5.615688036114674e-13,
+      1.0,
+      7.474995015327446e-13,
+      7.502876900496169e-13
+    ]
+  },
+  {
+    "sample": 4,
+    "ensemble_mse": 0.027218028903007507,
+    "ensemble_ssim": 0.534177385073844,
+    "ensemble_uncertainty": 0.04549640789628029,
+    "best_individual_mse": 0.027218028903007507,
+    "best_individual_ssim": 0.5341773854894756,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      1.2401993876309803e-09,
+      4.922764626491549e-11,
+      1.0,
+      5.526732196892148e-11,
+      5.710594150332149e-11
+    ]
+  },
+  {
+    "sample": 5,
+    "ensemble_mse": 0.02322828769683838,
+    "ensemble_ssim": 0.6382215665007531,
+    "ensemble_uncertainty": 0.0428817942738533,
+    "best_individual_mse": 0.02322828769683838,
+    "best_individual_ssim": 0.6382215665007531,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      9.531867656287218e-11,
+      2.4912157840090154e-12,
+      1.0,
+      3.1119922177386128e-12,
+      3.159684536582774e-12
+    ]
+  },
+  {
+    "sample": 6,
+    "ensemble_mse": 0.028390539810061455,
+    "ensemble_ssim": 0.5349683283617828,
+    "ensemble_uncertainty": 0.04228658601641655,
+    "best_individual_mse": 0.028390539810061455,
+    "best_individual_ssim": 0.5349683906451375,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      6.666889618145433e-08,
+      5.503804967332826e-09,
+      0.9999998807907104,
+      6.137127694927358e-09,
+      5.7538618314367795e-09
+    ]
+  },
+  {
+    "sample": 7,
+    "ensemble_mse": 0.07045681774616241,
+    "ensemble_ssim": 0.36340900568031115,
+    "ensemble_uncertainty": 0.09697841107845306,
+    "best_individual_mse": 0.07045681774616241,
+    "best_individual_ssim": 0.36340901573301243,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      1.1730118387731636e-07,
+      7.584906036584016e-09,
+      0.9999998807907104,
+      7.891870268394996e-09,
+      8.759529990243209e-09
+    ]
+  },
+  {
+    "sample": 8,
+    "ensemble_mse": 0.04321754351258278,
+    "ensemble_ssim": 0.5660681865869084,
+    "ensemble_uncertainty": 0.06164299696683884,
+    "best_individual_mse": 0.04321754351258278,
+    "best_individual_ssim": 0.5660681865869084,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      9.9205066383945e-10,
+      4.131885111835487e-11,
+      1.0,
+      4.29764453191428e-11,
+      4.484365656587386e-11
+    ]
+  },
+  {
+    "sample": 9,
+    "ensemble_mse": 0.03309836611151695,
+    "ensemble_ssim": 0.5307927078199498,
+    "ensemble_uncertainty": 0.04914780706167221,
+    "best_individual_mse": 0.03309836611151695,
+    "best_individual_ssim": 0.5307927219189217,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      1.5382930484975077e-08,
+      8.569531750879378e-10,
+      1.0,
+      9.067886441727069e-10,
+      1.0190049914982069e-09
+    ]
+  },
+  {
+    "sample": 10,
+    "ensemble_mse": 0.021631240844726562,
+    "ensemble_ssim": 0.6742479740734614,
+    "ensemble_uncertainty": 0.04243658110499382,
+    "best_individual_mse": 0.021631240844726562,
+    "best_individual_ssim": 0.6742479878505172,
+    "best_individual_model": "Hierarchical",
+    "ensemble_weights": [
+      1.7731363044504178e-08,
+      1.0767047253779083e-09,
+      1.0,
+      1.091609691528106e-09,
+      1.2100014323834785e-09
+    ]
+  }
+]

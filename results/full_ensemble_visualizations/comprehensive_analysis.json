@@ -1,0 +1,650 @@
+{
+  "miyawaki": [
+    {
+      "sample": 1,
+      "ensemble_mse": 0.02200230211019516,
+      "ensemble_ssim": 0.9017244552777819,
+      "ensemble_uncertainty": 0.014110369607806206,
+      "best_individual_mse": 0.02200230211019516,
+      "best_individual_ssim": 0.9017244552777819,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        1.0,
+        5.831933983170752e-28,
+        8.457095037126036e-23,
+        2.5021410666542798e-26,
+        5.007478040717575e-28
+      ]
+    },
+    {
+      "sample": 2,
+      "ensemble_mse": 0.09597378969192505,
+      "ensemble_ssim": 0.6709251430208895,
+      "ensemble_uncertainty": 0.17210766673088074,
+      "best_individual_mse": 0.09600847959518433,
+      "best_individual_ssim": 0.6710202262682978,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        0.99885094165802,
+        6.636581383645535e-05,
+        0.0008626746712252498,
+        0.000148077990161255,
+        7.190542964963242e-05
+      ]
+    },
+    {
+      "sample": 3,
+      "ensemble_mse": 0.046328142285346985,
+      "ensemble_ssim": 0.5031093801689898,
+      "ensemble_uncertainty": 0.03362277150154114,
+      "best_individual_mse": 0.046328142285346985,
+      "best_individual_ssim": 0.5031093870258216,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        1.0,
+        1.545228389687736e-10,
+        3.5377009766079937e-08,
+        8.016207142524934e-10,
+        5.167642425085717e-10
+      ]
+    },
+    {
+      "sample": 4,
+      "ensemble_mse": 0.1815786510705948,
+      "ensemble_ssim": 0.16752170038118253,
+      "ensemble_uncertainty": 0.13600702583789825,
+      "best_individual_mse": 0.1815786510705948,
+      "best_individual_ssim": 0.16752170038118253,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        1.0,
+        2.232005848679905e-18,
+        1.8686673370249714e-14,
+        9.105272648994217e-17,
+        3.1654659350561958e-18
+      ]
+    },
+    {
+      "sample": 5,
+      "ensemble_mse": 0.020182346925139427,
+      "ensemble_ssim": 0.86680313995616,
+      "ensemble_uncertainty": 0.04596828669309616,
+      "best_individual_mse": 0.020182346925139427,
+      "best_individual_ssim": 0.8668031400793101,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        1.0,
+        5.609914456258282e-14,
+        3.727738603909181e-11,
+        1.186344967575581e-12,
+        7.145785428219059e-14
+      ]
+    },
+    {
+      "sample": 6,
+      "ensemble_mse": 0.07292584329843521,
+      "ensemble_ssim": 0.3589341441940505,
+      "ensemble_uncertainty": 0.07544320076704025,
+      "best_individual_mse": 0.07292584329843521,
+      "best_individual_ssim": 0.35893414470493096,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        1.0,
+        4.974393466583571e-11,
+        7.259496559441914e-09,
+        2.691353806483221e-10,
+        1.061856921835691e-10
+      ]
+    },
+    {
+      "sample": 7,
+      "ensemble_mse": 0.07511839270591736,
+      "ensemble_ssim": 0.3712128047754339,
+      "ensemble_uncertainty": 0.09824694693088531,
+      "best_individual_mse": 0.07511837780475616,
+      "best_individual_ssim": 0.3712134230753604,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        0.9999977350234985,
+        8.385246275111058e-08,
+        1.8133589492208557e-06,
+        2.3160711748460017e-07,
+        1.0402024486211303e-07
+      ]
+    },
+    {
+      "sample": 8,
+      "ensemble_mse": 0.020010510459542274,
+      "ensemble_ssim": 0.8764356458020851,
+      "ensemble_uncertainty": 0.023565707728266716,
+      "best_individual_mse": 0.020010510459542274,
+      "best_individual_ssim": 0.8764356458020851,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        1.0,
+        2.984650287335411e-12,
+        3.686349281384338e-10,
+        9.74970017914023e-12,
+        2.6636561879789245e-12
+      ]
+    },
+    {
+      "sample": 9,
+      "ensemble_mse": 0.17942391335964203,
+      "ensemble_ssim": 0.18467870028497083,
+      "ensemble_uncertainty": 1.8316967487335205,
+      "best_individual_mse": 0.17905285954475403,
+      "best_individual_ssim": 0.18873763263362597,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        0.9481512308120728,
+        0.008492783643305302,
+        0.024243375286459923,
+        0.01046153623610735,
+        0.008651051670312881
+      ]
+    },
+    {
+      "sample": 10,
+      "ensemble_mse": 0.06711089611053467,
+      "ensemble_ssim": 0.6741849832932467,
+      "ensemble_uncertainty": 0.08292248100042343,
+      "best_individual_mse": 0.06711089611053467,
+      "best_individual_ssim": 0.6741849840321454,
+      "best_individual_model": "Simple",
+      "ensemble_weights": [
+        1.0,
+        1.164520086263665e-12,
+        9.223360408761039e-10,
+        2.8244158747914305e-11,
+        2.8158404427602868e-12
+      ]
+    }
+  ],
+  "vangerven": [
+    {
+      "sample": 1,
+      "ensemble_mse": 0.037645503878593445,
+      "ensemble_ssim": 0.4864421043066839,
+      "ensemble_uncertainty": 0.06573788821697235,
+      "best_individual_mse": 0.037645503878593445,
+      "best_individual_ssim": 0.4864421326634359,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        2.849565561291456e-08,
+        2.282511957218958e-09,
+        1.0,
+        2.6185054124994167e-09,
+        2.4168858026030193e-09
+      ]
+    },
+    {
+      "sample": 2,
+      "ensemble_mse": 0.014851285144686699,
+      "ensemble_ssim": 0.7213207251105596,
+      "ensemble_uncertainty": 0.03327728435397148,
+      "best_individual_mse": 0.014851284213364124,
+      "best_individual_ssim": 0.7213207904277331,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        4.781271911724616e-08,
+        3.4102412005410088e-09,
+        1.0,
+        3.848157348329551e-09,
+        3.6367595601660696e-09
+      ]
+    },
+    {
+      "sample": 3,
+      "ensemble_mse": 0.024636587128043175,
+      "ensemble_ssim": 0.6507313956491156,
+      "ensemble_uncertainty": 0.03402533382177353,
+      "best_individual_mse": 0.024636587128043175,
+      "best_individual_ssim": 0.6507313956491156,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        3.4053107555998e-11,
+        5.615688036114674e-13,
+        1.0,
+        7.474995015327446e-13,
+        7.502876900496169e-13
+      ]
+    },
+    {
+      "sample": 4,
+      "ensemble_mse": 0.027218028903007507,
+      "ensemble_ssim": 0.534177385073844,
+      "ensemble_uncertainty": 0.04549640789628029,
+      "best_individual_mse": 0.027218028903007507,
+      "best_individual_ssim": 0.5341773854894756,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.2401993876309803e-09,
+        4.922764626491549e-11,
+        1.0,
+        5.526732196892148e-11,
+        5.710594150332149e-11
+      ]
+    },
+    {
+      "sample": 5,
+      "ensemble_mse": 0.02322828769683838,
+      "ensemble_ssim": 0.6382215665007531,
+      "ensemble_uncertainty": 0.0428817942738533,
+      "best_individual_mse": 0.02322828769683838,
+      "best_individual_ssim": 0.6382215665007531,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        9.531867656287218e-11,
+        2.4912157840090154e-12,
+        1.0,
+        3.1119922177386128e-12,
+        3.159684536582774e-12
+      ]
+    },
+    {
+      "sample": 6,
+      "ensemble_mse": 0.028390539810061455,
+      "ensemble_ssim": 0.5349683283617828,
+      "ensemble_uncertainty": 0.04228658601641655,
+      "best_individual_mse": 0.028390539810061455,
+      "best_individual_ssim": 0.5349683906451375,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        6.666889618145433e-08,
+        5.503804967332826e-09,
+        0.9999998807907104,
+        6.137127694927358e-09,
+        5.7538618314367795e-09
+      ]
+    },
+    {
+      "sample": 7,
+      "ensemble_mse": 0.07045681774616241,
+      "ensemble_ssim": 0.36340900568031115,
+      "ensemble_uncertainty": 0.09697841107845306,
+      "best_individual_mse": 0.07045681774616241,
+      "best_individual_ssim": 0.36340901573301243,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.1730118387731636e-07,
+        7.584906036584016e-09,
+        0.9999998807907104,
+        7.891870268394996e-09,
+        8.759529990243209e-09
+      ]
+    },
+    {
+      "sample": 8,
+      "ensemble_mse": 0.04321754351258278,
+      "ensemble_ssim": 0.5660681865869084,
+      "ensemble_uncertainty": 0.06164299696683884,
+      "best_individual_mse": 0.04321754351258278,
+      "best_individual_ssim": 0.5660681865869084,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        9.9205066383945e-10,
+        4.131885111835487e-11,
+        1.0,
+        4.29764453191428e-11,
+        4.484365656587386e-11
+      ]
+    },
+    {
+      "sample": 9,
+      "ensemble_mse": 0.03309836611151695,
+      "ensemble_ssim": 0.5307927078199498,
+      "ensemble_uncertainty": 0.04914780706167221,
+      "best_individual_mse": 0.03309836611151695,
+      "best_individual_ssim": 0.5307927219189217,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.5382930484975077e-08,
+        8.569531750879378e-10,
+        1.0,
+        9.067886441727069e-10,
+        1.0190049914982069e-09
+      ]
+    },
+    {
+      "sample": 10,
+      "ensemble_mse": 0.021631240844726562,
+      "ensemble_ssim": 0.6742479740734614,
+      "ensemble_uncertainty": 0.04243658110499382,
+      "best_individual_mse": 0.021631240844726562,
+      "best_individual_ssim": 0.6742479878505172,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.7731363044504178e-08,
+        1.0767047253779083e-09,
+        1.0,
+        1.091609691528106e-09,
+        1.2100014323834785e-09
+      ]
+    }
+  ],
+  "mindbigdata": [
+    {
+      "sample": 1,
+      "ensemble_mse": 0.04436299577355385,
+      "ensemble_ssim": 0.26750750263249945,
+      "ensemble_uncertainty": 0.05882791057229042,
+      "best_individual_mse": 0.04436299577355385,
+      "best_individual_ssim": 0.26750750263249945,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.0283220537024226e-13,
+        1.4785224368603356e-14,
+        1.0,
+        1.5167556067455928e-13,
+        3.0939379340845855e-14
+      ]
+    },
+    {
+      "sample": 2,
+      "ensemble_mse": 0.08183802664279938,
+      "ensemble_ssim": 0.20735919968504554,
+      "ensemble_uncertainty": 0.0576716884970665,
+      "best_individual_mse": 0.08183803409337997,
+      "best_individual_ssim": 0.20735914012561996,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        3.036086582142161e-07,
+        6.497545257388992e-08,
+        0.9999991655349731,
+        2.3877151988926926e-07,
+        1.2772804325322795e-07
+      ]
+    },
+    {
+      "sample": 3,
+      "ensemble_mse": 0.0647040456533432,
+      "ensemble_ssim": 0.22022861448282083,
+      "ensemble_uncertainty": 0.056766387075185776,
+      "best_individual_mse": 0.0647040456533432,
+      "best_individual_ssim": 0.22022861448282083,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        8.317571379283848e-37,
+        5.353286636262989e-39,
+        1.0,
+        3.609654443534198e-36,
+        3.782939168578033e-38
+      ]
+    },
+    {
+      "sample": 4,
+      "ensemble_mse": 0.08285665512084961,
+      "ensemble_ssim": 0.2078700395489077,
+      "ensemble_uncertainty": 0.06377460062503815,
+      "best_individual_mse": 0.08285665512084961,
+      "best_individual_ssim": 0.20787002562500984,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        9.045282212127859e-08,
+        1.1851370551596574e-08,
+        0.9999997615814209,
+        6.051855194755262e-08,
+        2.751046679350111e-08
+      ]
+    },
+    {
+      "sample": 5,
+      "ensemble_mse": 0.044895999133586884,
+      "ensemble_ssim": 0.257695360006625,
+      "ensemble_uncertainty": 0.05791604518890381,
+      "best_individual_mse": 0.04489593952894211,
+      "best_individual_ssim": 0.2576955055219289,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        2.6771747343445895e-06,
+        6.693421710224357e-07,
+        0.9999933242797852,
+        2.077162207569927e-06,
+        1.2139863656557282e-06
+      ]
+    },
+    {
+      "sample": 6,
+      "ensemble_mse": 0.06998198479413986,
+      "ensemble_ssim": 0.17813796673777868,
+      "ensemble_uncertainty": 0.05927472561597824,
+      "best_individual_mse": 0.06998198479413986,
+      "best_individual_ssim": 0.17813796673777868,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        2.7941361704697304e-15,
+        3.266637353529985e-16,
+        1.0,
+        4.459842343113073e-15,
+        7.399206547554289e-16
+      ]
+    },
+    {
+      "sample": 7,
+      "ensemble_mse": 0.06461111456155777,
+      "ensemble_ssim": 0.22160259537630445,
+      "ensemble_uncertainty": 0.05886365845799446,
+      "best_individual_mse": 0.06461111456155777,
+      "best_individual_ssim": 0.22160259537630445,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        4.2157895813860956e-19,
+        2.881790948501338e-20,
+        1.0,
+        7.861093890797565e-19,
+        8.053990729434311e-20
+      ]
+    },
+    {
+      "sample": 8,
+      "ensemble_mse": 0.06104224920272827,
+      "ensemble_ssim": 0.3125010250262503,
+      "ensemble_uncertainty": 0.05579257011413574,
+      "best_individual_mse": 0.06104224920272827,
+      "best_individual_ssim": 0.31250102598066354,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        5.150052384550463e-09,
+        9.412561841060096e-10,
+        1.0,
+        4.305730438858291e-09,
+        2.002660037803139e-09
+      ]
+    },
+    {
+      "sample": 9,
+      "ensemble_mse": 0.04838007315993309,
+      "ensemble_ssim": 0.24163928866571138,
+      "ensemble_uncertainty": 0.05766567587852478,
+      "best_individual_mse": 0.04838007315993309,
+      "best_individual_ssim": 0.24163929492916839,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        6.009985042965127e-08,
+        1.2287823203394055e-08,
+        0.9999997615814209,
+        4.899717964690353e-08,
+        2.4464583248118288e-08
+      ]
+    },
+    {
+      "sample": 10,
+      "ensemble_mse": 0.048057399690151215,
+      "ensemble_ssim": 0.16483515596704187,
+      "ensemble_uncertainty": 0.05559942498803139,
+      "best_individual_mse": 0.048057399690151215,
+      "best_individual_ssim": 0.16483516933123218,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        6.865229096320036e-08,
+        1.4668666281636433e-08,
+        0.9999997615814209,
+        5.636002597952938e-08,
+        2.881378868835327e-08
+      ]
+    }
+  ],
+  "crell": [
+    {
+      "sample": 1,
+      "ensemble_mse": 0.022759858518838882,
+      "ensemble_ssim": 0.2578199249639345,
+      "ensemble_uncertainty": 0.03677159175276756,
+      "best_individual_mse": 0.022759858518838882,
+      "best_individual_ssim": 0.2578199249639345,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.658927661907228e-09,
+        3.7355393084359534e-11,
+        1.0,
+        3.505274195902963e-11,
+        1.5499868055712795e-10
+      ]
+    },
+    {
+      "sample": 2,
+      "ensemble_mse": 0.02505485899746418,
+      "ensemble_ssim": 0.3386561367093116,
+      "ensemble_uncertainty": 0.03672215715050697,
+      "best_individual_mse": 0.02505485899746418,
+      "best_individual_ssim": 0.3386561367093116,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.679843819601956e-09,
+        3.764040468201557e-11,
+        1.0,
+        3.5342558740714125e-11,
+        1.5651677176542478e-10
+      ]
+    },
+    {
+      "sample": 3,
+      "ensemble_mse": 0.05297493562102318,
+      "ensemble_ssim": 0.4016780180997054,
+      "ensemble_uncertainty": 0.039225123822689056,
+      "best_individual_mse": 0.05297493562102318,
+      "best_individual_ssim": 0.4016780180997054,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        9.455725091811473e-11,
+        9.743119505634112e-12,
+        1.0,
+        8.128950637620314e-12,
+        2.0473126666198382e-11
+      ]
+    },
+    {
+      "sample": 4,
+      "ensemble_mse": 0.03375417739152908,
+      "ensemble_ssim": 0.4748814965055655,
+      "ensemble_uncertainty": 0.03649546578526497,
+      "best_individual_mse": 0.03375417739152908,
+      "best_individual_ssim": 0.4748814965055655,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.6011092451861941e-09,
+        3.568068063231067e-11,
+        1.0,
+        3.3505091062702164e-11,
+        1.4877872545060455e-10
+      ]
+    },
+    {
+      "sample": 5,
+      "ensemble_mse": 0.02816210500895977,
+      "ensemble_ssim": 0.40801630617544626,
+      "ensemble_uncertainty": 0.03877526894211769,
+      "best_individual_mse": 0.02816210500895977,
+      "best_individual_ssim": 0.40801630617544626,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        9.29846200037332e-11,
+        9.529245448280932e-12,
+        1.0,
+        7.953270854399452e-12,
+        2.0118504084898348e-11
+      ]
+    },
+    {
+      "sample": 6,
+      "ensemble_mse": 0.028072236105799675,
+      "ensemble_ssim": 0.41128166000307526,
+      "ensemble_uncertainty": 0.03686264157295227,
+      "best_individual_mse": 0.028072236105799675,
+      "best_individual_ssim": 0.41128166000307526,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.7294988774452236e-09,
+        3.889179950311572e-11,
+        1.0,
+        3.653644053969174e-11,
+        1.6152118531564952e-10
+      ]
+    },
+    {
+      "sample": 7,
+      "ensemble_mse": 0.024675851687788963,
+      "ensemble_ssim": 0.41778001356194056,
+      "ensemble_uncertainty": 0.03659440204501152,
+      "best_individual_mse": 0.024675851687788963,
+      "best_individual_ssim": 0.41778001356194056,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.634498536517981e-09,
+        3.635236903165584e-11,
+        1.0,
+        3.41356942712423e-11,
+        1.515774589178065e-10
+      ]
+    },
+    {
+      "sample": 8,
+      "ensemble_mse": 0.026616757735610008,
+      "ensemble_ssim": 0.25194098978844076,
+      "ensemble_uncertainty": 0.03845242038369179,
+      "best_individual_mse": 0.026616757735610008,
+      "best_individual_ssim": 0.25194098978844076,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        8.639984561131797e-11,
+        8.717034039040783e-12,
+        1.0,
+        7.281645772461154e-12,
+        1.8545066524100484e-11
+      ]
+    },
+    {
+      "sample": 9,
+      "ensemble_mse": 0.026336265727877617,
+      "ensemble_ssim": 0.2553255768728054,
+      "ensemble_uncertainty": 0.036446258425712585,
+      "best_individual_mse": 0.026336265727877617,
+      "best_individual_ssim": 0.2553255768728054,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.5200545266935706e-09,
+        3.368251511037812e-11,
+        1.0,
+        3.15991538490934e-11,
+        1.4081251442643605e-10
+      ]
+    },
+    {
+      "sample": 10,
+      "ensemble_mse": 0.049838077276945114,
+      "ensemble_ssim": 0.4304519424311531,
+      "ensemble_uncertainty": 0.03681300953030586,
+      "best_individual_mse": 0.049838077276945114,
+      "best_individual_ssim": 0.4304519424311531,
+      "best_individual_model": "Hierarchical",
+      "ensemble_weights": [
+        1.800814164454323e-09,
+        4.071761677826302e-11,
+        1.0,
+        3.826985256472071e-11,
+        1.6876146313737905e-10
+      ]
+    }
+  ]
+}
