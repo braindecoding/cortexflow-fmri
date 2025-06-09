@@ -26,7 +26,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 import json
+import sys
+import os
 from typing import Dict
+
+# Add src to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+from evaluation.comprehensive_metrics import ComprehensiveMetrics
 
 class CortexFlowVariantEnsemble:
     """
