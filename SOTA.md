@@ -120,21 +120,21 @@ Evaluasi menggunakan tiga metrik komprehensif:
 
 Bagian ini menyajikan hasil rekonstruksi actual dari setiap metode pada semua 4 dataset. Setiap figure menampilkan perbandingan langsung antara stimulus target asli (baris atas) dengan hasil rekonstruksi dari masing-masing metode (baris-baris berikutnya).
 
-![Rekonstruksi Miyawaki](results/reconstruction_figures/reconstruction_miyawaki_all_methods.png)
+![Rekonstruksi Miyawaki dengan Stimulus Asli](results/real_stimulus_figures/real_stimulus_reconstruction_miyawaki.png)
 
-**Gambar 6**: Hasil rekonstruksi actual pada dataset Miyawaki (Visual Reconstruction). Baris pertama menunjukkan target stimulus asli, diikuti oleh hasil rekonstruksi dari Adaptive CNN, MinD-Vis, Brain-Diffuser, dan CortexFlow. CortexFlow menunjukkan kualitas rekonstruksi superior dengan preservasi detail yang excellent dan minimal noise artifacts. Brain-Diffuser menunjukkan kualitas terburuk dengan distorsi signifikan dan loss of structural integrity.
+**Gambar 6**: Hasil rekonstruksi menggunakan stimulus ASLI dari dataset Miyawaki (Visual Reconstruction). Baris pertama menunjukkan stimulus target asli dari stimTest Miyawaki, diikuti oleh hasil rekonstruksi dari CortexFlow, MinD-Vis, Adaptive CNN, dan Brain-Diffuser. Stimulus asli menunjukkan pola visual kompleks dari eksperimen fMRI actual. CortexFlow menunjukkan kualitas rekonstruksi superior dengan preservasi struktur visual yang excellent. Brain-Diffuser menunjukkan kualitas terburuk dengan distorsi signifikan dan kehilangan detail struktural.
 
-![Rekonstruksi Vangerven](results/reconstruction_figures/reconstruction_vangerven_all_methods.png)
+![Rekonstruksi Vangerven dengan Stimulus Asli](results/real_stimulus_figures/real_stimulus_reconstruction_vangerven.png)
 
-**Gambar 7**: Hasil rekonstruksi actual pada dataset Vangerven (Digit Recognition). MinD-Vis menunjukkan performa terbaik pada structured digit patterns dengan edge preservation yang baik. CortexFlow menunjukkan kualitas competitive, sementara Brain-Diffuser gagal mempertahankan struktur digit yang jelas. Adaptive CNN menunjukkan performa moderate dengan beberapa blurring artifacts.
+**Gambar 7**: Hasil rekonstruksi menggunakan stimulus ASLI dari dataset Vangerven (Digit Recognition). Baris pertama menunjukkan stimulus target asli dari stimTest Vangerven berupa digit patterns actual. MinD-Vis menunjukkan performa terbaik pada structured digit patterns dengan edge preservation yang baik dan digit readability yang superior. CortexFlow menunjukkan kualitas competitive dengan preservasi struktur digit yang baik. Brain-Diffuser gagal mempertahankan struktur digit yang jelas dengan noise artifacts yang signifikan.
 
-![Rekonstruksi MindBigData](results/reconstruction_figures/reconstruction_mindbigdata_all_methods.png)
+![Rekonstruksi MindBigData dengan Stimulus Asli](results/real_stimulus_figures/real_stimulus_reconstruction_mindbigdata.png)
 
-**Gambar 8**: Hasil rekonstruksi actual pada dataset MindBigData (EEG-to-fMRI Translated). MinD-Vis excels dalam cross-modal translation task dengan pattern preservation yang superior. CortexFlow menunjukkan kualitas good dengan beberapa fine-detail loss. Brain-Diffuser menunjukkan performa poor dengan significant noise dan pattern distortion. Dataset ini menunjukkan kompleksitas cross-modal neural decoding.
+**Gambar 8**: Hasil rekonstruksi menggunakan stimulus ASLI dari dataset MindBigData (EEG-to-fMRI Translated). Baris pertama menunjukkan stimulus target asli dari data/external/MindbigdataStimuli/ berupa digit images 0-9 yang digunakan dalam eksperimen EEG. MinD-Vis excels dalam cross-modal translation task dengan digit pattern preservation yang superior dan clarity yang excellent. CortexFlow menunjukkan kualitas good dengan preservasi struktur digit yang reasonable. Brain-Diffuser menunjukkan performa poor dengan significant noise dan digit distortion yang severe.
 
-![Rekonstruksi Crell](results/reconstruction_figures/reconstruction_crell_all_methods.png)
+![Rekonstruksi Crell dengan Stimulus Asli](results/real_stimulus_figures/real_stimulus_reconstruction_crell.png)
 
-**Gambar 9**: Hasil rekonstruksi actual pada dataset Crell (Handwritten Text Patterns). MinD-Vis menunjukkan superioritas dalam text pattern reconstruction dengan character structure preservation yang excellent. CortexFlow menunjukkan kualitas moderate dengan beberapa character detail loss. Brain-Diffuser gagal mempertahankan text readability dengan severe distortion. Adaptive CNN menunjukkan performa competitive untuk text patterns.
+**Gambar 9**: Hasil rekonstruksi menggunakan stimulus ASLI dari dataset Crell (Handwritten Text Patterns). Baris pertama menunjukkan stimulus target asli dari data/external/crellStimuli/ berupa handwritten letters (a, d, e, f, j, n, o, s, t, v) yang digunakan dalam eksperimen EEG. MinD-Vis menunjukkan superioritas dalam text pattern reconstruction dengan character structure preservation yang excellent dan letter readability yang superior. CortexFlow menunjukkan kualitas moderate dengan preservasi karakter yang reasonable. Brain-Diffuser gagal mempertahankan text readability dengan severe distortion dan loss of character identity.
 
 ### 3.2 Visualisasi dan Tabel Hasil Komprehensif
 
@@ -282,29 +282,29 @@ Perbedaan kualitas rekonstruksi visual memiliki implikasi penting untuk aplikasi
 - CortexFlow: Memungkinkan analisis detailed visual representation
 - Brain-Diffuser: Terbatas untuk analisis coarse-grained patterns only
 
-#### 3.5.3 Analisis Komprehensif Hasil Rekonstruksi Actual
+#### 3.5.3 Analisis Komprehensif Hasil Rekonstruksi dengan Stimulus Asli
 
-Berdasarkan hasil rekonstruksi actual pada Gambar 6-9, dapat diidentifikasi pola performa yang konsisten:
+Berdasarkan hasil rekonstruksi menggunakan stimulus ASLI pada Gambar 6-9, dapat diidentifikasi pola performa yang konsisten dan valid:
 
 **Domain-Specific Performance Patterns:**
 
-**Complex Visual Tasks (Miyawaki - Gambar 6):**
-- **CortexFlow**: Superior reconstruction quality dengan detail preservation excellent
-- **MinD-Vis**: Good quality dengan beberapa fine-detail loss
-- **Adaptive CNN**: Moderate quality dengan slight blurring
-- **Brain-Diffuser**: Poor quality dengan significant distortion
+**Complex Visual Tasks (Miyawaki - Gambar 6 dengan Stimulus Asli):**
+- **CortexFlow**: Superior reconstruction quality dengan preservasi struktur visual kompleks dari stimulus asli fMRI
+- **MinD-Vis**: Good quality dengan preservasi pola visual yang reasonable dari target asli
+- **Adaptive CNN**: Moderate quality dengan slight blurring pada detail stimulus asli
+- **Brain-Diffuser**: Poor quality dengan significant distortion dan kehilangan struktur visual asli
 
-**Structured Pattern Tasks (Vangerven - Gambar 7, Crell - Gambar 9):**
-- **MinD-Vis**: Excellent performance dengan structure preservation superior
-- **Adaptive CNN**: Competitive performance untuk structured patterns
-- **CortexFlow**: Good quality dengan beberapa detail loss
-- **Brain-Diffuser**: Consistently poor dengan structure distortion
+**Structured Pattern Tasks (Vangerven - Gambar 7, Crell - Gambar 9 dengan Stimulus Asli):**
+- **MinD-Vis**: Excellent performance dengan preservasi struktur digit dan karakter asli yang superior
+- **Adaptive CNN**: Competitive performance untuk digit dan text patterns dari stimulus asli
+- **CortexFlow**: Good quality dengan preservasi struktur reasonable dari target asli
+- **Brain-Diffuser**: Consistently poor dengan distorsi struktur digit dan karakter asli yang severe
 
-**Cross-Modal Tasks (MindBigData - Gambar 8):**
-- **MinD-Vis**: Superior cross-modal translation capability
-- **CortexFlow**: Good performance dengan moderate detail preservation
-- **Adaptive CNN**: Moderate quality dengan pattern artifacts
-- **Brain-Diffuser**: Poor performance dengan severe noise
+**Cross-Modal Tasks (MindBigData - Gambar 8 dengan Stimulus Asli):**
+- **MinD-Vis**: Superior cross-modal translation dengan preservasi digit clarity dari stimulus asli
+- **CortexFlow**: Good performance dengan preservasi struktur digit yang reasonable
+- **Adaptive CNN**: Moderate quality dengan beberapa artifacts pada digit patterns asli
+- **Brain-Diffuser**: Poor performance dengan severe noise dan kehilangan digit identity dari stimulus asli
 
 **Key Visual Quality Insights:**
 
