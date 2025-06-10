@@ -20,16 +20,18 @@ warnings.filterwarnings('ignore')
 try:
     import lpips
     LPIPS_AVAILABLE = True
+    print("✅ LPIPS imported successfully")
 except ImportError:
     LPIPS_AVAILABLE = False
-    print("⚠️  LPIPS not available. Install with: pip install lpips")
+    print("❌ LPIPS not available. Install with: pip install lpips")
 
 try:
     import clip
     CLIP_AVAILABLE = True
+    print("✅ CLIP imported successfully")
 except ImportError:
     CLIP_AVAILABLE = False
-    print("⚠️  CLIP not available. Install with: pip install git+https://github.com/openai/CLIP.git")
+    print("❌ CLIP not available. Install with: pip install git+https://github.com/openai/CLIP.git")
 
 class ComprehensiveMetrics:
     """
