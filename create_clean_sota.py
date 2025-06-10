@@ -1,4 +1,25 @@
-# Perbandingan dengan Metode State-of-the-Art (SOTA)
+#!/usr/bin/env python3
+"""
+Create Clean SOTA.md for Dissertation
+====================================
+
+Membuat SOTA.md yang bersih dengan:
+1. Format yang benar
+2. Bahasa formal Indonesia
+3. Path gambar yang benar
+4. Tidak ada kata aneh hasil replacement
+5. Struktur yang rapi
+"""
+
+from pathlib import Path
+
+def create_clean_sota():
+    """Create clean SOTA.md with proper formatting"""
+    
+    print("MEMBUAT SOTA.md YANG BERSIH UNTUK DISERTASI")
+    print("=" * 60)
+    
+    content = """# Perbandingan dengan Metode State-of-the-Art (SOTA)
 
 ## Abstrak
 
@@ -18,7 +39,7 @@ Penelitian ini mengusulkan paradigma baru melalui CortexFlow yang menerapkan int
 
 Evaluasi dilakukan menggunakan **2 dataset asli** dengan pemetaan data yang benar untuk memastikan validasi yang komprehensif dan integritas ilmiah yang terjaga:
 
-**PENGATURAN TUGAS YANG TEPAT:**
+**PENGATURAN TUGAS YANG BENAR:**
 - **Input (X):** Sinyal neural fMRI
 - **Target (y):** Stimuli visual/gambar
 - **Tugas:** Neural decoding - rekonstruksi fMRI menuju visual
@@ -213,3 +234,34 @@ Evaluasi komprehensif terhadap metode state-of-the-art menggunakan **pemetaan da
 ---
 
 **FINAL DECLARATION:** *Penelitian ini menggunakan pemetaan data yang benar (sinyal fMRI menuju stimuli visual) untuk memastikan scientific validity. Evaluasi dilakukan pada 2 dataset utama (Miyawaki, Vangerven) dengan protokol identical untuk semua metode. Semua hasil computed dari actual model predictions dengan honest performance reporting tanpa inflated claims. Scientific integrity dijaga melalui transparent acknowledgment of limitations dan domain-dependent performance patterns. Penelitian ini mematuhi highest standards of etika akademik dan transparency dalam neural decoding research.*
+"""
+    
+    # Write to file
+    sota_path = Path("SOTA.md")
+    with open(sota_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+    
+    print("SOTA.md yang bersih telah dibuat")
+    return True
+
+def main():
+    """Main execution"""
+    
+    print("MEMBUAT SOTA.md BERSIH UNTUK DISERTASI")
+    print("Format yang benar, bahasa formal, path gambar yang tepat")
+    print("=" * 70)
+    
+    success = create_clean_sota()
+    
+    if success:
+        print("\nSOTA.md BERSIH BERHASIL DIBUAT!")
+        print("- Format yang rapi dan terstruktur")
+        print("- Bahasa formal Indonesia")
+        print("- Path gambar yang benar")
+        print("- Tidak ada kata aneh hasil replacement")
+        print("- Siap untuk laporan disertasi")
+    else:
+        print("\nGAGAL MEMBUAT SOTA.md BERSIH")
+
+if __name__ == "__main__":
+    main()
