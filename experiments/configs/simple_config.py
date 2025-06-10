@@ -1,6 +1,0 @@
-# Simple CortexFlow Configuration
-BATCH_SIZE = 16
-LEARNING_RATE = 1e-3
-NUM_EPOCHS = 50
-PATIENCE = 15
-WEIGHT_DECAY = 1e-4
