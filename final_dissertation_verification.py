@@ -102,10 +102,12 @@ def verify_complete_reconstruction_figures():
     with open(sota_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Expected complete reconstruction figures
+    # Expected complete reconstruction figures with labels
     expected_figures = [
-        "complete_reconstruction_miyawaki_dissertation.png",
-        "complete_reconstruction_vangerven_dissertation.png"
+        "labeled_reconstruction_miyawaki_dissertation.png",
+        "labeled_reconstruction_vangerven_dissertation.png",
+        "labeled_reconstruction_mindbigdata_dissertation.png",
+        "labeled_reconstruction_crell_dissertation.png"
     ]
     
     figures_found = []
@@ -129,10 +131,10 @@ def verify_complete_reconstruction_figures():
         if desc in content:
             descriptions_found.append(desc)
     
-    print(f"   Figure lengkap: {len(figures_found)}/2")
+    print(f"   Figure lengkap: {len(figures_found)}/4")
     print(f"   Keterangan metode: {len(descriptions_found)}/4")
-    
-    if len(figures_found) == 2 and len(descriptions_found) >= 3:
+
+    if len(figures_found) == 4 and len(descriptions_found) >= 3:
         print("   LULUS: Figure rekonstruksi lengkap dengan keterangan")
         return True
     else:
