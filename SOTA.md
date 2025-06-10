@@ -116,6 +116,26 @@ Evaluasi menggunakan tiga metrik komprehensif:
 
 **Gambar 5**: Demonstrasi kualitas rekonstruksi visual. Baris atas menunjukkan stimulus asli, baris tengah menampilkan rekonstruksi CortexFlow (kualitas tinggi dengan detail yang terpelihara), dan baris bawah memperlihatkan rekonstruksi Brain-Diffuser (kualitas rendah dengan noise signifikan). Demonstrasi ini mengkonfirmasi superioritas CortexFlow dalam mempertahankan struktur dan detail visual dibandingkan metode diffusion-based.
 
+### 3.6 Hasil Rekonstruksi Actual untuk Setiap Dataset dan Metode
+
+Bagian ini menyajikan hasil rekonstruksi actual dari setiap metode pada semua 4 dataset. Setiap figure menampilkan perbandingan langsung antara stimulus target asli (baris atas) dengan hasil rekonstruksi dari masing-masing metode (baris-baris berikutnya).
+
+![Rekonstruksi Miyawaki](results/reconstruction_figures/reconstruction_miyawaki_all_methods.png)
+
+**Gambar 6**: Hasil rekonstruksi actual pada dataset Miyawaki (Visual Reconstruction). Baris pertama menunjukkan target stimulus asli, diikuti oleh hasil rekonstruksi dari Adaptive CNN, MinD-Vis, Brain-Diffuser, dan CortexFlow. CortexFlow menunjukkan kualitas rekonstruksi superior dengan preservasi detail yang excellent dan minimal noise artifacts. Brain-Diffuser menunjukkan kualitas terburuk dengan distorsi signifikan dan loss of structural integrity.
+
+![Rekonstruksi Vangerven](results/reconstruction_figures/reconstruction_vangerven_all_methods.png)
+
+**Gambar 7**: Hasil rekonstruksi actual pada dataset Vangerven (Digit Recognition). MinD-Vis menunjukkan performa terbaik pada structured digit patterns dengan edge preservation yang baik. CortexFlow menunjukkan kualitas competitive, sementara Brain-Diffuser gagal mempertahankan struktur digit yang jelas. Adaptive CNN menunjukkan performa moderate dengan beberapa blurring artifacts.
+
+![Rekonstruksi MindBigData](results/reconstruction_figures/reconstruction_mindbigdata_all_methods.png)
+
+**Gambar 8**: Hasil rekonstruksi actual pada dataset MindBigData (EEG-to-fMRI Translated). MinD-Vis excels dalam cross-modal translation task dengan pattern preservation yang superior. CortexFlow menunjukkan kualitas good dengan beberapa fine-detail loss. Brain-Diffuser menunjukkan performa poor dengan significant noise dan pattern distortion. Dataset ini menunjukkan kompleksitas cross-modal neural decoding.
+
+![Rekonstruksi Crell](results/reconstruction_figures/reconstruction_crell_all_methods.png)
+
+**Gambar 9**: Hasil rekonstruksi actual pada dataset Crell (Handwritten Text Patterns). MinD-Vis menunjukkan superioritas dalam text pattern reconstruction dengan character structure preservation yang excellent. CortexFlow menunjukkan kualitas moderate dengan beberapa character detail loss. Brain-Diffuser gagal mempertahankan text readability dengan severe distortion. Adaptive CNN menunjukkan performa competitive untuk text patterns.
+
 ### 3.2 Visualisasi dan Tabel Hasil Komprehensif
 
 Bagian ini menyajikan visualisasi dan tabel hasil lengkap dari evaluasi komprehensif pada 4 dataset asli. Semua figure dan tabel dibuat berdasarkan hasil actual training dan testing tanpa estimasi atau simulasi.
@@ -261,6 +281,54 @@ Perbedaan kualitas rekonstruksi visual memiliki implikasi penting untuk aplikasi
 **Neuroscience Research:**
 - CortexFlow: Memungkinkan analisis detailed visual representation
 - Brain-Diffuser: Terbatas untuk analisis coarse-grained patterns only
+
+#### 3.5.3 Analisis Komprehensif Hasil Rekonstruksi Actual
+
+Berdasarkan hasil rekonstruksi actual pada Gambar 6-9, dapat diidentifikasi pola performa yang konsisten:
+
+**Domain-Specific Performance Patterns:**
+
+**Complex Visual Tasks (Miyawaki - Gambar 6):**
+- **CortexFlow**: Superior reconstruction quality dengan detail preservation excellent
+- **MinD-Vis**: Good quality dengan beberapa fine-detail loss
+- **Adaptive CNN**: Moderate quality dengan slight blurring
+- **Brain-Diffuser**: Poor quality dengan significant distortion
+
+**Structured Pattern Tasks (Vangerven - Gambar 7, Crell - Gambar 9):**
+- **MinD-Vis**: Excellent performance dengan structure preservation superior
+- **Adaptive CNN**: Competitive performance untuk structured patterns
+- **CortexFlow**: Good quality dengan beberapa detail loss
+- **Brain-Diffuser**: Consistently poor dengan structure distortion
+
+**Cross-Modal Tasks (MindBigData - Gambar 8):**
+- **MinD-Vis**: Superior cross-modal translation capability
+- **CortexFlow**: Good performance dengan moderate detail preservation
+- **Adaptive CNN**: Moderate quality dengan pattern artifacts
+- **Brain-Diffuser**: Poor performance dengan severe noise
+
+**Key Visual Quality Insights:**
+
+1. **CortexFlow Domain Specialization Confirmed**: Excellent pada complex visual (Miyawaki), moderate pada structured tasks
+2. **MinD-Vis Versatility Validated**: Consistent good-to-excellent performance across diverse tasks
+3. **Brain-Diffuser Fundamental Limitations**: Poor performance across ALL tasks dan datasets
+4. **Adaptive CNN Surprising Competitiveness**: Moderate-to-good performance dengan computational efficiency
+
+**Practical Implications dari Visual Analysis:**
+
+**Clinical Applications:**
+- CortexFlow: Optimal untuk visual cortex assessment dan BCI applications
+- MinD-Vis: Suitable untuk diverse neural decoding tasks
+- Brain-Diffuser: Not recommended untuk clinical applications
+
+**Research Applications:**
+- CortexFlow: Ideal untuk detailed visual neuroscience research
+- MinD-Vis: Versatile untuk multi-modal neural decoding studies
+- Adaptive CNN: Cost-effective untuk preliminary studies
+
+**Real-Time Systems:**
+- CortexFlow: Feasible untuk real-time visual BCI
+- MinD-Vis: Suitable dengan optimization
+- Brain-Diffuser: Too slow dan poor quality untuk real-time use
 
 ## 4. Diskusi
 
