@@ -102,10 +102,10 @@ def verify_complete_reconstruction_figures():
     with open(sota_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Expected authentic reconstruction figures
+    # Expected high-quality reconstruction figures
     expected_figures = [
-        "authentic_reconstruction_miyawaki_dissertation.png",
-        "authentic_reconstruction_vangerven_dissertation.png"
+        "high_quality_reconstruction_miyawaki_dissertation.png",
+        "high_quality_reconstruction_vangerven_dissertation.png"
     ]
     
     figures_found = []
@@ -129,7 +129,7 @@ def verify_complete_reconstruction_figures():
         if desc.lower() in content.lower():
             descriptions_found.append(desc)
     
-    print(f"   Figure autentik: {len(figures_found)}/2")
+    print(f"   Figure berkualitas tinggi: {len(figures_found)}/2")
     print(f"   Keterangan metode: {len(descriptions_found)}/4")
 
     if len(figures_found) == 2 and len(descriptions_found) >= 3:

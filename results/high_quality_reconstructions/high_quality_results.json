@@ -1,0 +1,14 @@
+{
+  "miyawaki": {
+    "Adaptive_CNN": 0.015355812385678291,
+    "MinD_Vis": 0.026356684044003487,
+    "Brain_Diffuser": 0.02715573087334633,
+    "CortexFlow_Enhanced": 0.039992932230234146
+  },
+  "vangerven": {
+    "Adaptive_CNN": 0.0421067513525486,
+    "MinD_Vis": 0.041517388075590134,
+    "Brain_Diffuser": 0.04754520580172539,
+    "CortexFlow_Enhanced": 0.04697562754154205
+  }
+}
