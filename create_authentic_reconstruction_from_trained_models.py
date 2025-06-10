@@ -180,7 +180,23 @@ def load_dataset_properly(dataset_name, num_samples=8):
         y_train = torch.tensor(data['stimTrn'], dtype=torch.float32)
         X_test = torch.tensor(data['fmriTest'], dtype=torch.float32)
         y_test = torch.tensor(data['stimTest'], dtype=torch.float32)
-        
+
+    elif dataset_name == 'mindbigdata':
+        mat_file = data_path / "mindbigdata.mat"
+        data = sio.loadmat(str(mat_file))
+        X_train = torch.tensor(data['fmriTrn'], dtype=torch.float32)
+        y_train = torch.tensor(data['stimTrn'], dtype=torch.float32)
+        X_test = torch.tensor(data['fmriTest'], dtype=torch.float32)
+        y_test = torch.tensor(data['stimTest'], dtype=torch.float32)
+
+    elif dataset_name == 'crell':
+        mat_file = data_path / "crell.mat"
+        data = sio.loadmat(str(mat_file))
+        X_train = torch.tensor(data['fmriTrn'], dtype=torch.float32)
+        y_train = torch.tensor(data['stimTrn'], dtype=torch.float32)
+        X_test = torch.tensor(data['fmriTest'], dtype=torch.float32)
+        y_test = torch.tensor(data['stimTest'], dtype=torch.float32)
+
     else:
         print(f"❌ Dataset {dataset_name} not supported")
         return None, None, None, None, 0
@@ -188,15 +204,20 @@ def load_dataset_properly(dataset_name, num_samples=8):
     # Normalisasi yang benar (sama dengan training sukses)
     X_train = (X_train - X_train.mean()) / (X_train.std() + 1e-8)
     X_test = (X_test - X_test.mean()) / (X_test.std() + 1e-8)
-    
+
     if dataset_name == 'miyawaki':
         y_train = y_train.view(-1, 1, 28, 28)
         y_test = y_test.view(-1, 1, 28, 28)
         y_train = (y_train - y_train.min()) / (y_train.max() - y_train.min() + 1e-8)
         y_test = (y_test - y_test.min()) / (y_test.max() - y_test.min() + 1e-8)
-    else:  # vangerven
+    elif dataset_name == 'vangerven':
         y_train = y_train.view(-1, 1, 28, 28) / 255.0
         y_test = y_test.view(-1, 1, 28, 28) / 255.0
+    else:  # mindbigdata, crell
+        y_train = y_train.view(-1, 1, 28, 28)
+        y_test = y_test.view(-1, 1, 28, 28)
+        y_train = (y_train - y_train.min()) / (y_train.max() - y_train.min() + 1e-8)
+        y_test = (y_test - y_test.min()) / (y_test.max() - y_test.min() + 1e-8)
     
     # Ambil sampel untuk rekonstruksi
     max_samples = min(num_samples, len(X_test))
@@ -310,7 +331,9 @@ def create_high_quality_reconstruction_figure(dataset_name):
     # Dataset titles
     dataset_titles = {
         'miyawaki': 'Miyawaki (Rekonstruksi Visual Kompleks)',
-        'vangerven': 'Vangerven (Rekonstruksi Pola Digit)'
+        'vangerven': 'Vangerven (Rekonstruksi Pola Digit)',
+        'mindbigdata': 'MindBigData (EEG→fMRI→Visual)',
+        'crell': 'Crell (EEG→fMRI→Visual)'
     }
     
     fig.suptitle(f'Hasil Rekonstruksi Neural Decoding BERKUALITAS TINGGI - Dataset {dataset_titles[dataset_name]}\n'
@@ -355,7 +378,7 @@ def main():
     print("🚫 BUKAN training cepat atau simulasi")
     print("✅ Arsitektur dan hyperparameter yang sudah terbukti sukses")
     
-    datasets = ['miyawaki', 'vangerven']
+    datasets = ['miyawaki', 'vangerven', 'mindbigdata', 'crell']
     output_dir = Path("results/high_quality_reconstructions")
     output_dir.mkdir(parents=True, exist_ok=True)
     
