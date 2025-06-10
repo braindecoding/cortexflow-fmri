@@ -102,12 +102,12 @@ def verify_complete_reconstruction_figures():
     with open(sota_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Expected high-quality reconstruction figures for all 4 datasets
+    # Expected WSL GPU reconstruction figures for all 4 datasets
     expected_figures = [
-        "high_quality_reconstruction_miyawaki_dissertation.png",
-        "high_quality_reconstruction_vangerven_dissertation.png",
-        "high_quality_reconstruction_mindbigdata_dissertation.png",
-        "high_quality_reconstruction_crell_dissertation.png"
+        "wsl_gpu_reconstruction_miyawaki_dissertation.png",
+        "wsl_gpu_reconstruction_vangerven_dissertation.png",
+        "wsl_gpu_reconstruction_mindbigdata_dissertation.png",
+        "wsl_gpu_reconstruction_crell_dissertation.png"
     ]
     
     figures_found = []
@@ -131,7 +131,7 @@ def verify_complete_reconstruction_figures():
         if desc.lower() in content.lower():
             descriptions_found.append(desc)
     
-    print(f"   Figure berkualitas tinggi: {len(figures_found)}/4")
+    print(f"   Figure WSL GPU: {len(figures_found)}/4")
     print(f"   Keterangan metode: {len(descriptions_found)}/4")
 
     if len(figures_found) == 4 and len(descriptions_found) >= 3:
