@@ -330,6 +330,32 @@ Berdasarkan hasil rekonstruksi actual pada Gambar 6-9, dapat diidentifikasi pola
 - MinD-Vis: Suitable dengan optimization
 - Brain-Diffuser: Too slow dan poor quality untuk real-time use
 
+## 4. Analisis Komprehensif Tambahan
+
+### 4.1 Tabel Performa Lengkap Semua Metode
+
+![Tabel Performa Lengkap](results/additional_figures/table_1_complete_performance.png)
+
+**Tabel 1**: Tabel performa lengkap semua metode pada semua dataset. Tabel menampilkan hasil comprehensive evaluation dengan ranking berdasarkan MSE untuk setiap dataset. CortexFlow methods dihighlight dengan background ungu, SOTA methods dengan background hijau, dan baseline methods dengan background abu-abu. Tabel ini memberikan overview lengkap performa semua metode across 4 datasets dengan metrik MSE, PSNR, dan SSIM.
+
+### 4.2 Analisis Efisiensi Komputasi
+
+![Efisiensi Komputasi](results/additional_figures/figure_10_computational_efficiency.png)
+
+**Gambar 10**: Perbandingan efisiensi komputasi semua metode. Panel kiri menunjukkan training time (menit), panel tengah memory usage (GB), dan panel kanan inference time (ms). CortexFlow menunjukkan efisiensi yang baik dengan training time moderate (20 menit), memory usage reasonable (2.8 GB), dan inference time cepat (15 ms). Brain-Diffuser menunjukkan computational cost tertinggi dengan training time 120 menit, memory usage 8.2 GB, dan inference time 85 ms, mengkonfirmasi ketidakpraktisan untuk aplikasi real-time.
+
+### 4.3 Karakteristik Dataset
+
+![Karakteristik Dataset](results/additional_figures/table_2_dataset_characteristics.png)
+
+**Tabel 2**: Karakteristik dan spesifikasi lengkap semua 4 dataset. Tabel menunjukkan modalitas, jumlah sampel, dimensi fitur, kompleksitas task, dan sumber data. Color coding berdasarkan kompleksitas: merah muda untuk high complexity (Miyawaki, MindBigData), orange muda untuk medium complexity (Vangerven, Crell). Dataset menunjukkan diversity yang baik untuk comprehensive evaluation dengan variasi modalitas (fMRI, EEG), task types (natural images, digits, cross-modal, text), dan complexity levels.
+
+### 4.4 Penilaian Aplikasi Praktis
+
+![Aplikasi Praktis](results/additional_figures/table_3_practical_applications.png)
+
+**Tabel 3**: Matriks penilaian aplikasi praktis semua metode. Evaluasi mencakup clinical BCI suitability, real-time systems capability, research applications potential, computational cost, data requirements, dan deployment ease. Color coding: hijau untuk excellent/good, kuning untuk moderate, merah untuk poor. CortexFlow-Enhanced menunjukkan profile terbaik untuk clinical BCI dan research applications dengan computational cost moderate. Brain-Diffuser menunjukkan limitations across semua aspek praktis.
+
 ## 4. Diskusi
 
 ### 4.1 Superioritas Paradigma Intelligent Variant Selection
