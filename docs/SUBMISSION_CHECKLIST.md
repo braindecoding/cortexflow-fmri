@@ -34,10 +34,11 @@
 - [ ] Clean code structure
 
 ### Reproducibility
-- [ ] Clear installation instructions
-- [ ] Documented system requirements
-- [ ] Expected results specified
+- [ ] Clear installation instructions (using existing WSL environment)
+- [ ] Documented system requirements (WSL2 + GPU)
+- [ ] Expected results specified (MSE ranges, training times)
 - [ ] Troubleshooting guide included
+- [ ] No virtual environment setup required
 
 ### Scientific Integrity
 - [ ] All results from actual training
@@ -55,10 +56,11 @@
 ## Submission Package
 
 The clean submission package contains only essential files for:
-1. **Reproducibility**: Complete training pipeline
+1. **Reproducibility**: Complete training pipeline (using existing WSL environment)
 2. **Verification**: Result validation scripts
 3. **Documentation**: Comprehensive methodology
 4. **Transparency**: Full source code access
 
+**Environment**: Uses existing WSL environment (no virtual env setup)
 **Total package size**: ~50MB (excluding large dataset files)
 **Estimated reproduction time**: 1-2 hours

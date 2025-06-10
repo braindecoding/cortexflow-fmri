@@ -28,11 +28,12 @@ cortexflow-fmri/
 ```
 
 ## Key Features
-✅ **Reproducible**: Complete training pipeline
+✅ **Reproducible**: Complete training pipeline (using existing WSL environment)
 ✅ **Clean**: No unnecessary files
 ✅ **Documented**: Comprehensive guides
 ✅ **Verified**: All results authentic
 ✅ **Ready**: Submission-ready package
+✅ **Simple Setup**: No virtual environment needed
 
 ## Next Steps
 1. Verify all functionality works
