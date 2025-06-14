@@ -1,27 +1,27 @@
-# 🧠 CortexFlow: Brain-Computer Interface using Monte Carlo Neural Networks
+# CortexFlow: Brain-Computer Interface using Monte Carlo Neural Networks
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🎯 Overview
+## Overview
 
 CortexFlow is a state-of-the-art brain-computer interface system that uses Monte Carlo neural networks for fMRI-to-image reconstruction with uncertainty quantification.
 
-## 🏗️ Architecture
+## Architecture
 
 - **Monte Carlo Simple CortexFlow**: Basic architecture with dropout-based uncertainty
-- **Hierarchical CortexFlow**: Multi-level processing architecture  
+- **Hierarchical CortexFlow**: Multi-level processing architecture
 - **Enhanced Hierarchical CortexFlow**: Advanced architecture with attention mechanisms
 
-## 📊 Datasets Supported
+## Datasets Supported
 
 1. **Miyawaki** (Visual Cortex fMRI): 967 → 784 dimensions
 2. **Vangerven** (Digit Recognition fMRI): 3092 → 784 dimensions
 3. **MindBigData** (EEG-based): 3092 → 784 dimensions
 4. **Crell** (Advanced fMRI): 3092 → 784 dimensions
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 ```bash
@@ -30,36 +30,98 @@ cd cortexflow-fmri
 pip install -r requirements.txt
 ```
 
-### Run All Experiments
+### Run Training
 ```bash
-python run_experiments.py
+python train.py
 ```
 
-### Run Individual Tests
+### Run Tests
 ```bash
-# Reproducibility test
-python tests/test_full_reproducibility.py
-
-# Individual dataset training
-python experiments/train_remaining_datasets.py
+python test.py
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 cortexflow-fmri/
 ├── src/
 │   ├── models/           # Neural network architectures
+│   ├── training/         # Training utilities
+│   ├── evaluation/       # Evaluation scripts
 │   └── utils/            # Utility functions
-├── experiments/          # Experiment scripts
-├── tests/               # Test suites
 ├── results/             # Training results and models
 ├── data/                # Dataset storage
 ├── configs/             # Configuration files
-└── scripts/             # Utility scripts
+├── train.py             # Main training script
+├── test.py              # Reproducibility test
+└── verify.py            # Verification script
 ```
 
-## 🔬 Reproducibility
+## System Requirements
+
+### Hardware
+- **GPU**: NVIDIA GeForce RTX 3060 (12.9GB) or equivalent
+- **RAM**: Minimum 16GB
+- **Storage**: 10GB free space
+
+### Software
+- **OS**: Windows 11 with WSL2 (Ubuntu 20.04+)
+- **Python**: 3.8+ (use existing WSL environment)
+- **CUDA**: 12.8+
+- **PyTorch**: 2.0+ with CUDA support
+
+## Data Preparation
+
+### Required Datasets
+- `data/processed/miyawaki_structured_28x28.mat`
+- `data/processed/digit69_28x28.mat`
+- `data/processed/mindbigdata.mat`
+- `data/processed/crell.mat`
+
+### Data Format
+Each .mat file contains:
+- `fmriTrn`: Training fMRI data
+- `stimTrn`: Training stimuli
+- `fmriTest`: Test fMRI data
+- `stimTest`: Test stimuli
+
+## Reproduction Steps
+
+### 1. WSL GPU Training
+```bash
+# Enter WSL environment (if not already in WSL)
+wsl
+
+# Navigate to project directory
+cd "/mnt/c/Users/Windows 11/Documents/cortexflow-fmri"
+
+# Run complete training
+python train.py
+```
+
+### 2. Expected Results
+Training will generate:
+- `results/wsl_gpu_training/wsl_gpu_training_results.json`
+- 4 reconstruction figures (PNG files)
+
+### 3. Verification
+```bash
+python test.py
+```
+
+## Expected Performance
+
+### MSE Results (WSL GPU Training)
+- **Miyawaki**: 0.0176-0.0809
+- **Vangerven**: 0.0438-0.0533
+- **MindBigData**: 0.0556-0.0675
+- **Crell**: 0.0288-0.0519
+
+### Training Time
+- **Total**: ~45-60 minutes on RTX 3060
+- **Per Dataset**: ~10-15 minutes
+
+## Reproducibility
 
 This project ensures perfect reproducibility through:
 - Fixed random seeds (seed=42)
@@ -67,21 +129,22 @@ This project ensures perfect reproducibility through:
 - Comprehensive testing suite
 - Version-controlled configurations
 
-## 📈 Results
+## Results
 
 All models achieve excellent performance with perfect reproducibility:
 - **100% reproducibility** across all tests
 - **4/4 datasets** successfully trained
 - **Comprehensive uncertainty quantification**
 
-## 🤝 Contributing
+## Troubleshooting
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests: `python -m pytest tests/`
-5. Submit a pull request
+### Common Issues
+1. **CUDA not available**: Verify GPU drivers and CUDA installation in WSL
+2. **Out of memory**: Reduce batch size in training script
+3. **WSL issues**: Ensure WSL2 with GPU support enabled
+4. **Missing packages**: Install only specific missing packages with pip
+5. **Environment conflicts**: Use existing WSL environment, no virtual env needed
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

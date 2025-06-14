@@ -19,13 +19,10 @@ def test_file_structure():
     
     essential_files = [
         'README.md',
-        'SOTA.md', 
+        'SOTA.md',
         'requirements.txt',
-        'wsl_gpu_complete_training.py',
-        'final_dissertation_verification.py',
-        'docs/REPRODUCIBILITY.md',
-        'docs/SUBMISSION_CHECKLIST.md',
-        'PROJECT_SUMMARY.md'
+        'train.py',
+        'verify.py'
     ]
     
     essential_dirs = [
@@ -33,8 +30,6 @@ def test_file_structure():
         'src/models',
         'src/training',
         'results/wsl_gpu_training',
-        'results/complete_4dataset_figures',
-        'docs',
         'configs'
     ]
     
