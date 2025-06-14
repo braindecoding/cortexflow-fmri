@@ -244,7 +244,7 @@ def load_dataset_gpu_optimized(dataset_name, device='cuda'):
     
     return X_train, y_train, X_test, y_test, input_dim
 
-def gpu_optimized_training(model, X_train, y_train, X_val, y_val, epochs=150, lr=0.001, batch_size=64):
+def gpu_optimized_training(model, X_train, y_train, X_val, y_val, epochs=150, lr=0.001, batch_size=64, patience=35):
     """GPU-optimized training dengan mixed precision"""
     
     print(f"🔥 GPU Training {model.name} dengan mixed precision...")
@@ -263,7 +263,7 @@ def gpu_optimized_training(model, X_train, y_train, X_val, y_val, epochs=150, lr
     model.train()
     best_loss = float('inf')
     patience_counter = 0
-    patience = 25
+    # Use passed patience parameter
     
     start_time = time.time()
     
@@ -347,13 +347,24 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device='cuda'):
         OptimizedCortexFlow(input_dim, device)
     ]
     
-    # GPU-optimized training configs
-    training_configs = [
-        {'epochs': 120, 'lr': 0.001, 'batch_size': 64},   # CNN
-        {'epochs': 150, 'lr': 0.0008, 'batch_size': 64},  # MinD-Vis
-        {'epochs': 80, 'lr': 0.002, 'batch_size': 64},    # Brain-Diffuser
-        {'epochs': 180, 'lr': 0.0005, 'batch_size': 64}   # CortexFlow
-    ]
+    # GPU-optimized training configs (increased epochs for deeper training)
+    # Adaptive learning rates for different datasets
+    if dataset_name == 'mindbigdata':
+        # Lower learning rates for MindBigData to prevent NaN
+        training_configs = [
+            {'epochs': 200, 'lr': 0.0005, 'batch_size': 64, 'patience': 40},   # CNN (reduced LR)
+            {'epochs': 250, 'lr': 0.0006, 'batch_size': 64, 'patience': 45},   # MinD-Vis
+            {'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'patience': 30},    # Brain-Diffuser (reduced LR)
+            {'epochs': 300, 'lr': 0.0003, 'batch_size': 64, 'patience': 50}    # CortexFlow (reduced LR)
+        ]
+    else:
+        # Standard learning rates for other datasets
+        training_configs = [
+            {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},   # CNN
+            {'epochs': 250, 'lr': 0.0008, 'batch_size': 64, 'patience': 45},  # MinD-Vis
+            {'epochs': 150, 'lr': 0.002, 'batch_size': 64, 'patience': 30},   # Brain-Diffuser
+            {'epochs': 300, 'lr': 0.0005, 'batch_size': 64, 'patience': 50}   # CortexFlow
+        ]
     
     reconstructions = []
     mse_results = []
