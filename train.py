@@ -489,6 +489,162 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
     print(f"✅ Comprehensive metrics visualization saved: {viz_path}")
     return viz_path
 
+def create_statistical_significance_matrix_visualization(statistical_summaries, output_dir):
+    """
+    Create statistical significance matrix visualization dengan T-test results
+
+    Args:
+        statistical_summaries: Dictionary dengan CV results untuk each dataset
+        output_dir: Output directory untuk save visualization
+
+    Returns:
+        Path to saved visualization
+    """
+    print(f"\n📊 CREATING STATISTICAL SIGNIFICANCE MATRIX VISUALIZATION")
+    print("=" * 70)
+
+    # Import required libraries
+    import seaborn as sns
+    from scipy import stats
+
+    # Extract CV results data
+    datasets = list(statistical_summaries.keys())
+    methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
+
+    # Create comprehensive figure
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    fig.suptitle('Statistical Significance Matrix Analysis\n'
+                'T-Test Results, P-Values, Effect Sizes, and Winner Matrix',
+                fontsize=16, fontweight='bold')
+
+    # Prepare data for all datasets combined
+    all_cv_data = {}
+    for method in methods:
+        all_cv_data[method] = []
+        for dataset in datasets:
+            if 'cv_results' in statistical_summaries[dataset]:
+                cv_results = statistical_summaries[dataset]['cv_results']
+                if method in cv_results:
+                    all_cv_data[method].extend(cv_results[method])
+
+    # 1. P-Value Matrix (Top Left)
+    ax1 = axes[0, 0]
+    n_methods = len(methods)
+    p_value_matrix = np.ones((n_methods, n_methods))
+
+    for i in range(n_methods):
+        for j in range(n_methods):
+            if i != j and methods[i] in all_cv_data and methods[j] in all_cv_data:
+                if len(all_cv_data[methods[i]]) > 0 and len(all_cv_data[methods[j]]) > 0:
+                    # Paired t-test
+                    min_len = min(len(all_cv_data[methods[i]]), len(all_cv_data[methods[j]]))
+                    scores1 = all_cv_data[methods[i]][:min_len]
+                    scores2 = all_cv_data[methods[j]][:min_len]
+
+                    try:
+                        _, p_value = stats.ttest_rel(scores1, scores2)
+                        p_value_matrix[i, j] = p_value
+                    except:
+                        p_value_matrix[i, j] = 1.0
+
+    # Create p-value heatmap
+    sns.heatmap(p_value_matrix, annot=True, fmt='.4f', cmap='RdYlBu_r',
+                xticklabels=[m.replace('_', ' ') for m in methods],
+                yticklabels=[m.replace('_', ' ') for m in methods],
+                ax=ax1, cbar_kws={'label': 'P-Value'})
+    ax1.set_title('P-Value Matrix (Paired T-Test)\nLower values = More significant')
+    ax1.set_xlabel('Method B')
+    ax1.set_ylabel('Method A')
+
+    # 2. Effect Size Matrix (Top Right)
+    ax2 = axes[0, 1]
+    effect_size_matrix = np.zeros((n_methods, n_methods))
+
+    for i in range(n_methods):
+        for j in range(n_methods):
+            if i != j and methods[i] in all_cv_data and methods[j] in all_cv_data:
+                if len(all_cv_data[methods[i]]) > 0 and len(all_cv_data[methods[j]]) > 0:
+                    min_len = min(len(all_cv_data[methods[i]]), len(all_cv_data[methods[j]]))
+                    scores1 = np.array(all_cv_data[methods[i]][:min_len])
+                    scores2 = np.array(all_cv_data[methods[j]][:min_len])
+
+                    # Cohen's d for paired samples
+                    diff = scores1 - scores2
+                    cohens_d = np.mean(diff) / (np.std(diff) + 1e-8)
+                    effect_size_matrix[i, j] = cohens_d
+
+    # Create effect size heatmap
+    sns.heatmap(effect_size_matrix, annot=True, fmt='.3f', cmap='RdBu_r', center=0,
+                xticklabels=[m.replace('_', ' ') for m in methods],
+                yticklabels=[m.replace('_', ' ') for m in methods],
+                ax=ax2, cbar_kws={'label': "Cohen's d"})
+    ax2.set_title("Effect Size Matrix (Cohen's d)\nPositive = Method A better")
+    ax2.set_xlabel('Method B')
+    ax2.set_ylabel('Method A')
+
+    # 3. Significance Matrix (Bottom Left)
+    ax3 = axes[1, 0]
+    significance_matrix = np.zeros((n_methods, n_methods))
+
+    for i in range(n_methods):
+        for j in range(n_methods):
+            p_val = p_value_matrix[i, j]
+            if p_val < 0.001:
+                significance_matrix[i, j] = 3  # ***
+            elif p_val < 0.01:
+                significance_matrix[i, j] = 2  # **
+            elif p_val < 0.05:
+                significance_matrix[i, j] = 1  # *
+            else:
+                significance_matrix[i, j] = 0  # ns
+
+    # Create significance level heatmap
+    sns.heatmap(significance_matrix, annot=True, fmt='.0f', cmap='Reds',
+                xticklabels=[m.replace('_', ' ') for m in methods],
+                yticklabels=[m.replace('_', ' ') for m in methods],
+                ax=ax3, cbar_kws={'label': 'Significance Level'})
+    ax3.set_title('Significance Level Matrix\n0=ns, 1=*, 2=**, 3=***')
+    ax3.set_xlabel('Method B')
+    ax3.set_ylabel('Method A')
+
+    # 4. Winner Matrix (Bottom Right)
+    ax4 = axes[1, 1]
+    winner_matrix = np.zeros((n_methods, n_methods))
+
+    for i in range(n_methods):
+        for j in range(n_methods):
+            if i != j and methods[i] in all_cv_data and methods[j] in all_cv_data:
+                if len(all_cv_data[methods[i]]) > 0 and len(all_cv_data[methods[j]]) > 0:
+                    mean_i = np.mean(all_cv_data[methods[i]])
+                    mean_j = np.mean(all_cv_data[methods[j]])
+
+                    # Winner determination (lower MSE is better)
+                    if mean_i < mean_j and p_value_matrix[i, j] < 0.05:
+                        winner_matrix[i, j] = 1  # Method A wins significantly
+                    elif mean_j < mean_i and p_value_matrix[i, j] < 0.05:
+                        winner_matrix[i, j] = -1  # Method B wins significantly
+                    else:
+                        winner_matrix[i, j] = 0  # No significant difference
+
+    # Create winner matrix heatmap
+    sns.heatmap(winner_matrix, annot=True, fmt='.0f', cmap='RdBu', center=0,
+                xticklabels=[m.replace('_', ' ') for m in methods],
+                yticklabels=[m.replace('_', ' ') for m in methods],
+                ax=ax4, cbar_kws={'label': 'Winner'})
+    ax4.set_title('Winner Matrix (Significant Differences)\n1=Row Wins, -1=Column Wins, 0=No Sig Diff')
+    ax4.set_xlabel('Method B')
+    ax4.set_ylabel('Method A')
+
+    plt.tight_layout()
+
+    # Save visualization
+    viz_path = output_dir / "statistical_significance_matrix.png"
+    fig.savefig(viz_path, dpi=300, bbox_inches='tight', facecolor='white')
+    plt.close(fig)
+
+    print(f"✅ Statistical significance matrix visualization saved: {viz_path}")
+    return viz_path
+
 def create_cv_reconstruction_figure(dataset_name, reconstructions, mse_results, y_test):
     """Create reconstruction figure untuk CV results"""
 
@@ -648,6 +804,11 @@ def main():
             comprehensive_viz_path = create_comprehensive_metrics_visualization(statistical_summaries, output_dir)
             print(f"✅ Comprehensive metrics visualization saved: {comprehensive_viz_path}")
 
+        # Create statistical significance matrix visualization
+        if any('cv_results' in stats for stats in statistical_summaries.values()):
+            significance_viz_path = create_statistical_significance_matrix_visualization(statistical_summaries, output_dir)
+            print(f"✅ Statistical significance matrix visualization saved: {significance_viz_path}")
+
     # Save results
     results_file = output_dir / "comprehensive_training_results.json"
     with open(results_file, 'w') as f:
@@ -701,6 +862,7 @@ def main():
     print(f"🎨 Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.png")
     print(f"📊 Statistical visualization: comprehensive_statistical_analysis.png")
     print(f"📊 Comprehensive metrics visualization: comprehensive_metrics_visualization.png")
+    print(f"📊 Statistical significance matrix: statistical_significance_matrix.png")
     print(f"🕒 End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     print(f"\n🎓 ACADEMIC METHODOLOGY ACHIEVED:")
