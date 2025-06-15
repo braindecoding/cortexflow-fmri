@@ -45,6 +45,123 @@ import pandas as pd
 torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.deterministic = False
 
+def hyperparameter_grid_search(model_class, X_train, y_train, X_val, y_val, input_dim, device='cuda'):
+    """Comprehensive hyperparameter grid search for target MSE 0.008"""
+
+    print("🔍 HYPERPARAMETER GRID SEARCH FOR TARGET MSE 0.008")
+    print("=" * 80)
+
+    # Define hyperparameter combinations to test
+    test_combinations = [
+        # Conservative approaches (proven stable)
+        {'learning_rate': 0.0005, 'batch_size': 16, 'epochs': 150, 'weight_decay': 1e-4, 'patience': 50},
+        {'learning_rate': 0.0003, 'batch_size': 20, 'epochs': 200, 'weight_decay': 1e-4, 'patience': 60},
+
+        # Aggressive approaches (faster learning)
+        {'learning_rate': 0.001, 'batch_size': 12, 'epochs': 120, 'weight_decay': 1e-5, 'patience': 40},
+        {'learning_rate': 0.0008, 'batch_size': 16, 'epochs': 150, 'weight_decay': 1e-5, 'patience': 50},
+
+        # Balanced approaches
+        {'learning_rate': 0.0005, 'batch_size': 20, 'epochs': 150, 'weight_decay': 1e-4, 'patience': 50},
+        {'learning_rate': 0.0008, 'batch_size': 24, 'epochs': 120, 'weight_decay': 1e-4, 'patience': 40},
+
+        # High regularization (prevent overfitting)
+        {'learning_rate': 0.0003, 'batch_size': 16, 'epochs': 200, 'weight_decay': 1e-3, 'patience': 60},
+
+        # Low regularization (maximum learning)
+        {'learning_rate': 0.002, 'batch_size': 8, 'epochs': 80, 'weight_decay': 1e-5, 'patience': 30},
+
+        # Extended training
+        {'learning_rate': 0.0005, 'batch_size': 16, 'epochs': 250, 'weight_decay': 1e-4, 'patience': 80},
+
+        # Small batch intensive
+        {'learning_rate': 0.0008, 'batch_size': 8, 'epochs': 180, 'weight_decay': 1e-4, 'patience': 60}
+    ]
+
+    best_mse = float('inf')
+    best_params = {}
+    results = []
+
+    for i, params in enumerate(test_combinations):
+        print(f"\n🔄 Testing combination {i+1}/{len(test_combinations)}")
+        print(f"   Params: LR={params['learning_rate']}, BS={params['batch_size']}, E={params['epochs']}, WD={params['weight_decay']}, P={params['patience']}")
+
+        try:
+            # Create fresh model
+            model = model_class(input_dim, device)
+
+            # Train with current parameters
+            from train import gpu_optimized_training  # Import here to avoid circular import
+
+            # Use the main training function
+            best_loss = gpu_optimized_training(
+                model, X_train, y_train, X_val, y_val,
+                epochs=params['epochs'],
+                lr=params['learning_rate'],
+                batch_size=params['batch_size'],
+                patience=params['patience']
+            )
+
+            # Evaluate final performance
+            model.eval()
+            with torch.no_grad():
+                test_output = model(X_val)
+                if isinstance(test_output, tuple):
+                    test_output = test_output[0]
+                final_mse = nn.MSELoss()(test_output, y_val).item()
+
+            results.append({
+                'params': params.copy(),
+                'mse': final_mse,
+                'training_loss': best_loss
+            })
+
+            print(f"   ✅ Final MSE: {final_mse:.6f}")
+
+            # Check if this is the best so far
+            if final_mse < best_mse:
+                best_mse = final_mse
+                best_params = params.copy()
+                print(f"   🎉 NEW BEST: {final_mse:.6f}")
+
+                # Check if target achieved
+                if final_mse <= 0.008:
+                    print(f"   🎯 TARGET ACHIEVED! MSE {final_mse:.6f} ≤ 0.008")
+                    break
+
+        except Exception as e:
+            print(f"   ❌ Error with params {params}: {e}")
+            results.append({
+                'params': params.copy(),
+                'mse': float('inf'),
+                'training_loss': float('inf'),
+                'error': str(e)
+            })
+
+    # Print results summary
+    print(f"\n🏆 HYPERPARAMETER OPTIMIZATION RESULTS:")
+    print(f"   Best MSE: {best_mse:.6f}")
+    print(f"   Best Params: {best_params}")
+    print(f"   Target MSE: 0.008000")
+
+    if best_mse <= 0.008:
+        print(f"   🎯 TARGET ACHIEVED!")
+    else:
+        gap = ((best_mse - 0.008) / 0.008) * 100
+        print(f"   ⚠️  {gap:.1f}% away from target")
+
+    # Sort results by MSE
+    valid_results = [r for r in results if r['mse'] != float('inf')]
+    valid_results.sort(key=lambda x: x['mse'])
+
+    print(f"\n📊 TOP 3 CONFIGURATIONS:")
+    for i, result in enumerate(valid_results[:3]):
+        params = result['params']
+        print(f"   {i+1}. MSE: {result['mse']:.6f}")
+        print(f"      LR={params['learning_rate']}, BS={params['batch_size']}, E={params['epochs']}, WD={params['weight_decay']}")
+
+    return best_params, best_mse, results
+
 class MiyawakiAdvancedCortexFlow(nn.Module):
     """CortexFlow-Enhanced: BASIC MIYAWAKI-OPTIMIZED (PROVEN BEST MSE: 0.017682)"""
 
