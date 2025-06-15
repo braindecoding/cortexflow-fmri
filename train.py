@@ -1073,6 +1073,7 @@ def main():
 
                 # Create reconstruction visualization
                 X_train, y_train, X_test, y_test, input_dim = load_dataset_gpu_optimized(dataset, device)
+                recon_figure_path = None
                 if reconstructions and len(reconstructions) > 0:
                     fig = create_cv_reconstruction_figure(dataset, reconstructions, mse_results, y_test)
 
@@ -1081,6 +1082,7 @@ def main():
                     recon_filepath = output_dir / recon_filename
                     fig.savefig(recon_filepath, format='svg', bbox_inches='tight', facecolor='white')
                     plt.close(fig)
+                    recon_figure_path = recon_filename  # Store relative path for markdown
                     print(f"💾 Reconstruction saved: {recon_filepath}")
 
                     # Compute comprehensive evaluation metrics
@@ -1095,6 +1097,11 @@ def main():
                 # T-test analysis dengan real CV data
                 ttest_results = comprehensive_ttest_analysis(cv_results, dataset, output_dir)
 
+                # Prepare figure information for markdown report
+                figures_info = {}
+                if recon_figure_path:
+                    figures_info['reconstruction_figure'] = recon_figure_path
+
                 # Generate comprehensive markdown report for this dataset
                 try:
                     report_path = create_statistical_analysis_report(
@@ -1102,7 +1109,8 @@ def main():
                         cv_results=cv_results,
                         full_results=full_results,
                         comprehensive_metrics=comprehensive_metrics,
-                        output_dir=output_dir
+                        output_dir=output_dir,
+                        figures_info=figures_info
                     )
                     print(f"📝 Dataset report saved: {report_path}")
                 except Exception as e:
@@ -1128,19 +1136,23 @@ def main():
             traceback.print_exc()
     
     # Create comprehensive statistical visualization
+    summary_figures = {}
     if all_results:
         print(f"\n📈 CREATING COMPREHENSIVE STATISTICAL VISUALIZATION")
         viz_path = create_statistical_visualization(all_results, output_dir)
+        summary_figures['overall_statistical'] = "comprehensive_statistical_analysis.svg"
         print(f"✅ Statistical visualization saved: {viz_path}")
 
         # Create comprehensive metrics visualization
         if any('comprehensive_metrics' in stats for stats in statistical_summaries.values()):
             comprehensive_viz_path = create_comprehensive_metrics_visualization(statistical_summaries, output_dir)
+            summary_figures['comprehensive_metrics'] = "comprehensive_metrics_visualization.svg"
             print(f"✅ Comprehensive metrics visualization saved: {comprehensive_viz_path}")
 
         # Create statistical significance matrix visualization
         if any('cv_results' in stats for stats in statistical_summaries.values()):
             significance_viz_path = create_statistical_significance_matrix_visualization(statistical_summaries, output_dir)
+            summary_figures['significance_matrix'] = "statistical_significance_matrix.svg"
             print(f"✅ Statistical significance matrix visualization saved: {significance_viz_path}")
 
         # Create overall method performance visualization
@@ -1183,13 +1195,14 @@ def main():
             comprehensive_metrics_only[dataset] = stats.get('comprehensive_metrics', {})
         json.dump(comprehensive_metrics_only, f, indent=2)
     
-    # Generate comprehensive training summary report
+    # Generate comprehensive training summary report with figures
     try:
         summary_path = create_comprehensive_training_summary(
             all_results=all_results,
             all_cv_results=all_cv_results,
             all_metrics=statistical_summaries,
-            output_dir=output_dir
+            output_dir=output_dir,
+            summary_figures=summary_figures
         )
         print(f"📋 Comprehensive training summary saved: {summary_path}")
     except Exception as e:
