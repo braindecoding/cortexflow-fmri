@@ -1,6 +1,6 @@
-# Statistical Analysis Report: VANGERVEN
+# Statistical Analysis Report: CRELL
 
-**Generated:** 2025-06-16 05:37:44  
+**Generated:** 2025-06-16 06:44:59  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -8,7 +8,7 @@
 
 ## 📊 Executive Summary
 
-This report presents comprehensive statistical analysis results for the **VANGERVEN** dataset using robust cross-validation methodology and statistical significance testing.
+This report presents comprehensive statistical analysis results for the **CRELL** dataset using robust cross-validation methodology and statistical significance testing.
 
 ### Key Findings
 - **Cross-Validation Methodology:** 3-fold cross-validation with data shuffling
@@ -30,11 +30,11 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.054648 | 0.054128 | 0.051054 | 0.053277 ± 0.001586 |
-| MinD Vis | 0.057902 | 0.047904 | 0.049962 | 0.051923 ± 0.004310 |
-| Brain Diffuser | 0.053120 | 0.057095 | 0.055196 | 0.055137 ± 0.001624 |
-| CortexFlow Multi-Pathway | 0.062580 | 0.059467 | 0.064335 | 0.062128 ± 0.002013 |
-| CortexFlow Ensemble | 0.047691 | 0.047392 | 0.046401 | 0.047161 ± 0.000551 |
+| Baseline CNN | 0.032562 | 0.032348 | 0.033207 | 0.032705 ± 0.000365 |
+| MinD Vis | 0.032356 | 0.032358 | 0.032900 | 0.032538 ± 0.000256 |
+| Brain Diffuser | 0.032701 | 0.032530 | 0.033205 | 0.032812 ± 0.000287 |
+| CortexFlow Multi-Pathway | 0.032335 | 0.032264 | 0.033022 | 0.032540 ± 0.000342 |
+| CortexFlow Ensemble | 0.032597 | 0.032336 | 0.033040 | 0.032658 ± 0.000291 |
 
 
 ---
@@ -50,33 +50,33 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 
 **Baseline CNN:**
-- t-statistic: 25.212
-- p-value: 0.001569 **
-- Mean MSE: 0.053277
+- t-statistic: 29.830
+- p-value: 0.001122 **
+- Mean MSE: 0.032705
 - Interpretation: ❌ Not significantly better
 
 **MinD Vis:**
-- t-statistic: 8.833
-- p-value: 0.012575 *
-- Mean MSE: 0.051923
+- t-statistic: 41.629
+- p-value: 0.000577 ***
+- Mean MSE: 0.032538
 - Interpretation: ❌ Not significantly better
 
 **Brain Diffuser:**
-- t-statistic: 26.251
-- p-value: 0.001448 **
-- Mean MSE: 0.055137
+- t-statistic: 38.549
+- p-value: 0.000672 ***
+- Mean MSE: 0.032812
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Multi-Pathway:**
-- t-statistic: 26.083
-- p-value: 0.001467 **
-- Mean MSE: 0.062128
+- t-statistic: 31.209
+- p-value: 0.001025 **
+- Mean MSE: 0.032540
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Ensemble:**
-- t-statistic: 56.843
-- p-value: 0.000309 ***
-- Mean MSE: 0.047161
+- t-statistic: 37.236
+- p-value: 0.000720 ***
+- Mean MSE: 0.032658
 - Interpretation: ❌ Not significantly better
 
 
@@ -90,18 +90,18 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.042198 | 13.75 | 0.4746 | 0.1545 |
-| MinD Vis | 0.041867 | 13.78 | 0.4290 | 0.2236 |
-| Brain Diffuser | 0.042707 | 13.69 | 0.3976 | 0.2086 |
-| CortexFlow Multi-Pathway | 0.054291 | 12.65 | 0.2444 | 0.3379 |
-| CortexFlow Ensemble | 0.041881 | 13.78 | 0.4336 | 0.1922 |
+| Baseline CNN | 0.029182 | 15.35 | 0.2355 | 0.3290 |
+| MinD Vis | 0.029063 | 15.37 | 0.2321 | 0.3313 |
+| Brain Diffuser | 0.029348 | 15.32 | 0.2358 | 0.3180 |
+| CortexFlow Multi-Pathway | 0.028864 | 15.40 | 0.2350 | 0.3277 |
+| CortexFlow Ensemble | 0.029321 | 15.33 | 0.2322 | 0.3389 |
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** MinD Vis (0.041867)
-- **PSNR (Higher is Better):** MinD Vis (13.78 dB)
-- **SSIM (Higher is Better):** Baseline CNN (0.4746)
-- **LPIPS (Lower is Better):** Baseline CNN (0.1545)
+- **MSE (Lower is Better):** CortexFlow Multi-Pathway (0.028864)
+- **PSNR (Higher is Better):** CortexFlow Multi-Pathway (15.40 dB)
+- **SSIM (Higher is Better):** Brain Diffuser (0.2358)
+- **LPIPS (Lower is Better):** Brain Diffuser (0.3180)
 
 
 ---
@@ -113,9 +113,9 @@ This section presents the comprehensive visual analysis generated during trainin
 
 
 #### Reconstruction Analysis
-**Figure 1:** Comprehensive reconstruction comparison showing original targets vs model predictions for VANGERVEN dataset.
+**Figure 1:** Comprehensive reconstruction comparison showing original targets vs model predictions for CRELL dataset.
 
-![Reconstruction Analysis](../cv_reconstruction_vangerven_comprehensive.svg)
+![Reconstruction Analysis](../cv_reconstruction_crell_comprehensive.svg)
 
 *Figure 1: Visual reconstruction comparison across all models. Shows original target images (top row) and reconstructions from each model with corresponding MSE scores. This visualization demonstrates the qualitative performance differences between methods.*
 
@@ -139,11 +139,11 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| MinD Vis | 0.041867 | 🥇 Best |
-| CortexFlow Ensemble | 0.041881 | 🥈 Second |
-| Baseline CNN | 0.042198 | 🥉 Third |
-| Brain Diffuser | 0.042707 | #4 |
-| CortexFlow Multi Pathway | 0.054291 | #5 |
+| CortexFlow Multi Pathway | 0.028864 | 🥇 Best |
+| MinD Vis | 0.029063 | 🥈 Second |
+| Baseline CNN | 0.029182 | 🥉 Third |
+| CortexFlow Ensemble | 0.029321 | #4 |
+| Brain Diffuser | 0.029348 | #5 |
 
 
 ---

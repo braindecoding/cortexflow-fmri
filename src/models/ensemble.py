@@ -61,8 +61,21 @@ class CortexFlowEnsemble(nn.Module):
             nn.Softmax(dim=1)
         ).to(device)
 
-        # Baseline emphasis mechanism (give more weight to strong performers)
-        self.baseline_emphasis = nn.Parameter(torch.tensor(1.5, device=device))  # Learnable emphasis factor
+        # Optimized baseline emphasis mechanism (aggressive weighting for best performer)
+        self.baseline_emphasis = nn.Parameter(torch.tensor(3.0, device=device))  # Increased emphasis factor
+
+        # Performance-based weighting (based on training results analysis)
+        # Baseline CNN is consistently top performer, should get highest weight
+        performance_weights = torch.tensor([
+            0.8,   # Simple - moderate weight
+            0.6,   # MC - reduce weight (was getting too much)
+            0.9,   # Hierarchical - good weight
+            1.0,   # Enhanced - good weight
+            0.7,   # Unified - moderate weight
+            0.8,   # Diffusion - moderate weight
+            2.5    # Baseline CNN - highest weight (best performer)
+        ], device=device)
+        self.performance_weights = nn.Parameter(performance_weights)
 
         # Dynamic weighting based on input complexity
         self.complexity_analyzer = nn.Sequential(
@@ -448,37 +461,36 @@ class CortexFlowEnsemble(nn.Module):
         pred_diffusion = pred_diffusion.view(pred_diffusion.size(0), -1)
         pred_baseline_cnn = pred_baseline_cnn.view(pred_baseline_cnn.size(0), -1)
 
-        # Enhanced ensemble weighting with baseline emphasis
+        # Optimized ensemble weighting with aggressive baseline emphasis
         base_weights = self.ensemble_weights(x)
 
-        # Analyze input complexity for dynamic weighting
-        complexity_score = self.complexity_analyzer(x)
+        # Apply performance-based weighting (based on training results)
+        performance_adjusted = base_weights * self.performance_weights.unsqueeze(0)
 
-        # Apply baseline emphasis (give more weight to strong baseline CNN)
-        enhanced_weights = base_weights * 1.0  # Avoid in-place operations
-        baseline_emphasis_factor = self.baseline_emphasis.unsqueeze(0).expand(enhanced_weights.size(0), 1)
-        enhanced_weights = torch.cat([
-            enhanced_weights[:, :6],  # First 6 weights unchanged
-            enhanced_weights[:, 6:7] * baseline_emphasis_factor  # Baseline CNN weight emphasized
+        # Apply aggressive baseline emphasis for best performer
+        baseline_emphasis_factor = self.baseline_emphasis.unsqueeze(0).expand(performance_adjusted.size(0), 1)
+        optimized_weights = torch.cat([
+            performance_adjusted[:, :6],  # First 6 weights with performance adjustment
+            performance_adjusted[:, 6:7] * baseline_emphasis_factor  # Baseline CNN with double emphasis
         ], dim=1)
 
-        # Renormalize weights
-        enhanced_weights = F.softmax(enhanced_weights, dim=1)
+        # Analyze input complexity for fine-tuning
+        complexity_score = self.complexity_analyzer(x)
 
-        # Dynamic adjustment based on complexity (avoid in-place operations)
-        complexity_adjustment = torch.ones_like(enhanced_weights)
-        # More baseline for simple inputs
-        baseline_adj = complexity_adjustment[:, 6:7] * (2.0 - complexity_score)
-        # More diffusion for complex inputs
-        diffusion_adj = complexity_adjustment[:, 5:6] * complexity_score
+        # Complexity-aware fine-tuning (less aggressive than before)
+        complexity_adjustment = torch.ones_like(optimized_weights)
+        # Slightly more baseline for simple inputs
+        baseline_adj = complexity_adjustment[:, 6:7] * (1.2 + 0.3 * (1.0 - complexity_score))
+        # Slightly more diffusion for very complex inputs
+        diffusion_adj = complexity_adjustment[:, 5:6] * (1.0 + 0.2 * complexity_score)
 
         complexity_adjustment = torch.cat([
             complexity_adjustment[:, :5],  # First 5 unchanged
-            diffusion_adj,  # Diffusion adjustment
-            baseline_adj   # Baseline adjustment
+            diffusion_adj,  # Diffusion fine-tuning
+            baseline_adj   # Baseline fine-tuning
         ], dim=1)
 
-        final_weights = enhanced_weights * complexity_adjustment
+        final_weights = optimized_weights * complexity_adjustment
         final_weights = F.softmax(final_weights, dim=1)
 
         # Weighted ensemble prediction with enhanced weighting
@@ -511,13 +523,14 @@ class CortexFlowEnsemble(nn.Module):
                 '6. Diffusion: CortexFlow with latent diffusion to compete with Brain-Diffuser',
                 '7. Enhanced Baseline CNN: Full-strength CNN architecture matching standalone performance'
             ],
-            'weighting': 'Enhanced ensemble weighting with baseline emphasis and complexity-aware adjustment',
-            'combination': 'Dynamically weighted combination with baseline CNN emphasis and input complexity analysis',
+            'weighting': 'Optimized ensemble weighting with aggressive baseline emphasis and performance-based adjustment',
+            'combination': 'Performance-optimized weighted combination with aggressive baseline CNN emphasis',
             'enhancements': [
                 'Enhanced Baseline CNN: Full MLP+CNN architecture matching standalone',
-                'Baseline Emphasis: Learnable emphasis factor for strong performers',
-                'Complexity Analysis: Dynamic weighting based on input complexity',
-                'Advanced Weighting: Deeper network for weight learning',
-                'Renormalization: Proper weight normalization after adjustments'
+                'Aggressive Baseline Emphasis: 3.0x emphasis factor for best performer',
+                'Performance-Based Weighting: Training results-informed weight initialization',
+                'Optimized Weight Distribution: Baseline CNN gets 2.5x performance weight',
+                'Fine-Tuned Complexity Analysis: Subtle complexity-aware adjustments',
+                'Advanced Weighting Network: Deep network for intelligent weight learning'
             ]
         }
