@@ -301,12 +301,12 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
     # Extract comprehensive metrics data
     datasets = list(statistical_summaries.keys())
     methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
-    metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']  # Skip MS-SSIM karena always 0 untuk 28x28 images
+    valid_metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']  # Only 4 valid metrics (MS-SSIM excluded due to 28x28 size limitation)
 
     # Create comprehensive figure
     fig, axes = plt.subplots(2, 3, figsize=(20, 12))
     fig.suptitle('Comprehensive Evaluation Metrics Analysis\n'
-                'Neural Decoding Performance: MSE, PSNR, SSIM, LPIPS',
+                'Neural Decoding Performance: MSE, PSNR, SSIM, LPIPS (4 Valid Metrics)',
                 fontsize=16, fontweight='bold')
 
     # Color palette untuk methods
@@ -426,7 +426,7 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
         if method_metrics:
             radar_data[method] = np.mean(np.array(method_metrics).reshape(-1, 4), axis=0)
 
-    # Create radar chart
+    # Create radar chart dengan 4 valid metrics
     categories = ['MSE\n(Inverted)', 'PSNR\n(Scaled)', 'SSIM', 'LPIPS\n(Inverted)']
     N = len(categories)
 
@@ -442,7 +442,7 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
     ax5.set_xticks(angles[:-1])
     ax5.set_xticklabels(categories)
     ax5.set_ylim(0, 1)
-    ax5.set_title('Overall Performance Radar Chart\n(Normalized Metrics)')
+    ax5.set_title('Overall Performance Radar Chart\n(4 Valid Metrics - Normalized)')
     ax5.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     ax5.grid(True)
 
@@ -469,11 +469,12 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
             summary_text += f"  SSIM: {best_ssim.replace('_', ' ')}\\n"
             summary_text += f"  LPIPS: {best_lpips.replace('_', ' ')}\\n\\n"
 
-    summary_text += "📈 METRIC EXPLANATIONS:\\n"
+    summary_text += "📈 4 VALID METRICS EXPLANATIONS:\\n"
     summary_text += "• MSE: Lower is better (reconstruction error)\\n"
     summary_text += "• PSNR: Higher is better (signal quality)\\n"
     summary_text += "• SSIM: Higher is better (perceptual similarity)\\n"
-    summary_text += "• LPIPS: Lower is better (perceptual distance)"
+    summary_text += "• LPIPS: Lower is better (perceptual distance)\\n\\n"
+    summary_text += "⚠️ MS-SSIM: Excluded (requires 160+ pixels, we have 28x28)"
 
     ax6.text(0.05, 0.95, summary_text, transform=ax6.transAxes, fontsize=10,
             verticalalignment='top', fontfamily='monospace',
