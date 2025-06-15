@@ -284,6 +284,211 @@ def evaluate_comprehensive_metrics(predictions, targets, device='cuda'):
 
     return comprehensive_results
 
+def create_comprehensive_metrics_visualization(statistical_summaries, output_dir):
+    """
+    Create comprehensive visualization dengan all 5 metrics
+
+    Args:
+        statistical_summaries: Dictionary dengan comprehensive metrics untuk each dataset
+        output_dir: Output directory untuk save visualization
+
+    Returns:
+        Path to saved visualization
+    """
+    print(f"\n📊 CREATING COMPREHENSIVE METRICS VISUALIZATION")
+    print("=" * 60)
+
+    # Extract comprehensive metrics data
+    datasets = list(statistical_summaries.keys())
+    methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
+    metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']  # Skip MS-SSIM karena always 0 untuk 28x28 images
+
+    # Create comprehensive figure
+    fig, axes = plt.subplots(2, 3, figsize=(20, 12))
+    fig.suptitle('Comprehensive Evaluation Metrics Analysis\n'
+                'Neural Decoding Performance: MSE, PSNR, SSIM, LPIPS',
+                fontsize=16, fontweight='bold')
+
+    # Color palette untuk methods
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
+    method_colors = dict(zip(methods, colors))
+
+    # 1. MSE Comparison (Lower is better)
+    ax1 = axes[0, 0]
+    mse_data = []
+    for dataset in datasets:
+        if 'comprehensive_metrics' in statistical_summaries[dataset]:
+            metrics_data = statistical_summaries[dataset]['comprehensive_metrics']
+            dataset_mse = [metrics_data[method]['MSE'] for method in methods if method in metrics_data]
+            mse_data.append(dataset_mse)
+
+    if mse_data:
+        x = np.arange(len(datasets))
+        width = 0.15
+        for i, method in enumerate(methods):
+            method_scores = [mse_data[j][i] if j < len(mse_data) and i < len(mse_data[j]) else 0 for j in range(len(datasets))]
+            ax1.bar(x + i*width, method_scores, width, label=method.replace('_', ' '),
+                   color=method_colors[method], alpha=0.8)
+
+    ax1.set_xlabel('Datasets')
+    ax1.set_ylabel('MSE (Lower is Better)')
+    ax1.set_title('Mean Squared Error Comparison')
+    ax1.set_xticks(x + width * 2)
+    ax1.set_xticklabels([d.upper() for d in datasets], rotation=45)
+    ax1.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax1.grid(True, alpha=0.3)
+
+    # 2. PSNR Comparison (Higher is better)
+    ax2 = axes[0, 1]
+    psnr_data = []
+    for dataset in datasets:
+        if 'comprehensive_metrics' in statistical_summaries[dataset]:
+            metrics_data = statistical_summaries[dataset]['comprehensive_metrics']
+            dataset_psnr = [metrics_data[method]['PSNR'] for method in methods if method in metrics_data]
+            psnr_data.append(dataset_psnr)
+
+    if psnr_data:
+        for i, method in enumerate(methods):
+            method_scores = [psnr_data[j][i] if j < len(psnr_data) and i < len(psnr_data[j]) else 0 for j in range(len(datasets))]
+            ax2.bar(x + i*width, method_scores, width, label=method.replace('_', ' '),
+                   color=method_colors[method], alpha=0.8)
+
+    ax2.set_xlabel('Datasets')
+    ax2.set_ylabel('PSNR (dB) (Higher is Better)')
+    ax2.set_title('Peak Signal-to-Noise Ratio Comparison')
+    ax2.set_xticks(x + width * 2)
+    ax2.set_xticklabels([d.upper() for d in datasets], rotation=45)
+    ax2.grid(True, alpha=0.3)
+
+    # 3. SSIM Comparison (Higher is better)
+    ax3 = axes[0, 2]
+    ssim_data = []
+    for dataset in datasets:
+        if 'comprehensive_metrics' in statistical_summaries[dataset]:
+            metrics_data = statistical_summaries[dataset]['comprehensive_metrics']
+            dataset_ssim = [metrics_data[method]['SSIM'] for method in methods if method in metrics_data]
+            ssim_data.append(dataset_ssim)
+
+    if ssim_data:
+        for i, method in enumerate(methods):
+            method_scores = [ssim_data[j][i] if j < len(ssim_data) and i < len(ssim_data[j]) else 0 for j in range(len(datasets))]
+            ax3.bar(x + i*width, method_scores, width, label=method.replace('_', ' '),
+                   color=method_colors[method], alpha=0.8)
+
+    ax3.set_xlabel('Datasets')
+    ax3.set_ylabel('SSIM (Higher is Better)')
+    ax3.set_title('Structural Similarity Index Comparison')
+    ax3.set_xticks(x + width * 2)
+    ax3.set_xticklabels([d.upper() for d in datasets], rotation=45)
+    ax3.grid(True, alpha=0.3)
+
+    # 4. LPIPS Comparison (Lower is better)
+    ax4 = axes[1, 0]
+    lpips_data = []
+    for dataset in datasets:
+        if 'comprehensive_metrics' in statistical_summaries[dataset]:
+            metrics_data = statistical_summaries[dataset]['comprehensive_metrics']
+            dataset_lpips = [metrics_data[method]['LPIPS'] for method in methods if method in metrics_data]
+            lpips_data.append(dataset_lpips)
+
+    if lpips_data:
+        for i, method in enumerate(methods):
+            method_scores = [lpips_data[j][i] if j < len(lpips_data) and i < len(lpips_data[j]) else 0 for j in range(len(datasets))]
+            ax4.bar(x + i*width, method_scores, width, label=method.replace('_', ' '),
+                   color=method_colors[method], alpha=0.8)
+
+    ax4.set_xlabel('Datasets')
+    ax4.set_ylabel('LPIPS (Lower is Better)')
+    ax4.set_title('Learned Perceptual Image Patch Similarity')
+    ax4.set_xticks(x + width * 2)
+    ax4.set_xticklabels([d.upper() for d in datasets], rotation=45)
+    ax4.grid(True, alpha=0.3)
+
+    # 5. Radar Chart untuk Overall Performance
+    ax5 = axes[1, 1]
+
+    # Prepare data untuk radar chart (normalize metrics)
+    radar_data = {}
+    for method in methods:
+        method_metrics = []
+        for dataset in datasets:
+            if 'comprehensive_metrics' in statistical_summaries[dataset]:
+                metrics_data = statistical_summaries[dataset]['comprehensive_metrics']
+                if method in metrics_data:
+                    # Normalize metrics (0-1 scale, higher is better)
+                    mse_norm = 1 - (metrics_data[method]['MSE'] / 0.1)  # Invert MSE
+                    psnr_norm = metrics_data[method]['PSNR'] / 20.0  # Scale PSNR
+                    ssim_norm = metrics_data[method]['SSIM']  # Already 0-1
+                    lpips_norm = 1 - metrics_data[method]['LPIPS']  # Invert LPIPS
+
+                    method_metrics.extend([mse_norm, psnr_norm, ssim_norm, lpips_norm])
+
+        if method_metrics:
+            radar_data[method] = np.mean(np.array(method_metrics).reshape(-1, 4), axis=0)
+
+    # Create radar chart
+    categories = ['MSE\n(Inverted)', 'PSNR\n(Scaled)', 'SSIM', 'LPIPS\n(Inverted)']
+    N = len(categories)
+
+    angles = [n / float(N) * 2 * np.pi for n in range(N)]
+    angles += angles[:1]  # Complete the circle
+
+    for method, values in radar_data.items():
+        values = np.concatenate((values, [values[0]]))  # Complete the circle
+        ax5.plot(angles, values, 'o-', linewidth=2, label=method.replace('_', ' '),
+                color=method_colors[method])
+        ax5.fill(angles, values, alpha=0.25, color=method_colors[method])
+
+    ax5.set_xticks(angles[:-1])
+    ax5.set_xticklabels(categories)
+    ax5.set_ylim(0, 1)
+    ax5.set_title('Overall Performance Radar Chart\n(Normalized Metrics)')
+    ax5.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax5.grid(True)
+
+    # 6. Summary Table
+    ax6 = axes[1, 2]
+    ax6.axis('off')
+
+    # Create summary table
+    summary_text = "📊 COMPREHENSIVE METRICS SUMMARY\\n\\n"
+
+    for dataset in datasets:
+        if 'comprehensive_metrics' in statistical_summaries[dataset]:
+            metrics_data = statistical_summaries[dataset]['comprehensive_metrics']
+
+            # Find best method untuk each metric
+            best_mse = min(metrics_data.keys(), key=lambda k: metrics_data[k]['MSE'])
+            best_psnr = max(metrics_data.keys(), key=lambda k: metrics_data[k]['PSNR'])
+            best_ssim = max(metrics_data.keys(), key=lambda k: metrics_data[k]['SSIM'])
+            best_lpips = min(metrics_data.keys(), key=lambda k: metrics_data[k]['LPIPS'])
+
+            summary_text += f"🏆 {dataset.upper()}:\\n"
+            summary_text += f"  MSE: {best_mse.replace('_', ' ')}\\n"
+            summary_text += f"  PSNR: {best_psnr.replace('_', ' ')}\\n"
+            summary_text += f"  SSIM: {best_ssim.replace('_', ' ')}\\n"
+            summary_text += f"  LPIPS: {best_lpips.replace('_', ' ')}\\n\\n"
+
+    summary_text += "📈 METRIC EXPLANATIONS:\\n"
+    summary_text += "• MSE: Lower is better (reconstruction error)\\n"
+    summary_text += "• PSNR: Higher is better (signal quality)\\n"
+    summary_text += "• SSIM: Higher is better (perceptual similarity)\\n"
+    summary_text += "• LPIPS: Lower is better (perceptual distance)"
+
+    ax6.text(0.05, 0.95, summary_text, transform=ax6.transAxes, fontsize=10,
+            verticalalignment='top', fontfamily='monospace',
+            bbox=dict(boxstyle="round,pad=0.5", facecolor='lightblue', alpha=0.8))
+
+    plt.tight_layout()
+
+    # Save visualization
+    viz_path = output_dir / "comprehensive_metrics_visualization.png"
+    fig.savefig(viz_path, dpi=300, bbox_inches='tight', facecolor='white')
+    plt.close(fig)
+
+    print(f"✅ Comprehensive metrics visualization saved: {viz_path}")
+    return viz_path
+
 def create_cv_reconstruction_figure(dataset_name, reconstructions, mse_results, y_test):
     """Create reconstruction figure untuk CV results"""
 
@@ -438,6 +643,11 @@ def main():
         viz_path = create_statistical_visualization(all_results, output_dir)
         print(f"✅ Statistical visualization saved: {viz_path}")
 
+        # Create comprehensive metrics visualization
+        if any('comprehensive_metrics' in stats for stats in statistical_summaries.values()):
+            comprehensive_viz_path = create_comprehensive_metrics_visualization(statistical_summaries, output_dir)
+            print(f"✅ Comprehensive metrics visualization saved: {comprehensive_viz_path}")
+
     # Save results
     results_file = output_dir / "comprehensive_training_results.json"
     with open(results_file, 'w') as f:
@@ -490,6 +700,7 @@ def main():
     print(f"📊 Comprehensive metrics: {metrics_file}")
     print(f"🎨 Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.png")
     print(f"📊 Statistical visualization: comprehensive_statistical_analysis.png")
+    print(f"📊 Comprehensive metrics visualization: comprehensive_metrics_visualization.png")
     print(f"🕒 End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     print(f"\n🎓 ACADEMIC METHODOLOGY ACHIEVED:")
