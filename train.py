@@ -62,6 +62,9 @@ from train_original_backup import (
     get_unified_config, create_gpu_optimized_reconstruction_figure
 )
 
+# Import comprehensive evaluation metrics
+from evaluation_metrics import ComprehensiveEvaluationMetrics
+
 # Set reproducibility for consistency with train.py
 set_reproducibility_seeds(42)
 
@@ -225,6 +228,46 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
     
     return full_results, cv_results, reconstructions, mse_results
 
+def evaluate_comprehensive_metrics(predictions, targets, device='cuda'):
+    """
+    Evaluate comprehensive metrics: MSE, PSNR, SSIM, LPIPS, MS-SSIM
+
+    Args:
+        predictions: List of model predictions [model1_pred, model2_pred, ...]
+        targets: Target images tensor
+        device: Computing device
+
+    Returns:
+        Dictionary with comprehensive metrics for each model
+    """
+    print(f"\n📊 COMPUTING COMPREHENSIVE EVALUATION METRICS")
+
+    # Initialize evaluator
+    evaluator = ComprehensiveEvaluationMetrics(device)
+
+    model_names = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
+    comprehensive_results = {}
+
+    for i, (model_name, pred) in enumerate(zip(model_names, predictions)):
+        print(f"   🔍 Evaluating {model_name}...")
+
+        # Ensure proper tensor format
+        if isinstance(pred, np.ndarray):
+            pred = torch.tensor(pred, dtype=torch.float32, device=device)
+
+        pred = pred.to(device)
+        targets_tensor = targets.to(device)
+
+        # Compute all metrics
+        metrics = evaluator.compute_all_metrics(pred, targets_tensor, data_range=1.0)
+        comprehensive_results[model_name] = metrics
+
+        print(f"      MSE: {metrics['MSE']:.6f}, PSNR: {metrics['PSNR']:.2f}dB, "
+              f"SSIM: {metrics['SSIM']:.4f}, MS-SSIM: {metrics['MS_SSIM']:.4f}, "
+              f"LPIPS: {metrics['LPIPS']:.4f}")
+
+    return comprehensive_results
+
 def create_cv_reconstruction_figure(dataset_name, reconstructions, mse_results, y_test):
     """Create reconstruction figure untuk CV results"""
 
@@ -342,6 +385,12 @@ def main():
                     plt.close(fig)
                     print(f"💾 Reconstruction saved: {recon_filepath}")
 
+                    # Compute comprehensive evaluation metrics
+                    comprehensive_metrics = evaluate_comprehensive_metrics(reconstructions, y_test, device)
+                    print(f"✅ Comprehensive metrics computed for {dataset}")
+                else:
+                    comprehensive_metrics = {}
+
                 # Statistical analysis
                 stats_summary = statistical_analysis(full_results, dataset)
 
@@ -353,7 +402,8 @@ def main():
                     'single_run_stats': stats_summary,
                     'cv_results': cv_results,
                     'ttest_completed': True,
-                    'reconstruction_saved': True if reconstructions else False
+                    'reconstruction_saved': True if reconstructions else False,
+                    'comprehensive_metrics': comprehensive_metrics
                 }
 
                 print(f"✅ Analysis completed for {dataset}")
@@ -394,9 +444,18 @@ def main():
                 'single_run_stats': stats['single_run_stats'],
                 'cv_results': {method: scores for method, scores in stats['cv_results'].items()},
                 'ttest_completed': stats['ttest_completed'],
-                'reconstruction_saved': stats.get('reconstruction_saved', False)
+                'reconstruction_saved': stats.get('reconstruction_saved', False),
+                'comprehensive_metrics': stats.get('comprehensive_metrics', {})
             }
         json.dump(stats_serializable, f, indent=2)
+
+    # Save comprehensive metrics separately
+    metrics_file = output_dir / "comprehensive_evaluation_metrics.json"
+    with open(metrics_file, 'w') as f:
+        comprehensive_metrics_only = {}
+        for dataset, stats in statistical_summaries.items():
+            comprehensive_metrics_only[dataset] = stats.get('comprehensive_metrics', {})
+        json.dump(comprehensive_metrics_only, f, indent=2)
     
     # Final summary
     print(f"\n📊 FINAL COMPREHENSIVE SUMMARY")
@@ -412,6 +471,7 @@ def main():
     print(f"📊 Training results: {results_file}")
     print(f"🔬 Cross-validation results: {cv_results_file}")
     print(f"📈 Statistical analysis: {stats_file}")
+    print(f"📊 Comprehensive metrics: {metrics_file}")
     print(f"🎨 Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.png")
     print(f"📊 Statistical visualization: comprehensive_statistical_analysis.png")
     print(f"🕒 End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -420,6 +480,7 @@ def main():
     print(f"✅ Robust cross-validation methodology")
     print(f"✅ Statistical significance testing dengan T-test")
     print(f"✅ Comprehensive reconstruction analysis")
+    print(f"✅ Multi-metric evaluation (MSE, PSNR, SSIM, LPIPS, MS-SSIM)")
     print(f"✅ Publication-ready visualizations")
     print(f"✅ Dissertation-quality statistical analysis")
     print(f"✅ General model development approach")
