@@ -418,6 +418,220 @@ class OptimalMiyawakiCortexFlow(nn.Module):
         return mean_pred
 
 
+class BayesianLinear(nn.Module):
+    """Bayesian Linear Layer with weight and bias distributions"""
+
+    def __init__(self, in_features, out_features, prior_std=1.0):
+        super(BayesianLinear, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+
+        # Weight parameters (mean and log variance)
+        self.weight_mu = nn.Parameter(torch.randn(out_features, in_features) * 0.1)
+        self.weight_logvar = nn.Parameter(torch.randn(out_features, in_features) * 0.1 - 5)
+
+        # Bias parameters (mean and log variance)
+        self.bias_mu = nn.Parameter(torch.randn(out_features) * 0.1)
+        self.bias_logvar = nn.Parameter(torch.randn(out_features) * 0.1 - 5)
+
+        # Prior parameters
+        self.prior_std = prior_std
+        self.log_prior = torch.log(torch.tensor(2 * 3.14159 * prior_std**2))
+
+    def forward(self, x):
+        # Sample weights and biases from distributions
+        weight_std = torch.exp(0.5 * self.weight_logvar)
+        bias_std = torch.exp(0.5 * self.bias_logvar)
+
+        # Reparameterization trick
+        weight_eps = torch.randn_like(self.weight_mu)
+        bias_eps = torch.randn_like(self.bias_mu)
+
+        weight = self.weight_mu + weight_std * weight_eps
+        bias = self.bias_mu + bias_std * bias_eps
+
+        return F.linear(x, weight, bias)
+
+    def kl_divergence(self):
+        """Compute KL divergence between posterior and prior"""
+        # KL for weights
+        weight_var = torch.exp(self.weight_logvar)
+        weight_kl = 0.5 * torch.sum(
+            self.weight_mu**2 / self.prior_std**2 +
+            weight_var / self.prior_std**2 -
+            self.weight_logvar +
+            self.log_prior
+        )
+
+        # KL for biases
+        bias_var = torch.exp(self.bias_logvar)
+        bias_kl = 0.5 * torch.sum(
+            self.bias_mu**2 / self.prior_std**2 +
+            bias_var / self.prior_std**2 -
+            self.bias_logvar +
+            self.log_prior
+        )
+
+        return weight_kl + bias_kl
+
+
+class BayesianMiyawakiCortexFlow(nn.Module):
+    """BAYESIAN MIYAWAKI CORTEXFLOW: Principled Uncertainty Quantification"""
+
+    def __init__(self, input_dim, device='cuda'):
+        super(BayesianMiyawakiCortexFlow, self).__init__()
+        self.name = "CortexFlow-Enhanced"
+        self.device = device
+
+        # Bayesian parameters
+        self.num_samples = 10  # Number of forward passes for inference
+        self.prior_std = 1.0   # Prior standard deviation
+        self.kl_weight = 1e-4  # Weight for KL divergence loss
+
+        # BAYESIAN MIYAWAKI ARCHITECTURE
+        # Spatial pattern encoder with Bayesian layers
+        self.spatial_encoder = nn.Sequential(
+            BayesianLinear(input_dim, 512, self.prior_std),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.2),
+            BayesianLinear(512, 256, self.prior_std),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # Binary contrast encoder with Bayesian layers
+        self.contrast_encoder = nn.Sequential(
+            BayesianLinear(input_dim, 256, self.prior_std),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.15),
+            BayesianLinear(256, 128, self.prior_std),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # Pattern fusion with Bayesian layers
+        self.pattern_fusion = nn.Sequential(
+            BayesianLinear(384, 256, self.prior_std),  # 256 + 128 = 384
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1),
+            BayesianLinear(256, 128, self.prior_std),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True)
+        ).to(device)
+
+        # Binary decision layer (deterministic for stability)
+        self.binary_enhancer = nn.Sequential(
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 128),
+            nn.Sigmoid()  # Sigmoid for binary-like enhancement
+        ).to(device)
+
+        # Block pattern decoder with Bayesian layers
+        self.block_decoder = nn.Sequential(
+            BayesianLinear(128, 256, self.prior_std),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1),
+            BayesianLinear(256, 512, self.prior_std),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.05),
+            BayesianLinear(512, 784, self.prior_std)  # Raw output
+        ).to(device)
+
+        # Binary contrast finalizer (deterministic)
+        self.binary_finalizer = nn.Sequential(
+            nn.Linear(784, 784),
+            nn.Sigmoid()  # Sigmoid for binary contrast
+        ).to(device)
+
+    def forward(self, x):
+        if self.training:
+            # During training, single forward pass with KL loss
+            return self._single_forward_with_kl(x)
+        else:
+            # During inference, multiple samples for uncertainty
+            return self._bayesian_inference(x)
+
+    def _single_forward_with_kl(self, x):
+        """Single forward pass with KL divergence computation"""
+        # Extract spatial and contrast features
+        spatial_features = self.spatial_encoder(x)      # [batch, 256]
+        contrast_features = self.contrast_encoder(x)    # [batch, 128]
+
+        # Combine features
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)  # [batch, 384]
+
+        # Fuse patterns
+        fused_patterns = self.pattern_fusion(combined_features)  # [batch, 128]
+
+        # Binary enhancement
+        binary_enhanced = self.binary_enhancer(fused_patterns)  # [batch, 128]
+        enhanced_features = fused_patterns * binary_enhanced
+
+        # Decode patterns
+        block_output = self.block_decoder(enhanced_features)  # [batch, 784]
+
+        # Finalize
+        final_output = self.binary_finalizer(block_output)  # [batch, 784]
+
+        # Compute KL divergence
+        kl_loss = self._compute_kl_divergence()
+
+        return final_output.view(-1, 1, 28, 28), kl_loss
+
+    def _bayesian_inference(self, x):
+        """Bayesian inference with multiple samples"""
+        predictions = []
+
+        # Generate multiple predictions
+        for _ in range(self.num_samples):
+            # Extract features
+            spatial_features = self.spatial_encoder(x)
+            contrast_features = self.contrast_encoder(x)
+
+            # Combine and process
+            combined_features = torch.cat([spatial_features, contrast_features], dim=1)
+            fused_patterns = self.pattern_fusion(combined_features)
+
+            # Binary enhancement
+            binary_enhanced = self.binary_enhancer(fused_patterns)
+            enhanced_features = fused_patterns * binary_enhanced
+
+            # Decode
+            block_output = self.block_decoder(enhanced_features)
+            final_output = self.binary_finalizer(block_output)
+
+            predictions.append(final_output.view(-1, 1, 28, 28))
+
+        # Stack predictions
+        predictions = torch.stack(predictions, dim=0)  # [num_samples, batch, 1, 28, 28]
+
+        # Compute mean and variance
+        mean_pred = torch.mean(predictions, dim=0)
+        var_pred = torch.var(predictions, dim=0)
+
+        return mean_pred, var_pred
+
+    def _compute_kl_divergence(self):
+        """Compute total KL divergence from all Bayesian layers"""
+        kl_loss = 0.0
+
+        # Collect KL from all Bayesian layers
+        for module in self.modules():
+            if isinstance(module, BayesianLinear):
+                kl_loss += module.kl_divergence()
+
+        return kl_loss * self.kl_weight
+
+
 class MiyawakiGANCortexFlow(nn.Module):
     """CortexFlow-Enhanced: GAN-ENHANCED MIYAWAKI for Binary Contrast Block Patterns"""
 
@@ -1340,6 +1554,86 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
             print(f"     Winner: {winner} ({improvement:.2f}% better)")
 
     return cv_results_dict
+
+def gpu_optimized_bayesian_training(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
+    """GPU-optimized Bayesian training with KL divergence loss"""
+
+    # Setup optimizer
+    optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
+    criterion = nn.MSELoss()
+    scaler = torch.cuda.amp.GradScaler() if model.device == 'cuda' else None
+
+    # Data loaders
+    train_dataset = TensorDataset(X_train, y_train)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False)
+
+    # Training tracking
+    best_loss = float('inf')
+    patience_counter = 0
+    start_time = time.time()
+
+    print(f"🔥 GPU Bayesian Training {model.name} dengan KL divergence...")
+
+    for epoch in range(epochs):
+        model.train()
+        epoch_loss = 0.0
+        epoch_kl_loss = 0.0
+
+        for batch_X, batch_y in train_loader:
+            optimizer.zero_grad()
+
+            if model.device == 'cuda' and scaler:
+                with torch.cuda.amp.autocast():
+                    # Bayesian forward pass returns (output, kl_loss)
+                    output, kl_loss = model(batch_X)
+
+                    # Total loss = reconstruction loss + KL divergence
+                    recon_loss = criterion(output, batch_y)
+                    total_loss = recon_loss + kl_loss
+
+                scaler.scale(total_loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                # Standard training
+                output, kl_loss = model(batch_X)
+                recon_loss = criterion(output, batch_y)
+                total_loss = recon_loss + kl_loss
+                total_loss.backward()
+                optimizer.step()
+
+            epoch_loss += recon_loss.item()
+            epoch_kl_loss += kl_loss.item()
+
+        # Validation
+        model.eval()
+        with torch.no_grad():
+            # For validation, use mean prediction from Bayesian inference
+            val_output, _ = model(X_val)  # Returns (mean, variance)
+            val_loss = criterion(val_output, y_val).item()
+
+        # Early stopping check
+        if val_loss < best_loss:
+            best_loss = val_loss
+            patience_counter = 0
+        else:
+            patience_counter += 1
+
+        # Print progress
+        if (epoch + 1) % 20 == 0 or epoch == 0:
+            elapsed = time.time() - start_time
+            avg_recon = epoch_loss / len(train_loader)
+            avg_kl = epoch_kl_loss / len(train_loader)
+            print(f"   Epoch {epoch+1}/{epochs}, Recon: {avg_recon:.6f}, KL: {avg_kl:.6f}, Val: {val_loss:.6f}, Time: {elapsed:.1f}s")
+
+        # Early stopping
+        if patience_counter >= patience:
+            print(f"   Early stopping at epoch {epoch+1}")
+            break
+
+    elapsed = time.time() - start_time
+    print(f"✅ Bayesian training completed in {elapsed:.1f}s, Best Loss: {best_loss:.6f}")
+    return best_loss
 
 def gpu_optimized_gan_training(generator, discriminator, X_train, y_train, X_val, y_val, epochs=100, lr_g=0.0002, lr_d=0.0002, batch_size=64, patience=20):
     """GPU-optimized GAN training for Miyawaki binary patterns"""
