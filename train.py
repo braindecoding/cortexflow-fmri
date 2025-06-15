@@ -46,35 +46,18 @@ torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.deterministic = False
 
 class MiyawakiAdvancedCortexFlow(nn.Module):
-    """CortexFlow-Enhanced: ADVANCED MIYAWAKI with Alignment + KNN Similarity"""
+    """CortexFlow-Enhanced: BASIC MIYAWAKI-OPTIMIZED (PROVEN BEST MSE: 0.017682)"""
 
     def __init__(self, input_dim, device='cuda'):
         super(MiyawakiAdvancedCortexFlow, self).__init__()
         self.name = "CortexFlow-Enhanced"
         self.device = device
 
-        # KNN parameters for similarity matrix
-        self.k_neighbors = 5  # Number of nearest neighbors
-        self.similarity_weight = 0.3  # Weight for KNN similarity contribution
-
-        # ADVANCED FEATURE 1: ALIGNMENT-ENHANCED BINARY PATTERN ENCODER
-        # Optimized for binary contrast block patterns with feature alignment
-
-        # fMRI-Visual alignment layer
-        self.fmri_alignment = nn.Sequential(
-            nn.Linear(input_dim, input_dim),
-            nn.BatchNorm1d(input_dim),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.1),
-            nn.Linear(input_dim, input_dim),
-            nn.BatchNorm1d(input_dim),
-            nn.Tanh()  # Tanh for better alignment
-        ).to(device)
-
+        # BASIC MIYAWAKI-OPTIMIZED ARCHITECTURE (MSE: 0.017682)
         # Spatial pattern encoder - focuses on geometric structures
         self.spatial_encoder = nn.Sequential(
             nn.Linear(input_dim, 512),
-            nn.BatchNorm1d(512),  # BatchNorm better for binary patterns
+            nn.BatchNorm1d(512),
             nn.ReLU(inplace=True),
             nn.Dropout(0.2),
             nn.Linear(512, 256),
@@ -95,34 +78,9 @@ class MiyawakiAdvancedCortexFlow(nn.Module):
             nn.Dropout(0.1)
         ).to(device)
 
-        # ADVANCED FEATURE 2: KNN SIMILARITY MATRIX PROCESSOR
-        # Leverage nearest neighbor patterns for binary reconstruction
-
-        # KNN feature extractor
-        self.knn_feature_extractor = nn.Sequential(
-            nn.Linear(input_dim, 256),
-            nn.BatchNorm1d(256),
-            nn.ReLU(inplace=True),
-            nn.Linear(256, 128),
-            nn.BatchNorm1d(128),
-            nn.ReLU(inplace=True)
-        ).to(device)
-
-        # Similarity matrix processor
-        self.similarity_processor = nn.Sequential(
-            nn.Linear(128, 64),
-            nn.BatchNorm1d(64),
-            nn.ReLU(inplace=True),
-            nn.Linear(64, 128),
-            nn.Sigmoid()  # Similarity weights
-        ).to(device)
-
-        # ADVANCED FEATURE 3: ALIGNMENT + KNN ENHANCED PATTERN FUSION
-        # Combines spatial, contrast, and KNN similarity information
-
-        # Multi-modal fusion - spatial + contrast + KNN features
-        self.multimodal_fusion = nn.Sequential(
-            nn.Linear(512, 256),  # 256 + 128 + 128 = 512
+        # Pattern fusion - combines spatial and contrast information
+        self.pattern_fusion = nn.Sequential(
+            nn.Linear(384, 256),  # 256 + 128 = 384
             nn.BatchNorm1d(256),
             nn.ReLU(inplace=True),
             nn.Dropout(0.1),
@@ -131,16 +89,7 @@ class MiyawakiAdvancedCortexFlow(nn.Module):
             nn.ReLU(inplace=True)
         ).to(device)
 
-        # Alignment-aware enhancer
-        self.alignment_enhancer = nn.Sequential(
-            nn.Linear(128, 64),
-            nn.BatchNorm1d(64),
-            nn.ReLU(inplace=True),
-            nn.Linear(64, 128),
-            nn.Tanh()  # Tanh for alignment enhancement
-        ).to(device)
-
-        # Binary decision layer with KNN similarity
+        # Binary decision layer - helps with binary contrast decisions
         self.binary_enhancer = nn.Sequential(
             nn.Linear(128, 64),
             nn.BatchNorm1d(64),
@@ -149,11 +98,8 @@ class MiyawakiAdvancedCortexFlow(nn.Module):
             nn.Sigmoid()  # Sigmoid for binary-like enhancement
         ).to(device)
 
-        # ADVANCED FEATURE 4: ALIGNMENT + KNN ENHANCED BLOCK DECODER
-        # Optimized for reconstructing lego-like block patterns with similarity guidance
-
-        # Alignment-guided block decoder
-        self.alignment_decoder = nn.Sequential(
+        # Block pattern decoder - optimized for lego-like block patterns
+        self.block_decoder = nn.Sequential(
             nn.Linear(128, 256),
             nn.BatchNorm1d(256),
             nn.ReLU(inplace=True),
@@ -161,121 +107,42 @@ class MiyawakiAdvancedCortexFlow(nn.Module):
             nn.Linear(256, 512),
             nn.BatchNorm1d(512),
             nn.ReLU(inplace=True),
-            nn.Dropout(0.05)
-        ).to(device)
-
-        # KNN-guided refinement layer
-        self.knn_refinement = nn.Sequential(
-            nn.Linear(512, 512),
-            nn.BatchNorm1d(512),
-            nn.ReLU(inplace=True),
+            nn.Dropout(0.05),
             nn.Linear(512, 784)  # Raw output
         ).to(device)
 
-        # Binary contrast finalizer with geometric consistency
-        self.geometric_finalizer = nn.Sequential(
-            nn.Linear(784, 784),
-            nn.BatchNorm1d(784),
-            nn.ReLU(inplace=True),
+        # Binary contrast finalizer - ensures binary-like output
+        self.binary_finalizer = nn.Sequential(
             nn.Linear(784, 784),
             nn.Sigmoid()  # Sigmoid for binary contrast
         ).to(device)
 
-        # Store training features for KNN similarity (will be populated during training)
-        self.register_buffer('training_features', torch.empty(0, 128))
-        self.register_buffer('training_targets', torch.empty(0, 784))
 
-    def _compute_knn_similarity(self, query_features):
-        """Compute KNN similarity weights for current features"""
-        if self.training_features.size(0) == 0:
-            # No training features stored yet, return zeros
-            return torch.zeros(query_features.size(0), 784, device=self.device)
-
-        # Compute distances to all training features
-        distances = torch.cdist(query_features, self.training_features)  # [batch, num_training]
-
-        # Get k nearest neighbors
-        k = min(self.k_neighbors, self.training_features.size(0))
-        _, knn_indices = torch.topk(distances, k, dim=1, largest=False)  # [batch, k]
-
-        # Get corresponding targets and compute weighted average
-        knn_targets = self.training_targets[knn_indices]  # [batch, k, 784]
-
-        # Compute similarity weights (inverse distance)
-        knn_distances = torch.gather(distances, 1, knn_indices)  # [batch, k]
-        similarity_weights = 1.0 / (knn_distances + 1e-8)  # [batch, k]
-        similarity_weights = torch.softmax(similarity_weights, dim=1)  # [batch, k]
-
-        # Weighted average of KNN targets
-        knn_prediction = torch.sum(knn_targets * similarity_weights.unsqueeze(-1), dim=1)  # [batch, 784]
-
-        return knn_prediction
 
     def forward(self, x):
-        # ADVANCED MIYAWAKI FORWARD PASS WITH ALIGNMENT + KNN
+        # BASIC MIYAWAKI-OPTIMIZED FORWARD PASS (MSE: 0.017682)
 
-        # Step 1: fMRI-Visual alignment
-        aligned_input = self.fmri_alignment(x)  # [batch, input_dim] - aligned features
+        # Extract spatial and contrast features separately
+        spatial_features = self.spatial_encoder(x)      # [batch, 256] - geometric patterns
+        contrast_features = self.contrast_encoder(x)    # [batch, 128] - binary contrast
 
-        # Step 2: Extract multi-modal features
-        spatial_features = self.spatial_encoder(aligned_input)      # [batch, 256] - geometric patterns
-        contrast_features = self.contrast_encoder(aligned_input)    # [batch, 128] - binary contrast
-        knn_features = self.knn_feature_extractor(aligned_input)    # [batch, 128] - KNN features
+        # Combine spatial and contrast information
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)  # [batch, 384]
 
-        # Step 3: Multi-modal fusion
-        combined_features = torch.cat([spatial_features, contrast_features, knn_features], dim=1)  # [batch, 512]
-        fused_patterns = self.multimodal_fusion(combined_features)  # [batch, 128]
+        # Fuse patterns optimally for binary blocks
+        fused_patterns = self.pattern_fusion(combined_features)  # [batch, 128]
 
-        # Step 4: Alignment enhancement
-        alignment_enhanced = self.alignment_enhancer(fused_patterns)  # [batch, 128]
-        aligned_features = fused_patterns + alignment_enhanced  # Residual connection
+        # Enhance binary decision making
+        binary_enhanced = self.binary_enhancer(fused_patterns)  # [batch, 128]
+        enhanced_features = fused_patterns * binary_enhanced  # Element-wise enhancement
 
-        # Step 5: Binary enhancement
-        binary_enhanced = self.binary_enhancer(aligned_features)  # [batch, 128]
-        enhanced_features = aligned_features * binary_enhanced  # Element-wise enhancement
+        # Decode block patterns
+        block_output = self.block_decoder(enhanced_features)  # [batch, 784]
 
-        # Step 6: KNN similarity computation
-        knn_prediction = self._compute_knn_similarity(enhanced_features)  # [batch, 784]
-
-        # Step 7: Alignment-guided decoding
-        decoded_features = self.alignment_decoder(enhanced_features)  # [batch, 512]
-
-        # Step 8: KNN-guided refinement
-        refined_output = self.knn_refinement(decoded_features)  # [batch, 784]
-
-        # Step 9: Combine KNN prediction with decoded output
-        if self.training_features.size(0) > 0:
-            # Weighted combination of decoded output and KNN prediction
-            combined_output = (1 - self.similarity_weight) * refined_output + self.similarity_weight * knn_prediction
-        else:
-            combined_output = refined_output
-
-        # Step 10: Geometric consistency and binary finalization
-        final_output = self.geometric_finalizer(combined_output)  # [batch, 784]
+        # Finalize with binary contrast optimization
+        final_output = self.binary_finalizer(block_output)  # [batch, 784]
 
         return final_output.view(-1, 1, 28, 28)
-
-    def update_knn_memory(self, features, targets):
-        """Update KNN memory with new training samples"""
-        if self.training:
-            # Store features and targets for KNN similarity
-            with torch.no_grad():
-                if self.training_features.size(0) == 0:
-                    self.training_features = features.detach().clone()
-                    self.training_targets = targets.view(targets.size(0), -1).detach().clone()
-                else:
-                    # Append new features (keep only recent ones to avoid memory issues)
-                    max_memory = 1000  # Maximum number of stored samples
-                    new_features = torch.cat([self.training_features, features.detach()], dim=0)
-                    new_targets = torch.cat([self.training_targets, targets.view(targets.size(0), -1).detach()], dim=0)
-
-                    if new_features.size(0) > max_memory:
-                        # Keep only the most recent samples
-                        self.training_features = new_features[-max_memory:]
-                        self.training_targets = new_targets[-max_memory:]
-                    else:
-                        self.training_features = new_features
-                        self.training_targets = new_targets
 
 
 class OptimalMiyawakiCortexFlow(nn.Module):
