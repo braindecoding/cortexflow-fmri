@@ -191,12 +191,25 @@ class OptimizedCortexFlow(nn.Module):
         # Feature fusion
         encoded = self.fusion(gated_features)
 
-        # BRAIN-DIFFUSER INSPIRED: Iterative denoising process
-        # Predict initial features (like noise prediction in Brain-Diffuser)
-        predicted_features = self.diffusion_decoder(encoded)
+        # HYBRID ENSEMBLE-ENHANCED: Multi-pathway predictions with ensemble fusion
 
-        # Iterative denoising process (like Brain-Diffuser)
-        denoised = predicted_features
+        # Generate multiple predictions with different noise patterns (ensemble-like)
+        # Prediction 1: Standard prediction
+        pred1 = self.diffusion_decoder(encoded)
+
+        # Prediction 2: With slight feature perturbation for diversity
+        perturbed_encoded = encoded + 0.05 * torch.randn_like(encoded)
+        pred2 = self.diffusion_decoder(perturbed_encoded)
+
+        # Prediction 3: With different feature emphasis
+        emphasized_encoded = encoded * 1.1  # Slight amplification
+        pred3 = self.diffusion_decoder(emphasized_encoded)
+
+        # Simple ensemble averaging (more stable than learned weights)
+        ensemble_pred = (pred1 + pred2 + pred3) / 3.0
+
+        # Brain-Diffuser style iterative denoising on ensemble prediction
+        denoised = ensemble_pred
         for step in range(3):  # 3 denoising steps like Brain-Diffuser
             noise_level = 0.1 * (1.0 - step / 3.0)
             step_noise = torch.randn_like(denoised, device=self.device) * noise_level
@@ -855,12 +868,23 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
     return cv_results_dict
 
 def gpu_optimized_training(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
-    """GPU-optimized training dengan mixed precision"""
+    """GPU-optimized training dengan mixed precision + advanced techniques"""
 
     # Setup optimizer dan loss
     optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     criterion = nn.MSELoss()
     scaler = torch.cuda.amp.GradScaler() if model.device == 'cuda' else None
+
+    # ADVANCED: Learning rate scheduler with warmup
+    warmup_epochs = min(10, epochs // 10)  # 10% of total epochs for warmup
+    scheduler = optim.lr_scheduler.OneCycleLR(
+        optimizer,
+        max_lr=lr * 2,  # Peak LR is 2x base LR
+        epochs=epochs,
+        steps_per_epoch=len(X_train) // batch_size + 1,
+        pct_start=warmup_epochs / epochs,  # Warmup percentage
+        anneal_strategy='cos'  # Cosine annealing
+    )
 
     # Data loaders
     train_dataset = TensorDataset(X_train, y_train)
@@ -888,6 +912,7 @@ def gpu_optimized_training(model, X_train, y_train, X_val, y_val, epochs=100, lr
                 scaler.scale(loss).backward()
                 scaler.step(optimizer)
                 scaler.update()
+                scheduler.step()  # Update learning rate
             else:
                 # Standard training
                 output = model(batch_X)
@@ -896,6 +921,7 @@ def gpu_optimized_training(model, X_train, y_train, X_val, y_val, epochs=100, lr
                 loss = criterion(output, batch_y)
                 loss.backward()
                 optimizer.step()
+                scheduler.step()  # Update learning rate
 
             epoch_loss += loss.item()
 
