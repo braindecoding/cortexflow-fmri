@@ -647,107 +647,187 @@ def create_statistical_significance_matrix_visualization(statistical_summaries, 
 
 def create_overall_method_performance_visualization(statistical_summaries, output_dir):
     """
-    Create overall method performance visualization across all datasets
+    Create overall method performance visualization across all datasets dengan 4 metrics
 
     Args:
-        statistical_summaries: Dictionary dengan CV results untuk each dataset
+        statistical_summaries: Dictionary dengan comprehensive metrics untuk each dataset
         output_dir: Output directory untuk save visualization
 
     Returns:
         Path to saved visualization
     """
-    print(f"\n📊 CREATING OVERALL METHOD PERFORMANCE VISUALIZATION")
+    print(f"\n📊 CREATING OVERALL METHOD PERFORMANCE VISUALIZATION (4 METRICS)")
     print("=" * 70)
 
     # Extract data
     datasets = list(statistical_summaries.keys())
     methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
+    metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']
 
-    # Create comprehensive figure
-    fig, axes = plt.subplots(2, 3, figsize=(20, 12))
-    fig.suptitle('Overall Method Performance Analysis\n'
-                'Cross-Dataset Performance Summary and Rankings',
+    # Create comprehensive figure dengan 4 metrics
+    fig, axes = plt.subplots(3, 2, figsize=(16, 18))
+    fig.suptitle('Overall Method Performance Analysis (4 Metrics)\n'
+                'Cross-Dataset Performance Summary: MSE, PSNR, SSIM, LPIPS',
                 fontsize=16, fontweight='bold')
 
-    # Prepare aggregated data
-    method_performance = {method: [] for method in methods}
+    # Prepare aggregated data untuk 4 metrics
+    method_performance = {metric: {method: [] for method in methods} for metric in metrics}
 
-    # Collect MSE scores from all datasets
+    # Collect comprehensive metrics from all datasets
     for dataset in datasets:
-        if 'cv_results' in statistical_summaries[dataset]:
-            cv_results = statistical_summaries[dataset]['cv_results']
+        if 'comprehensive_metrics' in statistical_summaries[dataset]:
+            comp_metrics = statistical_summaries[dataset]['comprehensive_metrics']
             for method in methods:
-                if method in cv_results:
-                    method_performance[method].extend(cv_results[method])
+                method_key = method.replace('_', ' ')  # Convert to display format
+                if method_key in comp_metrics:
+                    for metric in metrics:
+                        if metric in comp_metrics[method_key]:
+                            method_performance[metric][method].append(comp_metrics[method_key][metric])
 
-    # Calculate overall statistics
-    overall_stats = {}
-    for method in methods:
-        if method_performance[method]:
-            scores = np.array(method_performance[method])
-            overall_stats[method] = {
-                'mean': np.mean(scores),
-                'std': np.std(scores),
-                'median': np.median(scores),
-                'min': np.min(scores),
-                'max': np.max(scores)
-            }
+    # Calculate overall statistics untuk 4 metrics
+    overall_stats = {metric: {} for metric in metrics}
+    for metric in metrics:
+        for method in methods:
+            if method_performance[metric][method]:
+                scores = np.array(method_performance[metric][method])
+                overall_stats[metric][method] = {
+                    'mean': np.mean(scores),
+                    'std': np.std(scores),
+                    'median': np.median(scores),
+                    'min': np.min(scores),
+                    'max': np.max(scores)
+                }
 
-    # 1. Overall Method Ranking (Top Left)
+    # 1. MSE Overall Method Ranking (Top Left)
     ax1 = axes[0, 0]
-    if overall_stats:
-        methods_sorted = sorted(overall_stats.keys(), key=lambda x: overall_stats[x]['mean'])
-        means = [overall_stats[method]['mean'] for method in methods_sorted]
-        stds = [overall_stats[method]['std'] for method in methods_sorted]
+    if overall_stats['MSE']:
+        methods_sorted = sorted(overall_stats['MSE'].keys(), key=lambda x: overall_stats['MSE'][x]['mean'])
+        means = [overall_stats['MSE'][method]['mean'] for method in methods_sorted]
+        stds = [overall_stats['MSE'][method]['std'] for method in methods_sorted]
 
         colors = ['red', 'orange', 'yellow', 'lightgreen', 'green']
-        bars = ax1.barh(range(len(methods_sorted)), means, xerr=stds,
-                       color=colors[:len(methods_sorted)], alpha=0.7, capsize=5)
+        ax1.barh(range(len(methods_sorted)), means, xerr=stds,
+                color=colors[:len(methods_sorted)], alpha=0.7, capsize=5)
 
         ax1.set_yticks(range(len(methods_sorted)))
         ax1.set_yticklabels([m.replace('_', ' ') for m in methods_sorted])
         ax1.set_xlabel('MSE (Lower is Better)')
-        ax1.set_title('Overall Method Ranking\n(Mean ± Std across all datasets)')
+        ax1.set_title('MSE Overall Method Ranking\n(Mean ± Std across all datasets)')
 
         # Add value labels
         for i, (mean, std) in enumerate(zip(means, stds)):
             ax1.text(mean + std + 0.001, i, f'{mean:.4f}±{std:.4f}',
                     va='center', fontsize=9)
 
-    # 2. Performance Consistency (Top Middle)
+    # 2. 4-Metrics Radar Chart (Top Right)
     ax2 = axes[0, 1]
-    if overall_stats:
-        methods_list = list(overall_stats.keys())
-        consistency_scores = []
+    if all(overall_stats[metric] for metric in metrics):
+        # Prepare radar chart data
+        radar_data = {}
+        for method in methods:
+            if all(method in overall_stats[metric] for metric in metrics):
+                values = []
+                # MSE (inverted - lower is better)
+                mse_val = overall_stats['MSE'][method]['mean']
+                mse_max = max(overall_stats['MSE'][m]['mean'] for m in overall_stats['MSE'].keys())
+                mse_normalized = 1 - (mse_val / mse_max)
+                values.append(mse_normalized)
 
-        for method in methods_list:
-            # Coefficient of variation as consistency measure
-            cv = overall_stats[method]['std'] / overall_stats[method]['mean']
-            consistency_scores.append(cv)
+                # PSNR (higher is better)
+                psnr_val = overall_stats['PSNR'][method]['mean']
+                psnr_max = max(overall_stats['PSNR'][m]['mean'] for m in overall_stats['PSNR'].keys())
+                psnr_normalized = psnr_val / psnr_max
+                values.append(psnr_normalized)
 
-        bars = ax2.bar(range(len(methods_list)), consistency_scores,
-                      color=['red', 'orange', 'yellow', 'lightgreen', 'green'][:len(methods_list)],
-                      alpha=0.7)
+                # SSIM (higher is better)
+                ssim_val = overall_stats['SSIM'][method]['mean']
+                ssim_max = max(overall_stats['SSIM'][m]['mean'] for m in overall_stats['SSIM'].keys())
+                ssim_normalized = ssim_val / ssim_max
+                values.append(ssim_normalized)
 
-        ax2.set_xticks(range(len(methods_list)))
-        ax2.set_xticklabels([m.replace('_', ' ') for m in methods_list], rotation=45)
-        ax2.set_ylabel('Coefficient of Variation')
-        ax2.set_title('Performance Consistency\n(Lower = More Consistent)')
+                # LPIPS (inverted - lower is better)
+                lpips_val = overall_stats['LPIPS'][method]['mean']
+                lpips_max = max(overall_stats['LPIPS'][m]['mean'] for m in overall_stats['LPIPS'].keys())
+                lpips_normalized = 1 - (lpips_val / lpips_max)
+                values.append(lpips_normalized)
 
-        # Add value labels
-        for i, cv in enumerate(consistency_scores):
-            ax2.text(i, cv + 0.01, f'{cv:.3f}', ha='center', va='bottom', fontsize=9)
+                radar_data[method] = values
 
-    # 3. Cross-Dataset Performance (Top Right)
-    ax3 = axes[0, 2]
+        # Create radar chart
+        categories = ['MSE\\n(Inverted)', 'PSNR\\n(Scaled)', 'SSIM', 'LPIPS\\n(Inverted)']
+        N = len(categories)
+
+        angles = [n / float(N) * 2 * np.pi for n in range(N)]
+        angles += angles[:1]  # Complete the circle
+
+        method_colors = {'Baseline_CNN': 'red', 'MinD_Vis': 'orange', 'Brain_Diffuser': 'yellow',
+                        'CortexFlow_Enhanced': 'lightgreen', 'CortexFlow_Ensemble': 'green'}
+
+        for method, values in radar_data.items():
+            values = np.concatenate((values, [values[0]]))  # Complete the circle
+            ax2.plot(angles, values, 'o-', linewidth=2, label=method.replace('_', ' '),
+                    color=method_colors.get(method, 'blue'))
+            ax2.fill(angles, values, alpha=0.25, color=method_colors.get(method, 'blue'))
+
+        ax2.set_xticks(angles[:-1])
+        ax2.set_xticklabels(categories)
+        ax2.set_ylim(0, 1)
+        ax2.set_title('4-Metrics Overall Performance\\n(Normalized Radar Chart)')
+        ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=8)
+        ax2.grid(True)
+
+    # 3. 4-Metrics Summary Table (Bottom Left)
+    ax3 = axes[1, 0]
+    ax3.axis('off')
+
+    if all(overall_stats[metric] for metric in metrics):
+        # Create 4-metrics summary table
+        table_data = []
+        headers = ['Method', 'MSE↓', 'PSNR↑', 'SSIM↑', 'LPIPS↓']
+
+        # Sort by MSE (primary metric)
+        methods_ranked = sorted(overall_stats['MSE'].keys(), key=lambda x: overall_stats['MSE'][x]['mean'])
+
+        for method in methods_ranked:
+            if all(method in overall_stats[metric] for metric in metrics):
+                table_data.append([
+                    method.replace('_', ' '),
+                    f"{overall_stats['MSE'][method]['mean']:.4f}",
+                    f"{overall_stats['PSNR'][method]['mean']:.2f}",
+                    f"{overall_stats['SSIM'][method]['mean']:.3f}",
+                    f"{overall_stats['LPIPS'][method]['mean']:.3f}"
+                ])
+
+        table = ax3.table(cellText=table_data, colLabels=headers,
+                         cellLoc='center', loc='center',
+                         bbox=[0, 0, 1, 1])
+        table.auto_set_font_size(False)
+        table.set_fontsize(9)
+        table.scale(1, 2)
+
+        # Color code the table
+        colors = ['lightcoral', 'lightsalmon', 'lightyellow', 'lightgreen', 'darkgreen']
+        for i in range(len(table_data)):
+            for j in range(len(headers)):
+                if i < len(colors):
+                    table[(i+1, j)].set_facecolor(colors[i])
+                    if i == 0:  # Best method
+                        table[(i+1, j)].set_text_props(weight='bold')
+
+        ax3.set_title('4-Metrics Overall Performance Summary\\n(Ranked by MSE)',
+                     fontsize=12, fontweight='bold', pad=20)
+
+    # 4. Cross-Dataset MSE Heatmap (Bottom Right)
+    ax4 = axes[1, 1]
     dataset_means = {}
     for dataset in datasets:
-        if 'cv_results' in statistical_summaries[dataset]:
-            cv_results = statistical_summaries[dataset]['cv_results']
+        if 'comprehensive_metrics' in statistical_summaries[dataset]:
+            comp_metrics = statistical_summaries[dataset]['comprehensive_metrics']
             dataset_means[dataset] = {}
             for method in methods:
-                if method in cv_results:
-                    dataset_means[dataset][method] = np.mean(cv_results[method])
+                method_key = method.replace('_', ' ')
+                if method_key in comp_metrics and 'MSE' in comp_metrics[method_key]:
+                    dataset_means[dataset][method] = comp_metrics[method_key]['MSE']
 
     if dataset_means:
         # Create heatmap
@@ -762,117 +842,76 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
             heatmap_data.append(row)
 
         heatmap_data = np.array(heatmap_data)
-        im = ax3.imshow(heatmap_data, cmap='RdYlGn_r', aspect='auto')
+        im = ax4.imshow(heatmap_data, cmap='RdYlGn_r', aspect='auto')
 
-        ax3.set_xticks(range(len(datasets)))
-        ax3.set_xticklabels([d.capitalize() for d in datasets])
-        ax3.set_yticks(range(len(methods)))
-        ax3.set_yticklabels([m.replace('_', ' ') for m in methods])
-        ax3.set_title('Cross-Dataset Performance Heatmap\n(MSE Values)')
+        ax4.set_xticks(range(len(datasets)))
+        ax4.set_xticklabels([d.capitalize() for d in datasets])
+        ax4.set_yticks(range(len(methods)))
+        ax4.set_yticklabels([m.replace('_', ' ') for m in methods])
+        ax4.set_title('Cross-Dataset MSE Performance\\n(Lower is Better)')
 
         # Add text annotations
         for i in range(len(methods)):
             for j in range(len(datasets)):
                 if not np.isnan(heatmap_data[i, j]):
-                    ax3.text(j, i, f'{heatmap_data[i, j]:.4f}',
+                    ax4.text(j, i, f'{heatmap_data[i, j]:.3f}',
                             ha='center', va='center', fontsize=8)
 
-        plt.colorbar(im, ax=ax3, label='MSE')
+        plt.colorbar(im, ax=ax4, label='MSE')
 
-    # 4. Method Performance Distribution (Bottom Left)
-    ax4 = axes[1, 0]
-    if method_performance:
-        box_data = []
-        box_labels = []
-        for method in methods:
-            if method_performance[method]:
-                box_data.append(method_performance[method])
-                box_labels.append(method.replace('_', ' '))
+    # 5. PSNR Performance Chart (Top Middle)
+    ax5 = axes[2, 0]
+    if overall_stats['PSNR']:
+        methods_sorted = sorted(overall_stats['PSNR'].keys(), key=lambda x: overall_stats['PSNR'][x]['mean'], reverse=True)
+        means = [overall_stats['PSNR'][method]['mean'] for method in methods_sorted]
+        stds = [overall_stats['PSNR'][method]['std'] for method in methods_sorted]
 
-        if box_data:
-            bp = ax4.boxplot(box_data, labels=box_labels, patch_artist=True)
-            colors = ['red', 'orange', 'yellow', 'lightgreen', 'green']
-            for patch, color in zip(bp['boxes'], colors[:len(bp['boxes'])]):
-                patch.set_facecolor(color)
-                patch.set_alpha(0.7)
+        colors = ['green', 'lightgreen', 'yellow', 'orange', 'red']
+        ax5.barh(range(len(methods_sorted)), means, xerr=stds,
+                color=colors[:len(methods_sorted)], alpha=0.7, capsize=5)
 
-            ax4.set_ylabel('MSE')
-            ax4.set_title('Performance Distribution\n(All Cross-Validation Scores)')
-            ax4.tick_params(axis='x', rotation=45)
+        ax5.set_yticks(range(len(methods_sorted)))
+        ax5.set_yticklabels([m.replace('_', ' ') for m in methods_sorted])
+        ax5.set_xlabel('PSNR (Higher is Better)')
+        ax5.set_title('PSNR Overall Method Ranking\\n(Mean ± Std across all datasets)')
 
-    # 5. Win Rate Analysis (Bottom Middle)
-    ax5 = axes[1, 1]
-    if overall_stats:
-        win_rates = {}
-        total_comparisons = len(methods) - 1
+        # Add value labels
+        for i, (mean, std) in enumerate(zip(means, stds)):
+            ax5.text(mean + std + 0.1, i, f'{mean:.2f}±{std:.2f}',
+                    va='center', fontsize=9)
 
-        for method_a in methods:
-            wins = 0
-            if method_a in overall_stats:
-                for method_b in methods:
-                    if method_a != method_b and method_b in overall_stats:
-                        if overall_stats[method_a]['mean'] < overall_stats[method_b]['mean']:
-                            wins += 1
-                win_rates[method_a] = wins / total_comparisons * 100
+    # 6. SSIM & LPIPS Combined Chart (Top Right)
+    ax6 = axes[2, 1]
+    if overall_stats['SSIM'] and overall_stats['LPIPS']:
+        x = np.arange(len(methods))
+        width = 0.35
 
-        if win_rates:
-            methods_list = list(win_rates.keys())
-            rates = list(win_rates.values())
+        ssim_means = [overall_stats['SSIM'][method]['mean'] for method in methods]
+        lpips_means = [overall_stats['LPIPS'][method]['mean'] for method in methods]
 
-            bars = ax5.bar(range(len(methods_list)), rates,
-                          color=['red', 'orange', 'yellow', 'lightgreen', 'green'][:len(methods_list)],
-                          alpha=0.7)
+        # Normalize LPIPS (invert so higher is better)
+        lpips_max = max(lpips_means)
+        lpips_normalized = [(lpips_max - val) / lpips_max for val in lpips_means]
 
-            ax5.set_xticks(range(len(methods_list)))
-            ax5.set_xticklabels([m.replace('_', ' ') for m in methods_list], rotation=45)
-            ax5.set_ylabel('Win Rate (%)')
-            ax5.set_title('Method Win Rate\n(% of pairwise comparisons won)')
-            ax5.set_ylim(0, 100)
+        bars1 = ax6.bar(x - width/2, ssim_means, width, label='SSIM (Higher Better)',
+                       color='lightblue', alpha=0.7)
+        bars2 = ax6.bar(x + width/2, lpips_normalized, width, label='LPIPS (Inverted)',
+                       color='lightcoral', alpha=0.7)
 
-            # Add value labels
-            for i, rate in enumerate(rates):
-                ax5.text(i, rate + 2, f'{rate:.1f}%', ha='center', va='bottom', fontsize=9)
+        ax6.set_xlabel('Methods')
+        ax6.set_ylabel('Normalized Score')
+        ax6.set_title('SSIM vs LPIPS Performance\\n(Both normalized to [0,1])')
+        ax6.set_xticks(x)
+        ax6.set_xticklabels([m.replace('_', ' ') for m in methods], rotation=45)
+        ax6.legend()
 
-    # 6. Overall Summary Table (Bottom Right)
-    ax6 = axes[1, 2]
-    ax6.axis('off')
-
-    if overall_stats:
-        # Create summary table
-        table_data = []
-        headers = ['Method', 'Mean MSE', 'Std', 'Rank', 'Win Rate']
-
-        methods_ranked = sorted(overall_stats.keys(), key=lambda x: overall_stats[x]['mean'])
-
-        for i, method in enumerate(methods_ranked):
-            stats = overall_stats[method]
-            win_rate = win_rates.get(method, 0) if 'win_rates' in locals() else 0
-            table_data.append([
-                method.replace('_', ' '),
-                f"{stats['mean']:.4f}",
-                f"{stats['std']:.4f}",
-                str(i + 1),
-                f"{win_rate:.1f}%"
-            ])
-
-        table = ax6.table(cellText=table_data, colLabels=headers,
-                         cellLoc='center', loc='center',
-                         bbox=[0, 0, 1, 1])
-        table.auto_set_font_size(False)
-        table.set_fontsize(9)
-        table.scale(1, 2)
-
-        # Color code the table
-        colors = ['lightcoral', 'lightsalmon', 'lightyellow', 'lightgreen', 'darkgreen']
-        for i in range(len(table_data)):
-            for j in range(len(headers)):
-                if i < len(colors):
-                    table[(i+1, j)].set_facecolor(colors[i])
-                    if i == len(table_data) - 1:  # Best method
-                        table[(i+1, j)].set_text_props(weight='bold')
-
-        ax6.set_title('Overall Performance Summary\n(Ranked by Mean MSE)',
-                     fontsize=12, fontweight='bold', pad=20)
+        # Add value labels
+        for bar, val in zip(bars1, ssim_means):
+            ax6.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                    f'{val:.3f}', ha='center', va='bottom', fontsize=8)
+        for bar, val in zip(bars2, lpips_means):
+            ax6.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                    f'{val:.3f}', ha='center', va='bottom', fontsize=8)
 
     plt.tight_layout()
 
