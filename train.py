@@ -52,18 +52,30 @@ import numpy as np
 from scipy import stats
 from sklearn.model_selection import KFold
 
-# Import models dan functions dari original train implementation
-from train_original_backup import (
+# Import models from modular structure
+from src.models import (
     StandardBaselineCNN, OptimizedMinDVis, OptimizedBrainDiffuser,
-    MiyawakiAdvancedCortexFlow, CortexFlowEnsemble,
-    load_dataset_gpu_optimized, gpu_optimized_training,
-    comprehensive_ttest_analysis, statistical_analysis,
+    CortexFlowMultiPathway, MiyawakiAdvancedCortexFlow, CortexFlowEnsemble
+)
+
+# Import training functions from modular structure
+from src.training.gpu_training import gpu_optimized_training
+
+# Import evaluation functions from modular structure
+from src.evaluation import (
+    ComprehensiveEvaluationMetrics,
+    comprehensive_ttest_analysis,
+    statistical_analysis
+)
+
+# Import data loading from modular structure
+from src.data import load_dataset_gpu_optimized
+
+# Import remaining functions from original (to be extracted later)
+from train_original_backup import (
     create_statistical_visualization, set_reproducibility_seeds,
     get_unified_config, create_gpu_optimized_reconstruction_figure
 )
-
-# Import comprehensive evaluation metrics
-from evaluation_metrics import ComprehensiveEvaluationMetrics
 
 # Set reproducibility for consistency with train.py
 set_reproducibility_seeds(42)
@@ -115,7 +127,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
         StandardBaselineCNN(input_dim, device),
         OptimizedMinDVis(input_dim, device),
         OptimizedBrainDiffuser(input_dim, device),
-        MiyawakiAdvancedCortexFlow(input_dim, device),
+        CortexFlowMultiPathway(input_dim, device),  # Updated to use CortexFlowMultiPathway
         CortexFlowEnsemble(input_dim, device)
     ]
     
@@ -189,7 +201,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
             StandardBaselineCNN(input_dim, device),
             OptimizedMinDVis(input_dim, device),
             OptimizedBrainDiffuser(input_dim, device),
-            MiyawakiAdvancedCortexFlow(input_dim, device),
+            CortexFlowMultiPathway(input_dim, device),  # Updated to use CortexFlowMultiPathway
             CortexFlowEnsemble(input_dim, device)
         ]
         
