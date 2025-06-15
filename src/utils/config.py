@@ -40,7 +40,7 @@ def set_reproducibility_seeds(seed=42):
     random.seed(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-    print(f"🔒 Reproducibility seeds set to {seed}")
+    print(f"Reproducibility seeds set to {seed}")
 
 
 # UNIFIED TRAINING CONFIGURATIONS FOR CONSISTENCY
