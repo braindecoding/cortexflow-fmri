@@ -867,145 +867,9 @@ class MiyawakiAdvancedCortexFlow(nn.Module):
 # Keeping only the proven Basic Miyawaki-Optimized as CortexFlow-Enhanced
 
 
-class OptimizedCortexFlow(nn.Module):
-    """CortexFlow-Enhanced: ORIGINAL MULTI-PATHWAY ARCHITECTURE"""
-
-    def __init__(self, input_dim, device='cuda'):
-        super(OptimizedCortexFlow, self).__init__()
-        self.name = "CortexFlow-Enhanced"
-        self.device = device
-
-        # NOVEL FEATURE 2: Cross-Pathway Attention Mechanism
-        self.cross_attention = nn.MultiheadAttention(
-            embed_dim=512, num_heads=8, dropout=0.1, batch_first=True
-        ).to(device)
-
-        # NOVEL FEATURE 3: Adaptive Pathway Weighting
-        self.pathway_weights = nn.Sequential(
-            nn.Linear(1024, 256),
-            nn.ReLU(inplace=True),
-            nn.Linear(256, 2),
-            nn.Softmax(dim=1)
-        ).to(device)
-
-        # NOVEL FEATURE 4: Dynamic Feature Fusion with Gating
-        self.fusion_gate = nn.Sequential(
-            nn.Linear(1024, 1024),
-            nn.Sigmoid()
-        ).to(device)
-
-        self.fusion = nn.Sequential(
-            nn.Linear(1024, 512),
-            nn.LayerNorm(512),
-            nn.ReLU(inplace=True),
-            nn.Linear(512, 256),
-            nn.LayerNorm(256),
-            nn.ReLU(inplace=True),
-            nn.Linear(256, 128)
-        ).to(device)
-
-        # NOVEL FEATURE 5: BRAIN-DIFFUSER INSPIRED DECODER (MIYAWAKI-OPTIMIZED)
-        # Simplified decoder with SiLU activations and iterative denoising
-
-        # Main diffusion-style decoder (like Brain-Diffuser)
-        self.diffusion_decoder = nn.Sequential(
-            nn.Linear(128, 256),
-            nn.LayerNorm(256),
-            nn.SiLU(),  # SiLU like Brain-Diffuser
-            nn.Dropout(0.1),
-            nn.Linear(256, 512),
-            nn.LayerNorm(512),
-            nn.SiLU(),
-            nn.Linear(512, 784)  # No final activation yet
-        ).to(device)
-
-        # Output projection (like Brain-Diffuser)
-        self.output_proj = nn.Sequential(
-            nn.Linear(784, 784),
-            nn.Sigmoid()
-        ).to(device)
-
-        # Uncertainty estimation branch (simplified)
-        self.decoder_var = nn.Sequential(
-            nn.Linear(128, 256),
-            nn.LayerNorm(256),
-            nn.SiLU(),
-            nn.Linear(256, 784),
-            nn.Softplus()  # Ensure positive variance
-        ).to(device)
-
-    def forward(self, x):
-        # SIMPLIFIED APPROACH: Focus on core architecture without MC complexity
-        return self._single_forward(x)
-
-    def _single_forward(self, x):
-        """Optimized single forward pass - focus on core multi-pathway strength"""
-        # Multi-pathway feature extraction
-        deep_features = self.pathway_deep(x)      # [batch, 512]
-        wide_features = self.pathway_wide(x)      # [batch, 512]
-
-        # NOVEL: Cross-pathway attention for feature interaction
-        deep_attended, _ = self.cross_attention(
-            deep_features.unsqueeze(1),
-            wide_features.unsqueeze(1),
-            wide_features.unsqueeze(1)
-        )
-        deep_attended = deep_attended.squeeze(1)
-
-        wide_attended, _ = self.cross_attention(
-            wide_features.unsqueeze(1),
-            deep_features.unsqueeze(1),
-            deep_features.unsqueeze(1)
-        )
-        wide_attended = wide_attended.squeeze(1)
-
-        # NOVEL: Adaptive pathway weighting
-        combined_features = torch.cat([deep_attended, wide_attended], dim=1)
-        pathway_weights = self.pathway_weights(combined_features)
-
-        weighted_deep = deep_attended * pathway_weights[:, 0:1]
-        weighted_wide = wide_attended * pathway_weights[:, 1:2]
-
-        # NOVEL: Dynamic gated fusion
-        fusion_input = torch.cat([weighted_deep, weighted_wide], dim=1)
-        gate = self.fusion_gate(fusion_input)
-        gated_features = fusion_input * gate
-
-        # Feature fusion
-        encoded = self.fusion(gated_features)
-
-        # HYBRID ENSEMBLE-ENHANCED: Multi-pathway predictions with ensemble fusion
-
-        # Generate multiple predictions with different noise patterns (ensemble-like)
-        # Prediction 1: Standard prediction
-        pred1 = self.diffusion_decoder(encoded)
-
-        # Prediction 2: With slight feature perturbation for diversity
-        perturbed_encoded = encoded + 0.05 * torch.randn_like(encoded)
-        pred2 = self.diffusion_decoder(perturbed_encoded)
-
-        # Prediction 3: With different feature emphasis
-        emphasized_encoded = encoded * 1.1  # Slight amplification
-        pred3 = self.diffusion_decoder(emphasized_encoded)
-
-        # Simple ensemble averaging (more stable than learned weights)
-        ensemble_pred = (pred1 + pred2 + pred3) / 3.0
-
-        # Brain-Diffuser style iterative denoising on ensemble prediction
-        denoised = ensemble_pred
-        for step in range(3):  # 3 denoising steps like Brain-Diffuser
-            noise_level = 0.1 * (1.0 - step / 3.0)
-            step_noise = torch.randn_like(denoised, device=self.device) * noise_level
-            denoised = denoised - step_noise
-
-        # Final output projection
-        output = self.output_proj(denoised)
-
-        # Uncertainty estimation
-        var_pred = self.decoder_var(encoded)
-
-        # Always return final output
-        return output.view(-1, 1, 28, 28)
+# DEPRECATED: OptimizedCortexFlow - Replaced with MiyawakiAdvancedCortexFlow
+# This class has been removed to fix pathway_deep/pathway_wide attribute errors
+# Use MiyawakiAdvancedCortexFlow instead for CortexFlow-Enhanced functionality
 
 
 
@@ -2349,7 +2213,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device):
         StandardBaselineCNN(input_dim, device),
         OptimizedMinDVis(input_dim, device),
         OptimizedBrainDiffuser(input_dim, device),
-        OptimizedCortexFlow(input_dim, device),
+        MiyawakiAdvancedCortexFlow(input_dim, device),
         CortexFlowEnsemble(input_dim, device)
     ]
 
@@ -2778,7 +2642,7 @@ def run_real_cross_validation_analysis(dataset_name, device, k_folds=3):
                 StandardBaselineCNN(input_dim, device),
                 OptimizedMinDVis(input_dim, device),
                 OptimizedBrainDiffuser(input_dim, device),
-                OptimizedCortexFlow(input_dim, device),
+                MiyawakiAdvancedCortexFlow(input_dim, device),
                 CortexFlowEnsemble(input_dim, device)
             ]
 
@@ -3193,7 +3057,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device='cuda'):
         StandardBaselineCNN(input_dim, device),
         OptimizedMinDVis(input_dim, device),
         OptimizedBrainDiffuser(input_dim, device),
-        OptimizedCortexFlow(input_dim, device),  # Enhanced Multi-Pathway
+        MiyawakiAdvancedCortexFlow(input_dim, device),  # CortexFlow-Enhanced (Optimal)
         CortexFlowEnsemble(input_dim, device)    # True Ensemble for comparison
     ]
     
