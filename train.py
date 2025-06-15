@@ -678,11 +678,21 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
         if 'comprehensive_metrics' in statistical_summaries[dataset]:
             comp_metrics = statistical_summaries[dataset]['comprehensive_metrics']
             for method in methods:
-                method_key = method.replace('_', ' ')  # Convert to display format
-                if method_key in comp_metrics:
-                    for metric in metrics:
-                        if metric in comp_metrics[method_key]:
-                            method_performance[metric][method].append(comp_metrics[method_key][metric])
+                # Try both formats: with underscore and with space
+                method_key_underscore = method
+                method_key_space = method.replace('_', ' ')
+
+                # Check which format exists in the data
+                if method_key_underscore in comp_metrics:
+                    method_key = method_key_underscore
+                elif method_key_space in comp_metrics:
+                    method_key = method_key_space
+                else:
+                    continue  # Skip if method not found
+
+                for metric in metrics:
+                    if metric in comp_metrics[method_key]:
+                        method_performance[metric][method].append(comp_metrics[method_key][metric])
 
     # Calculate overall statistics untuk 4 metrics
     overall_stats = {metric: {} for metric in metrics}
@@ -697,6 +707,13 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
                     'min': np.min(scores),
                     'max': np.max(scores)
                 }
+
+    # Debug print
+    print(f"📊 Overall stats calculated:")
+    for metric in metrics:
+        print(f"   {metric}: {len(overall_stats[metric])} methods")
+        for method, stats in overall_stats[metric].items():
+            print(f"      {method}: mean={stats['mean']:.4f}")
 
     # 1. MSE Overall Method Ranking (Top Left)
     ax1 = axes[0, 0]
@@ -825,9 +842,15 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
             comp_metrics = statistical_summaries[dataset]['comprehensive_metrics']
             dataset_means[dataset] = {}
             for method in methods:
-                method_key = method.replace('_', ' ')
-                if method_key in comp_metrics and 'MSE' in comp_metrics[method_key]:
-                    dataset_means[dataset][method] = comp_metrics[method_key]['MSE']
+                # Try both formats: with underscore and with space
+                method_key_underscore = method
+                method_key_space = method.replace('_', ' ')
+
+                # Check which format exists in the data
+                if method_key_underscore in comp_metrics and 'MSE' in comp_metrics[method_key_underscore]:
+                    dataset_means[dataset][method] = comp_metrics[method_key_underscore]['MSE']
+                elif method_key_space in comp_metrics and 'MSE' in comp_metrics[method_key_space]:
+                    dataset_means[dataset][method] = comp_metrics[method_key_space]['MSE']
 
     if dataset_means:
         # Create heatmap
