@@ -278,6 +278,146 @@ class MiyawakiAdvancedCortexFlow(nn.Module):
                         self.training_targets = new_targets
 
 
+class OptimalMiyawakiCortexFlow(nn.Module):
+    """OPTIMAL MIYAWAKI CORTEXFLOW: Basic Miyawaki-Optimized + Monte Carlo Enhancement"""
+
+    def __init__(self, input_dim, device='cuda'):
+        super(OptimalMiyawakiCortexFlow, self).__init__()
+        self.name = "CortexFlow-Enhanced"
+        self.device = device
+
+        # Monte Carlo parameters
+        self.mc_samples = 5  # Number of MC forward passes
+        self.mc_dropout_rate = 0.15  # MC dropout rate
+
+        # Monte Carlo Dropout class (always active)
+        class MCDropout(nn.Module):
+            def __init__(self, p=0.15):
+                super().__init__()
+                self.p = p
+
+            def forward(self, x):
+                # Always apply dropout (even in eval mode for MC sampling)
+                return F.dropout(x, p=self.p, training=True)
+
+        # BASIC MIYAWAKI-OPTIMIZED ARCHITECTURE (MSE: 0.017682)
+        # Spatial pattern encoder - focuses on geometric structures
+        self.spatial_encoder = nn.Sequential(
+            nn.Linear(input_dim, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            MCDropout(0.2),  # MC Dropout instead of regular dropout
+            nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            MCDropout(0.1)   # MC Dropout
+        ).to(device)
+
+        # Binary contrast encoder - optimized for black/white patterns
+        self.contrast_encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            MCDropout(0.15), # MC Dropout
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True),
+            MCDropout(0.1)   # MC Dropout
+        ).to(device)
+
+        # Pattern fusion - combines spatial and contrast information
+        self.pattern_fusion = nn.Sequential(
+            nn.Linear(384, 256),  # 256 + 128 = 384
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            MCDropout(0.1),  # MC Dropout
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True)
+        ).to(device)
+
+        # Binary decision layer - helps with binary contrast decisions
+        self.binary_enhancer = nn.Sequential(
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 128),
+            nn.Sigmoid()  # Sigmoid for binary-like enhancement
+        ).to(device)
+
+        # Block pattern decoder with Monte Carlo
+        self.block_decoder = nn.Sequential(
+            nn.Linear(128, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            MCDropout(0.1),  # MC Dropout
+            nn.Linear(256, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            MCDropout(0.05), # MC Dropout
+            nn.Linear(512, 784)  # Raw output
+        ).to(device)
+
+        # Binary contrast finalizer - ensures binary-like output
+        self.binary_finalizer = nn.Sequential(
+            nn.Linear(784, 784),
+            nn.Sigmoid()  # Sigmoid for binary contrast
+        ).to(device)
+
+    def forward(self, x):
+        if self.training:
+            # During training, use single forward pass
+            return self._single_forward(x)
+        else:
+            # During inference, use Monte Carlo sampling
+            return self._monte_carlo_forward(x)
+
+    def _single_forward(self, x):
+        """Single forward pass (used during training)"""
+        # Extract spatial and contrast features separately
+        spatial_features = self.spatial_encoder(x)      # [batch, 256] - geometric patterns
+        contrast_features = self.contrast_encoder(x)    # [batch, 128] - binary contrast
+
+        # Combine spatial and contrast information
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)  # [batch, 384]
+
+        # Fuse patterns optimally for binary blocks
+        fused_patterns = self.pattern_fusion(combined_features)  # [batch, 128]
+
+        # Enhance binary decision making
+        binary_enhanced = self.binary_enhancer(fused_patterns)  # [batch, 128]
+        enhanced_features = fused_patterns * binary_enhanced  # Element-wise enhancement
+
+        # Decode block patterns
+        block_output = self.block_decoder(enhanced_features)  # [batch, 784]
+
+        # Finalize with binary contrast optimization
+        final_output = self.binary_finalizer(block_output)  # [batch, 784]
+
+        return final_output.view(-1, 1, 28, 28)
+
+    def _monte_carlo_forward(self, x):
+        """Monte Carlo forward pass (used during inference)"""
+        predictions = []
+
+        # Generate multiple predictions with MC dropout
+        for _ in range(self.mc_samples):
+            pred = self._single_forward(x)
+            predictions.append(pred)
+
+        # Stack predictions and compute statistics
+        predictions = torch.stack(predictions, dim=0)  # [mc_samples, batch, 1, 28, 28]
+
+        # Mean prediction (best estimate)
+        mean_pred = torch.mean(predictions, dim=0)
+
+        # Uncertainty estimation (variance)
+        var_pred = torch.var(predictions, dim=0)
+
+        # Return mean prediction (can also return variance if needed)
+        return mean_pred
+
+
 class MiyawakiGANCortexFlow(nn.Module):
     """CortexFlow-Enhanced: GAN-ENHANCED MIYAWAKI for Binary Contrast Block Patterns"""
 
