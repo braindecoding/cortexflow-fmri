@@ -1053,12 +1053,12 @@ class OptimizedMinDVis(nn.Module):
         decoded = self.decoder(noisy_encoded)
         return decoded.view(-1, 1, 28, 28)
 
-class CortexFlowEnhanced(nn.Module):
-    """CortexFlow-Enhanced: Novel Multi-Pathway Architecture with Cross-Attention Fusion"""
+class CortexFlowMultiPathway(nn.Module):
+    """CortexFlow-Multi-Pathway: Novel Multi-Pathway Architecture with Cross-Attention Fusion"""
 
     def __init__(self, input_dim, device='cuda'):
-        super(CortexFlowEnhanced, self).__init__()
-        self.name = "CortexFlow-Enhanced"
+        super(CortexFlowMultiPathway, self).__init__()
+        self.name = "CortexFlow-Multi-Pathway"
         self.device = device
 
         # NOVEL FEATURE 1: Adaptive Multi-Pathway with Different Receptive Fields
@@ -2443,7 +2443,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device):
         StandardBaselineCNN(input_dim, device),
         OptimizedMinDVis(input_dim, device),
         OptimizedBrainDiffuser(input_dim, device),
-        CortexFlowEnhanced(input_dim, device),  # Original Novel Multi-Pathway Architecture
+        CortexFlowMultiPathway(input_dim, device),  # Novel Multi-Pathway Architecture
         MiyawakiAdvancedCortexFlow(input_dim, device),
         CortexFlowEnsemble(input_dim, device)
     ]
@@ -2454,7 +2454,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device):
             {'epochs': 100, 'lr': 0.0005, 'batch_size': 32, 'patience': 20},  # Baseline CNN
             {'epochs': 120, 'lr': 0.0006, 'batch_size': 32, 'patience': 25},  # MinD-Vis
             {'epochs': 80, 'lr': 0.001, 'batch_size': 32, 'patience': 15},    # Brain-Diffuser
-            {'epochs': 180, 'lr': 0.0004, 'batch_size': 32, 'patience': 35},  # CortexFlow-Enhanced (Original)
+            {'epochs': 180, 'lr': 0.0004, 'batch_size': 32, 'patience': 35},  # CortexFlow-Multi-Pathway
             {'epochs': 150, 'lr': 0.0003, 'batch_size': 32, 'patience': 30},  # Miyawaki Advanced
             {'epochs': 120, 'lr': 0.0004, 'batch_size': 32, 'patience': 25}   # CortexFlow-Ensemble
         ]
@@ -2463,7 +2463,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device):
             {'epochs': 120, 'lr': 0.001, 'batch_size': 64, 'patience': 25},   # Baseline CNN
             {'epochs': 150, 'lr': 0.0008, 'batch_size': 64, 'patience': 30},  # MinD-Vis
             {'epochs': 100, 'lr': 0.002, 'batch_size': 64, 'patience': 20},   # Brain-Diffuser
-            {'epochs': 220, 'lr': 0.0005, 'batch_size': 64, 'patience': 45},  # CortexFlow-Enhanced (Original)
+            {'epochs': 220, 'lr': 0.0005, 'batch_size': 64, 'patience': 45},  # CortexFlow-Multi-Pathway
             {'epochs': 180, 'lr': 0.0005, 'batch_size': 64, 'patience': 35},  # Miyawaki Advanced
             {'epochs': 150, 'lr': 0.0006, 'batch_size': 64, 'patience': 30}   # CortexFlow-Ensemble
         ]
