@@ -2822,8 +2822,8 @@ def create_statistical_visualization(all_results, output_dir):
     plt.tight_layout()
 
     # Save visualization
-    viz_path = output_dir / "statistical_analysis_comprehensive.png"
-    fig.savefig(viz_path, dpi=300, bbox_inches='tight', facecolor='white')
+    viz_path = output_dir / "statistical_analysis_comprehensive.svg"
+    fig.savefig(viz_path, format='svg', bbox_inches='tight', facecolor='white')
     plt.close(fig)
 
     print(f"✅ Statistical visualization saved: {viz_path}")
@@ -3421,9 +3421,9 @@ def main():
             fig, mse_results = create_gpu_optimized_reconstruction_figure(dataset, device)
 
             if fig is not None:
-                filename = f"wsl_gpu_reconstruction_{dataset}_dissertation.png"
+                filename = f"wsl_gpu_reconstruction_{dataset}_dissertation.svg"
                 filepath = output_dir / filename
-                fig.savefig(filepath, dpi=300, bbox_inches='tight', facecolor='white')
+                fig.savefig(filepath, format='svg', bbox_inches='tight', facecolor='white')
                 plt.close(fig)
                 print(f"💾 Tersimpan: {filepath}")
 

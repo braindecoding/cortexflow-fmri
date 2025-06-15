@@ -31,8 +31,8 @@ USAGE:
     python train.py  # Run complete cross-validation training dengan visualization
 
 OUTPUT:
-- Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.png
-- Statistical analysis: comprehensive_statistical_analysis.png
+- Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.svg
+- Statistical analysis: comprehensive_statistical_analysis.svg
 - Training results: comprehensive_training_results.json
 - Cross-validation results: cross_validation_results.json
 - Statistical analysis: statistical_analysis_with_ttest.json
@@ -482,8 +482,8 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
     plt.tight_layout()
 
     # Save visualization
-    viz_path = output_dir / "comprehensive_metrics_visualization.png"
-    fig.savefig(viz_path, dpi=300, bbox_inches='tight', facecolor='white')
+    viz_path = output_dir / "comprehensive_metrics_visualization.svg"
+    fig.savefig(viz_path, format='svg', bbox_inches='tight', facecolor='white')
     plt.close(fig)
 
     print(f"✅ Comprehensive metrics visualization saved: {viz_path}")
@@ -638,8 +638,8 @@ def create_statistical_significance_matrix_visualization(statistical_summaries, 
     plt.tight_layout()
 
     # Save visualization
-    viz_path = output_dir / "statistical_significance_matrix.png"
-    fig.savefig(viz_path, dpi=300, bbox_inches='tight', facecolor='white')
+    viz_path = output_dir / "statistical_significance_matrix.svg"
+    fig.savefig(viz_path, format='svg', bbox_inches='tight', facecolor='white')
     plt.close(fig)
 
     print(f"✅ Statistical significance matrix visualization saved: {viz_path}")
@@ -939,8 +939,8 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
     plt.tight_layout()
 
     # Save visualization
-    viz_path = output_dir / "overall_method_performance.png"
-    fig.savefig(viz_path, dpi=300, bbox_inches='tight', facecolor='white')
+    viz_path = output_dir / "overall_method_performance.svg"
+    fig.savefig(viz_path, format='svg', bbox_inches='tight', facecolor='white')
     plt.close(fig)
 
     print(f"✅ Overall method performance visualization saved: {viz_path}")
@@ -1057,9 +1057,9 @@ def main():
                     fig = create_cv_reconstruction_figure(dataset, reconstructions, mse_results, y_test)
 
                     # Save reconstruction figure
-                    recon_filename = f"cv_reconstruction_{dataset}_comprehensive.png"
+                    recon_filename = f"cv_reconstruction_{dataset}_comprehensive.svg"
                     recon_filepath = output_dir / recon_filename
-                    fig.savefig(recon_filepath, dpi=300, bbox_inches='tight', facecolor='white')
+                    fig.savefig(recon_filepath, format='svg', bbox_inches='tight', facecolor='white')
                     plt.close(fig)
                     print(f"💾 Reconstruction saved: {recon_filepath}")
 
@@ -1165,11 +1165,11 @@ def main():
     print(f"🔬 Cross-validation results: {cv_results_file}")
     print(f"📈 Statistical analysis: {stats_file}")
     print(f"📊 Comprehensive metrics: {metrics_file}")
-    print(f"🎨 Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.png")
-    print(f"📊 Statistical visualization: comprehensive_statistical_analysis.png")
-    print(f"📊 Comprehensive metrics visualization: comprehensive_metrics_visualization.png")
-    print(f"📊 Statistical significance matrix: statistical_significance_matrix.png")
-    print(f"📊 Overall method performance: overall_method_performance.png")
+    print(f"🎨 Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.svg")
+    print(f"📊 Statistical visualization: comprehensive_statistical_analysis.svg")
+    print(f"📊 Comprehensive metrics visualization: comprehensive_metrics_visualization.svg")
+    print(f"📊 Statistical significance matrix: statistical_significance_matrix.svg")
+    print(f"📊 Overall method performance: overall_method_performance.svg")
     print(f"🕒 End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     print(f"\n🎓 ACADEMIC METHODOLOGY ACHIEVED:")
