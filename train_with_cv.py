@@ -33,8 +33,12 @@ from train import (
     MiyawakiAdvancedCortexFlow, CortexFlowEnsemble,
     load_dataset_gpu_optimized, gpu_optimized_training,
     comprehensive_ttest_analysis, statistical_analysis,
-    create_statistical_visualization
+    create_statistical_visualization, set_reproducibility_seeds,
+    get_unified_config
 )
+
+# Set reproducibility for consistency with train.py
+set_reproducibility_seeds(42)
 
 def quick_training_with_cv(dataset_name, device='cuda', k_folds=3):
     """Training lengkap dengan cross-validation untuk statistical testing"""
@@ -64,14 +68,16 @@ def quick_training_with_cv(dataset_name, device='cuda', k_folds=3):
         CortexFlowEnsemble(input_dim, device)
     ]
     
-    # Quick training configs
-    training_configs = [
-        {'epochs': 80, 'lr': 0.001, 'batch_size': 64, 'patience': 20},   # CNN
-        {'epochs': 100, 'lr': 0.0008, 'batch_size': 64, 'patience': 25}, # MinD-Vis
-        {'epochs': 60, 'lr': 0.002, 'batch_size': 64, 'patience': 15},   # Brain-Diffuser
-        {'epochs': 120, 'lr': 0.0005, 'batch_size': 64, 'patience': 30}, # CortexFlow-Enhanced
-        {'epochs': 100, 'lr': 0.0006, 'batch_size': 64, 'patience': 25}  # CortexFlow-Ensemble
-    ]
+    # Use unified training configs for consistency
+    model_names = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
+    training_configs = []
+    for model_name in model_names:
+        config = get_unified_config(dataset_name, model_name)
+        # Reduce epochs for quick training but maintain ratios
+        quick_config = config.copy()
+        quick_config['epochs'] = max(40, config['epochs'] // 3)  # Reduce to 1/3 but min 40
+        quick_config['patience'] = max(15, config['patience'] // 2)  # Reduce patience
+        training_configs.append(quick_config)
     
     full_results = {}
     reconstructions = []
@@ -140,11 +146,20 @@ def quick_training_with_cv(dataset_name, device='cuda', k_folds=3):
         
         for model, name in zip(cv_models, model_names):
             print(f"     Training {name}...")
-            
-            # Quick CV training
-            _ = gpu_optimized_training(model, X_train_fold, y_train_fold, 
-                                    X_val_fold[:16], y_val_fold[:16], 
-                                    epochs=40, lr=0.001, batch_size=32, patience=15)
+
+            # Use unified config for CV training (reduced epochs)
+            config = get_unified_config(dataset_name, name)
+            cv_config = {
+                'epochs': max(30, config['epochs'] // 5),  # Even more reduced for CV
+                'lr': config['lr'],
+                'batch_size': min(32, config['batch_size']),  # Smaller batch for CV
+                'patience': max(10, config['patience'] // 3)
+            }
+
+            # Quick CV training with unified config
+            _ = gpu_optimized_training(model, X_train_fold, y_train_fold,
+                                    X_val_fold[:16], y_val_fold[:16],
+                                    **cv_config)
             
             # Evaluate
             model.eval()

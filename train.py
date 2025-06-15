@@ -41,9 +41,75 @@ import seaborn as sns
 from sklearn.model_selection import KFold
 import pandas as pd
 
-# Set optimal GPU settings
-torch.backends.cudnn.benchmark = True
-torch.backends.cudnn.deterministic = False
+# REPRODUCIBILITY SETTINGS FOR CONSISTENCY
+def set_reproducibility_seeds(seed=42):
+    """Set all random seeds for reproducibility"""
+    import random
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    print(f"🔒 Reproducibility seeds set to {seed}")
+
+# Set global reproducibility
+set_reproducibility_seeds(42)
+
+# UNIFIED TRAINING CONFIGURATIONS FOR CONSISTENCY
+UNIFIED_TRAINING_CONFIGS = {
+    'miyawaki': {
+        'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40,
+        'models': {
+            'Baseline_CNN': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
+            'MinD_Vis': {'epochs': 250, 'lr': 0.0008, 'batch_size': 64, 'patience': 45},
+            'Brain_Diffuser': {'epochs': 150, 'lr': 0.002, 'batch_size': 64, 'patience': 30},
+            'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0005, 'batch_size': 64, 'patience': 50},
+            'CortexFlow_Ensemble': {'epochs': 250, 'lr': 0.0006, 'batch_size': 64, 'patience': 45}
+        }
+    },
+    'vangerven': {
+        'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40,
+        'models': {
+            'Baseline_CNN': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
+            'MinD_Vis': {'epochs': 250, 'lr': 0.0008, 'batch_size': 64, 'patience': 45},
+            'Brain_Diffuser': {'epochs': 150, 'lr': 0.002, 'batch_size': 64, 'patience': 30},
+            'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0005, 'batch_size': 64, 'patience': 50},
+            'CortexFlow_Ensemble': {'epochs': 250, 'lr': 0.0006, 'batch_size': 64, 'patience': 45}
+        }
+    },
+    'mindbigdata': {
+        'epochs': 200, 'lr': 0.0005, 'batch_size': 64, 'patience': 40,
+        'models': {
+            'Baseline_CNN': {'epochs': 200, 'lr': 0.0005, 'batch_size': 64, 'patience': 40},
+            'MinD_Vis': {'epochs': 250, 'lr': 0.0006, 'batch_size': 64, 'patience': 45},
+            'Brain_Diffuser': {'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'patience': 30},
+            'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0003, 'batch_size': 64, 'patience': 50},
+            'CortexFlow_Ensemble': {'epochs': 250, 'lr': 0.0004, 'batch_size': 64, 'patience': 45}
+        }
+    },
+    'crell': {
+        'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40,
+        'models': {
+            'Baseline_CNN': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
+            'MinD_Vis': {'epochs': 250, 'lr': 0.0008, 'batch_size': 64, 'patience': 45},
+            'Brain_Diffuser': {'epochs': 150, 'lr': 0.002, 'batch_size': 64, 'patience': 30},
+            'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0005, 'batch_size': 64, 'patience': 50},
+            'CortexFlow_Ensemble': {'epochs': 250, 'lr': 0.0006, 'batch_size': 64, 'patience': 45}
+        }
+    }
+}
+
+def get_unified_config(dataset_name, model_name):
+    """Get unified training configuration for consistency"""
+    dataset_config = UNIFIED_TRAINING_CONFIGS.get(dataset_name, UNIFIED_TRAINING_CONFIGS['miyawaki'])
+    model_config = dataset_config['models'].get(model_name, dataset_config)
+    return model_config
+
+# Note: For production, you can disable deterministic mode for speed:
+# torch.backends.cudnn.benchmark = True
+# torch.backends.cudnn.deterministic = False
 
 def hyperparameter_grid_search(model_class, X_train, y_train, X_val, y_val, input_dim, device='cuda'):
     """Comprehensive hyperparameter grid search for target MSE 0.008"""

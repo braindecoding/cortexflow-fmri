@@ -1,1 +1,30 @@
-{}
+{
+  "miyawaki": {
+    "Baseline_CNN": 0.026755541563034058,
+    "MinD_Vis": 0.014552157372236252,
+    "Brain_Diffuser": 0.01197401899844408,
+    "CortexFlow_Enhanced": 0.03373868763446808,
+    "CortexFlow_Ensemble": 0.01362764835357666
+  },
+  "vangerven": {
+    "Baseline_CNN": 0.042516253888607025,
+    "MinD_Vis": 0.042595792561769485,
+    "Brain_Diffuser": 0.040753960609436035,
+    "CortexFlow_Enhanced": 0.046332716941833496,
+    "CortexFlow_Ensemble": 0.044367384165525436
+  },
+  "mindbigdata": {
+    "Baseline_CNN": 0.05753427371382713,
+    "MinD_Vis": 0.06743018329143524,
+    "Brain_Diffuser": 0.06254565715789795,
+    "CortexFlow_Enhanced": 0.062099989503622055,
+    "CortexFlow_Ensemble": 0.05759228393435478
+  },
+  "crell": {
+    "Baseline_CNN": 0.028839563950896263,
+    "MinD_Vis": 0.02903466299176216,
+    "Brain_Diffuser": 0.028840696439146996,
+    "CortexFlow_Enhanced": 0.028437932953238487,
+    "CortexFlow_Ensemble": 0.02883007563650608
+  }
+}
