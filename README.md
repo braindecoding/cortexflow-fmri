@@ -345,11 +345,30 @@ cortexflow-fmri/
 ├── SOTA.md             # Detailed analysis and results
 ├── LICENSE             # MIT License
 ├── requirements.txt    # Python dependencies
-├── train.py            # Main training script (ALL-IN-ONE)
+├── train.py            # Main training script (MODULAR)
 ├── test.py             # Reproducibility test
 ├── verify.py           # Verification script
 ├── configs/            # Configuration files
 │   └── project_config.json
+├── src/                # Modular architecture (NEW)
+│   ├── models/         # Neural decoding models
+│   │   ├── baseline.py         # StandardBaselineCNN
+│   │   ├── mind_vis.py         # OptimizedMinDVis (CVPR 2023)
+│   │   ├── brain_diffuser.py   # OptimizedBrainDiffuser (2023)
+│   │   ├── cortexflow.py       # CortexFlowMultiPathway (Novel)
+│   │   ├── miyawaki_advanced.py # MiyawakiAdvancedCortexFlow
+│   │   └── ensemble.py         # CortexFlowEnsemble (7 variants)
+│   ├── training/       # Training functions
+│   │   └── gpu_training.py     # GPU-optimized training
+│   ├── evaluation/     # Evaluation metrics
+│   │   ├── metrics.py          # ComprehensiveEvaluationMetrics
+│   │   └── statistics.py       # Statistical analysis
+│   ├── data/           # Data loading
+│   │   └── loader.py           # Dataset loading functions
+│   ├── visualization/  # Visualization functions
+│   │   └── statistical_plots.py # Statistical and reconstruction plots
+│   └── utils/          # Utility functions
+│       └── config.py           # Configuration management
 ├── data/               # Dataset storage
 │   ├── processed/      # Processed .mat files
 │   ├── external/       # External datasets
@@ -358,19 +377,21 @@ cortexflow-fmri/
     └── wsl_gpu_training/  # GPU training outputs
 ```
 
-### Clean and Simple Structure
-- **All-in-One Design**: Complete functionality in `train.py` - no complex subdirectories
-- **Consolidated Documentation**: README.md with integrated reproducibility guide, SOTA.md for detailed analysis
-- **Organized Data**: Separate folders for different data types
-- **Results Storage**: Dedicated folder for training outputs
-- **No Clutter**: Removed unnecessary files, __pycache__, and complex src/ structure
-- **No Fragmentation**: All reproducibility information integrated into main README
+### Professional Modular Architecture
+- **🏗️ Modular Design**: Professional src/ structure with clean separation of concerns
+- **📁 Organized Components**: Each functionality in dedicated modules for maintainability
+- **🔧 Easy Extension**: Simple to add new models, training techniques, or evaluation metrics
+- **🧪 Independent Testing**: Each component can be tested and modified independently
+- **📚 Academic Quality**: Publication-ready code organization following industry standards
+- **🔄 Scalable Structure**: Easy to collaborate and share individual components
 
-### What Was Cleaned Up
-- ❌ **Removed**: Complex `src/` directory structure (models/, training/, evaluation/, utils/)
-- ❌ **Removed**: `__pycache__` folders and compiled Python files
-- ❌ **Removed**: Unused experiment files (`run_experiments.py`)
-- ✅ **Kept**: Only essential files for training, testing, and documentation
+### Modular Architecture Benefits
+- ✅ **Enhanced Maintainability**: Each component in separate, well-documented files
+- ✅ **Professional Organization**: Industry-standard modular structure
+- ✅ **Easy Collaboration**: Components can be shared and modified independently
+- ✅ **Scalable Development**: Simple to add new functionality without affecting existing code
+- ✅ **Academic Standards**: Publication-ready code organization
+- ✅ **Clean Imports**: Professional import structure with clear dependencies
 
 ## System Requirements
 
