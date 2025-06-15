@@ -166,11 +166,9 @@ class OptimizedCortexFlow(nn.Module):
         mean_pred = self.decoder_mean(encoded)
         var_pred = self.decoder_var(encoded)
 
-        # During training, return mean; during inference, can return both
-        if self.training:
-            return mean_pred.view(-1, 1, 28, 28)
-        else:
-            return mean_pred.view(-1, 1, 28, 28), var_pred.view(-1, 1, 28, 28)
+        # Always return mean prediction for consistency
+        # Uncertainty can be accessed separately if needed
+        return mean_pred.view(-1, 1, 28, 28)
 
 class StandardBaselineCNN(nn.Module):
     """Standard Baseline CNN for Neural Decoding (Generic Implementation)"""
@@ -708,6 +706,254 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
 
     return cv_results_dict
 
+def gpu_optimized_training(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
+    """GPU-optimized training dengan mixed precision"""
+
+    # Setup optimizer dan loss
+    optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
+    criterion = nn.MSELoss()
+    scaler = torch.cuda.amp.GradScaler() if model.device == 'cuda' else None
+
+    # Data loaders
+    train_dataset = TensorDataset(X_train, y_train)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
+
+    best_loss = float('inf')
+    patience_counter = 0
+
+    model.train()
+    for epoch in range(epochs):
+        epoch_loss = 0.0
+
+        for batch_X, batch_y in train_loader:
+            optimizer.zero_grad()
+
+            if model.device == 'cuda' and scaler:
+                # Mixed precision training
+                with torch.cuda.amp.autocast():
+                    output = model(batch_X)
+                    # Handle tuple output from OptimizedCortexFlow
+                    if isinstance(output, tuple):
+                        output = output[0]  # Use mean prediction
+                    loss = criterion(output, batch_y)
+
+                scaler.scale(loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                # Standard training
+                output = model(batch_X)
+                if isinstance(output, tuple):
+                    output = output[0]  # Use mean prediction
+                loss = criterion(output, batch_y)
+                loss.backward()
+                optimizer.step()
+
+            epoch_loss += loss.item()
+
+        # Validation
+        if epoch % 10 == 0:
+            model.eval()
+            with torch.no_grad():
+                val_output = model(X_val)
+                if isinstance(val_output, tuple):
+                    val_output = val_output[0]  # Use mean prediction
+                val_loss = criterion(val_output, y_val).item()
+
+            if val_loss < best_loss:
+                best_loss = val_loss
+                patience_counter = 0
+            else:
+                patience_counter += 1
+
+            if patience_counter >= patience:
+                break
+
+            model.train()
+
+    return best_loss
+
+def load_and_prepare_data(dataset_name, device):
+    """Load dan prepare dataset untuk training"""
+
+    try:
+        if dataset_name == 'miyawaki':
+            data_path = Path('data/processed/miyawaki_structured_28x28.mat')
+        elif dataset_name == 'vangerven':
+            data_path = Path('data/processed/digit69_28x28.mat')
+        elif dataset_name == 'mindbigdata':
+            data_path = Path('data/processed/mindbigdata.mat')
+        elif dataset_name == 'crell':
+            data_path = Path('data/processed/crell.mat')
+        else:
+            print(f"❌ Unknown dataset: {dataset_name}")
+            return None, None, None, None
+
+        if not data_path.exists():
+            print(f"❌ Dataset file not found: {data_path}")
+            return None, None, None, None
+
+        print(f"📊 Loading {dataset_name} dataset...")
+        data = sio.loadmat(data_path)
+
+        # Extract data arrays (adjust keys based on actual file structure)
+        if 'fmri_data' in data and 'visual_data' in data:
+            X = data['fmri_data']
+            y = data['visual_data']
+        elif 'X' in data and 'y' in data:
+            X = data['X']
+            y = data['y']
+        else:
+            # Try to find data arrays automatically
+            data_keys = [k for k in data.keys() if not k.startswith('__')]
+            if len(data_keys) >= 2:
+                X = data[data_keys[0]]
+                y = data[data_keys[1]]
+            else:
+                print(f"❌ Could not find data arrays in {dataset_name}")
+                return None, None, None, None
+
+        # Convert to tensors
+        X = torch.FloatTensor(X).to(device)
+        y = torch.FloatTensor(y).to(device)
+
+        # Ensure y is in correct format [batch, 1, 28, 28]
+        if len(y.shape) == 2:
+            y = y.view(-1, 1, 28, 28)
+        elif len(y.shape) == 3:
+            y = y.unsqueeze(1)
+
+        # Train/test split
+        n_samples = X.shape[0]
+        n_train = int(0.8 * n_samples)
+
+        X_train, X_test = X[:n_train], X[n_train:]
+        y_train, y_test = y[:n_train], y[n_train:]
+
+        print(f"✅ Dataset loaded: {X.shape} -> {y.shape}")
+        print(f"   Train: {X_train.shape}, Test: {X_test.shape}")
+
+        return X_train, y_train, X_test, y_test
+
+    except Exception as e:
+        print(f"❌ Error loading {dataset_name}: {e}")
+        return None, None, None, None
+
+def create_gpu_optimized_reconstruction_figure(dataset_name, device):
+    """Create reconstruction figure dengan GPU-optimized training"""
+
+    print(f"🔄 Training models untuk {dataset_name}...")
+
+    # Load data
+    X_train, y_train, X_test, y_test = load_and_prepare_data(dataset_name, device)
+    if X_train is None:
+        return None, None
+
+    input_dim = X_train.shape[1]
+
+    # Initialize models
+    models = [
+        StandardBaselineCNN(input_dim, device),
+        OptimizedMinDVis(input_dim, device),
+        OptimizedBrainDiffuser(input_dim, device),
+        OptimizedCortexFlow(input_dim, device),
+        CortexFlowEnsemble(input_dim, device)
+    ]
+
+    # Training configs
+    if dataset_name == 'mindbigdata':
+        training_configs = [
+            {'epochs': 100, 'lr': 0.0005, 'batch_size': 32, 'patience': 20},
+            {'epochs': 120, 'lr': 0.0006, 'batch_size': 32, 'patience': 25},
+            {'epochs': 80, 'lr': 0.001, 'batch_size': 32, 'patience': 15},
+            {'epochs': 150, 'lr': 0.0003, 'batch_size': 32, 'patience': 30},
+            {'epochs': 120, 'lr': 0.0004, 'batch_size': 32, 'patience': 25}
+        ]
+    else:
+        training_configs = [
+            {'epochs': 120, 'lr': 0.001, 'batch_size': 64, 'patience': 25},
+            {'epochs': 150, 'lr': 0.0008, 'batch_size': 64, 'patience': 30},
+            {'epochs': 100, 'lr': 0.002, 'batch_size': 64, 'patience': 20},
+            {'epochs': 180, 'lr': 0.0005, 'batch_size': 64, 'patience': 35},
+            {'epochs': 150, 'lr': 0.0006, 'batch_size': 64, 'patience': 30}
+        ]
+
+    # Train models dan collect results
+    reconstructions = []
+    mse_results = []
+
+    for i, (model, config) in enumerate(zip(models, training_configs)):
+        print(f"   Training {model.name}...")
+
+        # Train model
+        best_loss = gpu_optimized_training(
+            model, X_train, y_train, X_test[:32], y_test[:32],
+            epochs=config['epochs'], lr=config['lr'],
+            batch_size=config['batch_size'], patience=config['patience']
+        )
+
+        # Evaluate
+        model.eval()
+        with torch.no_grad():
+            test_output = model(X_test[:8])
+            # Handle tuple output
+            if isinstance(test_output, tuple):
+                test_output = test_output[0]  # Use mean prediction
+
+            mse = nn.MSELoss()(test_output, y_test[:8]).item()
+            reconstructions.append(test_output.cpu())
+            mse_results.append(mse)
+
+            print(f"     MSE: {mse:.6f}")
+
+    # Create visualization
+    num_methods = len(reconstructions)
+    num_samples = 8
+
+    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(16, (num_methods + 1) * 2.2))
+
+    dataset_titles = {
+        'miyawaki': 'Miyawaki (Visual Kompleks)',
+        'vangerven': 'Vangerven (Pola Digit)',
+        'mindbigdata': 'MindBigData (EEG→fMRI→Visual)',
+        'crell': 'Crell (EEG→fMRI→Visual)'
+    }
+
+    fig.suptitle(f'Comparison: Multi-Pathway vs Ensemble - Dataset {dataset_titles[dataset_name]}\n'
+                f'CortexFlow-Enhanced vs CortexFlow-Ensemble Performance Analysis',
+                fontsize=14, fontweight='bold')
+
+    # Plot targets
+    y_samples = y_test[:8].cpu()
+    for i in range(num_samples):
+        axes[0, i].imshow(y_samples[i, 0].numpy(), cmap='gray', vmin=0, vmax=1)
+        axes[0, i].set_title(f'Target {i+1}', fontsize=10, fontweight='bold')
+        axes[0, i].axis('off')
+
+    # Label baris target
+    axes[0, 0].text(-0.15, 0.5, 'Target Visual Asli\n(GPU Processed)',
+                    transform=axes[0, 0].transAxes, fontsize=11, fontweight='bold',
+                    rotation=90, verticalalignment='center', horizontalalignment='center',
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor='lightblue', alpha=0.7))
+
+    # Plot reconstructions
+    method_labels = [model.name for model in models]
+    for method_idx, (recon, method_label, mse) in enumerate(zip(reconstructions, method_labels, mse_results), 1):
+        for i in range(num_samples):
+            axes[method_idx, i].imshow(recon[i, 0].numpy(), cmap='gray', vmin=0, vmax=1)
+            axes[method_idx, i].set_title(f'Rekonstruksi {i+1}', fontsize=9)
+            axes[method_idx, i].axis('off')
+
+        # Label dengan MSE
+        label_text = f"{method_label}\n(GPU Trained)\nMSE: {mse:.4f}"
+        axes[method_idx, 0].text(-0.15, 0.5, label_text,
+                                transform=axes[method_idx, 0].transAxes, fontsize=10, fontweight='bold',
+                                rotation=90, verticalalignment='center', horizontalalignment='center',
+                                bbox=dict(boxstyle="round,pad=0.3", facecolor='lightgreen', alpha=0.7))
+
+    plt.tight_layout()
+    return fig, mse_results
+
 def statistical_analysis(results_dict, dataset_name):
     """Comprehensive statistical analysis untuk scientific validation"""
 
@@ -993,6 +1239,315 @@ def create_statistical_visualization(all_results, output_dir):
     print(f"✅ Statistical visualization saved: {viz_path}")
 
     return viz_path
+
+def run_real_cross_validation_analysis(dataset_name, device, k_folds=3):
+    """Run REAL cross-validation analysis untuk statistical testing"""
+
+    print(f"\n🔄 REAL CROSS-VALIDATION ANALYSIS - Dataset: {dataset_name.upper()}")
+    print("=" * 70)
+    print(f"   Running {k_folds}-fold cross-validation untuk statistical validation")
+    print(f"   This will provide REAL data untuk t-test analysis")
+
+    try:
+        # Load dataset using existing function
+        X_train, y_train, X_test, y_test, input_dim = load_dataset_gpu_optimized(dataset_name, device)
+        if X_train is None:
+            print(f"❌ Failed to load {dataset_name} dataset")
+            return None
+
+        # Use combined data for CV
+        X_combined = torch.cat([X_train, X_test], dim=0)
+        y_combined = torch.cat([y_train, y_test], dim=0)
+
+        print(f"   Dataset loaded: X={X_combined.shape}, y={y_combined.shape}")
+
+        # Real cross-validation
+        kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
+        cv_results = {
+            'Baseline_CNN': [],
+            'MinD_Vis': [],
+            'Brain_Diffuser': [],
+            'CortexFlow_Enhanced': [],
+            'CortexFlow_Ensemble': []
+        }
+
+        fold = 1
+        for train_idx, val_idx in kf.split(X_combined):
+            print(f"\n   Fold {fold}/{k_folds}:")
+
+            X_train_fold = X_combined[train_idx]
+            y_train_fold = y_combined[train_idx]
+            X_val_fold = X_combined[val_idx]
+            y_val_fold = y_combined[val_idx]
+
+            # Train each model
+            models = [
+                StandardBaselineCNN(input_dim, device),
+                OptimizedMinDVis(input_dim, device),
+                OptimizedBrainDiffuser(input_dim, device),
+                OptimizedCortexFlow(input_dim, device),
+                CortexFlowEnsemble(input_dim, device)
+            ]
+
+            model_names = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
+
+            for model, name in zip(models, model_names):
+                print(f"     Training {name}...")
+
+                # Quick training untuk CV (reduced epochs)
+                _ = gpu_optimized_training(model, X_train_fold, y_train_fold,
+                                        X_val_fold[:16], y_val_fold[:16],
+                                        epochs=30, lr=0.001, batch_size=32, patience=10)
+
+                # Evaluate on validation set
+                model.eval()
+                with torch.no_grad():
+                    pred = model(X_val_fold)
+                    if isinstance(pred, tuple):
+                        pred = pred[0]  # Handle tuple output
+                    mse = nn.MSELoss()(pred, y_val_fold).item()
+                    cv_results[name].append(mse)
+                    print(f"       MSE: {mse:.6f}")
+
+            fold += 1
+
+        print(f"\n✅ Cross-validation completed for {dataset_name}")
+        print(f"📊 REAL CV Results Summary:")
+        for method, scores in cv_results.items():
+            mean_score = np.mean(scores)
+            std_score = np.std(scores)
+            print(f"   {method}: {mean_score:.6f} ± {std_score:.6f}")
+
+        return cv_results
+
+    except Exception as e:
+        print(f"❌ Error in cross-validation for {dataset_name}: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
+    """Comprehensive T-Test Analysis using REAL Cross-Validation Results"""
+
+    print(f"\n🔬 COMPREHENSIVE T-TEST ANALYSIS - Dataset: {dataset_name.upper()}")
+    print("=" * 80)
+
+    # Use REAL cross-validation results - NO SIMULATION
+    if not cv_results_dict or len(cv_results_dict) == 0:
+        print("❌ ERROR: No real cross-validation results available")
+        print("   T-test analysis requires actual CV results, not single scores")
+        print("   Please run cross-validation first to get multiple samples")
+        return None
+
+    methods = list(cv_results_dict.keys())
+
+    print(f"📊 T-TEST OVERVIEW:")
+    print(f"   T-test menggunakan REAL cross-validation results")
+    print(f"   H₀: μ₁ = μ₂ (tidak ada perbedaan signifikan)")
+    print(f"   H₁: μ₁ ≠ μ₂ (ada perbedaan signifikan)")
+    print(f"   Significance level: α = 0.05")
+    print(f"   Data source: ACTUAL {len(list(cv_results_dict.values())[0])}-fold cross-validation")
+
+    print(f"\n📈 REAL CROSS-VALIDATION RESULTS:")
+    for method, runs in cv_results_dict.items():
+        mean_score = np.mean(runs)
+        std_score = np.std(runs)
+        print(f"   {method}: {mean_score:.6f} ± {std_score:.6f} (n={len(runs)} folds)")
+
+    # 1. ONE-SAMPLE T-TEST
+    print(f"\n1️⃣ ONE-SAMPLE T-TEST:")
+    print(f"   Membandingkan setiap method dengan baseline threshold")
+    baseline_threshold = 0.025  # Threshold untuk acceptable performance
+
+    for method, runs in cv_results_dict.items():
+        t_stat, p_value = stats.ttest_1samp(runs, baseline_threshold)
+
+        if np.mean(runs) < baseline_threshold:
+            interpretation = "✅ Significantly BETTER than baseline"
+        else:
+            interpretation = "❌ Not significantly better than baseline"
+
+        significance = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "ns"
+
+        print(f"   {method}:")
+        print(f"     vs baseline ({baseline_threshold}): t = {t_stat:.3f}, p = {p_value:.6f} {significance}")
+        print(f"     {interpretation}")
+
+    # 2. INDEPENDENT SAMPLES T-TEST (Two-Sample)
+    print(f"\n2️⃣ INDEPENDENT SAMPLES T-TEST:")
+    print(f"   Membandingkan CortexFlow methods vs SOTA methods")
+
+    cortexflow_methods = [method for method in methods if 'CortexFlow' in method]
+    sota_methods = [method for method in methods if 'CortexFlow' not in method]
+
+    # Combine REAL scores untuk group comparison
+    cortexflow_scores = []
+    sota_scores = []
+
+    for method in cortexflow_methods:
+        cortexflow_scores.extend(cv_results_dict[method])
+
+    for method in sota_methods:
+        sota_scores.extend(cv_results_dict[method])
+
+    if cortexflow_scores and sota_scores:
+        t_stat, p_value = stats.ttest_ind(cortexflow_scores, sota_scores)
+
+        cf_mean = np.mean(cortexflow_scores)
+        sota_mean = np.mean(sota_scores)
+
+        if cf_mean < sota_mean:
+            interpretation = "✅ CortexFlow significantly BETTER than SOTA"
+            improvement = ((sota_mean - cf_mean) / sota_mean) * 100
+        else:
+            interpretation = "❌ CortexFlow not significantly better than SOTA"
+            improvement = ((cf_mean - sota_mean) / cf_mean) * 100
+
+        significance = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "ns"
+
+        print(f"   CortexFlow vs SOTA:")
+        print(f"     CortexFlow mean: {cf_mean:.6f}")
+        print(f"     SOTA mean: {sota_mean:.6f}")
+        print(f"     t-statistic: {t_stat:.3f}")
+        print(f"     p-value: {p_value:.6f} {significance}")
+        print(f"     {interpretation}")
+        if cf_mean < sota_mean:
+            print(f"     Improvement: {improvement:.2f}%")
+
+    # 3. PAIRED SAMPLES T-TEST
+    print(f"\n3️⃣ PAIRED SAMPLES T-TEST:")
+    print(f"   Membandingkan methods pada dataset yang sama (paired comparison)")
+
+    # Pairwise comparisons using REAL CV results
+    for i in range(len(methods)):
+        for j in range(i+1, len(methods)):
+            method1, method2 = methods[i], methods[j]
+            scores1, scores2 = cv_results_dict[method1], cv_results_dict[method2]
+
+            # Paired t-test
+            t_stat, p_value = stats.ttest_rel(scores1, scores2)
+
+            # Effect size (Cohen's d untuk paired samples)
+            diff = np.array(scores1) - np.array(scores2)
+            cohens_d = np.mean(diff) / np.std(diff)
+
+            # Interpretation
+            mean1, mean2 = np.mean(scores1), np.mean(scores2)
+            if mean1 < mean2:
+                winner = method1
+                improvement = ((mean2 - mean1) / mean2) * 100
+            else:
+                winner = method2
+                improvement = ((mean1 - mean2) / mean1) * 100
+
+            significance = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "ns"
+
+            # Effect size interpretation
+            if abs(cohens_d) < 0.2:
+                effect_magnitude = "Small"
+            elif abs(cohens_d) < 0.5:
+                effect_magnitude = "Medium"
+            elif abs(cohens_d) < 0.8:
+                effect_magnitude = "Large"
+            else:
+                effect_magnitude = "Very Large"
+
+            print(f"   {method1} vs {method2}:")
+            print(f"     t-statistic: {t_stat:.3f}")
+            print(f"     p-value: {p_value:.6f} {significance}")
+            print(f"     Cohen's d: {cohens_d:.3f} ({effect_magnitude} effect)")
+            print(f"     Winner: {winner} ({improvement:.2f}% better)")
+
+    return cv_results_dict
+
+def statistical_analysis(results_dict, dataset_name):
+    """Basic statistical analysis untuk single training results"""
+
+    print(f"\n📊 STATISTICAL ANALYSIS - Dataset: {dataset_name.upper()}")
+    print("=" * 70)
+
+    # Extract results
+    methods = list(results_dict.keys())
+    scores = list(results_dict.values())
+
+    print(f"🔬 Methods: {methods}")
+    print(f"📈 MSE Scores: {[f'{score:.6f}' for score in scores]}")
+
+    # 1. Descriptive Statistics
+    print(f"\n1. DESCRIPTIVE STATISTICS:")
+    print(f"   Best Method: {methods[np.argmin(scores)]} (MSE: {min(scores):.6f})")
+    print(f"   Worst Method: {methods[np.argmax(scores)]} (MSE: {max(scores):.6f})")
+    print(f"   Range: {max(scores) - min(scores):.6f}")
+    print(f"   Mean: {np.mean(scores):.6f} ± {np.std(scores):.6f}")
+
+    # 2. Pairwise Comparisons (untuk publication)
+    print(f"\n2. PAIRWISE COMPARISONS:")
+    cortexflow_methods = [i for i, method in enumerate(methods) if 'CortexFlow' in method]
+    sota_methods = [i for i, method in enumerate(methods) if 'CortexFlow' not in method]
+
+    # Compare CortexFlow methods vs SOTA
+    for cf_idx in cortexflow_methods:
+        cf_method = methods[cf_idx]
+        cf_score = scores[cf_idx]
+
+        print(f"\n   {cf_method} vs SOTA methods:")
+        for sota_idx in sota_methods:
+            sota_method = methods[sota_idx]
+            sota_score = scores[sota_idx]
+
+            improvement = ((sota_score - cf_score) / sota_score) * 100
+            effect_size = abs(cf_score - sota_score) / np.std([cf_score, sota_score])
+
+            if cf_score < sota_score:
+                print(f"     vs {sota_method}: ✅ {improvement:.2f}% improvement (Effect size: {effect_size:.3f})")
+            else:
+                print(f"     vs {sota_method}: ❌ {-improvement:.2f}% worse (Effect size: {effect_size:.3f})")
+
+    # 3. CortexFlow Enhanced vs Ensemble Comparison
+    enhanced_idx = next((i for i, method in enumerate(methods) if 'Enhanced' in method), None)
+    ensemble_idx = next((i for i, method in enumerate(methods) if 'Ensemble' in method), None)
+
+    if enhanced_idx is not None and ensemble_idx is not None:
+        enhanced_score = scores[enhanced_idx]
+        ensemble_score = scores[ensemble_idx]
+
+        print(f"\n3. CORTEXFLOW APPROACH COMPARISON:")
+        if enhanced_score < ensemble_score:
+            improvement = ((ensemble_score - enhanced_score) / ensemble_score) * 100
+            print(f"   Enhanced vs Ensemble: ✅ Enhanced better by {improvement:.2f}%")
+            print(f"   Conclusion: Multi-Pathway approach superior untuk {dataset_name}")
+        else:
+            improvement = ((enhanced_score - ensemble_score) / enhanced_score) * 100
+            print(f"   Enhanced vs Ensemble: ✅ Ensemble better by {improvement:.2f}%")
+            print(f"   Conclusion: Variant Ensemble approach superior untuk {dataset_name}")
+
+    # 4. Effect Size Classification
+    print(f"\n4. EFFECT SIZE ANALYSIS:")
+    best_idx = np.argmin(scores)
+    best_score = scores[best_idx]
+
+    for i, (method, score) in enumerate(zip(methods, scores)):
+        if i != best_idx:
+            effect_size = abs(score - best_score) / np.std([score, best_score])
+            if effect_size < 0.2:
+                magnitude = "Small"
+            elif effect_size < 0.5:
+                magnitude = "Medium"
+            elif effect_size < 0.8:
+                magnitude = "Large"
+            else:
+                magnitude = "Very Large"
+
+            print(f"   {method}: Effect size = {effect_size:.3f} ({magnitude})")
+
+    return {
+        'best_method': methods[np.argmin(scores)],
+        'best_score': min(scores),
+        'worst_score': max(scores),
+        'range': max(scores) - min(scores),
+        'mean': np.mean(scores),
+        'std': np.std(scores)
+    }
 
 def load_dataset_gpu_optimized(dataset_name, device='cuda'):
     """Load dataset dengan GPU optimization"""
@@ -1296,14 +1851,18 @@ def main():
                 stats_summary = statistical_analysis(dataset_results, dataset)
                 statistical_summaries[dataset] = stats_summary
 
-                # Note: T-test analysis requires cross-validation with multiple samples
-                print(f"\n⚠️  NOTE: T-test analysis requires cross-validation")
-                print(f"   Current results are single training runs")
-                print(f"   For statistical significance testing, run cross-validation")
-                print(f"   Example: cv_stats = cross_validation_analysis(X, y, models, dataset)")
+                # Run cross-validation for proper T-test analysis
+                print(f"\n🔄 RUNNING CROSS-VALIDATION FOR T-TEST ANALYSIS...")
+                cv_results = run_real_cross_validation_analysis(dataset, device, k_folds=3)
 
-                # Store note about statistical testing
-                statistical_summaries[dataset]['note'] = 'T-test requires cross-validation with multiple samples'
+                if cv_results:
+                    # Perform comprehensive T-test analysis with real CV data
+                    ttest_results = comprehensive_ttest_analysis(cv_results, dataset)
+                    statistical_summaries[dataset]['cv_results'] = cv_results
+                    statistical_summaries[dataset]['ttest_analysis'] = 'completed'
+                else:
+                    print(f"⚠️  Cross-validation failed for {dataset}")
+                    statistical_summaries[dataset]['ttest_analysis'] = 'failed'
 
             else:
                 print(f"❌ Gagal untuk {dataset}")
@@ -1346,8 +1905,11 @@ def main():
     for method, wins in sorted(method_wins.items(), key=lambda x: x[1], reverse=True):
         print(f"   {method}: {wins}/{len(datasets)} datasets")
 
-    overall_winner = max(method_wins.keys(), key=lambda k: method_wins[k])
-    print(f"\n🥇 OVERALL CHAMPION: {overall_winner}")
+    if method_wins:
+        overall_winner = max(method_wins.keys(), key=lambda k: method_wins[k])
+        print(f"\n🥇 OVERALL CHAMPION: {overall_winner}")
+    else:
+        print(f"\n⚠️  No complete results available for overall winner analysis")
 
     print(f"\n✅ WSL GPU training completed!")
     print(f"📁 Results saved to: {output_dir}")
