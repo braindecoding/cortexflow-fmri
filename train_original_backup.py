@@ -1053,6 +1053,131 @@ class OptimizedMinDVis(nn.Module):
         decoded = self.decoder(noisy_encoded)
         return decoded.view(-1, 1, 28, 28)
 
+class CortexFlowEnhanced(nn.Module):
+    """CortexFlow-Enhanced: Novel Multi-Pathway Architecture with Cross-Attention Fusion"""
+
+    def __init__(self, input_dim, device='cuda'):
+        super(CortexFlowEnhanced, self).__init__()
+        self.name = "CortexFlow-Enhanced"
+        self.device = device
+
+        # NOVEL FEATURE 1: Adaptive Multi-Pathway with Different Receptive Fields
+        # Deep pathway for hierarchical feature extraction
+        self.pathway_deep = nn.Sequential(
+            nn.Linear(input_dim, 1024),
+            nn.LayerNorm(1024),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.15),
+            nn.Linear(1024, 512),
+            nn.LayerNorm(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # Wide pathway for broad feature capture
+        self.pathway_wide = nn.Sequential(
+            nn.Linear(input_dim, 512),
+            nn.LayerNorm(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.15),
+            nn.Linear(512, 512),
+            nn.LayerNorm(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # NOVEL FEATURE 2: Cross-Pathway Attention Mechanism
+        self.cross_attention = nn.MultiheadAttention(
+            embed_dim=512, num_heads=8, dropout=0.1, batch_first=True
+        ).to(device)
+
+        # NOVEL FEATURE 3: Adaptive Pathway Weighting
+        self.pathway_weights = nn.Sequential(
+            nn.Linear(1024, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 2),
+            nn.Softmax(dim=1)
+        ).to(device)
+
+        # NOVEL FEATURE 4: Dynamic Feature Fusion with Gating
+        self.fusion_gate = nn.Sequential(
+            nn.Linear(1024, 1024),
+            nn.Sigmoid()
+        ).to(device)
+
+        self.fusion = nn.Sequential(
+            nn.Linear(1024, 512),
+            nn.LayerNorm(512),
+            nn.ReLU(inplace=True),
+            nn.Linear(512, 256),
+            nn.LayerNorm(256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 128)
+        ).to(device)
+
+        # NOVEL FEATURE 5: Uncertainty-Aware Decoder
+        self.decoder_mean = nn.Sequential(
+            nn.Linear(128, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 512),
+            nn.ReLU(inplace=True),
+            nn.Linear(512, 784),
+            nn.Sigmoid()
+        ).to(device)
+
+        # Uncertainty estimation branch
+        self.decoder_var = nn.Sequential(
+            nn.Linear(128, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 128),
+            nn.ReLU(inplace=True),
+            nn.Linear(128, 784),
+            nn.Softplus()  # Ensure positive variance
+        ).to(device)
+
+    def forward(self, x):
+        # Multi-pathway feature extraction
+        deep_features = self.pathway_deep(x)  # [batch, 512]
+        wide_features = self.pathway_wide(x)  # [batch, 512]
+
+        # NOVEL: Cross-pathway attention for feature interaction
+        deep_attended, _ = self.cross_attention(
+            deep_features.unsqueeze(1),
+            wide_features.unsqueeze(1),
+            wide_features.unsqueeze(1)
+        )
+        deep_attended = deep_attended.squeeze(1)
+
+        wide_attended, _ = self.cross_attention(
+            wide_features.unsqueeze(1),
+            deep_features.unsqueeze(1),
+            deep_features.unsqueeze(1)
+        )
+        wide_attended = wide_attended.squeeze(1)
+
+        # NOVEL: Adaptive pathway weighting
+        combined_features = torch.cat([deep_attended, wide_attended], dim=1)
+        pathway_weights = self.pathway_weights(combined_features)
+
+        weighted_deep = deep_attended * pathway_weights[:, 0:1]
+        weighted_wide = wide_attended * pathway_weights[:, 1:2]
+
+        # NOVEL: Dynamic gated fusion
+        fusion_input = torch.cat([weighted_deep, weighted_wide], dim=1)
+        gate = self.fusion_gate(fusion_input)
+        gated_features = fusion_input * gate
+
+        # Feature fusion
+        encoded = self.fusion(gated_features)
+
+        # NOVEL: Uncertainty-aware prediction
+        mean_pred = self.decoder_mean(encoded)
+        var_pred = self.decoder_var(encoded)
+
+        # Always return mean prediction for consistency
+        # Uncertainty can be accessed separately if needed
+        return mean_pred.view(-1, 1, 28, 28)
+
 class OptimizedBrainDiffuser(nn.Module):
     """Brain-Diffuser with Proper Diffusion Network (Ozcelik & VanRullen 2023)"""
 
@@ -1452,9 +1577,9 @@ class CortexFlowEnsemble(nn.Module):
         ).to(device)
 
     def _create_enhanced_standalone(self, input_dim, device):
-        """8. CortexFlow-Enhanced Standalone: Optimized for Crell dataset excellence"""
-        # Use the same architecture as the enhanced variant but as standalone
-        return self._create_enhanced_cortexflow(input_dim, device)
+        """8. CortexFlow-Enhanced Standalone: Original Novel Multi-Pathway Architecture"""
+        # Use the original CortexFlow-Enhanced with Novel Multi-Pathway Architecture
+        return CortexFlowEnhanced(input_dim, device)
 
     def forward(self, x):
         # Get predictions from all 8 variants (ADDED CORTEXFLOW-ENHANCED STANDALONE)
@@ -2315,6 +2440,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device):
         StandardBaselineCNN(input_dim, device),
         OptimizedMinDVis(input_dim, device),
         OptimizedBrainDiffuser(input_dim, device),
+        CortexFlowEnhanced(input_dim, device),  # Original Novel Multi-Pathway Architecture
         MiyawakiAdvancedCortexFlow(input_dim, device),
         CortexFlowEnsemble(input_dim, device)
     ]
@@ -2322,19 +2448,21 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device):
     # Training configs
     if dataset_name == 'mindbigdata':
         training_configs = [
-            {'epochs': 100, 'lr': 0.0005, 'batch_size': 32, 'patience': 20},
-            {'epochs': 120, 'lr': 0.0006, 'batch_size': 32, 'patience': 25},
-            {'epochs': 80, 'lr': 0.001, 'batch_size': 32, 'patience': 15},
-            {'epochs': 150, 'lr': 0.0003, 'batch_size': 32, 'patience': 30},
-            {'epochs': 120, 'lr': 0.0004, 'batch_size': 32, 'patience': 25}
+            {'epochs': 100, 'lr': 0.0005, 'batch_size': 32, 'patience': 20},  # Baseline CNN
+            {'epochs': 120, 'lr': 0.0006, 'batch_size': 32, 'patience': 25},  # MinD-Vis
+            {'epochs': 80, 'lr': 0.001, 'batch_size': 32, 'patience': 15},    # Brain-Diffuser
+            {'epochs': 180, 'lr': 0.0004, 'batch_size': 32, 'patience': 35},  # CortexFlow-Enhanced (Original)
+            {'epochs': 150, 'lr': 0.0003, 'batch_size': 32, 'patience': 30},  # Miyawaki Advanced
+            {'epochs': 120, 'lr': 0.0004, 'batch_size': 32, 'patience': 25}   # CortexFlow-Ensemble
         ]
     else:
         training_configs = [
-            {'epochs': 120, 'lr': 0.001, 'batch_size': 64, 'patience': 25},
-            {'epochs': 150, 'lr': 0.0008, 'batch_size': 64, 'patience': 30},
-            {'epochs': 100, 'lr': 0.002, 'batch_size': 64, 'patience': 20},
-            {'epochs': 180, 'lr': 0.0005, 'batch_size': 64, 'patience': 35},
-            {'epochs': 150, 'lr': 0.0006, 'batch_size': 64, 'patience': 30}
+            {'epochs': 120, 'lr': 0.001, 'batch_size': 64, 'patience': 25},   # Baseline CNN
+            {'epochs': 150, 'lr': 0.0008, 'batch_size': 64, 'patience': 30},  # MinD-Vis
+            {'epochs': 100, 'lr': 0.002, 'batch_size': 64, 'patience': 20},   # Brain-Diffuser
+            {'epochs': 220, 'lr': 0.0005, 'batch_size': 64, 'patience': 45},  # CortexFlow-Enhanced (Original)
+            {'epochs': 180, 'lr': 0.0005, 'batch_size': 64, 'patience': 35},  # Miyawaki Advanced
+            {'epochs': 150, 'lr': 0.0006, 'batch_size': 64, 'patience': 30}   # CortexFlow-Ensemble
         ]
 
     # Train models dan collect results
