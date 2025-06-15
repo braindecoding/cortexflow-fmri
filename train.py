@@ -645,6 +645,245 @@ def create_statistical_significance_matrix_visualization(statistical_summaries, 
     print(f"✅ Statistical significance matrix visualization saved: {viz_path}")
     return viz_path
 
+def create_overall_method_performance_visualization(statistical_summaries, output_dir):
+    """
+    Create overall method performance visualization across all datasets
+
+    Args:
+        statistical_summaries: Dictionary dengan CV results untuk each dataset
+        output_dir: Output directory untuk save visualization
+
+    Returns:
+        Path to saved visualization
+    """
+    print(f"\n📊 CREATING OVERALL METHOD PERFORMANCE VISUALIZATION")
+    print("=" * 70)
+
+    # Extract data
+    datasets = list(statistical_summaries.keys())
+    methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Enhanced', 'CortexFlow_Ensemble']
+
+    # Create comprehensive figure
+    fig, axes = plt.subplots(2, 3, figsize=(20, 12))
+    fig.suptitle('Overall Method Performance Analysis\n'
+                'Cross-Dataset Performance Summary and Rankings',
+                fontsize=16, fontweight='bold')
+
+    # Prepare aggregated data
+    method_performance = {method: [] for method in methods}
+
+    # Collect MSE scores from all datasets
+    for dataset in datasets:
+        if 'cv_results' in statistical_summaries[dataset]:
+            cv_results = statistical_summaries[dataset]['cv_results']
+            for method in methods:
+                if method in cv_results:
+                    method_performance[method].extend(cv_results[method])
+
+    # Calculate overall statistics
+    overall_stats = {}
+    for method in methods:
+        if method_performance[method]:
+            scores = np.array(method_performance[method])
+            overall_stats[method] = {
+                'mean': np.mean(scores),
+                'std': np.std(scores),
+                'median': np.median(scores),
+                'min': np.min(scores),
+                'max': np.max(scores)
+            }
+
+    # 1. Overall Method Ranking (Top Left)
+    ax1 = axes[0, 0]
+    if overall_stats:
+        methods_sorted = sorted(overall_stats.keys(), key=lambda x: overall_stats[x]['mean'])
+        means = [overall_stats[method]['mean'] for method in methods_sorted]
+        stds = [overall_stats[method]['std'] for method in methods_sorted]
+
+        colors = ['red', 'orange', 'yellow', 'lightgreen', 'green']
+        bars = ax1.barh(range(len(methods_sorted)), means, xerr=stds,
+                       color=colors[:len(methods_sorted)], alpha=0.7, capsize=5)
+
+        ax1.set_yticks(range(len(methods_sorted)))
+        ax1.set_yticklabels([m.replace('_', ' ') for m in methods_sorted])
+        ax1.set_xlabel('MSE (Lower is Better)')
+        ax1.set_title('Overall Method Ranking\n(Mean ± Std across all datasets)')
+
+        # Add value labels
+        for i, (mean, std) in enumerate(zip(means, stds)):
+            ax1.text(mean + std + 0.001, i, f'{mean:.4f}±{std:.4f}',
+                    va='center', fontsize=9)
+
+    # 2. Performance Consistency (Top Middle)
+    ax2 = axes[0, 1]
+    if overall_stats:
+        methods_list = list(overall_stats.keys())
+        consistency_scores = []
+
+        for method in methods_list:
+            # Coefficient of variation as consistency measure
+            cv = overall_stats[method]['std'] / overall_stats[method]['mean']
+            consistency_scores.append(cv)
+
+        bars = ax2.bar(range(len(methods_list)), consistency_scores,
+                      color=['red', 'orange', 'yellow', 'lightgreen', 'green'][:len(methods_list)],
+                      alpha=0.7)
+
+        ax2.set_xticks(range(len(methods_list)))
+        ax2.set_xticklabels([m.replace('_', ' ') for m in methods_list], rotation=45)
+        ax2.set_ylabel('Coefficient of Variation')
+        ax2.set_title('Performance Consistency\n(Lower = More Consistent)')
+
+        # Add value labels
+        for i, cv in enumerate(consistency_scores):
+            ax2.text(i, cv + 0.01, f'{cv:.3f}', ha='center', va='bottom', fontsize=9)
+
+    # 3. Cross-Dataset Performance (Top Right)
+    ax3 = axes[0, 2]
+    dataset_means = {}
+    for dataset in datasets:
+        if 'cv_results' in statistical_summaries[dataset]:
+            cv_results = statistical_summaries[dataset]['cv_results']
+            dataset_means[dataset] = {}
+            for method in methods:
+                if method in cv_results:
+                    dataset_means[dataset][method] = np.mean(cv_results[method])
+
+    if dataset_means:
+        # Create heatmap
+        heatmap_data = []
+        for method in methods:
+            row = []
+            for dataset in datasets:
+                if dataset in dataset_means and method in dataset_means[dataset]:
+                    row.append(dataset_means[dataset][method])
+                else:
+                    row.append(np.nan)
+            heatmap_data.append(row)
+
+        heatmap_data = np.array(heatmap_data)
+        im = ax3.imshow(heatmap_data, cmap='RdYlGn_r', aspect='auto')
+
+        ax3.set_xticks(range(len(datasets)))
+        ax3.set_xticklabels([d.capitalize() for d in datasets])
+        ax3.set_yticks(range(len(methods)))
+        ax3.set_yticklabels([m.replace('_', ' ') for m in methods])
+        ax3.set_title('Cross-Dataset Performance Heatmap\n(MSE Values)')
+
+        # Add text annotations
+        for i in range(len(methods)):
+            for j in range(len(datasets)):
+                if not np.isnan(heatmap_data[i, j]):
+                    ax3.text(j, i, f'{heatmap_data[i, j]:.4f}',
+                            ha='center', va='center', fontsize=8)
+
+        plt.colorbar(im, ax=ax3, label='MSE')
+
+    # 4. Method Performance Distribution (Bottom Left)
+    ax4 = axes[1, 0]
+    if method_performance:
+        box_data = []
+        box_labels = []
+        for method in methods:
+            if method_performance[method]:
+                box_data.append(method_performance[method])
+                box_labels.append(method.replace('_', ' '))
+
+        if box_data:
+            bp = ax4.boxplot(box_data, labels=box_labels, patch_artist=True)
+            colors = ['red', 'orange', 'yellow', 'lightgreen', 'green']
+            for patch, color in zip(bp['boxes'], colors[:len(bp['boxes'])]):
+                patch.set_facecolor(color)
+                patch.set_alpha(0.7)
+
+            ax4.set_ylabel('MSE')
+            ax4.set_title('Performance Distribution\n(All Cross-Validation Scores)')
+            ax4.tick_params(axis='x', rotation=45)
+
+    # 5. Win Rate Analysis (Bottom Middle)
+    ax5 = axes[1, 1]
+    if overall_stats:
+        win_rates = {}
+        total_comparisons = len(methods) - 1
+
+        for method_a in methods:
+            wins = 0
+            if method_a in overall_stats:
+                for method_b in methods:
+                    if method_a != method_b and method_b in overall_stats:
+                        if overall_stats[method_a]['mean'] < overall_stats[method_b]['mean']:
+                            wins += 1
+                win_rates[method_a] = wins / total_comparisons * 100
+
+        if win_rates:
+            methods_list = list(win_rates.keys())
+            rates = list(win_rates.values())
+
+            bars = ax5.bar(range(len(methods_list)), rates,
+                          color=['red', 'orange', 'yellow', 'lightgreen', 'green'][:len(methods_list)],
+                          alpha=0.7)
+
+            ax5.set_xticks(range(len(methods_list)))
+            ax5.set_xticklabels([m.replace('_', ' ') for m in methods_list], rotation=45)
+            ax5.set_ylabel('Win Rate (%)')
+            ax5.set_title('Method Win Rate\n(% of pairwise comparisons won)')
+            ax5.set_ylim(0, 100)
+
+            # Add value labels
+            for i, rate in enumerate(rates):
+                ax5.text(i, rate + 2, f'{rate:.1f}%', ha='center', va='bottom', fontsize=9)
+
+    # 6. Overall Summary Table (Bottom Right)
+    ax6 = axes[1, 2]
+    ax6.axis('off')
+
+    if overall_stats:
+        # Create summary table
+        table_data = []
+        headers = ['Method', 'Mean MSE', 'Std', 'Rank', 'Win Rate']
+
+        methods_ranked = sorted(overall_stats.keys(), key=lambda x: overall_stats[x]['mean'])
+
+        for i, method in enumerate(methods_ranked):
+            stats = overall_stats[method]
+            win_rate = win_rates.get(method, 0) if 'win_rates' in locals() else 0
+            table_data.append([
+                method.replace('_', ' '),
+                f"{stats['mean']:.4f}",
+                f"{stats['std']:.4f}",
+                str(i + 1),
+                f"{win_rate:.1f}%"
+            ])
+
+        table = ax6.table(cellText=table_data, colLabels=headers,
+                         cellLoc='center', loc='center',
+                         bbox=[0, 0, 1, 1])
+        table.auto_set_font_size(False)
+        table.set_fontsize(9)
+        table.scale(1, 2)
+
+        # Color code the table
+        colors = ['lightcoral', 'lightsalmon', 'lightyellow', 'lightgreen', 'darkgreen']
+        for i in range(len(table_data)):
+            for j in range(len(headers)):
+                if i < len(colors):
+                    table[(i+1, j)].set_facecolor(colors[i])
+                    if i == len(table_data) - 1:  # Best method
+                        table[(i+1, j)].set_text_props(weight='bold')
+
+        ax6.set_title('Overall Performance Summary\n(Ranked by Mean MSE)',
+                     fontsize=12, fontweight='bold', pad=20)
+
+    plt.tight_layout()
+
+    # Save visualization
+    viz_path = output_dir / "overall_method_performance.png"
+    fig.savefig(viz_path, dpi=300, bbox_inches='tight', facecolor='white')
+    plt.close(fig)
+
+    print(f"✅ Overall method performance visualization saved: {viz_path}")
+    return viz_path
+
 def create_cv_reconstruction_figure(dataset_name, reconstructions, mse_results, y_test):
     """Create reconstruction figure untuk CV results"""
 
@@ -809,6 +1048,11 @@ def main():
             significance_viz_path = create_statistical_significance_matrix_visualization(statistical_summaries, output_dir)
             print(f"✅ Statistical significance matrix visualization saved: {significance_viz_path}")
 
+        # Create overall method performance visualization
+        if any('cv_results' in stats for stats in statistical_summaries.values()):
+            overall_viz_path = create_overall_method_performance_visualization(statistical_summaries, output_dir)
+            print(f"✅ Overall method performance visualization saved: {overall_viz_path}")
+
     # Save results
     results_file = output_dir / "comprehensive_training_results.json"
     with open(results_file, 'w') as f:
@@ -863,6 +1107,7 @@ def main():
     print(f"📊 Statistical visualization: comprehensive_statistical_analysis.png")
     print(f"📊 Comprehensive metrics visualization: comprehensive_metrics_visualization.png")
     print(f"📊 Statistical significance matrix: statistical_significance_matrix.png")
+    print(f"📊 Overall method performance: overall_method_performance.png")
     print(f"🕒 End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     print(f"\n🎓 ACADEMIC METHODOLOGY ACHIEVED:")
