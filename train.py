@@ -162,6 +162,531 @@ def hyperparameter_grid_search(model_class, X_train, y_train, X_val, y_val, inpu
 
     return best_params, best_mse, results
 
+def advanced_optimization_techniques(model_class, X_train, y_train, X_val, y_val, input_dim, device='cuda'):
+    """Advanced optimization techniques for target MSE 0.008"""
+
+    print("🚀 ADVANCED OPTIMIZATION TECHNIQUES FOR TARGET MSE 0.008")
+    print("=" * 80)
+
+    # Use optimal hyperparameters from previous optimization
+    optimal_config = {
+        'learning_rate': 0.0008,
+        'batch_size': 16,
+        'epochs': 200,  # Extended for advanced techniques
+        'weight_decay': 1e-05,
+        'patience': 80   # Extended patience
+    }
+
+    # Advanced techniques to test
+    techniques = [
+        {
+            'name': 'OneCycleLR Scheduling',
+            'scheduler': 'onecycle',
+            'max_lr': 0.0008 * 3,  # 3x peak
+            'pct_start': 0.1,
+            'anneal_strategy': 'cos'
+        },
+        {
+            'name': 'Cosine Annealing with Restarts',
+            'scheduler': 'cosine_restart',
+            'T_0': 50,
+            'T_mult': 2,
+            'eta_min': 1e-6
+        },
+        {
+            'name': 'Exponential Decay',
+            'scheduler': 'exponential',
+            'gamma': 0.95
+        },
+        {
+            'name': 'Reduce on Plateau',
+            'scheduler': 'plateau',
+            'factor': 0.5,
+            'patience': 20,
+            'min_lr': 1e-6
+        },
+        {
+            'name': 'Warm Restart + Gradient Clipping',
+            'scheduler': 'cosine_restart',
+            'T_0': 30,
+            'T_mult': 1.5,
+            'eta_min': 1e-6,
+            'gradient_clip': 1.0
+        }
+    ]
+
+    best_mse = float('inf')
+    best_technique = {}
+    results = []
+
+    for i, technique in enumerate(techniques):
+        print(f"\n🔄 Testing technique {i+1}/{len(techniques)}: {technique['name']}")
+        print(f"   Config: {technique}")
+
+        try:
+            # Create fresh model
+            model = model_class(input_dim, device)
+
+            # Train with advanced technique
+            mse = advanced_training_with_scheduling(
+                model, X_train, y_train, X_val, y_val,
+                optimal_config, technique
+            )
+
+            # Evaluate final performance
+            model.eval()
+            with torch.no_grad():
+                test_output = model(X_val)
+                if isinstance(test_output, tuple):
+                    test_output = test_output[0]
+                final_mse = nn.MSELoss()(test_output, y_val).item()
+
+            results.append({
+                'technique': technique['name'],
+                'config': technique.copy(),
+                'mse': final_mse,
+                'training_loss': mse
+            })
+
+            print(f"   ✅ Final MSE: {final_mse:.6f}")
+
+            # Check if this is the best so far
+            if final_mse < best_mse:
+                best_mse = final_mse
+                best_technique = technique.copy()
+                print(f"   🎉 NEW BEST: {final_mse:.6f}")
+
+                # Check if target achieved
+                if final_mse <= 0.008:
+                    print(f"   🎯 TARGET ACHIEVED! MSE {final_mse:.6f} ≤ 0.008")
+                    break
+
+        except Exception as e:
+            print(f"   ❌ Error with technique {technique['name']}: {e}")
+            results.append({
+                'technique': technique['name'],
+                'config': technique.copy(),
+                'mse': float('inf'),
+                'training_loss': float('inf'),
+                'error': str(e)
+            })
+
+    # Print results summary
+    print(f"\n🏆 ADVANCED OPTIMIZATION RESULTS:")
+    print(f"   Best MSE: {best_mse:.6f}")
+    print(f"   Best Technique: {best_technique.get('name', 'None')}")
+    print(f"   Target MSE: 0.008000")
+
+    if best_mse <= 0.008:
+        print(f"   🎯 TARGET ACHIEVED!")
+    else:
+        gap = ((best_mse - 0.008) / 0.008) * 100
+        print(f"   ⚠️  {gap:.1f}% away from target")
+
+    # Sort results by MSE
+    valid_results = [r for r in results if r['mse'] != float('inf')]
+    valid_results.sort(key=lambda x: x['mse'])
+
+    print(f"\n📊 TOP 3 TECHNIQUES:")
+    for i, result in enumerate(valid_results[:3]):
+        print(f"   {i+1}. {result['technique']}: MSE {result['mse']:.6f}")
+
+    return best_technique, best_mse, results
+
+def advanced_training_with_scheduling(model, X_train, y_train, X_val, y_val, base_config, technique_config):
+    """Advanced training with learning rate scheduling and techniques"""
+
+    # Setup optimizer
+    optimizer = optim.AdamW(model.parameters(),
+                           lr=base_config['learning_rate'],
+                           weight_decay=base_config['weight_decay'])
+    criterion = nn.MSELoss()
+    scaler = torch.cuda.amp.GradScaler() if model.device == 'cuda' else None
+
+    # Setup scheduler based on technique
+    scheduler = None
+    scheduler_type = technique_config.get('scheduler', 'none')
+
+    if scheduler_type == 'onecycle':
+        steps_per_epoch = len(X_train) // base_config['batch_size'] + 1
+        scheduler = optim.lr_scheduler.OneCycleLR(
+            optimizer,
+            max_lr=technique_config['max_lr'],
+            epochs=base_config['epochs'],
+            steps_per_epoch=steps_per_epoch,
+            pct_start=technique_config['pct_start'],
+            anneal_strategy=technique_config['anneal_strategy']
+        )
+    elif scheduler_type == 'cosine_restart':
+        scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(
+            optimizer,
+            T_0=technique_config['T_0'],
+            T_mult=technique_config.get('T_mult', 1),
+            eta_min=technique_config.get('eta_min', 0)
+        )
+    elif scheduler_type == 'exponential':
+        scheduler = optim.lr_scheduler.ExponentialLR(
+            optimizer,
+            gamma=technique_config['gamma']
+        )
+    elif scheduler_type == 'plateau':
+        scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer,
+            mode='min',
+            factor=technique_config['factor'],
+            patience=technique_config['patience'],
+            min_lr=technique_config['min_lr']
+        )
+
+    # Data loaders
+    train_dataset = TensorDataset(X_train, y_train)
+    train_loader = DataLoader(train_dataset, batch_size=base_config['batch_size'], shuffle=True, pin_memory=False)
+
+    # Training tracking
+    best_loss = float('inf')
+    patience_counter = 0
+    start_time = time.time()
+
+    print(f"🔥 Advanced Training {model.name} with {technique_config['name']}...")
+
+    for epoch in range(base_config['epochs']):
+        model.train()
+        epoch_loss = 0.0
+
+        for batch_X, batch_y in train_loader:
+            optimizer.zero_grad()
+
+            if model.device == 'cuda' and scaler:
+                with torch.cuda.amp.autocast():
+                    output = model(batch_X)
+                    if isinstance(output, tuple):
+                        output = output[0]
+                    loss = criterion(output, batch_y)
+
+                scaler.scale(loss).backward()
+
+                # Gradient clipping if specified
+                if 'gradient_clip' in technique_config:
+                    scaler.unscale_(optimizer)
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), technique_config['gradient_clip'])
+
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                output = model(batch_X)
+                if isinstance(output, tuple):
+                    output = output[0]
+                loss = criterion(output, batch_y)
+                loss.backward()
+
+                # Gradient clipping if specified
+                if 'gradient_clip' in technique_config:
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), technique_config['gradient_clip'])
+
+                optimizer.step()
+
+            # Step scheduler for OneCycleLR
+            if scheduler and scheduler_type == 'onecycle':
+                scheduler.step()
+
+            epoch_loss += loss.item()
+
+        # Validation
+        model.eval()
+        with torch.no_grad():
+            val_output = model(X_val)
+            if isinstance(val_output, tuple):
+                val_output = val_output[0]
+            val_loss = criterion(val_output, y_val).item()
+
+        # Step scheduler for other types
+        if scheduler and scheduler_type != 'onecycle':
+            if scheduler_type == 'plateau':
+                scheduler.step(val_loss)
+            else:
+                scheduler.step()
+
+        # Early stopping check
+        if val_loss < best_loss:
+            best_loss = val_loss
+            patience_counter = 0
+        else:
+            patience_counter += 1
+
+        # Print progress
+        if (epoch + 1) % 20 == 0 or epoch == 0:
+            elapsed = time.time() - start_time
+            avg_loss = epoch_loss / len(train_loader)
+            current_lr = optimizer.param_groups[0]['lr']
+            print(f"   Epoch {epoch+1}/{base_config['epochs']}, Train: {avg_loss:.6f}, Val: {val_loss:.6f}, LR: {current_lr:.2e}, Time: {elapsed:.1f}s")
+
+        # Early stopping
+        if patience_counter >= base_config['patience']:
+            print(f"   Early stopping at epoch {epoch+1}")
+            break
+
+    elapsed = time.time() - start_time
+    print(f"✅ Advanced training completed in {elapsed:.1f}s, Best Loss: {best_loss:.6f}")
+    return best_loss
+
+def architecture_fine_tuning(X_train, y_train, X_val, y_val, input_dim, device='cuda'):
+    """Architecture fine-tuning for target MSE 0.008"""
+
+    print("🔧 ARCHITECTURE FINE-TUNING FOR TARGET MSE 0.008")
+    print("=" * 80)
+
+    # Use optimal training configuration from previous optimization
+    optimal_config = {
+        'learning_rate': 0.0008,
+        'batch_size': 16,
+        'epochs': 200,
+        'weight_decay': 1e-05,
+        'patience': 80
+    }
+
+    # Use best scheduler from advanced techniques
+    scheduler_config = {
+        'name': 'OneCycleLR Fine-tuned',
+        'scheduler': 'onecycle',
+        'max_lr': 0.0008 * 2.5,  # Slightly reduced from 3x
+        'pct_start': 0.15,       # Extended warmup
+        'anneal_strategy': 'cos'
+    }
+
+    # Architecture variants to test
+    architectures = [
+        {
+            'name': 'Wider First Layers',
+            'spatial_dims': [768, 384, 256],  # Wider than 512, 256
+            'contrast_dims': [384, 192, 128], # Wider than 256, 128
+            'fusion_dims': [512, 256, 128],   # Wider fusion
+            'decoder_dims': [128, 384, 768, 784]
+        },
+        {
+            'name': 'Deeper Architecture',
+            'spatial_dims': [512, 384, 256, 192],  # 4 layers instead of 2
+            'contrast_dims': [256, 192, 128, 96],  # 4 layers instead of 2
+            'fusion_dims': [288, 192, 128],        # Adjusted for new dims
+            'decoder_dims': [128, 256, 512, 768, 784]  # 5 layers
+        },
+        {
+            'name': 'Optimized Dropout',
+            'spatial_dims': [512, 256],
+            'contrast_dims': [256, 128],
+            'fusion_dims': [384, 256, 128],
+            'decoder_dims': [128, 256, 512, 784],
+            'dropout_rates': [0.1, 0.05, 0.08, 0.03]  # Reduced dropout
+        },
+        {
+            'name': 'Residual Connections',
+            'spatial_dims': [512, 256],
+            'contrast_dims': [256, 128],
+            'fusion_dims': [384, 256, 128],
+            'decoder_dims': [128, 256, 512, 784],
+            'use_residual': True
+        },
+        {
+            'name': 'Balanced Wide-Deep',
+            'spatial_dims': [640, 320, 256],  # Balanced width
+            'contrast_dims': [320, 160, 128], # Balanced width
+            'fusion_dims': [384, 256, 128],
+            'decoder_dims': [128, 320, 640, 784],
+            'dropout_rates': [0.15, 0.08, 0.1, 0.05]
+        }
+    ]
+
+    best_mse = float('inf')
+    best_architecture = {}
+    results = []
+
+    for i, arch_config in enumerate(architectures):
+        print(f"\\n🔄 Testing architecture {i+1}/{len(architectures)}: {arch_config['name']}")
+        print(f"   Config: {arch_config}")
+
+        try:
+            # Create custom model with architecture variant
+            model = create_custom_miyawaki_model(input_dim, arch_config, device)
+
+            # Train with optimal configuration and best scheduler
+            mse = advanced_training_with_scheduling(
+                model, X_train, y_train, X_val, y_val,
+                optimal_config, scheduler_config
+            )
+
+            # Evaluate final performance
+            model.eval()
+            with torch.no_grad():
+                test_output = model(X_val)
+                if isinstance(test_output, tuple):
+                    test_output = test_output[0]
+                final_mse = nn.MSELoss()(test_output, y_val).item()
+
+            results.append({
+                'architecture': arch_config['name'],
+                'config': arch_config.copy(),
+                'mse': final_mse,
+                'training_loss': mse
+            })
+
+            print(f"   ✅ Final MSE: {final_mse:.6f}")
+
+            # Check if this is the best so far
+            if final_mse < best_mse:
+                best_mse = final_mse
+                best_architecture = arch_config.copy()
+                print(f"   🎉 NEW BEST: {final_mse:.6f}")
+
+                # Check if target achieved
+                if final_mse <= 0.008:
+                    print(f"   🎯 TARGET ACHIEVED! MSE {final_mse:.6f} ≤ 0.008")
+                    break
+
+        except Exception as e:
+            print(f"   ❌ Error with architecture {arch_config['name']}: {e}")
+            results.append({
+                'architecture': arch_config['name'],
+                'config': arch_config.copy(),
+                'mse': float('inf'),
+                'training_loss': float('inf'),
+                'error': str(e)
+            })
+
+    # Print results summary
+    print(f"\\n🏆 ARCHITECTURE FINE-TUNING RESULTS:")
+    print(f"   Best MSE: {best_mse:.6f}")
+    print(f"   Best Architecture: {best_architecture.get('name', 'None')}")
+    print(f"   Target MSE: 0.008000")
+
+    if best_mse <= 0.008:
+        print(f"   🎯 TARGET ACHIEVED!")
+    else:
+        gap = ((best_mse - 0.008) / 0.008) * 100
+        print(f"   ⚠️  {gap:.1f}% away from target")
+
+    # Sort results by MSE
+    valid_results = [r for r in results if r['mse'] != float('inf')]
+    valid_results.sort(key=lambda x: x['mse'])
+
+    print(f"\\n📊 TOP 3 ARCHITECTURES:")
+    for i, result in enumerate(valid_results[:3]):
+        print(f"   {i+1}. {result['architecture']}: MSE {result['mse']:.6f}")
+
+    return best_architecture, best_mse, results
+
+def create_custom_miyawaki_model(input_dim, arch_config, device='cuda'):
+    """Create custom Miyawaki model with specified architecture"""
+
+    class CustomMiyawakiCortexFlow(nn.Module):
+        def __init__(self, input_dim, arch_config, device='cuda'):
+            super(CustomMiyawakiCortexFlow, self).__init__()
+            self.name = "CortexFlow-Enhanced"
+            self.device = device
+            self.use_residual = arch_config.get('use_residual', False)
+
+            # Get dimensions
+            spatial_dims = arch_config.get('spatial_dims', [512, 256])
+            contrast_dims = arch_config.get('contrast_dims', [256, 128])
+            fusion_dims = arch_config.get('fusion_dims', [384, 256, 128])
+            decoder_dims = arch_config.get('decoder_dims', [128, 256, 512, 784])
+            dropout_rates = arch_config.get('dropout_rates', [0.2, 0.15, 0.1, 0.05])
+
+            # Build spatial encoder
+            spatial_layers = []
+            prev_dim = input_dim
+            for i, dim in enumerate(spatial_dims):
+                spatial_layers.extend([
+                    nn.Linear(prev_dim, dim),
+                    nn.BatchNorm1d(dim),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(dropout_rates[min(i, len(dropout_rates)-1)])
+                ])
+                prev_dim = dim
+            self.spatial_encoder = nn.Sequential(*spatial_layers).to(device)
+
+            # Build contrast encoder
+            contrast_layers = []
+            prev_dim = input_dim
+            for i, dim in enumerate(contrast_dims):
+                contrast_layers.extend([
+                    nn.Linear(prev_dim, dim),
+                    nn.BatchNorm1d(dim),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(dropout_rates[min(i, len(dropout_rates)-1)])
+                ])
+                prev_dim = dim
+            self.contrast_encoder = nn.Sequential(*contrast_layers).to(device)
+
+            # Build fusion layers
+            fusion_layers = []
+            prev_dim = spatial_dims[-1] + contrast_dims[-1]  # Combined input
+            for i, dim in enumerate(fusion_dims):
+                fusion_layers.extend([
+                    nn.Linear(prev_dim, dim),
+                    nn.BatchNorm1d(dim),
+                    nn.ReLU(inplace=True)
+                ])
+                if i < len(fusion_dims) - 1:  # No dropout on last layer
+                    fusion_layers.append(nn.Dropout(dropout_rates[min(i+2, len(dropout_rates)-1)]))
+                prev_dim = dim
+            self.pattern_fusion = nn.Sequential(*fusion_layers).to(device)
+
+            # Binary enhancer
+            self.binary_enhancer = nn.Sequential(
+                nn.Linear(fusion_dims[-1], fusion_dims[-1] // 2),
+                nn.BatchNorm1d(fusion_dims[-1] // 2),
+                nn.ReLU(inplace=True),
+                nn.Linear(fusion_dims[-1] // 2, fusion_dims[-1]),
+                nn.Sigmoid()
+            ).to(device)
+
+            # Build decoder
+            decoder_layers = []
+            prev_dim = fusion_dims[-1]
+            for i, dim in enumerate(decoder_dims):
+                decoder_layers.extend([
+                    nn.Linear(prev_dim, dim),
+                ])
+                if i < len(decoder_dims) - 1:  # No activation/norm on final layer
+                    decoder_layers.extend([
+                        nn.BatchNorm1d(dim),
+                        nn.ReLU(inplace=True),
+                        nn.Dropout(dropout_rates[min(i+3, len(dropout_rates)-1)])
+                    ])
+                prev_dim = dim
+            self.block_decoder = nn.Sequential(*decoder_layers).to(device)
+
+            # Final layer
+            self.binary_finalizer = nn.Sequential(
+                nn.Linear(784, 784),
+                nn.Sigmoid()
+            ).to(device)
+
+        def forward(self, x):
+            # Extract features
+            spatial_features = self.spatial_encoder(x)
+            contrast_features = self.contrast_encoder(x)
+
+            # Combine features
+            combined_features = torch.cat([spatial_features, contrast_features], dim=1)
+
+            # Fusion with optional residual
+            if self.use_residual and combined_features.shape[1] == self.pattern_fusion[0].in_features:
+                fused_patterns = self.pattern_fusion(combined_features) + combined_features[:, :self.pattern_fusion[-2].out_features]
+            else:
+                fused_patterns = self.pattern_fusion(combined_features)
+
+            # Binary enhancement
+            binary_enhanced = self.binary_enhancer(fused_patterns)
+            enhanced_features = fused_patterns * binary_enhanced
+
+            # Decode
+            block_output = self.block_decoder(enhanced_features)
+            final_output = self.binary_finalizer(block_output)
+
+            return final_output.view(-1, 1, 28, 28)
+
+    return CustomMiyawakiCortexFlow(input_dim, arch_config, device)
+
 class MiyawakiAdvancedCortexFlow(nn.Module):
     """CortexFlow-Enhanced: BASIC MIYAWAKI-OPTIMIZED (PROVEN BEST MSE: 0.017682)"""
 
