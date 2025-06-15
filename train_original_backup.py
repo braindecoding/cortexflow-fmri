@@ -104,7 +104,19 @@ UNIFIED_TRAINING_CONFIGS = {
 def get_unified_config(dataset_name, model_name):
     """Get unified training configuration for consistency"""
     dataset_config = UNIFIED_TRAINING_CONFIGS.get(dataset_name, UNIFIED_TRAINING_CONFIGS['miyawaki'])
-    model_config = dataset_config['models'].get(model_name, dataset_config)
+
+    # Get model-specific config, fallback to base dataset config (without 'models' key)
+    if model_name in dataset_config['models']:
+        model_config = dataset_config['models'][model_name]
+    else:
+        # Create base config without 'models' key
+        model_config = {
+            'epochs': dataset_config['epochs'],
+            'lr': dataset_config['lr'],
+            'batch_size': dataset_config['batch_size'],
+            'patience': dataset_config['patience']
+        }
+
     return model_config
 
 # Note: For production, you can disable deterministic mode for speed:
