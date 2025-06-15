@@ -67,29 +67,29 @@ class OptimizedCortexFlow(nn.Module):
                 # Always apply dropout (even in eval mode for MC sampling)
                 return F.dropout(x, p=self.p, training=True)
 
-        # NOVEL FEATURE 1: Adaptive Multi-Pathway with Monte Carlo Enhancement
-        # Deep pathway for hierarchical feature extraction
+        # NOVEL FEATURE 1: BRAIN-DIFFUSER INSPIRED MULTI-PATHWAY (MIYAWAKI-OPTIMIZED)
+        # Deep pathway with SiLU activations like Brain-Diffuser
         self.pathway_deep = nn.Sequential(
             nn.Linear(input_dim, 1024),
             nn.LayerNorm(1024),
-            nn.ReLU(inplace=True),
-            MCDropout(0.15),  # MC Dropout instead of regular dropout
+            nn.SiLU(),  # SiLU like Brain-Diffuser
+            nn.Dropout(0.1),  # Reduced dropout
             nn.Linear(1024, 512),
             nn.LayerNorm(512),
-            nn.ReLU(inplace=True),
-            MCDropout(0.1)   # MC Dropout
+            nn.SiLU(),
+            nn.Dropout(0.1)
         ).to(device)
 
-        # Wide pathway for broad feature capture
+        # Wide pathway with SiLU activations
         self.pathway_wide = nn.Sequential(
             nn.Linear(input_dim, 512),
             nn.LayerNorm(512),
-            nn.ReLU(inplace=True),
-            MCDropout(0.15),  # MC Dropout
+            nn.SiLU(),  # SiLU like Brain-Diffuser
+            nn.Dropout(0.1),
             nn.Linear(512, 512),
             nn.LayerNorm(512),
-            nn.ReLU(inplace=True),
-            MCDropout(0.1)    # MC Dropout
+            nn.SiLU(),
+            nn.Dropout(0.1)
         ).to(device)
 
         # NOVEL FEATURE 2: Cross-Pathway Attention Mechanism
@@ -121,18 +121,24 @@ class OptimizedCortexFlow(nn.Module):
             nn.Linear(256, 128)
         ).to(device)
 
-        # NOVEL FEATURE 5: Simplified High-Performance Decoder (OPTIMIZED FOR VISUAL TASKS)
-        # Remove complex diffusion - focus on core multi-pathway strength
-        self.decoder_mean = nn.Sequential(
+        # NOVEL FEATURE 5: BRAIN-DIFFUSER INSPIRED DECODER (MIYAWAKI-OPTIMIZED)
+        # Simplified decoder with SiLU activations and iterative denoising
+
+        # Main diffusion-style decoder (like Brain-Diffuser)
+        self.diffusion_decoder = nn.Sequential(
             nn.Linear(128, 256),
             nn.LayerNorm(256),
-            nn.ReLU(inplace=True),
+            nn.SiLU(),  # SiLU like Brain-Diffuser
             nn.Dropout(0.1),
             nn.Linear(256, 512),
             nn.LayerNorm(512),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.05),
-            nn.Linear(512, 784),
+            nn.SiLU(),
+            nn.Linear(512, 784)  # No final activation yet
+        ).to(device)
+
+        # Output projection (like Brain-Diffuser)
+        self.output_proj = nn.Sequential(
+            nn.Linear(784, 784),
             nn.Sigmoid()
         ).to(device)
 
@@ -140,7 +146,7 @@ class OptimizedCortexFlow(nn.Module):
         self.decoder_var = nn.Sequential(
             nn.Linear(128, 256),
             nn.LayerNorm(256),
-            nn.ReLU(inplace=True),
+            nn.SiLU(),
             nn.Linear(256, 784),
             nn.Softplus()  # Ensure positive variance
         ).to(device)
@@ -185,12 +191,25 @@ class OptimizedCortexFlow(nn.Module):
         # Feature fusion
         encoded = self.fusion(gated_features)
 
-        # SIMPLIFIED: Direct high-performance decoding (remove complex diffusion)
-        mean_pred = self.decoder_mean(encoded)
+        # BRAIN-DIFFUSER INSPIRED: Iterative denoising process
+        # Predict initial features (like noise prediction in Brain-Diffuser)
+        predicted_features = self.diffusion_decoder(encoded)
+
+        # Iterative denoising process (like Brain-Diffuser)
+        denoised = predicted_features
+        for step in range(3):  # 3 denoising steps like Brain-Diffuser
+            noise_level = 0.1 * (1.0 - step / 3.0)
+            step_noise = torch.randn_like(denoised, device=self.device) * noise_level
+            denoised = denoised - step_noise
+
+        # Final output projection
+        output = self.output_proj(denoised)
+
+        # Uncertainty estimation
         var_pred = self.decoder_var(encoded)
 
-        # Always return mean prediction for consistency
-        return mean_pred.view(-1, 1, 28, 28)
+        # Always return final output
+        return output.view(-1, 1, 28, 28)
 
 
 
