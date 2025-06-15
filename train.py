@@ -71,10 +71,16 @@ from src.evaluation import (
 # Import data loading from modular structure
 from src.data import load_dataset_gpu_optimized
 
-# Import remaining functions from original (to be extracted later)
-from train_original_backup import (
-    create_statistical_visualization, set_reproducibility_seeds,
-    get_unified_config, create_gpu_optimized_reconstruction_figure
+# Import visualization functions from modular structure
+from src.visualization import (
+    create_statistical_visualization,
+    create_gpu_optimized_reconstruction_figure
+)
+
+# Import utility functions from modular structure
+from src.utils import (
+    set_reproducibility_seeds,
+    get_unified_config
 )
 
 # Set reproducibility for consistency with train.py
