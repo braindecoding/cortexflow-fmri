@@ -35,7 +35,8 @@
         0.014427047222852707
       ]
     },
-    "ttest_completed": true
+    "ttest_completed": true,
+    "reconstruction_saved": true
   },
   "vangerven": {
     "single_run_stats": {
@@ -73,7 +74,8 @@
         0.046266354620456696
       ]
     },
-    "ttest_completed": true
+    "ttest_completed": true,
+    "reconstruction_saved": true
   },
   "mindbigdata": {
     "single_run_stats": {
@@ -111,7 +113,8 @@
         0.06294335424900055
       ]
     },
-    "ttest_completed": true
+    "ttest_completed": true,
+    "reconstruction_saved": true
   },
   "crell": {
     "single_run_stats": {
@@ -149,6 +152,7 @@
         0.03294457122683525
       ]
     },
-    "ttest_completed": true
+    "ttest_completed": true,
+    "reconstruction_saved": true
   }
 }

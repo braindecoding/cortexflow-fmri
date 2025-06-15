@@ -34,7 +34,7 @@ from train import (
     load_dataset_gpu_optimized, gpu_optimized_training,
     comprehensive_ttest_analysis, statistical_analysis,
     create_statistical_visualization, set_reproducibility_seeds,
-    get_unified_config
+    get_unified_config, create_gpu_optimized_reconstruction_figure
 )
 
 # Set reproducibility for consistency with train.py
@@ -177,6 +177,57 @@ def quick_training_with_cv(dataset_name, device='cuda', k_folds=3):
     
     return full_results, cv_results, reconstructions, mse_results
 
+def create_cv_reconstruction_figure(dataset_name, reconstructions, mse_results, y_test):
+    """Create reconstruction figure untuk CV results"""
+
+    print(f"\n🎨 Creating reconstruction visualization for {dataset_name}")
+
+    # Create figure
+    num_methods = len(reconstructions)
+    num_samples = 8
+
+    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(16, (num_methods + 1) * 2.2))
+
+    dataset_titles = {
+        'miyawaki': 'Miyawaki (Visual Kompleks)',
+        'vangerven': 'Vangerven (Pola Digit)',
+        'mindbigdata': 'MindBigData (EEG→fMRI→Visual)',
+        'crell': 'Crell (EEG→fMRI→Visual)'
+    }
+
+    fig.suptitle(f'Cross-Validation Results - Dataset {dataset_titles[dataset_name]}\n'
+                f'Neural Decoding: fMRI → Visual Reconstruction (CV Training)',
+                fontsize=14, fontweight='bold')
+
+    # Plot target images (first row)
+    for i in range(num_samples):
+        axes[0, i].imshow(y_test[i, 0].cpu().numpy(), cmap='gray', vmin=0, vmax=1)
+        axes[0, i].set_title(f'Target {i+1}', fontsize=9)
+        axes[0, i].axis('off')
+
+    # Add row label for targets
+    axes[0, 0].text(-0.15, 0.5, 'Target Visual Asli\n(CV Processed)',
+                    transform=axes[0, 0].transAxes, fontsize=11, fontweight='bold',
+                    rotation=90, verticalalignment='center', horizontalalignment='center',
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor='lightblue', alpha=0.7))
+
+    # Plot reconstructions
+    method_labels = ['Baseline CNN', 'MinD-Vis', 'Brain-Diffuser', 'CortexFlow-Enhanced', 'CortexFlow-Ensemble']
+    for method_idx, (recon, method_label, mse) in enumerate(zip(reconstructions, method_labels, mse_results), 1):
+        for i in range(num_samples):
+            axes[method_idx, i].imshow(recon[i, 0].numpy(), cmap='gray', vmin=0, vmax=1)
+            axes[method_idx, i].set_title(f'Rekonstruksi {i+1}', fontsize=9)
+            axes[method_idx, i].axis('off')
+
+        # Add method label dengan MSE
+        axes[method_idx, 0].text(-0.15, 0.5, f'{method_label}\n(MSE: {mse:.6f})',
+                                transform=axes[method_idx, 0].transAxes, fontsize=11, fontweight='bold',
+                                rotation=90, verticalalignment='center', horizontalalignment='center',
+                                bbox=dict(boxstyle="round,pad=0.3", facecolor='lightgreen', alpha=0.7))
+
+    plt.tight_layout()
+    return fig
+
 def main():
     """Main function untuk comprehensive training dengan CV"""
     
@@ -206,27 +257,40 @@ def main():
             
             # Run comprehensive training dengan CV
             full_results, cv_results, reconstructions, mse_results = quick_training_with_cv(dataset, device, k_folds=3)
-            
+
             if full_results and cv_results:
                 # Store results
                 all_results[dataset] = full_results
                 all_cv_results[dataset] = cv_results
-                
+
+                # Create reconstruction visualization
+                X_train, y_train, X_test, y_test, input_dim = load_dataset_gpu_optimized(dataset, device)
+                if reconstructions and len(reconstructions) > 0:
+                    fig = create_cv_reconstruction_figure(dataset, reconstructions, mse_results, y_test)
+
+                    # Save reconstruction figure
+                    recon_filename = f"cv_reconstruction_{dataset}_comprehensive.png"
+                    recon_filepath = output_dir / recon_filename
+                    fig.savefig(recon_filepath, dpi=300, bbox_inches='tight', facecolor='white')
+                    plt.close(fig)
+                    print(f"💾 Reconstruction saved: {recon_filepath}")
+
                 # Statistical analysis
                 stats_summary = statistical_analysis(full_results, dataset)
-                
+
                 # T-test analysis dengan real CV data
                 ttest_results = comprehensive_ttest_analysis(cv_results, dataset)
-                
+
                 # Store summaries
                 statistical_summaries[dataset] = {
                     'single_run_stats': stats_summary,
                     'cv_results': cv_results,
-                    'ttest_completed': True
+                    'ttest_completed': True,
+                    'reconstruction_saved': True if reconstructions else False
                 }
-                
+
                 print(f"✅ Analysis completed for {dataset}")
-                
+
             else:
                 print(f"❌ Failed for {dataset}")
                 
@@ -235,11 +299,17 @@ def main():
             import traceback
             traceback.print_exc()
     
+    # Create comprehensive statistical visualization
+    if all_results:
+        print(f"\n📈 CREATING COMPREHENSIVE STATISTICAL VISUALIZATION")
+        viz_path = create_statistical_visualization(all_results, output_dir)
+        print(f"✅ Statistical visualization saved: {viz_path}")
+
     # Save results
     results_file = output_dir / "comprehensive_training_results.json"
     with open(results_file, 'w') as f:
         json.dump(all_results, f, indent=2)
-    
+
     cv_results_file = output_dir / "cross_validation_results.json"
     with open(cv_results_file, 'w') as f:
         # Convert numpy arrays to lists untuk JSON serialization
@@ -247,7 +317,7 @@ def main():
         for dataset, methods in all_cv_results.items():
             cv_results_serializable[dataset] = {method: scores for method, scores in methods.items()}
         json.dump(cv_results_serializable, f, indent=2)
-    
+
     stats_file = output_dir / "statistical_analysis_with_ttest.json"
     with open(stats_file, 'w') as f:
         # Convert numpy arrays untuk JSON
@@ -256,7 +326,8 @@ def main():
             stats_serializable[dataset] = {
                 'single_run_stats': stats['single_run_stats'],
                 'cv_results': {method: scores for method, scores in stats['cv_results'].items()},
-                'ttest_completed': stats['ttest_completed']
+                'ttest_completed': stats['ttest_completed'],
+                'reconstruction_saved': stats.get('reconstruction_saved', False)
             }
         json.dump(stats_serializable, f, indent=2)
     
@@ -274,13 +345,18 @@ def main():
     print(f"📊 Full results: {results_file}")
     print(f"🔬 CV results: {cv_results_file}")
     print(f"📈 Statistical analysis: {stats_file}")
+    print(f"🎨 Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.png")
+    print(f"📊 Statistical visualization: comprehensive_statistical_analysis.png")
     print(f"🕒 End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
-    print(f"\n🎯 ACADEMIC INTEGRITY ACHIEVED:")
+
+    print(f"\n🎯 ENHANCED FEATURES ACHIEVED:")
     print(f"✅ Real training data only")
     print(f"✅ Cross-validation completed")
     print(f"✅ T-test analysis with real data")
     print(f"✅ Statistical significance testing")
+    print(f"✅ Reconstruction visualizations generated")
+    print(f"✅ Comprehensive statistical analysis")
+    print(f"✅ Same output format as train.py")
     print(f"✅ Ready for publication")
 
 if __name__ == "__main__":
