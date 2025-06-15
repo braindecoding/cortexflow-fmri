@@ -1592,6 +1592,16 @@ class CortexFlowEnsemble(nn.Module):
         pred_baseline_cnn = self.model_baseline_cnn(x)
         pred_enhanced_standalone = self.model_enhanced_standalone(x)  # NEW CORTEXFLOW-ENHANCED STANDALONE
 
+        # Ensure all predictions are flattened to [batch, 784] for combination
+        pred_simple = pred_simple.view(pred_simple.size(0), -1)
+        pred_mc = pred_mc.view(pred_mc.size(0), -1)
+        pred_hierarchical = pred_hierarchical.view(pred_hierarchical.size(0), -1)
+        pred_enhanced = pred_enhanced.view(pred_enhanced.size(0), -1)
+        pred_unified = pred_unified.view(pred_unified.size(0), -1)
+        pred_diffusion = pred_diffusion.view(pred_diffusion.size(0), -1)
+        pred_baseline_cnn = pred_baseline_cnn.view(pred_baseline_cnn.size(0), -1)
+        pred_enhanced_standalone = pred_enhanced_standalone.view(pred_enhanced_standalone.size(0), -1)
+
         # Advanced learned ensemble weighting for 8 models (UPDATED)
         weights = self.ensemble_weights(x)
 
