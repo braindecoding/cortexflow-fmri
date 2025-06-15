@@ -20,6 +20,11 @@ from .config import (
     UNIFIED_TRAINING_CONFIGS
 )
 
+from .report_generator import (
+    create_statistical_analysis_report,
+    create_comprehensive_training_summary
+)
+
 __all__ = [
     'set_reproducibility_seeds',
     'get_unified_config',
@@ -28,5 +33,7 @@ __all__ = [
     'get_available_models',
     'validate_config',
     'print_config_summary',
-    'UNIFIED_TRAINING_CONFIGS'
+    'UNIFIED_TRAINING_CONFIGS',
+    'create_statistical_analysis_report',
+    'create_comprehensive_training_summary'
 ]

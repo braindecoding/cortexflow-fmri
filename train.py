@@ -80,7 +80,9 @@ from src.visualization import (
 # Import utility functions from modular structure
 from src.utils import (
     set_reproducibility_seeds,
-    get_unified_config
+    get_unified_config,
+    create_statistical_analysis_report,
+    create_comprehensive_training_summary
 )
 
 # Set reproducibility for consistency with train.py
@@ -1091,7 +1093,20 @@ def main():
                 stats_summary = statistical_analysis(full_results, dataset)
 
                 # T-test analysis dengan real CV data
-                ttest_results = comprehensive_ttest_analysis(cv_results, dataset)
+                ttest_results = comprehensive_ttest_analysis(cv_results, dataset, output_dir)
+
+                # Generate comprehensive markdown report for this dataset
+                try:
+                    report_path = create_statistical_analysis_report(
+                        dataset_name=dataset,
+                        cv_results=cv_results,
+                        full_results=full_results,
+                        comprehensive_metrics=comprehensive_metrics,
+                        output_dir=output_dir
+                    )
+                    print(f"📝 Dataset report saved: {report_path}")
+                except Exception as e:
+                    print(f"⚠️ Warning: Could not generate dataset report: {e}")
 
                 # Store summaries
                 statistical_summaries[dataset] = {
@@ -1168,10 +1183,22 @@ def main():
             comprehensive_metrics_only[dataset] = stats.get('comprehensive_metrics', {})
         json.dump(comprehensive_metrics_only, f, indent=2)
     
+    # Generate comprehensive training summary report
+    try:
+        summary_path = create_comprehensive_training_summary(
+            all_results=all_results,
+            all_cv_results=all_cv_results,
+            all_metrics=statistical_summaries,
+            output_dir=output_dir
+        )
+        print(f"📋 Comprehensive training summary saved: {summary_path}")
+    except Exception as e:
+        print(f"⚠️ Warning: Could not generate comprehensive summary: {e}")
+
     # Final summary
     print(f"\n📊 FINAL COMPREHENSIVE SUMMARY")
     print("=" * 80)
-    
+
     for dataset, results in all_results.items():
         best_method = min(results.keys(), key=lambda k: results[k])
         best_score = results[best_method]
@@ -1183,6 +1210,8 @@ def main():
     print(f"🔬 Cross-validation results: {cv_results_file}")
     print(f"📈 Statistical analysis: {stats_file}")
     print(f"📊 Comprehensive metrics: {metrics_file}")
+    print(f"📝 Markdown reports: statistical_analysis_[dataset]_[timestamp].md")
+    print(f"📋 Comprehensive summary: comprehensive_training_summary_[timestamp].md")
     print(f"🎨 Reconstruction visualizations: cv_reconstruction_[dataset]_comprehensive.svg")
     print(f"📊 Statistical visualization: comprehensive_statistical_analysis.svg")
     print(f"📊 Comprehensive metrics visualization: comprehensive_metrics_visualization.svg")

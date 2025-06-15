@@ -22,19 +22,20 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
+def comprehensive_ttest_analysis(cv_results_dict, dataset_name, output_dir="results"):
     """
     Comprehensive T-Test Analysis using REAL Cross-Validation Results
-    
+
     Performs three types of statistical tests:
     1. One-sample t-test vs baseline threshold
     2. Independent samples t-test (CortexFlow vs SOTA)
     3. Paired samples t-test (pairwise comparisons)
-    
+
     Args:
         cv_results_dict: Dictionary with method names as keys and CV results as values
         dataset_name: Name of the dataset being analyzed
-        
+        output_dir: Output directory for saving markdown report
+
     Returns:
         Dictionary with statistical analysis results
     """
@@ -167,6 +168,24 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
             print(f"     p-value: {p_value:.6f} {significance}")
             print(f"     Cohen's d: {cohens_d:.3f} ({effect_magnitude} effect)")
             print(f"     Winner: {winner} ({improvement:.2f}% better)")
+
+    # Generate markdown report
+    try:
+        from ..utils.report_generator import create_statistical_analysis_report
+
+        # Create comprehensive report with CV results
+        report_path = create_statistical_analysis_report(
+            dataset_name=dataset_name,
+            cv_results=cv_results_dict,
+            full_results={},  # Will be filled by calling function
+            comprehensive_metrics={},  # Will be filled by calling function
+            output_dir=output_dir
+        )
+
+        print(f"\n📝 Statistical analysis report saved: {report_path}")
+
+    except Exception as e:
+        print(f"⚠️ Warning: Could not generate markdown report: {e}")
 
     return cv_results_dict
 
