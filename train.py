@@ -278,6 +278,146 @@ class MiyawakiAdvancedCortexFlow(nn.Module):
                         self.training_targets = new_targets
 
 
+class MiyawakiGANCortexFlow(nn.Module):
+    """CortexFlow-Enhanced: GAN-ENHANCED MIYAWAKI for Binary Contrast Block Patterns"""
+
+    def __init__(self, input_dim, device='cuda'):
+        super(MiyawakiGANCortexFlow, self).__init__()
+        self.name = "CortexFlow-Enhanced"
+        self.device = device
+
+        # GAN FEATURE 1: GENERATOR NETWORK (fMRI → Binary Patterns)
+        # Based on successful Basic Miyawaki-Optimized architecture
+
+        # Spatial pattern encoder - focuses on geometric structures
+        self.spatial_encoder = nn.Sequential(
+            nn.Linear(input_dim, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.2),
+            nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # Binary contrast encoder - optimized for black/white patterns
+        self.contrast_encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.15),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # Pattern fusion - combines spatial and contrast information
+        self.pattern_fusion = nn.Sequential(
+            nn.Linear(384, 256),  # 256 + 128 = 384
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True)
+        ).to(device)
+
+        # Binary decision layer - helps with binary contrast decisions
+        self.binary_enhancer = nn.Sequential(
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 128),
+            nn.Sigmoid()  # Sigmoid for binary-like enhancement
+        ).to(device)
+
+        # GAN GENERATOR: Block pattern decoder with adversarial training
+        self.generator = nn.Sequential(
+            nn.Linear(128, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(256, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.05),
+            nn.Linear(512, 784),  # Raw output
+            nn.Tanh()  # Tanh for GAN generator
+        ).to(device)
+
+        # Binary contrast finalizer - ensures binary-like output
+        self.binary_finalizer = nn.Sequential(
+            nn.Linear(784, 784),
+            nn.Sigmoid()  # Sigmoid for binary contrast
+        ).to(device)
+
+    def forward(self, x):
+        # GAN GENERATOR FORWARD PASS
+
+        # Extract spatial and contrast features separately
+        spatial_features = self.spatial_encoder(x)      # [batch, 256] - geometric patterns
+        contrast_features = self.contrast_encoder(x)    # [batch, 128] - binary contrast
+
+        # Combine spatial and contrast information
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)  # [batch, 384]
+
+        # Fuse patterns optimally for binary blocks
+        fused_patterns = self.pattern_fusion(combined_features)  # [batch, 128]
+
+        # Enhance binary decision making
+        binary_enhanced = self.binary_enhancer(fused_patterns)  # [batch, 128]
+        enhanced_features = fused_patterns * binary_enhanced  # Element-wise enhancement
+
+        # Generate patterns with adversarial training
+        generated_patterns = self.generator(enhanced_features)  # [batch, 784]
+
+        # Finalize with binary contrast optimization
+        final_output = self.binary_finalizer(generated_patterns)  # [batch, 784]
+
+        return final_output.view(-1, 1, 28, 28)
+
+
+class MiyawakiDiscriminator(nn.Module):
+    """Discriminator Network for GAN-Enhanced Miyawaki Binary Pattern Generation"""
+
+    def __init__(self, device='cuda'):
+        super(MiyawakiDiscriminator, self).__init__()
+        self.name = "Miyawaki-Discriminator"
+        self.device = device
+
+        # Discriminator for 28x28 binary patterns
+        self.discriminator = nn.Sequential(
+            # Input: [batch, 1, 28, 28]
+            nn.Conv2d(1, 64, 4, 2, 1, bias=False),  # [batch, 64, 14, 14]
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Conv2d(64, 128, 4, 2, 1, bias=False),  # [batch, 128, 7, 7]
+            nn.BatchNorm2d(128),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Conv2d(128, 256, 3, 1, 1, bias=False),  # [batch, 256, 7, 7]
+            nn.BatchNorm2d(256),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Conv2d(256, 512, 4, 2, 1, bias=False),  # [batch, 512, 3, 3]
+            nn.BatchNorm2d(512),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            # Flatten and classify
+            nn.Flatten(),
+            nn.Linear(512 * 3 * 3, 256),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Dropout(0.3),
+            nn.Linear(256, 1)
+            # No sigmoid here - will use BCEWithLogitsLoss
+        ).to(device)
+
+    def forward(self, x):
+        return self.discriminator(x)
+
+
 class OptimizedCortexFlow(nn.Module):
     """CortexFlow-Enhanced: ORIGINAL MULTI-PATHWAY ARCHITECTURE"""
 
@@ -1060,6 +1200,154 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
             print(f"     Winner: {winner} ({improvement:.2f}% better)")
 
     return cv_results_dict
+
+def gpu_optimized_gan_training(generator, discriminator, X_train, y_train, X_val, y_val, epochs=100, lr_g=0.0002, lr_d=0.0002, batch_size=64, patience=20):
+    """GPU-optimized GAN training for Miyawaki binary patterns"""
+
+    # Setup optimizers
+    optimizer_G = optim.Adam(generator.parameters(), lr=lr_g, betas=(0.5, 0.999))
+    optimizer_D = optim.Adam(discriminator.parameters(), lr=lr_d, betas=(0.5, 0.999))
+
+    # Loss functions
+    criterion_GAN = nn.BCEWithLogitsLoss()  # GAN loss (safe for autocast)
+    criterion_L1 = nn.L1Loss()   # L1 loss for pixel-wise accuracy
+
+    # GAN loss weights
+    lambda_L1 = 100  # Weight for L1 loss (pixel accuracy)
+
+    # Mixed precision scaler
+    scaler = torch.cuda.amp.GradScaler() if generator.device == 'cuda' else None
+
+    # Data loaders (no pin_memory since data is already on GPU)
+    train_dataset = TensorDataset(X_train, y_train)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False)
+
+    # Training tracking
+    best_loss = float('inf')
+    patience_counter = 0
+    start_time = time.time()
+
+    print(f"🔥 GPU GAN Training {generator.name} dengan adversarial loss...")
+
+    for epoch in range(epochs):
+        generator.train()
+        discriminator.train()
+
+        epoch_g_loss = 0.0
+        epoch_d_loss = 0.0
+
+        for batch_X, batch_y in train_loader:
+            batch_size_actual = batch_X.size(0)
+
+            # Real and fake labels
+            real_labels = torch.ones(batch_size_actual, 1, device=generator.device)
+            fake_labels = torch.zeros(batch_size_actual, 1, device=generator.device)
+
+            # ==================
+            # Train Discriminator
+            # ==================
+            optimizer_D.zero_grad()
+
+            if generator.device == 'cuda' and scaler:
+                with torch.cuda.amp.autocast():
+                    # Real images
+                    real_output = discriminator(batch_y)
+                    d_loss_real = criterion_GAN(real_output, real_labels)
+
+                    # Fake images
+                    fake_images = generator(batch_X)
+                    fake_output = discriminator(fake_images.detach())
+                    d_loss_fake = criterion_GAN(fake_output, fake_labels)
+
+                    # Total discriminator loss
+                    d_loss = (d_loss_real + d_loss_fake) / 2
+
+                scaler.scale(d_loss).backward()
+                scaler.step(optimizer_D)
+                scaler.update()
+            else:
+                # Real images
+                real_output = discriminator(batch_y)
+                d_loss_real = criterion_GAN(real_output, real_labels)
+
+                # Fake images
+                fake_images = generator(batch_X)
+                fake_output = discriminator(fake_images.detach())
+                d_loss_fake = criterion_GAN(fake_output, fake_labels)
+
+                # Total discriminator loss
+                d_loss = (d_loss_real + d_loss_fake) / 2
+                d_loss.backward()
+                optimizer_D.step()
+
+            # ===============
+            # Train Generator
+            # ===============
+            optimizer_G.zero_grad()
+
+            if generator.device == 'cuda' and scaler:
+                with torch.cuda.amp.autocast():
+                    # Generate fake images
+                    fake_images = generator(batch_X)
+
+                    # Adversarial loss
+                    fake_output = discriminator(fake_images)
+                    g_loss_gan = criterion_GAN(fake_output, real_labels)
+
+                    # L1 loss for pixel accuracy
+                    g_loss_l1 = criterion_L1(fake_images, batch_y)
+
+                    # Total generator loss
+                    g_loss = g_loss_gan + lambda_L1 * g_loss_l1
+
+                scaler.scale(g_loss).backward()
+                scaler.step(optimizer_G)
+                scaler.update()
+            else:
+                # Generate fake images
+                fake_images = generator(batch_X)
+
+                # Adversarial loss
+                fake_output = discriminator(fake_images)
+                g_loss_gan = criterion_GAN(fake_output, real_labels)
+
+                # L1 loss for pixel accuracy
+                g_loss_l1 = criterion_L1(fake_images, batch_y)
+
+                # Total generator loss
+                g_loss = g_loss_gan + lambda_L1 * g_loss_l1
+                g_loss.backward()
+                optimizer_G.step()
+
+            epoch_g_loss += g_loss.item()
+            epoch_d_loss += d_loss.item()
+
+        # Validation
+        generator.eval()
+        with torch.no_grad():
+            val_output = generator(X_val)
+            val_loss = nn.MSELoss()(val_output, y_val).item()
+
+        # Early stopping check
+        if val_loss < best_loss:
+            best_loss = val_loss
+            patience_counter = 0
+        else:
+            patience_counter += 1
+
+        # Print progress
+        if (epoch + 1) % 20 == 0 or epoch == 0:
+            elapsed = time.time() - start_time
+            print(f"   Epoch {epoch+1}/{epochs}, G_Loss: {epoch_g_loss/len(train_loader):.6f}, D_Loss: {epoch_d_loss/len(train_loader):.6f}, Val_Loss: {val_loss:.6f}, Time: {elapsed:.1f}s")
+
+        # Early stopping
+        if patience_counter >= patience:
+            print(f"   Early stopping at epoch {epoch+1}")
+            break
+
+    elapsed = time.time() - start_time
+    print(f"✅ GAN training completed in {elapsed:.1f}s, Best Loss: {best_loss:.6f}")
+    return best_loss
 
 def gpu_optimized_training_with_knn(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
     """GPU-optimized training with KNN memory updates for MiyawakiAdvancedCortexFlow"""
