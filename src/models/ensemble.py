@@ -44,17 +44,34 @@ class CortexFlowEnsemble(nn.Module):
         self.model_diffusion = self._create_diffusion_cortexflow(input_dim, device)
         self.model_baseline_cnn = self._create_baseline_cnn(input_dim, device)  # Added for MindBigData strength
 
-        # Advanced learned ensemble weights for 7 models (UPDATED)
+        # Enhanced ensemble weighting with attention mechanism
         self.ensemble_weights = nn.Sequential(
-            nn.Linear(input_dim, 256),
-            nn.LayerNorm(256),
+            nn.Linear(input_dim, 512),  # Increased capacity
+            nn.LayerNorm(512),
             nn.ReLU(),
             nn.Dropout(0.1),
+            nn.Linear(512, 256),
+            nn.LayerNorm(256),
+            nn.ReLU(),
+            nn.Dropout(0.05),
             nn.Linear(256, 128),
             nn.LayerNorm(128),
             nn.ReLU(),
-            nn.Linear(128, 7),  # 7 models now (REMOVED Enhanced Standalone redundancy)
+            nn.Linear(128, 7),  # 7 models
             nn.Softmax(dim=1)
+        ).to(device)
+
+        # Baseline emphasis mechanism (give more weight to strong performers)
+        self.baseline_emphasis = nn.Parameter(torch.tensor(1.5, device=device))  # Learnable emphasis factor
+
+        # Dynamic weighting based on input complexity
+        self.complexity_analyzer = nn.Sequential(
+            nn.Linear(input_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            nn.Linear(64, 1),
+            nn.Sigmoid()
         ).to(device)
 
     def _create_simple_cortexflow(self, input_dim, device):
@@ -354,29 +371,54 @@ class CortexFlowEnsemble(nn.Module):
         return CortexFlowDiffusion(input_dim, device).to(device)
 
     def _create_baseline_cnn(self, input_dim, device):
-        """7. Baseline CNN: Simple but effective CNN architecture for ensemble diversity"""
-        return nn.Sequential(
-            # Input projection
-            nn.Linear(input_dim, 512),
-            nn.BatchNorm1d(512),
-            nn.ReLU(),
-            nn.Dropout(0.2),
+        """7. Enhanced Baseline CNN: Full-strength CNN architecture matching standalone performance"""
 
-            # Hidden layers
-            nn.Linear(512, 256),
-            nn.BatchNorm1d(256),
-            nn.ReLU(),
-            nn.Dropout(0.15),
+        class EnhancedBaselineCNN(nn.Module):
+            def __init__(self, input_dim, device):
+                super().__init__()
 
-            nn.Linear(256, 128),
-            nn.BatchNorm1d(128),
-            nn.ReLU(),
-            nn.Dropout(0.1),
+                # Enhanced MLP projection (matching standalone capacity)
+                self.projection = nn.Sequential(
+                    nn.Linear(input_dim, 1024),
+                    nn.BatchNorm1d(1024),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(0.3),
+                    nn.Linear(1024, 512),
+                    nn.BatchNorm1d(512),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(0.2),
+                    nn.Linear(512, 784),
+                    nn.ReLU(inplace=True)
+                )
 
-            # Output projection
-            nn.Linear(128, 784),
-            nn.Sigmoid()
-        ).to(device)
+                # Full CNN processing (matching standalone architecture)
+                self.cnn = nn.Sequential(
+                    nn.Conv2d(1, 64, 3, padding=1),
+                    nn.BatchNorm2d(64),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(64, 128, 3, padding=1),
+                    nn.BatchNorm2d(128),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(128, 64, 3, padding=1),
+                    nn.BatchNorm2d(64),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(64, 32, 3, padding=1),
+                    nn.BatchNorm2d(32),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(32, 1, 3, padding=1),
+                    nn.Sigmoid()
+                )
+
+            def forward(self, x):
+                # MLP projection
+                projected = self.projection(x)
+                # Reshape for CNN
+                reshaped = projected.view(-1, 1, 28, 28)
+                # CNN processing
+                output = self.cnn(reshaped)
+                return output.view(output.size(0), -1)  # Flatten for ensemble
+
+        return EnhancedBaselineCNN(input_dim, device).to(device)
 
     def forward(self, x):
         """
@@ -406,17 +448,47 @@ class CortexFlowEnsemble(nn.Module):
         pred_diffusion = pred_diffusion.view(pred_diffusion.size(0), -1)
         pred_baseline_cnn = pred_baseline_cnn.view(pred_baseline_cnn.size(0), -1)
 
-        # Advanced learned ensemble weighting for 7 models (UPDATED)
-        weights = self.ensemble_weights(x)
+        # Enhanced ensemble weighting with baseline emphasis
+        base_weights = self.ensemble_weights(x)
 
-        # Weighted ensemble prediction with all 7 variants (UPDATED)
-        ensemble_pred = (weights[:, 0:1] * pred_simple +
-                        weights[:, 1:2] * pred_mc +
-                        weights[:, 2:3] * pred_hierarchical +
-                        weights[:, 3:4] * pred_enhanced +
-                        weights[:, 4:5] * pred_unified +
-                        weights[:, 5:6] * pred_diffusion +
-                        weights[:, 6:7] * pred_baseline_cnn)
+        # Analyze input complexity for dynamic weighting
+        complexity_score = self.complexity_analyzer(x)
+
+        # Apply baseline emphasis (give more weight to strong baseline CNN)
+        enhanced_weights = base_weights * 1.0  # Avoid in-place operations
+        baseline_emphasis_factor = self.baseline_emphasis.unsqueeze(0).expand(enhanced_weights.size(0), 1)
+        enhanced_weights = torch.cat([
+            enhanced_weights[:, :6],  # First 6 weights unchanged
+            enhanced_weights[:, 6:7] * baseline_emphasis_factor  # Baseline CNN weight emphasized
+        ], dim=1)
+
+        # Renormalize weights
+        enhanced_weights = F.softmax(enhanced_weights, dim=1)
+
+        # Dynamic adjustment based on complexity (avoid in-place operations)
+        complexity_adjustment = torch.ones_like(enhanced_weights)
+        # More baseline for simple inputs
+        baseline_adj = complexity_adjustment[:, 6:7] * (2.0 - complexity_score)
+        # More diffusion for complex inputs
+        diffusion_adj = complexity_adjustment[:, 5:6] * complexity_score
+
+        complexity_adjustment = torch.cat([
+            complexity_adjustment[:, :5],  # First 5 unchanged
+            diffusion_adj,  # Diffusion adjustment
+            baseline_adj   # Baseline adjustment
+        ], dim=1)
+
+        final_weights = enhanced_weights * complexity_adjustment
+        final_weights = F.softmax(final_weights, dim=1)
+
+        # Weighted ensemble prediction with enhanced weighting
+        ensemble_pred = (final_weights[:, 0:1] * pred_simple +
+                        final_weights[:, 1:2] * pred_mc +
+                        final_weights[:, 2:3] * pred_hierarchical +
+                        final_weights[:, 3:4] * pred_enhanced +
+                        final_weights[:, 4:5] * pred_unified +
+                        final_weights[:, 5:6] * pred_diffusion +
+                        final_weights[:, 6:7] * pred_baseline_cnn)
 
         return ensemble_pred.view(-1, 1, 28, 28)
 
@@ -437,8 +509,15 @@ class CortexFlowEnsemble(nn.Module):
                 '4. Enhanced: Integration of hierarchical + MC + feature alignment',
                 '5. Unified: Adaptive complexity mechanism with dual-pathway processing',
                 '6. Diffusion: CortexFlow with latent diffusion to compete with Brain-Diffuser',
-                '7. Baseline CNN: Simple but effective CNN architecture for ensemble diversity'
+                '7. Enhanced Baseline CNN: Full-strength CNN architecture matching standalone performance'
             ],
-            'weighting': 'Advanced learned ensemble weighting based on input characteristics',
-            'combination': 'Weighted linear combination of all 7 variant predictions'
+            'weighting': 'Enhanced ensemble weighting with baseline emphasis and complexity-aware adjustment',
+            'combination': 'Dynamically weighted combination with baseline CNN emphasis and input complexity analysis',
+            'enhancements': [
+                'Enhanced Baseline CNN: Full MLP+CNN architecture matching standalone',
+                'Baseline Emphasis: Learnable emphasis factor for strong performers',
+                'Complexity Analysis: Dynamic weighting based on input complexity',
+                'Advanced Weighting: Deeper network for weight learning',
+                'Renormalization: Proper weight normalization after adjustments'
+            ]
         }
