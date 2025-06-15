@@ -29,8 +29,8 @@ from sklearn.model_selection import KFold
 
 # Import models dari train.py
 from train import (
-    StandardBaselineCNN, OptimizedMinDVis, OptimizedBrainDiffuser, 
-    OptimizedCortexFlow, CortexFlowEnsemble,
+    StandardBaselineCNN, OptimizedMinDVis, OptimizedBrainDiffuser,
+    MiyawakiAdvancedCortexFlow, CortexFlowEnsemble,
     load_dataset_gpu_optimized, gpu_optimized_training,
     comprehensive_ttest_analysis, statistical_analysis,
     create_statistical_visualization
@@ -60,7 +60,7 @@ def quick_training_with_cv(dataset_name, device='cuda', k_folds=3):
         StandardBaselineCNN(input_dim, device),
         OptimizedMinDVis(input_dim, device),
         OptimizedBrainDiffuser(input_dim, device),
-        OptimizedCortexFlow(input_dim, device),
+        MiyawakiAdvancedCortexFlow(input_dim, device),
         CortexFlowEnsemble(input_dim, device)
     ]
     
@@ -132,7 +132,7 @@ def quick_training_with_cv(dataset_name, device='cuda', k_folds=3):
             StandardBaselineCNN(input_dim, device),
             OptimizedMinDVis(input_dim, device),
             OptimizedBrainDiffuser(input_dim, device),
-            OptimizedCortexFlow(input_dim, device),
+            MiyawakiAdvancedCortexFlow(input_dim, device),
             CortexFlowEnsemble(input_dim, device)
         ]
         
