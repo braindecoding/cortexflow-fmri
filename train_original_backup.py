@@ -2500,7 +2500,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device):
     num_methods = len(reconstructions)
     num_samples = 8
 
-    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(16, (num_methods + 1) * 2.2))
+    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(12, (num_methods + 1) * 1.8))
 
     dataset_titles = {
         'miyawaki': 'Miyawaki (Visual Kompleks)',
@@ -2723,8 +2723,8 @@ def create_statistical_visualization(all_results, output_dir):
     datasets = list(all_results.keys())
     methods = list(all_results[datasets[0]].keys())
 
-    # Create performance comparison plot
-    fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+    # Create performance comparison plot with better aspect ratio
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     fig.suptitle('Comprehensive Statistical Analysis - CortexFlow vs SOTA Methods',
                 fontsize=16, fontweight='bold')
 
@@ -3342,7 +3342,7 @@ def create_gpu_optimized_reconstruction_figure(dataset_name, device='cuda'):
     num_methods = len(reconstructions)
     num_samples = 8
 
-    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(16, (num_methods + 1) * 2.2))
+    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(12, (num_methods + 1) * 1.8))
     
     dataset_titles = {
         'miyawaki': 'Miyawaki (Visual Kompleks)',

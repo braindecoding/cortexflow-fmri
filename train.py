@@ -302,8 +302,8 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
     methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
     valid_metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']  # Only 4 valid metrics (MS-SSIM excluded due to 28x28 size limitation)
 
-    # Create comprehensive figure
-    fig, axes = plt.subplots(2, 3, figsize=(20, 12))
+    # Create comprehensive figure with better aspect ratio
+    fig, axes = plt.subplots(2, 3, figsize=(15, 10))
     fig.suptitle('Comprehensive Evaluation Metrics Analysis\n'
                 'Neural Decoding Performance: MSE, PSNR, SSIM, LPIPS (4 Valid Metrics)',
                 fontsize=16, fontweight='bold')
@@ -511,8 +511,8 @@ def create_statistical_significance_matrix_visualization(statistical_summaries, 
     datasets = list(statistical_summaries.keys())
     methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
 
-    # Create comprehensive figure
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    # Create comprehensive figure with better aspect ratio
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     fig.suptitle('Statistical Significance Matrix Analysis\n'
                 'T-Test Results, P-Values, Effect Sizes, and Winner Matrix',
                 fontsize=16, fontweight='bold')
@@ -664,8 +664,8 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
     methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
     metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']
 
-    # Create comprehensive figure dengan 4 metrics
-    fig, axes = plt.subplots(3, 2, figsize=(16, 18))
+    # Create comprehensive figure dengan 4 metrics and better aspect ratio
+    fig, axes = plt.subplots(3, 2, figsize=(12, 15))
     fig.suptitle('Overall Method Performance Analysis (4 Metrics)\n'
                 'Cross-Dataset Performance Summary: MSE, PSNR, SSIM, LPIPS',
                 fontsize=16, fontweight='bold')
@@ -955,7 +955,7 @@ def create_cv_reconstruction_figure(dataset_name, reconstructions, mse_results, 
     num_methods = len(reconstructions)
     num_samples = 8
 
-    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(16, (num_methods + 1) * 2.2))
+    fig, axes = plt.subplots(num_methods + 1, num_samples, figsize=(12, (num_methods + 1) * 1.8))
 
     dataset_titles = {
         'miyawaki': 'Miyawaki (Visual Kompleks)',
