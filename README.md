@@ -16,6 +16,9 @@ CortexFlow is a state-of-the-art brain-computer interface system that uses Monte
 - ✅ **Scientific Integrity**: No shortcuts or oversimplifications in SOTA implementations
 - ✅ **Reproducible Results**: Complete reproducibility with WSL GPU optimization
 - ✅ **Statistical Validation**: Comprehensive statistical analysis with significance testing, effect sizes, and confidence intervals
+- ✅ **Enhanced Markdown Reports**: Automatic generation of publication-ready academic reports with embedded figures
+- ✅ **Professional Visualizations**: Fixed newline rendering and academic-quality figure presentation
+- ✅ **Modular Architecture**: Industry-standard code organization with clean separation of concerns
 
 ### Novel Mathematical Contributions
 
@@ -177,6 +180,48 @@ Advantage: Adaptive weighting based on input characteristics
 - **Research Innovation**: Novel ensemble design for neural decoding
 - **Academic Contribution**: Advanced framework for fMRI-to-visual reconstruction
 
+## Enhanced Academic Reporting
+
+### **📝 Automatic Markdown Report Generation**
+
+CortexFlow now includes comprehensive automatic report generation for academic research:
+
+#### **🎯 Enhanced Report Features:**
+- **📄 Individual Dataset Reports**: Comprehensive statistical analysis for each dataset
+- **📋 Comprehensive Training Summary**: Overall performance analysis across all datasets
+- **🎨 Embedded Figures**: Automatic figure embedding in markdown reports
+- **📊 Professional Formatting**: Publication-ready academic documentation
+- **🔧 Fixed Visualizations**: Proper newline rendering in all figures
+- **📈 Statistical Integration**: T-test analysis with visual validation
+
+#### **📊 Generated Report Files:**
+```
+results/comprehensive_training_cv/
+├── 📄 statistical_analysis_miyawaki_[timestamp].md     # Individual dataset analysis
+├── 📄 statistical_analysis_vangerven_[timestamp].md    # With embedded figures
+├── 📄 statistical_analysis_mindbigdata_[timestamp].md  # Academic formatting
+├── 📄 statistical_analysis_crell_[timestamp].md       # Publication-ready
+├── 📋 comprehensive_training_summary_[timestamp].md    # Overall summary
+├── 🎨 cv_reconstruction_[dataset]_comprehensive.svg    # Reconstruction figures
+├── 📊 comprehensive_metrics_visualization.svg          # Multi-metric analysis
+├── 📊 statistical_analysis_comprehensive.svg           # Statistical plots
+└── 📊 statistical_significance_matrix.svg              # Significance testing
+```
+
+#### **🎨 Figure Embedding Features:**
+- **Reconstruction Analysis**: Visual comparison of original vs reconstructed images
+- **Statistical Visualization**: Multi-panel statistical analysis with significance testing
+- **Comprehensive Metrics**: 4-metric evaluation (MSE, PSNR, SSIM, LPIPS) visualization
+- **Professional Captions**: Academic-quality figure descriptions and interpretations
+- **Publication Ready**: SVG format with proper academic formatting
+
+#### **📚 Academic Benefits:**
+- **Self-Contained Reports**: Complete analysis with embedded visualizations
+- **Publication Ready**: Professional formatting for research papers
+- **Dissertation Support**: Comprehensive documentation for academic research
+- **Collaboration Enhanced**: Shareable reports with integrated visual analysis
+- **Research Integrity**: Automatic documentation of methodology and results
+
 ## Statistical Validation
 
 ### **Comprehensive Statistical Analysis**
@@ -326,15 +371,34 @@ python test.py
 
 ### Expected Output
 After running `train.py`, you will get:
-- `results/wsl_gpu_training/wsl_gpu_training_results.json` - Performance metrics for all 5 methods
-- `results/wsl_gpu_training/statistical_analysis_summary.json` - Comprehensive statistical analysis
-- `results/wsl_gpu_training/statistical_analysis_comprehensive.png` - Statistical visualization
-- `results/wsl_gpu_training/wsl_gpu_reconstruction_*.png` - Reconstruction figures (4 files)
-- **Comprehensive Analysis**:
-  - Multi-Pathway (Enhanced) vs Ensemble (5 Variants) performance comparison
-  - Individual variant analysis (Simple, MC, Hierarchical, Enhanced, Unified)
-  - Cross-dataset validation on all 4 datasets
-  - **Statistical Validation**: Significance testing, effect sizes, confidence intervals
+
+#### **📊 Core Training Results:**
+- `results/comprehensive_training_cv/comprehensive_training_results.json` - Performance metrics for all 5 methods
+- `results/comprehensive_training_cv/statistical_analysis_with_ttest.json` - Comprehensive statistical analysis
+- `results/comprehensive_training_cv/comprehensive_evaluation_metrics.json` - 4-metrics evaluation data
+- `results/comprehensive_training_cv/cross_validation_results.json` - Cross-validation results
+
+#### **📝 Enhanced Markdown Reports (NEW):**
+- `statistical_analysis_miyawaki_[timestamp].md` - Individual dataset analysis with embedded figures
+- `statistical_analysis_vangerven_[timestamp].md` - Comprehensive T-test analysis and visualizations
+- `statistical_analysis_mindbigdata_[timestamp].md` - Academic-quality statistical reporting
+- `statistical_analysis_crell_[timestamp].md` - Publication-ready documentation
+- `comprehensive_training_summary_[timestamp].md` - Overall performance summary with figures
+
+#### **🎨 Professional Visualizations (FIXED):**
+- `cv_reconstruction_[dataset]_comprehensive.svg` - Reconstruction figures (4 files)
+- `comprehensive_metrics_visualization.svg` - Multi-metric analysis with proper newlines
+- `statistical_analysis_comprehensive.svg` - Statistical visualization
+- `statistical_significance_matrix.svg` - T-test significance matrix
+- `overall_method_performance.svg` - Overall performance comparison
+
+#### **📈 Comprehensive Analysis:**
+- Multi-Pathway (Enhanced) vs Ensemble (5 Variants) performance comparison
+- Individual variant analysis (Simple, MC, Hierarchical, Enhanced, Unified)
+- Cross-dataset validation on all 4 datasets
+- **Statistical Validation**: Significance testing, effect sizes, confidence intervals
+- **Enhanced Reports**: Automatic markdown generation with embedded figures
+- **Fixed Visualizations**: Professional text formatting with proper newlines
 - Console output with training progress and final results
 
 ## Project Structure
@@ -350,7 +414,7 @@ cortexflow-fmri/
 ├── verify.py           # Verification script
 ├── configs/            # Configuration files
 │   └── project_config.json
-├── src/                # Modular architecture (NEW)
+├── src/                # Modular architecture (ENHANCED)
 │   ├── models/         # Neural decoding models
 │   │   ├── baseline.py         # StandardBaselineCNN
 │   │   ├── mind_vis.py         # OptimizedMinDVis (CVPR 2023)
@@ -362,19 +426,31 @@ cortexflow-fmri/
 │   │   └── gpu_training.py     # GPU-optimized training
 │   ├── evaluation/     # Evaluation metrics
 │   │   ├── metrics.py          # ComprehensiveEvaluationMetrics
-│   │   └── statistics.py       # Statistical analysis
+│   │   └── statistics.py       # Statistical analysis with T-tests
 │   ├── data/           # Data loading
 │   │   └── loader.py           # Dataset loading functions
 │   ├── visualization/  # Visualization functions
-│   │   └── statistical_plots.py # Statistical and reconstruction plots
+│   │   └── statistical_plots.py # Statistical and reconstruction plots (FIXED)
 │   └── utils/          # Utility functions
-│       └── config.py           # Configuration management
+│       ├── config.py           # Configuration management
+│       └── report_generator.py # Markdown report generation (NEW)
 ├── data/               # Dataset storage
 │   ├── processed/      # Processed .mat files
 │   ├── external/       # External datasets
 │   └── raw/            # Raw datasets
 └── results/            # Training results
-    └── wsl_gpu_training/  # GPU training outputs
+    └── comprehensive_training_cv/  # Enhanced training outputs (NEW)
+        ├── 📄 statistical_analysis_[dataset]_[timestamp].md  # Individual reports
+        ├── 📋 comprehensive_training_summary_[timestamp].md  # Overall summary
+        ├── 🎨 cv_reconstruction_[dataset]_comprehensive.svg  # Reconstruction figures
+        ├── 📊 comprehensive_metrics_visualization.svg        # Multi-metric analysis
+        ├── 📊 statistical_analysis_comprehensive.svg         # Statistical plots
+        ├── 📊 statistical_significance_matrix.svg            # Significance testing
+        ├── 📊 overall_method_performance.svg                 # Performance comparison
+        ├── 📄 comprehensive_training_results.json            # Training data
+        ├── 📄 statistical_analysis_with_ttest.json           # Statistical data
+        ├── 📄 comprehensive_evaluation_metrics.json          # Metrics data
+        └── 📄 cross_validation_results.json                  # CV data
 ```
 
 ### Professional Modular Architecture
@@ -450,29 +526,70 @@ python test.py
 ls results/wsl_gpu_training/
 ```
 
-### Expected Outputs (4-METRICS COMPREHENSIVE ANALYSIS)
+### Expected Outputs (4-METRICS COMPREHENSIVE ANALYSIS + ENHANCED REPORTS)
+
+#### **📊 Core Data Files:**
 - ✅ `comprehensive_training_results.json` - **REAL** Performance metrics dengan 4-metrics analysis
 - ✅ `statistical_analysis_with_ttest.json` - **REAL** Statistical analysis dengan T-tests
 - ✅ `comprehensive_evaluation_metrics.json` - **REAL** 4-metrics evaluation (MSE, PSNR, SSIM, LPIPS)
-- ✅ `overall_method_performance.png` - **REAL** 4-metrics overall performance visualization
-- ✅ `comprehensive_metrics_visualization.png` - **REAL** 4-metrics per-dataset analysis
-- ✅ `statistical_analysis_comprehensive.png` - **REAL** Statistical visualization
-- ✅ `statistical_significance_matrix.png` - **REAL** T-test significance matrix
-- ✅ `cv_reconstruction_miyawaki_comprehensive.png` - **REAL** Miyawaki reconstructions
-- ✅ `cv_reconstruction_vangerven_comprehensive.png` - **REAL** Vangerven reconstructions
-- ✅ `cv_reconstruction_mindbigdata_comprehensive.png` - **REAL** MindBigData reconstructions
-- ✅ `cv_reconstruction_crell_comprehensive.png` - **REAL** Crell reconstructions
+- ✅ `cross_validation_results.json` - **REAL** Cross-validation results with statistical validation
 
-### Training Results Summary (4-METRICS COMPREHENSIVE ANALYSIS)
-**Files Generated from 4-Metrics Comprehensive Training:**
+#### **📝 Enhanced Markdown Reports (NEW):**
+- ✅ `statistical_analysis_miyawaki_[timestamp].md` - **REAL** Individual dataset analysis with embedded figures
+- ✅ `statistical_analysis_vangerven_[timestamp].md` - **REAL** Comprehensive T-test analysis and visualizations
+- ✅ `statistical_analysis_mindbigdata_[timestamp].md` - **REAL** Academic-quality statistical reporting
+- ✅ `statistical_analysis_crell_[timestamp].md` - **REAL** Publication-ready documentation
+- ✅ `comprehensive_training_summary_[timestamp].md` - **REAL** Overall performance summary with embedded figures
+
+#### **🎨 Professional Visualizations (SVG + FIXED NEWLINES):**
+- ✅ `overall_method_performance.svg` - **REAL** 4-metrics overall performance visualization
+- ✅ `comprehensive_metrics_visualization.svg` - **REAL** 4-metrics per-dataset analysis (NEWLINES FIXED)
+- ✅ `statistical_analysis_comprehensive.svg` - **REAL** Statistical visualization
+- ✅ `statistical_significance_matrix.svg` - **REAL** T-test significance matrix
+- ✅ `cv_reconstruction_miyawaki_comprehensive.svg` - **REAL** Miyawaki reconstructions
+- ✅ `cv_reconstruction_vangerven_comprehensive.svg` - **REAL** Vangerven reconstructions
+- ✅ `cv_reconstruction_mindbigdata_comprehensive.svg` - **REAL** MindBigData reconstructions
+- ✅ `cv_reconstruction_crell_comprehensive.svg` - **REAL** Crell reconstructions
+
+### Training Results Summary (4-METRICS COMPREHENSIVE ANALYSIS + ENHANCED REPORTS)
+**Files Generated from Enhanced Comprehensive Training:**
 - **Training Time**: ~40 minutes for comprehensive 4-metrics analysis
 - **Cross-Validation**: 3-fold CV completed for statistical rigor
 - **4-Metrics Evaluation**: MSE, PSNR, SSIM, LPIPS comprehensive assessment
 - **Statistical Analysis**: T-test significance testing dengan effect sizes
-- **Visualization Suite**: 7 comprehensive visualization files generated
+- **Enhanced Reports**: 5 automatic markdown reports with embedded figures (NEW)
+- **Fixed Visualizations**: 8 professional SVG files with proper newline rendering (FIXED)
+- **Figure Embedding**: Automatic integration of visualizations in markdown reports (NEW)
+- **Academic Documentation**: Publication-ready reports with professional formatting (NEW)
 - **Overall Performance**: 4-metrics overall method performance analysis
 - **Academic Quality**: Publication-ready results dengan international standards
 - **Academic Integrity**: ✅ All results from real training, no synthetic data
+
+## 🔧 **Technical Enhancements**
+
+### **📝 Enhanced Academic Reporting System**
+- **Automatic Report Generation**: Individual dataset reports and comprehensive summaries
+- **Figure Embedding**: Professional integration of visualizations in markdown reports
+- **Academic Formatting**: Publication-ready documentation with proper citations and captions
+- **Statistical Integration**: T-test analysis with visual validation embedded in reports
+
+### **🎨 Fixed Visualization System**
+- **Newline Rendering Fix**: Resolved double backslash newline issues in matplotlib text
+- **Professional Text Formatting**: Proper line breaks in comprehensive metrics visualization
+- **SVG Quality**: High-resolution vector graphics for academic publications
+- **Academic Standards**: Publication-ready figure quality with professional presentation
+
+### **🏗️ Modular Architecture Improvements**
+- **Professional Code Organization**: Industry-standard src/ structure with clean separation
+- **Enhanced Maintainability**: Each component in dedicated modules for easy modification
+- **Scalable Development**: Simple to add new models, training techniques, or evaluation metrics
+- **Academic Quality**: Publication-ready code organization following industry standards
+
+### **🔒 Enhanced Reproducibility**
+- **Fixed Random Seeds**: Consistent seed=42 across all training runs
+- **Deterministic Operations**: Reliable and reproducible results
+- **UTF-8 Encoding**: Proper character encoding for international academic symbols
+- **Cross-Platform Compatibility**: Works consistently across Windows, Linux, and WSL
 
 ## 🏆 **COMPREHENSIVE 4-METRICS PERFORMANCE RESULTS**
 
