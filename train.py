@@ -230,7 +230,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
 
 def evaluate_comprehensive_metrics(predictions, targets, device='cuda'):
     """
-    Evaluate comprehensive metrics: MSE, PSNR, SSIM, LPIPS, MS-SSIM
+    Evaluate 4 comprehensive metrics: MSE, PSNR, SSIM, LPIPS
 
     Args:
         predictions: List of model predictions [model1_pred, model2_pred, ...]
@@ -238,7 +238,7 @@ def evaluate_comprehensive_metrics(predictions, targets, device='cuda'):
         device: Computing device
 
     Returns:
-        Dictionary with comprehensive metrics for each model
+        Dictionary with 4 comprehensive metrics for each model
     """
     print(f"\n📊 COMPUTING COMPREHENSIVE EVALUATION METRICS")
 
@@ -273,13 +273,12 @@ def evaluate_comprehensive_metrics(predictions, targets, device='cuda'):
             comprehensive_results[model_name] = metrics
 
             print(f"      MSE: {metrics['MSE']:.6f}, PSNR: {metrics['PSNR']:.2f}dB, "
-                  f"SSIM: {metrics['SSIM']:.4f}, MS-SSIM: {metrics['MS_SSIM']:.4f}, "
-                  f"LPIPS: {metrics['LPIPS']:.4f}")
+                  f"SSIM: {metrics['SSIM']:.4f}, LPIPS: {metrics['LPIPS']:.4f}")
 
         except Exception as e:
             print(f"      ❌ Error evaluating {model_name}: {e}")
             comprehensive_results[model_name] = {
-                'MSE': 0.0, 'PSNR': 0.0, 'SSIM': 0.0, 'MS_SSIM': 0.0, 'LPIPS': 0.0
+                'MSE': 0.0, 'PSNR': 0.0, 'SSIM': 0.0, 'LPIPS': 0.0
             }
 
     return comprehensive_results
@@ -708,7 +707,7 @@ def main():
     print(f"✅ Robust cross-validation methodology")
     print(f"✅ Statistical significance testing dengan T-test")
     print(f"✅ Comprehensive reconstruction analysis")
-    print(f"✅ Multi-metric evaluation (MSE, PSNR, SSIM, LPIPS, MS-SSIM)")
+    print(f"✅ Multi-metric evaluation (MSE, PSNR, SSIM, LPIPS)")
     print(f"✅ Publication-ready visualizations")
     print(f"✅ Dissertation-quality statistical analysis")
     print(f"✅ General model development approach")

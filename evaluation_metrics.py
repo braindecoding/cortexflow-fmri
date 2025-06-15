@@ -8,7 +8,6 @@ Advanced evaluation metrics untuk academic research:
 - PSNR (Peak Signal-to-Noise Ratio)
 - SSIM (Structural Similarity Index)
 - LPIPS (Learned Perceptual Image Patch Similarity)
-- MS-SSIM (Multi-Scale Structural Similarity Index)
 
 Academic Features:
 - GPU-optimized computation
@@ -21,9 +20,8 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 from skimage.metrics import structural_similarity as skimage_ssim
-from skimage.metrics import peak_signal_noise_ratio as skimage_psnr
 import lpips
-from pytorch_msssim import ms_ssim, ssim as pytorch_ssim
+from pytorch_msssim import ssim as pytorch_ssim
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -108,32 +106,7 @@ class ComprehensiveEvaluationMetrics:
         
         return np.mean(ssim_scores)
     
-    def compute_ms_ssim(self, pred, target, data_range=1.0):
-        """
-        Compute Multi-Scale Structural Similarity Index
-        
-        Args:
-            pred: Predicted images [B, C, H, W]
-            target: Target images [B, C, H, W]
-            data_range: Maximum possible pixel value
-        
-        Returns:
-            MS-SSIM value [0, 1]
-        """
-        try:
-            # Ensure minimum size for MS-SSIM
-            if pred.shape[-1] < 32 or pred.shape[-2] < 32:
-                # Upsample to minimum required size
-                pred_up = F.interpolate(pred, size=(32, 32), mode='bilinear', align_corners=False)
-                target_up = F.interpolate(target, size=(32, 32), mode='bilinear', align_corners=False)
-                ms_ssim_val = ms_ssim(pred_up, target_up, data_range=data_range, size_average=True)
-            else:
-                ms_ssim_val = ms_ssim(pred, target, data_range=data_range, size_average=True)
-            
-            return ms_ssim_val.item()
-        except Exception as e:
-            print(f"MS-SSIM computation failed: {e}")
-            return 0.0
+
     
     def compute_lpips(self, pred, target):
         """
@@ -176,64 +149,64 @@ class ComprehensiveEvaluationMetrics:
     
     def compute_all_metrics(self, pred, target, data_range=1.0):
         """
-        Compute all evaluation metrics
-        
+        Compute all evaluation metrics (4 valid metrics)
+
         Args:
             pred: Predicted images [B, C, H, W]
             target: Target images [B, C, H, W]
             data_range: Maximum possible pixel value
-        
+
         Returns:
-            Dictionary with all metrics
+            Dictionary with 4 metrics: MSE, PSNR, SSIM, LPIPS
         """
         metrics = {}
-        
+
         # Ensure tensors are on the same device
         pred = pred.to(self.device)
         target = target.to(self.device)
-        
+
         # Ensure same shape
         if pred.shape != target.shape:
             pred = F.interpolate(pred, size=target.shape[-2:], mode='bilinear', align_corners=False)
-        
-        # Compute all metrics
+
+        # Compute 4 valid metrics
         metrics['MSE'] = self.compute_mse(pred, target)
         metrics['PSNR'] = self.compute_psnr(pred, target, data_range)
         metrics['SSIM'] = self.compute_ssim(pred, target, data_range)
-        metrics['MS_SSIM'] = self.compute_ms_ssim(pred, target, data_range)
         metrics['LPIPS'] = self.compute_lpips(pred, target)
-        
+
         return metrics
 
 def test_evaluation_metrics():
-    """Test function untuk evaluation metrics"""
-    print("🧪 TESTING COMPREHENSIVE EVALUATION METRICS")
+    """Test function untuk 4 evaluation metrics"""
+    print("🧪 TESTING 4 COMPREHENSIVE EVALUATION METRICS")
     print("=" * 60)
-    
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     evaluator = ComprehensiveEvaluationMetrics(device)
-    
+
     # Create test data
     batch_size = 4
     pred = torch.randn(batch_size, 1, 28, 28).to(device)
     target = torch.randn(batch_size, 1, 28, 28).to(device)
-    
+
     # Normalize to [0, 1]
     pred = torch.sigmoid(pred)
     target = torch.sigmoid(target)
-    
+
     print(f"📊 Test data shape: {pred.shape}")
     print(f"🔧 Device: {device}")
-    
-    # Compute all metrics
+
+    # Compute 4 valid metrics
     metrics = evaluator.compute_all_metrics(pred, target)
-    
-    print("\n📈 EVALUATION METRICS RESULTS:")
+
+    print("\n📈 4 EVALUATION METRICS RESULTS:")
     print("-" * 40)
     for metric_name, value in metrics.items():
         print(f"   {metric_name}: {value:.6f}")
-    
-    print("\n✅ ALL METRICS COMPUTED SUCCESSFULLY!")
+
+    print(f"\n✅ ALL 4 METRICS COMPUTED SUCCESSFULLY!")
+    print("📊 Metrics: MSE, PSNR, SSIM, LPIPS")
     return metrics
 
 if __name__ == "__main__":
