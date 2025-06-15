@@ -1100,23 +1100,24 @@ class OptimizedBrainDiffuser(nn.Module):
         return output.view(-1, 1, 28, 28)
 
 class CortexFlowEnsemble(nn.Module):
-    """CortexFlow Variant Ensemble: Simple + MC + Hierarchical + Enhanced + Unified + Diffusion + Baseline CNN"""
+    """CortexFlow Variant Ensemble: Simple + MC + Hierarchical + Enhanced + Unified + Diffusion + Baseline CNN + Enhanced Standalone"""
 
     def __init__(self, input_dim, device='cuda'):
         super(CortexFlowEnsemble, self).__init__()
         self.name = "CortexFlow-Ensemble"
         self.device = device
 
-        # Ensemble of 7 variants (ADDED BASELINE CNN based on performance analysis)
+        # Ensemble of 8 variants (ADDED CORTEXFLOW-ENHANCED STANDALONE based on Crell excellence)
         self.model_simple = self._create_simple_cortexflow(input_dim, device)
         self.model_mc = self._create_mc_cortexflow(input_dim, device)
         self.model_hierarchical = self._create_hierarchical_cortexflow(input_dim, device)
         self.model_enhanced = self._create_enhanced_cortexflow(input_dim, device)
         self.model_unified = self._create_unified_cortexflow(input_dim, device)
         self.model_diffusion = self._create_diffusion_cortexflow(input_dim, device)
-        self.model_baseline_cnn = self._create_baseline_cnn(input_dim, device)  # NEW! Added for MindBigData strength
+        self.model_baseline_cnn = self._create_baseline_cnn(input_dim, device)  # Added for MindBigData strength
+        self.model_enhanced_standalone = self._create_enhanced_standalone(input_dim, device)  # NEW! Added for Crell excellence
 
-        # Advanced learned ensemble weights for 7 models (UPDATED)
+        # Advanced learned ensemble weights for 8 models (UPDATED)
         self.ensemble_weights = nn.Sequential(
             nn.Linear(input_dim, 256),
             nn.LayerNorm(256),
@@ -1125,7 +1126,7 @@ class CortexFlowEnsemble(nn.Module):
             nn.Linear(256, 128),
             nn.LayerNorm(128),
             nn.ReLU(),
-            nn.Linear(128, 7),  # 7 models now (UPDATED for Baseline CNN inclusion)
+            nn.Linear(128, 8),  # 8 models now (UPDATED for CortexFlow-Enhanced standalone inclusion)
             nn.Softmax(dim=1)
         ).to(device)
 
@@ -1450,27 +1451,34 @@ class CortexFlowEnsemble(nn.Module):
             nn.Sigmoid()
         ).to(device)
 
+    def _create_enhanced_standalone(self, input_dim, device):
+        """8. CortexFlow-Enhanced Standalone: Optimized for Crell dataset excellence"""
+        # Use the same architecture as the enhanced variant but as standalone
+        return self._create_enhanced_cortexflow(input_dim, device)
+
     def forward(self, x):
-        # Get predictions from all 7 variants (ADDED BASELINE CNN)
+        # Get predictions from all 8 variants (ADDED CORTEXFLOW-ENHANCED STANDALONE)
         pred_simple = self.model_simple(x)
         pred_mc = self.model_mc(x)
         pred_hierarchical = self.model_hierarchical(x)
         pred_enhanced = self.model_enhanced(x)
         pred_unified = self.model_unified(x)
         pred_diffusion = self.model_diffusion(x)
-        pred_baseline_cnn = self.model_baseline_cnn(x)  # NEW BASELINE CNN MODEL
+        pred_baseline_cnn = self.model_baseline_cnn(x)
+        pred_enhanced_standalone = self.model_enhanced_standalone(x)  # NEW CORTEXFLOW-ENHANCED STANDALONE
 
-        # Advanced learned ensemble weighting for 7 models (UPDATED)
+        # Advanced learned ensemble weighting for 8 models (UPDATED)
         weights = self.ensemble_weights(x)
 
-        # Weighted ensemble prediction with all 7 variants (UPDATED)
+        # Weighted ensemble prediction with all 8 variants (UPDATED)
         ensemble_pred = (weights[:, 0:1] * pred_simple +
                         weights[:, 1:2] * pred_mc +
                         weights[:, 2:3] * pred_hierarchical +
                         weights[:, 3:4] * pred_enhanced +
                         weights[:, 4:5] * pred_unified +
                         weights[:, 5:6] * pred_diffusion +
-                        weights[:, 6:7] * pred_baseline_cnn)  # NEW BASELINE CNN WEIGHT
+                        weights[:, 6:7] * pred_baseline_cnn +
+                        weights[:, 7:8] * pred_enhanced_standalone)  # NEW CORTEXFLOW-ENHANCED STANDALONE WEIGHT
 
         return ensemble_pred.view(-1, 1, 28, 28)
 
