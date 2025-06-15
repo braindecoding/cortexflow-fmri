@@ -816,6 +816,206 @@ class SuperOptimizedMiyawaki(nn.Module):
         return sigmoid_output.view(-1, 1, 28, 28), logits.view(-1, 1, 28, 28)
 
 
+class DiffusionMiyawakiCortexFlow(nn.Module):
+    """DIFFUSION-ENHANCED MIYAWAKI: Basic Miyawaki-Optimized + Diffusion Process"""
+
+    def __init__(self, input_dim, device='cuda'):
+        super(DiffusionMiyawakiCortexFlow, self).__init__()
+        self.name = "CortexFlow-Enhanced"
+        self.device = device
+
+        # Diffusion parameters
+        self.num_timesteps = 50  # Number of diffusion steps
+        self.beta_start = 0.0001  # Start noise level
+        self.beta_end = 0.02     # End noise level
+
+        # Create noise schedule (linear) - ensure on correct device
+        betas = torch.linspace(self.beta_start, self.beta_end, self.num_timesteps)
+        alphas = 1.0 - betas
+        alphas_cumprod = torch.cumprod(alphas, dim=0)
+
+        self.register_buffer('betas', betas.to(device))
+        self.register_buffer('alphas', alphas.to(device))
+        self.register_buffer('alphas_cumprod', alphas_cumprod.to(device))
+        self.register_buffer('sqrt_alphas_cumprod', torch.sqrt(alphas_cumprod).to(device))
+        self.register_buffer('sqrt_one_minus_alphas_cumprod', torch.sqrt(1.0 - alphas_cumprod).to(device))
+
+        # BASIC MIYAWAKI-OPTIMIZED ENCODER (proven architecture)
+        # Spatial pattern encoder - focuses on geometric structures
+        self.spatial_encoder = nn.Sequential(
+            nn.Linear(input_dim, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.2),
+            nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # Binary contrast encoder - optimized for black/white patterns
+        self.contrast_encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.15),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1)
+        ).to(device)
+
+        # Pattern fusion - combines spatial and contrast information
+        self.pattern_fusion = nn.Sequential(
+            nn.Linear(384, 256),  # 256 + 128 = 384
+            nn.BatchNorm1d(256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(inplace=True)
+        ).to(device)
+
+        # Binary decision layer - helps with binary contrast decisions
+        self.binary_enhancer = nn.Sequential(
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 128),
+            nn.Sigmoid()  # Sigmoid for binary-like enhancement
+        ).to(device)
+
+        # DIFFUSION DENOISING NETWORK
+        # Time embedding for diffusion timesteps
+        self.time_embedding = nn.Sequential(
+            nn.Linear(128, 256),  # Time features
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 128)
+        ).to(device)
+
+        # Diffusion U-Net style decoder
+        self.diffusion_decoder = nn.Sequential(
+            nn.Linear(256, 512),  # 128 (features) + 128 (time) = 256
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(512, 784),
+            nn.BatchNorm1d(784),
+            nn.ReLU(inplace=True),
+            nn.Linear(784, 784)  # Raw output (no activation)
+        ).to(device)
+
+        # Final projection for clean output
+        self.final_projection = nn.Sequential(
+            nn.Linear(784, 784),
+            nn.Sigmoid()  # Sigmoid for binary contrast
+        ).to(device)
+
+    def get_time_embedding(self, timesteps):
+        """Create sinusoidal time embeddings"""
+        half_dim = 64
+        embeddings = torch.log(torch.tensor(10000.0)) / (half_dim - 1)
+        embeddings = torch.exp(torch.arange(half_dim, device=self.device) * -embeddings)
+        embeddings = timesteps[:, None] * embeddings[None, :]
+        embeddings = torch.cat([torch.sin(embeddings), torch.cos(embeddings)], dim=-1)
+        return self.time_embedding(embeddings)
+
+    def forward_noise_prediction(self, x_noisy, timesteps, condition):
+        """Predict noise given noisy image, timestep, and fMRI condition"""
+        # Get time embeddings
+        time_emb = self.get_time_embedding(timesteps)  # [batch, 128]
+
+        # Combine condition features with time embedding
+        combined_input = torch.cat([condition, time_emb], dim=1)  # [batch, 256]
+
+        # Predict noise
+        noise_pred = self.diffusion_decoder(combined_input)  # [batch, 784]
+
+        return noise_pred.view(-1, 1, 28, 28)
+
+    def add_noise(self, x_start, noise, timesteps):
+        """Add noise to clean images according to diffusion schedule"""
+        sqrt_alphas_cumprod_t = self.sqrt_alphas_cumprod[timesteps]
+        sqrt_one_minus_alphas_cumprod_t = self.sqrt_one_minus_alphas_cumprod[timesteps]
+
+        # Reshape for broadcasting
+        sqrt_alphas_cumprod_t = sqrt_alphas_cumprod_t.view(-1, 1, 1, 1)
+        sqrt_one_minus_alphas_cumprod_t = sqrt_one_minus_alphas_cumprod_t.view(-1, 1, 1, 1)
+
+        return sqrt_alphas_cumprod_t * x_start + sqrt_one_minus_alphas_cumprod_t * noise
+
+    def forward(self, x):
+        if self.training:
+            # During training, return both clean prediction and noise prediction for diffusion loss
+            return self._training_forward(x)
+        else:
+            # During inference, use diffusion sampling
+            return self._diffusion_sampling(x)
+
+    def _training_forward(self, x):
+        """Training forward pass with diffusion loss"""
+        # Extract features using Basic Miyawaki-Optimized encoder
+        spatial_features = self.spatial_encoder(x)      # [batch, 256]
+        contrast_features = self.contrast_encoder(x)    # [batch, 128]
+
+        # Combine features
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)  # [batch, 384]
+        fused_patterns = self.pattern_fusion(combined_features)  # [batch, 128]
+
+        # Binary enhancement
+        binary_enhanced = self.binary_enhancer(fused_patterns)  # [batch, 128]
+        condition_features = fused_patterns * binary_enhanced  # [batch, 128]
+
+        # Direct prediction (for MSE loss)
+        direct_pred = self.diffusion_decoder(torch.cat([condition_features, torch.zeros_like(condition_features)], dim=1))
+        clean_output = self.final_projection(direct_pred)  # [batch, 784]
+
+        return condition_features, clean_output.view(-1, 1, 28, 28)
+
+    def _diffusion_sampling(self, x):
+        """Diffusion sampling for inference"""
+        # Extract condition features
+        spatial_features = self.spatial_encoder(x)
+        contrast_features = self.contrast_encoder(x)
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)
+        fused_patterns = self.pattern_fusion(combined_features)
+        binary_enhanced = self.binary_enhancer(fused_patterns)
+        condition_features = fused_patterns * binary_enhanced  # [batch, 128]
+
+        batch_size = x.shape[0]
+
+        # Start from pure noise
+        x_t = torch.randn(batch_size, 1, 28, 28, device=self.device)
+
+        # Reverse diffusion process (simplified DDPM)
+        for t in reversed(range(0, self.num_timesteps, 5)):  # Sample every 5 steps for speed
+            timesteps = torch.full((batch_size,), t, device=self.device, dtype=torch.long)
+
+            # Predict noise
+            noise_pred = self.forward_noise_prediction(x_t, timesteps, condition_features)
+
+            # Denoise step (simplified)
+            if t > 0:
+                alpha_t = self.alphas[t]
+                beta_t = self.betas[t]
+
+                # Simplified denoising
+                x_t = (x_t - beta_t / torch.sqrt(1 - self.alphas_cumprod[t]) * noise_pred) / torch.sqrt(alpha_t)
+
+                # Add noise for next step (except last)
+                if t > 5:
+                    noise = torch.randn_like(x_t)
+                    x_t = x_t + torch.sqrt(beta_t) * noise
+            else:
+                # Final denoising
+                x_t = x_t - noise_pred
+
+        # Final cleanup
+        final_output = self.final_projection(x_t.view(batch_size, -1))
+
+        return final_output.view(-1, 1, 28, 28)
+
+
 class MiyawakiGANCortexFlow(nn.Module):
     """CortexFlow-Enhanced: GAN-ENHANCED MIYAWAKI for Binary Contrast Block Patterns"""
 
@@ -1738,6 +1938,142 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
             print(f"     Winner: {winner} ({improvement:.2f}% better)")
 
     return cv_results_dict
+
+def gpu_optimized_diffusion_training(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
+    """GPU-optimized training for DiffusionMiyawakiCortexFlow with diffusion loss"""
+
+    # Setup optimizer
+    optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
+
+    # Loss functions
+    mse_loss = nn.MSELoss()  # For direct prediction
+    diffusion_loss = nn.MSELoss()  # For noise prediction
+
+    # Loss weights
+    direct_weight = 1.0
+    diffusion_weight = 0.5
+
+    scaler = torch.cuda.amp.GradScaler() if model.device == 'cuda' else None
+
+    # Data loaders
+    train_dataset = TensorDataset(X_train, y_train)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False)
+
+    # Training tracking
+    best_loss = float('inf')
+    patience_counter = 0
+    start_time = time.time()
+
+    print(f"🔥 GPU Diffusion Training {model.name} dengan diffusion loss...")
+
+    for epoch in range(epochs):
+        model.train()
+        epoch_loss = 0.0
+        epoch_direct = 0.0
+        epoch_diffusion = 0.0
+
+        for batch_X, batch_y in train_loader:
+            optimizer.zero_grad()
+
+            if model.device == 'cuda' and scaler:
+                with torch.cuda.amp.autocast():
+                    # Check if model supports diffusion training
+                    if hasattr(model, 'num_timesteps') and hasattr(model, 'forward_noise_prediction'):
+                        # Diffusion model training
+                        condition_features, direct_pred = model(batch_X)
+
+                        # Direct prediction loss
+                        direct_loss = mse_loss(direct_pred, batch_y)
+
+                        # Diffusion loss (noise prediction)
+                        timesteps = torch.randint(0, model.num_timesteps, (batch_X.shape[0],), device=model.device, dtype=torch.long)
+                        noise = torch.randn_like(batch_y)
+                        noisy_images = model.add_noise(batch_y, noise, timesteps)
+                        noise_pred = model.forward_noise_prediction(noisy_images, timesteps, condition_features)
+                        diff_loss = diffusion_loss(noise_pred, noise)
+
+                        total_loss = direct_weight * direct_loss + diffusion_weight * diff_loss
+                    else:
+                        # Standard model training
+                        output = model(batch_X)
+                        if isinstance(output, tuple):
+                            output = output[0]
+                        direct_loss = mse_loss(output, batch_y)
+                        diff_loss = torch.tensor(0.0, device=model.device)
+                        total_loss = direct_loss
+
+                scaler.scale(total_loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                # Check if model supports diffusion training
+                if hasattr(model, 'num_timesteps') and hasattr(model, 'forward_noise_prediction'):
+                    # Diffusion model training
+                    condition_features, direct_pred = model(batch_X)
+                    direct_loss = mse_loss(direct_pred, batch_y)
+
+                    # Diffusion loss
+                    timesteps = torch.randint(0, model.num_timesteps, (batch_X.shape[0],), device=model.device, dtype=torch.long)
+                    noise = torch.randn_like(batch_y)
+                    noisy_images = model.add_noise(batch_y, noise, timesteps)
+                    noise_pred = model.forward_noise_prediction(noisy_images, timesteps, condition_features)
+                    diff_loss = diffusion_loss(noise_pred, noise)
+
+                    total_loss = direct_weight * direct_loss + diffusion_weight * diff_loss
+                else:
+                    # Standard model training
+                    output = model(batch_X)
+                    if isinstance(output, tuple):
+                        output = output[0]
+                    direct_loss = mse_loss(output, batch_y)
+                    diff_loss = torch.tensor(0.0, device=model.device)
+                    total_loss = direct_loss
+                total_loss.backward()
+                optimizer.step()
+
+            epoch_loss += total_loss.item()
+            epoch_direct += direct_loss.item()
+            epoch_diffusion += diff_loss.item()
+
+        # Validation (use direct prediction for speed)
+        model.eval()
+        with torch.no_grad():
+            if hasattr(model, 'num_timesteps') and hasattr(model, 'forward_noise_prediction'):
+                # Diffusion model validation - use training mode for direct prediction
+                model.train()
+                condition_features, val_output = model(X_val)
+                model.eval()
+                val_loss = mse_loss(val_output, y_val).item()
+            else:
+                # Standard model validation
+                val_output = model(X_val)
+                if isinstance(val_output, tuple):
+                    val_output = val_output[0]
+                val_loss = mse_loss(val_output, y_val).item()
+
+        # Early stopping check
+        if val_loss < best_loss:
+            best_loss = val_loss
+            patience_counter = 0
+        else:
+            patience_counter += 1
+
+        # Print progress
+        if (epoch + 1) % 20 == 0 or epoch == 0:
+            elapsed = time.time() - start_time
+            avg_total = epoch_loss / len(train_loader)
+            avg_direct = epoch_direct / len(train_loader)
+            avg_diff = epoch_diffusion / len(train_loader)
+            print(f"   Epoch {epoch+1}/{epochs}, Total: {avg_total:.6f}, Direct: {avg_direct:.6f}, Diffusion: {avg_diff:.6f}, Val: {val_loss:.6f}, Time: {elapsed:.1f}s")
+
+        # Early stopping
+        if patience_counter >= patience:
+            print(f"   Early stopping at epoch {epoch+1}")
+            break
+
+    elapsed = time.time() - start_time
+    print(f"✅ Diffusion training completed in {elapsed:.1f}s, Best Loss: {best_loss:.6f}")
+    return best_loss
 
 def gpu_optimized_super_training(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
     """GPU-optimized training for SuperOptimizedMiyawaki with multi-component loss"""
