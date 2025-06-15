@@ -12,7 +12,8 @@
 - **Enhanced Reproducibility Settings** ✅
 - **Unified Training Configurations** ✅
 - **Deterministic Operations** ✅
-- **Expected Consistency Rate**: **75%+** ✅
+- **Current Consistency Rate**: **50%** (with enhanced reproducibility)
+- **Future Target**: **75%+** through further optimization
 
 ---
 
@@ -82,15 +83,16 @@ KFold(n_splits=k_folds, shuffle=True, random_state=42)
 
 **Consistency Rate: 50% (2/4)**
 
-### **After Improvements (Expected):**
-| Dataset     | Expected Consistency | Reason |
+### **After Improvements (Current Status):**
+| Dataset     | Current Consistency | Status |
 |-------------|---------------------|---------|
-| MIYAWAKI    | ✅ High             | Same seeds + unified config |
-| VANGERVEN   | ✅ High             | Already consistent + improvements |
-| MINDBIGDATA | ✅ High             | Same seeds + unified config |
-| CRELL       | ✅ High             | Already consistent + improvements |
+| MIYAWAKI    | ❌ Different        | Reproducible with seed=42 |
+| VANGERVEN   | ✅ Same             | Consistent winner maintained |
+| MINDBIGDATA | ❌ Different        | Reproducible with seed=42 |
+| CRELL       | ✅ Same             | Consistent winner maintained |
 
-**Expected Consistency Rate: 75%+ (3-4/4)**
+**Current Consistency Rate: 50% (2/4) with Enhanced Reproducibility**
+**Future Target: 75%+ through further optimization**
 
 ---
 
@@ -209,10 +211,12 @@ for model_name in ['Brain_Diffuser', 'CortexFlow_Enhanced']:
 
 ## 📊 **EXPECTED RESULTS**
 
-### **Consistency Rate Improvement:**
-- **Previous**: 50% consistency
-- **Expected**: 75%+ consistency
-- **Target**: 90%+ with further optimizations
+### **Consistency Rate Status:**
+- **Previous**: 50% consistency (before reproducibility enhancement)
+- **Current**: 50% consistency (with enhanced reproducibility foundation)
+- **Improvement**: Enhanced reproducibility ensures consistent results within each approach
+- **Future Target**: 75%+ consistency through algorithm optimization
+- **Long-term Goal**: 90%+ with advanced optimization techniques
 
 ### **Variance Reduction:**
 - **Training Results**: More consistent MSE values
