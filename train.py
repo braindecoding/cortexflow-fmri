@@ -632,6 +632,190 @@ class BayesianMiyawakiCortexFlow(nn.Module):
         return kl_loss * self.kl_weight
 
 
+class SuperOptimizedMiyawaki(nn.Module):
+    """SUPER-OPTIMIZED MIYAWAKI: Target MSE 0.008 with Multiple Enhancements"""
+
+    def __init__(self, input_dim, device='cuda'):
+        super(SuperOptimizedMiyawaki, self).__init__()
+        self.name = "CortexFlow-Enhanced"
+        self.device = device
+
+        # ENHANCEMENT 1: BRAIN-DIFFUSER INSPIRED PREPROCESSING
+        # Input preprocessing with SiLU and LayerNorm like Brain-Diffuser
+        self.input_processor = nn.Sequential(
+            nn.Linear(input_dim, input_dim),
+            nn.LayerNorm(input_dim),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(input_dim, input_dim),
+            nn.LayerNorm(input_dim),
+            nn.SiLU(inplace=True)
+        ).to(device)
+
+        # ENHANCEMENT 2: DEEPER SPATIAL ENCODER (3 layers instead of 2)
+        self.spatial_encoder = nn.Sequential(
+            nn.Linear(input_dim, 768),  # Wider first layer
+            nn.LayerNorm(768),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.15),
+            nn.Linear(768, 512),
+            nn.LayerNorm(512),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(512, 256),
+            nn.LayerNorm(256),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.05)
+        ).to(device)
+
+        # ENHANCEMENT 3: DEEPER CONTRAST ENCODER
+        self.contrast_encoder = nn.Sequential(
+            nn.Linear(input_dim, 384),  # Wider first layer
+            nn.LayerNorm(384),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.15),
+            nn.Linear(384, 256),
+            nn.LayerNorm(256),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(256, 128),
+            nn.LayerNorm(128),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.05)
+        ).to(device)
+
+        # ENHANCEMENT 4: ADVANCED FEATURE FUSION with Attention
+        self.feature_attention = nn.MultiheadAttention(
+            embed_dim=384, num_heads=8, dropout=0.1, batch_first=True
+        ).to(device)
+
+        self.advanced_fusion = nn.Sequential(
+            nn.Linear(384, 256),  # 256 + 128 = 384
+            nn.LayerNorm(256),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(256, 128),
+            nn.LayerNorm(128),
+            nn.SiLU(inplace=True)
+        ).to(device)
+
+        # ENHANCEMENT 5: RESIDUAL BINARY ENHANCER
+        self.binary_enhancer = nn.Sequential(
+            nn.Linear(128, 64),
+            nn.LayerNorm(64),
+            nn.SiLU(inplace=True),
+            nn.Linear(64, 128),
+            nn.Sigmoid()
+        ).to(device)
+
+        # ENHANCEMENT 6: BRAIN-DIFFUSER STYLE DECODER (Deeper + SiLU)
+        self.diffusion_decoder = nn.Sequential(
+            nn.Linear(128, 256),
+            nn.LayerNorm(256),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.1),
+            nn.Linear(256, 512),
+            nn.LayerNorm(512),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.05),
+            nn.Linear(512, 768),
+            nn.LayerNorm(768),
+            nn.SiLU(inplace=True),
+            nn.Linear(768, 784)
+        ).to(device)
+
+        # ENHANCEMENT 7: ITERATIVE REFINEMENT (like Brain-Diffuser)
+        self.refinement_layers = nn.ModuleList([
+            nn.Sequential(
+                nn.Linear(784, 784),
+                nn.LayerNorm(784),
+                nn.SiLU(inplace=True),
+                nn.Linear(784, 784)
+            ) for _ in range(3)
+        ]).to(device)
+
+        # ENHANCEMENT 8: FINAL PROJECTION with dual output
+        self.final_projection = nn.Sequential(
+            nn.Linear(784, 784)
+            # No sigmoid here - will apply sigmoid for MSE/L1, logits for BCE
+        ).to(device)
+
+    def forward(self, x):
+        # ENHANCEMENT 1: Input preprocessing
+        processed_input = self.input_processor(x)
+
+        # ENHANCEMENT 2 & 3: Deep feature extraction
+        spatial_features = self.spatial_encoder(processed_input)  # [batch, 256]
+        contrast_features = self.contrast_encoder(processed_input)  # [batch, 128]
+
+        # ENHANCEMENT 4: Advanced feature fusion with attention
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)  # [batch, 384]
+
+        # Apply self-attention for better feature interaction
+        attended_features, _ = self.feature_attention(
+            combined_features.unsqueeze(1),
+            combined_features.unsqueeze(1),
+            combined_features.unsqueeze(1)
+        )
+        attended_features = attended_features.squeeze(1)  # [batch, 384]
+
+        # Residual connection
+        fused_features = self.advanced_fusion(attended_features + combined_features)  # [batch, 128]
+
+        # ENHANCEMENT 5: Binary enhancement with residual
+        binary_enhanced = self.binary_enhancer(fused_features)  # [batch, 128]
+        enhanced_features = fused_features + fused_features * binary_enhanced  # Residual + gating
+
+        # ENHANCEMENT 6: Brain-Diffuser style decoding
+        decoded = self.diffusion_decoder(enhanced_features)  # [batch, 784]
+
+        # ENHANCEMENT 7: Iterative refinement (like Brain-Diffuser denoising)
+        refined = decoded
+        for refinement_layer in self.refinement_layers:
+            residual = refinement_layer(refined)
+            refined = refined + 0.1 * residual  # Small residual updates
+
+        # ENHANCEMENT 8: Final projection (logits)
+        logits = self.final_projection(refined)  # [batch, 784]
+
+        # Apply sigmoid for final output
+        final_output = torch.sigmoid(logits)
+
+        return final_output.view(-1, 1, 28, 28)
+
+    def forward_with_logits(self, x):
+        """Forward pass returning both sigmoid output and logits for BCE loss"""
+        # Same forward pass until logits
+        processed_input = self.input_processor(x)
+        spatial_features = self.spatial_encoder(processed_input)
+        contrast_features = self.contrast_encoder(processed_input)
+
+        combined_features = torch.cat([spatial_features, contrast_features], dim=1)
+        attended_features, _ = self.feature_attention(
+            combined_features.unsqueeze(1),
+            combined_features.unsqueeze(1),
+            combined_features.unsqueeze(1)
+        )
+        attended_features = attended_features.squeeze(1)
+
+        fused_features = self.advanced_fusion(attended_features + combined_features)
+        binary_enhanced = self.binary_enhancer(fused_features)
+        enhanced_features = fused_features + fused_features * binary_enhanced
+
+        decoded = self.diffusion_decoder(enhanced_features)
+
+        refined = decoded
+        for refinement_layer in self.refinement_layers:
+            residual = refinement_layer(refined)
+            refined = refined + 0.1 * residual
+
+        # Return both logits and sigmoid output
+        logits = self.final_projection(refined)  # [batch, 784]
+        sigmoid_output = torch.sigmoid(logits)
+
+        return sigmoid_output.view(-1, 1, 28, 28), logits.view(-1, 1, 28, 28)
+
+
 class MiyawakiGANCortexFlow(nn.Module):
     """CortexFlow-Enhanced: GAN-ENHANCED MIYAWAKI for Binary Contrast Block Patterns"""
 
@@ -1554,6 +1738,143 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name):
             print(f"     Winner: {winner} ({improvement:.2f}% better)")
 
     return cv_results_dict
+
+def gpu_optimized_super_training(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
+    """GPU-optimized training for SuperOptimizedMiyawaki with multi-component loss"""
+
+    # Setup optimizer with different LR for different parts
+    optimizer = optim.AdamW([
+        {'params': model.input_processor.parameters(), 'lr': lr * 0.5},
+        {'params': model.spatial_encoder.parameters(), 'lr': lr},
+        {'params': model.contrast_encoder.parameters(), 'lr': lr},
+        {'params': model.feature_attention.parameters(), 'lr': lr * 1.5},
+        {'params': model.advanced_fusion.parameters(), 'lr': lr * 1.5},
+        {'params': model.diffusion_decoder.parameters(), 'lr': lr},
+        {'params': model.refinement_layers.parameters(), 'lr': lr * 0.8},
+        {'params': model.final_projection.parameters(), 'lr': lr * 0.5}
+    ], weight_decay=1e-4)
+
+    # Multi-component loss functions (autocast-safe)
+    mse_loss = nn.MSELoss()
+    l1_loss = nn.L1Loss()
+    bce_loss = nn.BCEWithLogitsLoss()  # Safe for autocast
+
+    # Loss weights
+    mse_weight = 1.0
+    l1_weight = 0.5
+    bce_weight = 0.3
+
+    scaler = torch.cuda.amp.GradScaler() if model.device == 'cuda' else None
+
+    # Learning rate scheduler (OneCycleLR for super optimization)
+    scheduler = optim.lr_scheduler.OneCycleLR(
+        optimizer,
+        max_lr=[lr * 0.5 * 2, lr * 2, lr * 2, lr * 1.5 * 2, lr * 1.5 * 2, lr * 2, lr * 0.8 * 2, lr * 0.5 * 2],
+        epochs=epochs,
+        steps_per_epoch=len(X_train) // batch_size + 1,
+        pct_start=0.1,  # 10% warmup
+        anneal_strategy='cos'
+    )
+
+    # Data loaders
+    train_dataset = TensorDataset(X_train, y_train)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False)
+
+    # Training tracking
+    best_loss = float('inf')
+    patience_counter = 0
+    start_time = time.time()
+
+    print(f"🔥 GPU Super Training {model.name} dengan multi-component loss...")
+
+    for epoch in range(epochs):
+        model.train()
+        epoch_loss = 0.0
+        epoch_mse = 0.0
+        epoch_l1 = 0.0
+        epoch_bce = 0.0
+
+        for batch_X, batch_y in train_loader:
+            optimizer.zero_grad()
+
+            if model.device == 'cuda' and scaler:
+                with torch.cuda.amp.autocast():
+                    # Use forward_with_logits for SuperOptimized model
+                    if hasattr(model, 'forward_with_logits'):
+                        output, logits = model.forward_with_logits(batch_X)
+                        bce_component = bce_loss(logits, batch_y)
+                    else:
+                        output = model(batch_X)
+                        bce_component = bce_loss(output, batch_y)
+
+                    # Multi-component loss
+                    mse_component = mse_loss(output, batch_y)
+                    l1_component = l1_loss(output, batch_y)
+
+                    total_loss = (mse_weight * mse_component +
+                                l1_weight * l1_component +
+                                bce_weight * bce_component)
+
+                scaler.scale(total_loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
+                scheduler.step()
+            else:
+                # Use forward_with_logits for SuperOptimized model
+                if hasattr(model, 'forward_with_logits'):
+                    output, logits = model.forward_with_logits(batch_X)
+                    bce_component = bce_loss(logits, batch_y)
+                else:
+                    output = model(batch_X)
+                    bce_component = bce_loss(output, batch_y)
+
+                # Multi-component loss
+                mse_component = mse_loss(output, batch_y)
+                l1_component = l1_loss(output, batch_y)
+
+                total_loss = (mse_weight * mse_component +
+                            l1_weight * l1_component +
+                            bce_weight * bce_component)
+
+                total_loss.backward()
+                optimizer.step()
+                scheduler.step()
+
+            epoch_loss += total_loss.item()
+            epoch_mse += mse_component.item()
+            epoch_l1 += l1_component.item()
+            epoch_bce += bce_component.item()
+
+        # Validation
+        model.eval()
+        with torch.no_grad():
+            val_output = model(X_val)
+            val_loss = mse_loss(val_output, y_val).item()
+
+        # Early stopping check
+        if val_loss < best_loss:
+            best_loss = val_loss
+            patience_counter = 0
+        else:
+            patience_counter += 1
+
+        # Print progress
+        if (epoch + 1) % 20 == 0 or epoch == 0:
+            elapsed = time.time() - start_time
+            avg_total = epoch_loss / len(train_loader)
+            avg_mse = epoch_mse / len(train_loader)
+            avg_l1 = epoch_l1 / len(train_loader)
+            avg_bce = epoch_bce / len(train_loader)
+            print(f"   Epoch {epoch+1}/{epochs}, Total: {avg_total:.6f}, MSE: {avg_mse:.6f}, L1: {avg_l1:.6f}, BCE: {avg_bce:.6f}, Val: {val_loss:.6f}, Time: {elapsed:.1f}s")
+
+        # Early stopping
+        if patience_counter >= patience:
+            print(f"   Early stopping at epoch {epoch+1}")
+            break
+
+    elapsed = time.time() - start_time
+    print(f"✅ Super training completed in {elapsed:.1f}s, Best Loss: {best_loss:.6f}")
+    return best_loss
 
 def gpu_optimized_bayesian_training(model, X_train, y_train, X_val, y_val, epochs=100, lr=0.001, batch_size=64, patience=20):
     """GPU-optimized Bayesian training with KL divergence loss"""
