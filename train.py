@@ -470,7 +470,7 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
     ax6.axis('off')
 
     # Create summary table
-    summary_text = "📊 COMPREHENSIVE METRICS SUMMARY\\n\\n"
+    summary_text = "📊 COMPREHENSIVE METRICS SUMMARY\n\n"
 
     for dataset in datasets:
         if 'comprehensive_metrics' in statistical_summaries[dataset]:
@@ -482,17 +482,17 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
             best_ssim = max(metrics_data.keys(), key=lambda k: metrics_data[k]['SSIM'])
             best_lpips = min(metrics_data.keys(), key=lambda k: metrics_data[k]['LPIPS'])
 
-            summary_text += f"🏆 {dataset.upper()}:\\n"
-            summary_text += f"  MSE: {best_mse.replace('_', ' ')}\\n"
-            summary_text += f"  PSNR: {best_psnr.replace('_', ' ')}\\n"
-            summary_text += f"  SSIM: {best_ssim.replace('_', ' ')}\\n"
-            summary_text += f"  LPIPS: {best_lpips.replace('_', ' ')}\\n\\n"
+            summary_text += f"🏆 {dataset.upper()}:\n"
+            summary_text += f"  MSE: {best_mse.replace('_', ' ')}\n"
+            summary_text += f"  PSNR: {best_psnr.replace('_', ' ')}\n"
+            summary_text += f"  SSIM: {best_ssim.replace('_', ' ')}\n"
+            summary_text += f"  LPIPS: {best_lpips.replace('_', ' ')}\n\n"
 
-    summary_text += "📈 4 VALID METRICS EXPLANATIONS:\\n"
-    summary_text += "• MSE: Lower is better (reconstruction error)\\n"
-    summary_text += "• PSNR: Higher is better (signal quality)\\n"
-    summary_text += "• SSIM: Higher is better (perceptual similarity)\\n"
-    summary_text += "• LPIPS: Lower is better (perceptual distance)\\n\\n"
+    summary_text += "📈 4 VALID METRICS EXPLANATIONS:\n"
+    summary_text += "• MSE: Lower is better (reconstruction error)\n"
+    summary_text += "• PSNR: Higher is better (signal quality)\n"
+    summary_text += "• SSIM: Higher is better (perceptual similarity)\n"
+    summary_text += "• LPIPS: Lower is better (perceptual distance)\n\n"
     summary_text += "⚠️ MS-SSIM: Excluded (requires 160+ pixels, we have 28x28)"
 
     ax6.text(0.05, 0.95, summary_text, transform=ax6.transAxes, fontsize=10,
@@ -791,7 +791,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
                 radar_data[method] = values
 
         # Create radar chart
-        categories = ['MSE\\n(Inverted)', 'PSNR\\n(Scaled)', 'SSIM', 'LPIPS\\n(Inverted)']
+        categories = ['MSE\n(Inverted)', 'PSNR\n(Scaled)', 'SSIM', 'LPIPS\n(Inverted)']
         N = len(categories)
 
         angles = [n / float(N) * 2 * np.pi for n in range(N)]
@@ -809,7 +809,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
         ax2.set_xticks(angles[:-1])
         ax2.set_xticklabels(categories)
         ax2.set_ylim(0, 1)
-        ax2.set_title('4-Metrics Overall Performance\\n(Normalized Radar Chart)')
+        ax2.set_title('4-Metrics Overall Performance\n(Normalized Radar Chart)')
         ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=8)
         ax2.grid(True)
 
@@ -851,7 +851,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
                     if i == 0:  # Best method
                         table[(i+1, j)].set_text_props(weight='bold')
 
-        ax3.set_title('4-Metrics Overall Performance Summary\\n(Ranked by MSE)',
+        ax3.set_title('4-Metrics Overall Performance Summary\n(Ranked by MSE)',
                      fontsize=12, fontweight='bold', pad=20)
 
     # 4. Cross-Dataset MSE Heatmap (Bottom Right)
@@ -891,7 +891,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
         ax4.set_xticklabels([d.capitalize() for d in datasets])
         ax4.set_yticks(range(len(methods)))
         ax4.set_yticklabels([m.replace('_', ' ') for m in methods])
-        ax4.set_title('Cross-Dataset MSE Performance\\n(Lower is Better)')
+        ax4.set_title('Cross-Dataset MSE Performance\n(Lower is Better)')
 
         # Add text annotations
         for i in range(len(methods)):
@@ -916,7 +916,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
         ax5.set_yticks(range(len(methods_sorted)))
         ax5.set_yticklabels([m.replace('_', ' ') for m in methods_sorted])
         ax5.set_xlabel('PSNR (Higher is Better)')
-        ax5.set_title('PSNR Overall Method Ranking\\n(Mean ± Std across all datasets)')
+        ax5.set_title('PSNR Overall Method Ranking\n(Mean ± Std across all datasets)')
 
         # Add value labels
         for i, (mean, std) in enumerate(zip(means, stds)):
@@ -943,7 +943,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
 
         ax6.set_xlabel('Methods')
         ax6.set_ylabel('Normalized Score')
-        ax6.set_title('SSIM vs LPIPS Performance\\n(Both normalized to [0,1])')
+        ax6.set_title('SSIM vs LPIPS Performance\n(Both normalized to [0,1])')
         ax6.set_xticks(x)
         ax6.set_xticklabels([m.replace('_', ' ') for m in methods], rotation=45)
         ax6.legend()
