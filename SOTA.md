@@ -518,27 +518,31 @@ where Decoder_mean and Decoder_var are separate neural networks
 
 **Mathematical Formulation**:
 ```
-Sophisticated CortexFlow Variants:
-f_simple(x) = CortexFlow_Simple(x) ∈ ℝ⁷⁸⁴      # Monte Carlo dropout + LayerNorm
-f_hierarchical(x) = CortexFlow_Hierarchical(x) ∈ ℝ⁷⁸⁴  # Multi-level processing (3 levels)
-f_enhanced(x) = CortexFlow_Enhanced(x) ∈ ℝ⁷⁸⁴   # Attention mechanism + sophisticated blocks
+CortexFlow Variant Ensemble (5 Models):
+f_simple(x) = CortexFlow_Simple(x) ∈ ℝ⁷⁸⁴        # Encoder-decoder dengan regularisasi optimal
+f_mc(x) = CortexFlow_MC(x) ∈ ℝ⁷⁸⁴              # Monte Carlo uncertainty quantification
+f_hierarchical(x) = CortexFlow_Hierarchical(x) ∈ ℝ⁷⁸⁴  # Multi-scale temporal + attention
+f_enhanced(x) = CortexFlow_Enhanced(x) ∈ ℝ⁷⁸⁴    # Hierarchical + MC + feature alignment
+f_unified(x) = CortexFlow_Unified(x) ∈ ℝ⁷⁸⁴     # Adaptive complexity + dual-pathway
 
 Advanced Learned Ensemble Weights:
-W_ensemble = Softmax(MLP_ensemble(x)) ∈ ℝ³
-where MLP_ensemble: ℝᵈ → ℝ²⁵⁶ → ℝ¹²⁸ → ℝ³ with LayerNorm + Dropout
+W_ensemble = Softmax(MLP_ensemble(x)) ∈ ℝ⁵
+where MLP_ensemble: ℝᵈ → LayerNorm(256) → Dropout(0.1) → LayerNorm(128) → 5
 
-W_ensemble = [w_simple, w_hierarchical, w_enhanced] where Σwᵢ = 1
+W_ensemble = [w_simple, w_mc, w_hierarchical, w_enhanced, w_unified] where Σwᵢ = 1
 
 Ensemble Prediction:
-y_ensemble = w_simple · f_simple(x) + w_hierarchical · f_hierarchical(x) + w_enhanced · f_enhanced(x)
+y_ensemble = Σᵢ₌₁⁵ wᵢ · fᵢ(x)
 
-Individual Variant Architectures:
-- Simple: x → 512 → 256 → 784 (with MC dropout)
-- Hierarchical: x → 512 → 256 → 128 → 784 (3-level processing)
-- Enhanced: x → AttentionBlock(512) → AttentionBlock(256) → 784
+Individual Variant Specifications:
+1. Simple: Encoder(x → 512 → 256) → Decoder(256 → 512 → 784) with optimal regularization
+2. MC: x → 512 → 256 → 128 → 784 with systematic MCDropout (always active)
+3. Hierarchical: Multi-scale temporal processing dengan adaptive attention per level
+4. Enhanced: Integrated hierarchical + MC + feature alignment mechanisms
+5. Unified: Adaptive complexity gating dengan dual-pathway (simple vs complex)
 ```
 
-**Novelty**: Sophisticated CortexFlow variant ensemble dengan input-dependent learned weighting, combining Monte Carlo uncertainty, hierarchical processing, dan attention mechanisms dalam satu ensemble architecture.
+**Novelty**: Comprehensive CortexFlow variant ensemble dengan 5 specialized architectures (Simple, MC, Hierarchical, Enhanced, Unified) dan advanced learned weighting, representing complete spectrum of neural decoding approaches dalam unified ensemble framework.
 
 ### 7.3 Theoretical Advantages
 
@@ -574,12 +578,18 @@ Advantages: Efficiency, end-to-end optimization, uncertainty quantification
 Mathematical Complexity: Very High (4 novel formulations)
 ```
 
-**2. CortexFlow-Ensemble (True Ensemble)**:
+**2. CortexFlow-Ensemble (Complete Variant Ensemble)**:
 ```
-Architecture: Specialized ensemble dengan learned weighting
-Components: Spatial model + Temporal model + Frequency model + Ensemble weights
-Advantages: Diversity, specialized processing, robust predictions
-Mathematical Complexity: Medium (ensemble combination)
+Architecture: 5 CortexFlow variants dengan advanced learned weighting
+Components: Simple + MC + Hierarchical + Enhanced + Unified + Ensemble weights
+Variants:
+  - Simple: Encoder-decoder dengan regularisasi optimal
+  - MC: Monte Carlo uncertainty quantification dengan dropout sistematis
+  - Hierarchical: Multi-scale temporal processing dengan attention mechanism
+  - Enhanced: Integrasi hierarchical + MC + feature alignment
+  - Unified: Adaptive complexity mechanism dengan dual-pathway processing
+Advantages: Complete spectrum coverage, architectural diversity, comprehensive comparison
+Mathematical Complexity: High (5 sophisticated variants + learned combination)
 ```
 
 #### **7.4.2 Empirical Comparison Framework**
@@ -606,18 +616,183 @@ Mathematical Complexity: Medium (ensemble combination)
 - **End-to-End Optimization**: All components trained together
 
 **Ensemble Advantages**:
-- **Model Diversity**: Different specialized architectures
-- **Robustness**: Multiple predictions combination
-- **Specialized Processing**: Domain-specific models (spatial/temporal/frequency)
-- **Proven Effectiveness**: Ensemble methods well-established
+- **Comprehensive Coverage**: Complete spectrum of CortexFlow variants
+- **Architectural Diversity**: 5 different specialized approaches
+- **Robustness**: Multiple predictions combination dengan learned weighting
+- **Individual Analysis**: Performance insights untuk each variant
+- **Uncertainty Options**: Both Bayesian (Enhanced) dan Monte Carlo (MC) approaches
+
+**Variant-Specific Insights**:
+- **Simple**: Baseline performance dengan optimal regularization
+- **MC**: Uncertainty quantification effectiveness
+- **Hierarchical**: Multi-scale temporal processing benefits
+- **Enhanced**: Integration effectiveness of multiple techniques
+- **Unified**: Adaptive complexity mechanism performance
 
 **Research Questions**:
 1. Which approach provides better reconstruction quality?
 2. How significant is the computational efficiency difference?
 3. Does uncertainty quantification provide clinical value?
 4. Which approach is more suitable untuk different datasets?
+5. Which CortexFlow variants perform best individually?
+6. How effective is learned ensemble weighting vs fixed combination?
+7. What are the trade-offs between single sophisticated vs multiple specialized models?
+8. **Are performance differences statistically significant?**
+9. **What is the effect size of improvements?**
+10. **How robust are results across cross-validation folds?**
 
-### 7.5 Novelty Analysis and Contribution Assessment
+### 7.5 Statistical Validation Framework
+
+#### **7.5.1 Comprehensive Statistical Analysis**
+
+Untuk memastikan validitas ilmiah dan publikasi di journal bereputasi tinggi, penelitian ini mengimplementasikan framework statistical validation yang komprehensif:
+
+**Comprehensive T-Test Implementation:**
+```
+1. One-Sample T-Test: ttest_1samp(method_scores, baseline_threshold)
+   - Purpose: Compare method performance vs acceptable baseline
+   - Formula: t = (x̄ - μ) / (s/√n)
+   - H₀: Method performance = baseline threshold
+   - H₁: Method performance ≠ baseline threshold
+   - Application: Validate that CortexFlow exceeds minimum standards
+
+2. Independent Samples T-Test: ttest_ind(group1_scores, group2_scores)
+   - Purpose: Compare CortexFlow group vs SOTA group
+   - Formula: t = (x̄₁ - x̄₂) / √(s²pooled × (1/n₁ + 1/n₂))
+   - H₀: CortexFlow group = SOTA group
+   - H₁: CortexFlow group ≠ SOTA group
+   - Application: Demonstrate CortexFlow superiority over existing methods
+
+3. Paired Samples T-Test: ttest_rel(method1_scores, method2_scores)
+   - Purpose: Compare methods on identical datasets (most critical)
+   - Formula: t = d̄ / (sd/√n) where d = difference scores
+   - H₀: μ₁ = μ₂ (no difference between methods)
+   - H₁: μ₁ ≠ μ₂ (significant difference exists)
+   - Application: Direct method comparison on same data
+
+4. Effect Size Analysis: Cohen's d = (μ₁ - μ₂) / σ_pooled
+   - Small effect: d = 0.2 (minimal practical significance)
+   - Medium effect: d = 0.5 (moderate practical significance)
+   - Large effect: d = 0.8 (substantial practical significance)
+   - Very large effect: d > 1.0 (exceptional practical significance)
+
+5. Cross-Validation Integration: K-fold (k=5) untuk robust estimation
+   - Provides multiple independent samples untuk each method
+   - Enables proper paired t-testing
+   - Reduces overfitting bias dalam performance estimation
+   - Supports reliable statistical inference
+```
+
+#### **7.5.2 Statistical Significance Requirements**
+
+**Publication Standards:**
+- **p < 0.05**: Statistically significant
+- **p < 0.01**: Highly significant
+- **p < 0.001**: Very highly significant
+- **Effect size > 0.5**: Practically meaningful improvement
+- **95% CI non-overlapping**: Strong evidence of difference
+
+**Multiple Comparison Correction:**
+```
+Bonferroni Correction: α_corrected = α / n_comparisons
+For 5 methods: 10 pairwise comparisons
+α_corrected = 0.05 / 10 = 0.005
+```
+
+#### **7.5.3 Expected Statistical Outcomes**
+
+**Specific T-Test Hypotheses:**
+
+**1. One-Sample T-Test Hypotheses:**
+```
+Baseline Validation:
+H₀: μ_CortexFlow = 0.020 (acceptable baseline)
+H₁: μ_CortexFlow < 0.020 (significantly better than baseline)
+
+Expected: t < -2.0, p < 0.05 for all CortexFlow variants
+```
+
+**2. Independent Samples T-Test Hypotheses:**
+```
+Group Comparison:
+H₀: μ_CortexFlow = μ_SOTA (no group difference)
+H₁: μ_CortexFlow < μ_SOTA (CortexFlow group superior)
+
+Expected Results:
+- CortexFlow group vs SOTA group: t < -3.0, p < 0.01, d > 0.8
+```
+
+**3. Paired Samples T-Test Hypotheses:**
+```
+Method-to-Method Comparisons:
+H₀: μ_Enhanced = μ_MinDVis (no difference)
+H₁: μ_Enhanced ≠ μ_MinDVis (significant difference)
+
+Analysis Framework:
+- Paired t-test pada REAL cross-validation results
+- Effect size calculation untuk practical significance
+- Confidence interval comparison
+- Dataset-specific analysis
+
+Expected Outcomes (to be validated with real data):
+- If CortexFlow superior: p < 0.05, d > 0.5 (meaningful effect)
+- Publication threshold: p < 0.01, d > 0.8 (large effect)
+- Breakthrough claim: p < 0.001, d > 1.0 (very large effect)
+
+Multi-Pathway vs Ensemble:
+H₀: μ_Enhanced = μ_Ensemble (no difference between approaches)
+H₁: μ_Enhanced ≠ μ_Ensemble (significant difference exists)
+
+Note: All statistical values will be determined from actual training results
+```
+
+#### **7.5.4 T-Test Interpretation Guidelines**
+
+**Statistical Significance Interpretation:**
+```
+p-value Thresholds:
+- p < 0.001: *** (Very highly significant) - Strong evidence against H₀
+- p < 0.01:  ** (Highly significant) - Moderate evidence against H₀
+- p < 0.05:  * (Statistically significant) - Sufficient evidence against H₀
+- p ≥ 0.05:  ns (Not significant) - Insufficient evidence against H₀
+
+T-statistic Interpretation:
+- |t| > 3.0: Strong evidence of difference
+- |t| > 2.0: Moderate evidence of difference
+- |t| > 1.96: Minimal evidence of difference (α = 0.05)
+```
+
+**Effect Size Interpretation (Cohen's d):**
+```
+Practical Significance:
+- d = 0.2: Small effect (minimal practical importance)
+- d = 0.5: Medium effect (moderate practical importance)
+- d = 0.8: Large effect (substantial practical importance)
+- d > 1.0: Very large effect (exceptional practical importance)
+
+Publication Standards:
+- d > 0.5: Required untuk meaningful improvement claims
+- d > 0.8: Strong evidence untuk superiority claims
+- d > 1.0: Exceptional evidence untuk breakthrough claims
+```
+
+**T-Test Output Interpretation Framework:**
+```
+Format: [Method1] vs [Method2]
+t-statistic: [REAL_VALUE], p-value: [REAL_VALUE] [significance_symbol]
+Cohen's d: [REAL_VALUE] ([magnitude] effect)
+
+Interpretation Guidelines:
+✅ Statistical significance: p < 0.05 threshold
+✅ Practical significance: Cohen's d > 0.5 threshold
+✅ Publication worthiness: p < 0.01 AND d > 0.8
+✅ Improvement claims: Based on actual statistical results
+✅ All values: Derived from REAL cross-validation data
+
+Note: Actual values will be populated after real training and cross-validation
+```
+
+### 7.6 Novelty Analysis and Contribution Assessment
 
 #### **7.4.1 Literature Gap Analysis**
 
@@ -641,6 +816,10 @@ Mathematical Complexity: Medium (ensemble combination)
 | **Adaptive Pathway Weighting** | ⭐⭐⭐⭐⭐ Very High | Input-dependent softmax weighting | Dynamic neural importance | Optimal combination |
 | **Dynamic Gated Fusion** | ⭐⭐⭐⭐ High | Sigmoid-based selective gating | Neural gating mechanisms | Selective fusion |
 | **Uncertainty Quantification** | ⭐⭐⭐⭐⭐ Very High | Dual-decoder Bayesian approach | Neural variability modeling | Clinical reliability |
+| **Variant Ensemble** | ⭐⭐⭐⭐⭐ Very High | 5-variant learned combination | Neural pathway diversity | Comprehensive coverage |
+| **MC Uncertainty** | ⭐⭐⭐⭐ High | Systematic dropout sampling | Neural stochasticity | Confidence estimation |
+| **Hierarchical Processing** | ⭐⭐⭐⭐ High | Multi-scale temporal attention | Cortical hierarchy | Scale-aware features |
+| **Adaptive Complexity** | ⭐⭐⭐⭐⭐ Very High | Dynamic pathway selection | Neural efficiency | Computational adaptation |
 
 #### **7.4.3 Publication Impact Potential**
 
@@ -651,19 +830,22 @@ Mathematical Complexity: Medium (ensemble combination)
 - **CVPR/ICCV**: Computer vision applications + attention mechanisms
 
 **Expected Contributions**:
-1. **Methodological**: Four novel mathematical formulations
-2. **Theoretical**: Comprehensive mathematical framework
-3. **Empirical**: Performance improvements on multiple datasets
-4. **Practical**: Uncertainty quantification untuk clinical applications
+1. **Methodological**: Multiple novel mathematical formulations (Multi-pathway + 5 Variants)
+2. **Theoretical**: Comprehensive mathematical framework untuk both approaches
+3. **Empirical**: Performance improvements dan comparative analysis on multiple datasets
+4. **Practical**: Uncertainty quantification untuk clinical applications (Bayesian + Monte Carlo)
+5. **Architectural**: Complete spectrum of neural decoding approaches dalam unified framework
+6. **Statistical**: Rigorous statistical validation dengan significance testing dan effect size analysis
 
 #### **7.4.4 Competitive Advantages**
 
 **vs Existing Methods**:
-- **Higher Accuracy**: Through intelligent feature fusion
-- **Uncertainty Estimation**: Confidence measures untuk reliability
-- **Interpretability**: Attention weights dan gates visualization
-- **Efficiency**: Single model vs ensemble approaches
-- **Adaptability**: Input-dependent mechanisms
+- **Higher Accuracy**: Through intelligent feature fusion (Multi-pathway) dan architectural diversity (Ensemble)
+- **Uncertainty Estimation**: Multiple approaches (Bayesian dual-decoder + Monte Carlo sampling)
+- **Interpretability**: Attention weights, gates, dan ensemble weights visualization
+- **Efficiency**: Single sophisticated model vs specialized variant ensemble trade-offs
+- **Adaptability**: Input-dependent mechanisms dalam both approaches
+- **Comprehensive Coverage**: Complete spectrum dari simple baseline hingga adaptive complexity
 
 **Mathematical Rigor**:
 - **Well-Founded**: Based on established mathematical principles

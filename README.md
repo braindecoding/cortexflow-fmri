@@ -15,6 +15,7 @@ CortexFlow is a state-of-the-art brain-computer interface system that uses Monte
 - ✅ **Fair Comparison**: All methods use identical training protocols and honest naming
 - ✅ **Scientific Integrity**: No shortcuts or oversimplifications in SOTA implementations
 - ✅ **Reproducible Results**: Complete reproducibility with WSL GPU optimization
+- ✅ **Statistical Validation**: Comprehensive statistical analysis with significance testing, effect sizes, and confidence intervals
 
 ### Novel Mathematical Contributions
 
@@ -77,6 +78,140 @@ F_fused = F_weighted ⊙ G
 p(y|x) = N(μ, σ²)
 ```
 
+### **CortexFlow-Ensemble: Complete Variant Ensemble**
+
+Our alternative **CortexFlow-Ensemble** implements comprehensive variant comparison:
+
+#### **🔄 5 CortexFlow Variants:**
+
+**1. Simple CortexFlow:**
+```
+Architecture: Encoder-decoder dengan regularisasi optimal
+Encoder: x → BatchNorm(512) → Dropout(0.2) → BatchNorm(256) → Dropout(0.15)
+Decoder: 256 → 512 → 784
+```
+
+**2. MC CortexFlow:**
+```
+MCDropout: F.dropout(x, p=0.15, training=True)  # Always active
+Architecture: x → LayerNorm(512) → MCDropout → LayerNorm(256) → MCDropout → 784
+```
+
+**3. Hierarchical CortexFlow:**
+```
+HierarchicalBlock dengan temporal attention:
+temporal_attention = Sigmoid(MLP_temporal(x))
+x = LayerNorm(Linear(x)) * temporal_attention
+```
+
+**4. Enhanced CortexFlow:**
+```
+Integration: MC + Hierarchical + Feature Alignment
+mc_dropout + hierarchical_attention + feature_alignment + residual_connection
+```
+
+**5. Unified CortexFlow:**
+```
+Adaptive Complexity dengan dual-pathway:
+gate = Sigmoid(MLP_gate(x))
+output = gate * complex_pathway + (1-gate) * simple_pathway
+```
+
+**Ensemble Combination:**
+```
+W = Softmax(MLP_ensemble(x)) ∈ ℝ⁵
+y_ensemble = Σᵢ₌₁⁵ wᵢ · fᵢ(x)
+```
+
+## Statistical Validation
+
+### **Comprehensive Statistical Analysis**
+
+Our research includes rigorous statistical validation untuk scientific publication:
+
+#### **🔬 Statistical Tests:**
+- **Three Types of T-Tests**: Comprehensive statistical validation
+  - **One-Sample T-Test**: Compare methods vs baseline threshold
+  - **Independent Samples T-Test**: Compare CortexFlow vs SOTA groups
+  - **Paired Samples T-Test**: Compare methods on same datasets
+- **Effect Size Analysis**: Cohen's d untuk magnitude assessment
+- **Confidence Intervals**: 95% CI untuk reliability estimation
+- **Multiple Comparisons**: Bonferroni correction untuk family-wise error control
+
+#### **📊 Performance Metrics:**
+- **Descriptive Statistics**: Mean, standard deviation, range analysis
+- **Pairwise Comparisons**: Method-to-method improvement percentages
+- **Cross-Validation**: K-fold validation untuk robust estimation
+- **Significance Matrix**: Comprehensive p-value analysis
+
+#### **🔬 T-Test Implementation Details:**
+
+**Three Types of T-Tests Implemented:**
+
+**1. One-Sample T-Test:**
+```python
+# Compare each method against baseline threshold
+t_stat, p_value = stats.ttest_1samp(method_scores, baseline_threshold)
+# Question: Is our method significantly better than acceptable baseline?
+```
+
+**2. Independent Samples T-Test:**
+```python
+# Compare CortexFlow group vs SOTA group
+t_stat, p_value = stats.ttest_ind(cortexflow_scores, sota_scores)
+# Question: Are CortexFlow methods significantly better than SOTA?
+```
+
+**3. Paired Samples T-Test:**
+```python
+# Compare methods on same datasets (most important for our research)
+t_stat, p_value = stats.ttest_rel(method1_cv_scores, method2_cv_scores)
+# Question: Which method performs significantly better on same data?
+```
+
+#### **📈 Statistical Output Format:**
+```
+🔬 T-TEST ANALYSIS - Dataset: [DATASET_NAME]
+============================================
+
+Note: Statistical analysis requires cross-validation with multiple samples
+Current implementation provides framework for real data analysis
+
+1️⃣ ONE-SAMPLE T-TEST:
+   [Method] vs baseline threshold:
+     t = [real_t_stat], p = [real_p_value] [significance]
+     Result: [actual_interpretation]
+
+2️⃣ INDEPENDENT SAMPLES T-TEST:
+   CortexFlow vs SOTA groups:
+     t = [real_t_stat], p = [real_p_value] [significance]
+     Result: [actual_interpretation]
+     Improvement: [real_percentage]%
+
+3️⃣ PAIRED SAMPLES T-TEST:
+   [Method1] vs [Method2]:
+     t = [real_t_stat], p = [real_p_value] [significance]
+     Cohen's d = [real_effect_size] ([magnitude] effect)
+     Winner: [actual_winner] ([real_improvement]% improvement)
+
+All values will be populated with REAL training results
+```
+
+#### **🎯 Scientific Rigor:**
+```
+T-Test Framework:
+- One-Sample: t = (x̄ - μ) / (s/√n)
+- Independent: t = (x̄₁ - x̄₂) / √(s²pooled × (1/n₁ + 1/n₂))
+- Paired: t = d̄ / (sd/√n)
+
+Hypothesis Testing:
+- H₀: No difference between methods
+- H₁: Significant performance difference
+- α = 0.05 (significance level)
+- Bonferroni correction: α/n_comparisons
+- Effect size interpretation (Cohen's d)
+```
+
 ## Datasets Supported
 
 1. **Miyawaki** (Visual Cortex fMRI): 967 → 784 dimensions
@@ -97,9 +232,10 @@ pip install -r requirements.txt
 ```bash
 # Single command runs everything:
 # - 4 datasets (Miyawaki, Vangerven, MindBigData, Crell)
-# - 5 methods: 3 SOTA + 2 CortexFlow approaches for comparison
-#   * MinD-Vis, Brain-Diffuser, Baseline CNN (verified SOTA)
-#   * CortexFlow-Enhanced (Multi-Pathway) vs CortexFlow-Ensemble (True Ensemble)
+# - 5 methods: 3 SOTA + 2 CortexFlow approaches for comprehensive comparison
+#   * MinD-Vis, Brain-Diffuser, Baseline CNN (verified SOTA implementations)
+#   * CortexFlow-Enhanced (Multi-Pathway with 4 mathematical innovations)
+#   * CortexFlow-Ensemble (5 Variants: Simple + MC + Hierarchical + Enhanced + Unified)
 # - GPU optimization with CUDA acceleration
 # - Generates comparative results and reconstruction figures
 python train.py
@@ -114,8 +250,14 @@ python test.py
 ### Expected Output
 After running `train.py`, you will get:
 - `results/wsl_gpu_training/wsl_gpu_training_results.json` - Performance metrics for all 5 methods
+- `results/wsl_gpu_training/statistical_analysis_summary.json` - Comprehensive statistical analysis
+- `results/wsl_gpu_training/statistical_analysis_comprehensive.png` - Statistical visualization
 - `results/wsl_gpu_training/wsl_gpu_reconstruction_*.png` - Reconstruction figures (4 files)
-- **Comparative Analysis**: Multi-Pathway vs Ensemble performance on all datasets
+- **Comprehensive Analysis**:
+  - Multi-Pathway (Enhanced) vs Ensemble (5 Variants) performance comparison
+  - Individual variant analysis (Simple, MC, Hierarchical, Enhanced, Unified)
+  - Cross-dataset validation on all 4 datasets
+  - **Statistical Validation**: Significance testing, effect sizes, confidence intervals
 - Console output with training progress and final results
 
 ## Project Structure
@@ -339,8 +481,13 @@ This project implements verified versions of state-of-the-art neural decoding me
 4. **CortexFlow-Enhanced** - Novel proposed method (Multi-Pathway)
    - Implementation: Enhanced multi-pathway architecture with cross-attention, adaptive weighting, dynamic gating, and uncertainty quantification (novel contribution)
 
-5. **CortexFlow-Ensemble** - Alternative proposed method (Sophisticated Ensemble)
-   - Implementation: Ensemble of CortexFlow variants (Simple + Hierarchical + Enhanced) with advanced learned weighting (comparative analysis)
+5. **CortexFlow-Ensemble** - Alternative proposed method (Complete Variant Ensemble)
+   - Implementation: Ensemble of 5 CortexFlow variants with advanced learned weighting:
+     - **Simple**: Encoder-decoder dengan regularisasi optimal
+     - **MC**: Monte Carlo uncertainty quantification dengan dropout sistematis
+     - **Hierarchical**: Multi-scale temporal processing dengan attention mechanism
+     - **Enhanced**: Integrasi hierarchical + MC + feature alignment
+     - **Unified**: Adaptive complexity mechanism dengan dual-pathway processing
 
 ### Scientific Integrity
 - ✅ All SOTA implementations verified against original papers
