@@ -1100,22 +1100,23 @@ class OptimizedBrainDiffuser(nn.Module):
         return output.view(-1, 1, 28, 28)
 
 class CortexFlowEnsemble(nn.Module):
-    """CortexFlow Variant Ensemble: Simple + MC + Hierarchical + Enhanced + Unified"""
+    """CortexFlow Variant Ensemble: Simple + MC + Hierarchical + Enhanced + Unified + Diffusion + Baseline CNN"""
 
     def __init__(self, input_dim, device='cuda'):
         super(CortexFlowEnsemble, self).__init__()
         self.name = "CortexFlow-Ensemble"
         self.device = device
 
-        # Ensemble of 6 CortexFlow variants (ADDED DIFFUSION MODEL)
+        # Ensemble of 7 variants (ADDED BASELINE CNN based on performance analysis)
         self.model_simple = self._create_simple_cortexflow(input_dim, device)
         self.model_mc = self._create_mc_cortexflow(input_dim, device)
         self.model_hierarchical = self._create_hierarchical_cortexflow(input_dim, device)
         self.model_enhanced = self._create_enhanced_cortexflow(input_dim, device)
         self.model_unified = self._create_unified_cortexflow(input_dim, device)
-        self.model_diffusion = self._create_diffusion_cortexflow(input_dim, device)  # NEW!
+        self.model_diffusion = self._create_diffusion_cortexflow(input_dim, device)
+        self.model_baseline_cnn = self._create_baseline_cnn(input_dim, device)  # NEW! Added for MindBigData strength
 
-        # Advanced learned ensemble weights for 6 models (UPDATED)
+        # Advanced learned ensemble weights for 7 models (UPDATED)
         self.ensemble_weights = nn.Sequential(
             nn.Linear(input_dim, 256),
             nn.LayerNorm(256),
@@ -1124,7 +1125,7 @@ class CortexFlowEnsemble(nn.Module):
             nn.Linear(256, 128),
             nn.LayerNorm(128),
             nn.ReLU(),
-            nn.Linear(128, 6),  # 6 models now (UPDATED)
+            nn.Linear(128, 7),  # 7 models now (UPDATED for Baseline CNN inclusion)
             nn.Softmax(dim=1)
         ).to(device)
 
@@ -1424,25 +1425,52 @@ class CortexFlowEnsemble(nn.Module):
 
         return CortexFlowDiffusion(input_dim, device).to(device)
 
+    def _create_baseline_cnn(self, input_dim, device):
+        """7. Baseline CNN: Simple but effective CNN architecture for ensemble diversity"""
+        return nn.Sequential(
+            # Input projection
+            nn.Linear(input_dim, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+
+            # Hidden layers
+            nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(),
+            nn.Dropout(0.15),
+
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Dropout(0.1),
+
+            # Output projection
+            nn.Linear(128, 784),
+            nn.Sigmoid()
+        ).to(device)
+
     def forward(self, x):
-        # Get predictions from all 6 CortexFlow variants (ADDED DIFFUSION)
+        # Get predictions from all 7 variants (ADDED BASELINE CNN)
         pred_simple = self.model_simple(x)
         pred_mc = self.model_mc(x)
         pred_hierarchical = self.model_hierarchical(x)
         pred_enhanced = self.model_enhanced(x)
         pred_unified = self.model_unified(x)
-        pred_diffusion = self.model_diffusion(x)  # NEW DIFFUSION MODEL
+        pred_diffusion = self.model_diffusion(x)
+        pred_baseline_cnn = self.model_baseline_cnn(x)  # NEW BASELINE CNN MODEL
 
-        # Advanced learned ensemble weighting for 6 models (UPDATED)
+        # Advanced learned ensemble weighting for 7 models (UPDATED)
         weights = self.ensemble_weights(x)
 
-        # Weighted ensemble prediction with all 6 variants (UPDATED)
+        # Weighted ensemble prediction with all 7 variants (UPDATED)
         ensemble_pred = (weights[:, 0:1] * pred_simple +
                         weights[:, 1:2] * pred_mc +
                         weights[:, 2:3] * pred_hierarchical +
                         weights[:, 3:4] * pred_enhanced +
                         weights[:, 4:5] * pred_unified +
-                        weights[:, 5:6] * pred_diffusion)  # NEW DIFFUSION WEIGHT
+                        weights[:, 5:6] * pred_diffusion +
+                        weights[:, 6:7] * pred_baseline_cnn)  # NEW BASELINE CNN WEIGHT
 
         return ensemble_pred.view(-1, 1, 28, 28)
 
