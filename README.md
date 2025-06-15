@@ -79,59 +79,103 @@ F_fused = F_weighted ⊙ G
 p(y|x) = N(μ, σ²)
 ```
 
-### **CortexFlow-Ensemble: Complete Variant Ensemble**
+### **CortexFlow-Ensemble: Comprehensive 6-Variant Architecture**
 
-Our alternative **CortexFlow-Ensemble** implements comprehensive variant comparison:
+Our **CortexFlow-Ensemble** represents a breakthrough in neural decoding through comprehensive variant integration:
 
-#### **🔄 6 CortexFlow Variants (DIFFUSION-ENHANCED):**
+#### **🔄 6 Specialized CortexFlow Variants:**
 
-**1. Simple CortexFlow:**
+**1. CortexFlow-Simple:**
 ```
-Architecture: Encoder-decoder dengan regularisasi optimal
-Encoder: x → BatchNorm(512) → Dropout(0.2) → BatchNorm(256) → Dropout(0.15)
-Decoder: 256 → 512 → 784
-```
-
-**2. MC CortexFlow:**
-```
-MCDropout: F.dropout(x, p=0.15, training=True)  # Always active
-Architecture: x → LayerNorm(512) → MCDropout → LayerNorm(256) → MCDropout → 784
+Purpose: Foundation baseline architecture
+Architecture: input → 512 → 256 → 512 → 784 (output)
+Features:
+  • Basic encoder-decoder with optimal regularization
+  • BatchNorm1d normalization
+  • Dropout (0.2, 0.15) for stability
+  • Foundation for ensemble comparison
 ```
 
-**3. Hierarchical CortexFlow:**
+**2. CortexFlow-MC (Monte Carlo):**
 ```
-HierarchicalBlock dengan temporal attention:
-temporal_attention = Sigmoid(MLP_temporal(x))
-x = LayerNorm(Linear(x)) * temporal_attention
-```
-
-**4. Enhanced CortexFlow:**
-```
-Integration: MC + Hierarchical + Feature Alignment
-mc_dropout + hierarchical_attention + feature_alignment + residual_connection
-```
-
-**5. Unified CortexFlow:**
-```
-Adaptive Complexity dengan dual-pathway:
-gate = Sigmoid(MLP_gate(x))
-output = gate * complex_pathway + (1-gate) * simple_pathway
+Purpose: Uncertainty-aware predictions
+Architecture: input → 512 → 256 → 128 → 784 (output)
+Features:
+  • MCDropout (always active, even in eval mode)
+  • Systematic uncertainty quantification
+  • LayerNorm normalization
+  • Probabilistic prediction capabilities
+Mathematical: F.dropout(x, p=0.15, training=True)
 ```
 
-**6. Diffusion CortexFlow (NEW):**
+**3. CortexFlow-Hierarchical:**
 ```
-Multi-pathway + Latent Diffusion:
-latent = CortexFlow_encoder(x)
-noise_pred = noise_predictor(latent + timestep)
-denoised = progressive_denoising(latent, noise_pred, steps=3)
-output = diffusion_decoder(denoised)
+Purpose: Temporal pattern recognition
+Architecture: input → 512 → 256 → 128 → 784 (output)
+Features:
+  • HierarchicalBlock dengan temporal attention
+  • Multi-scale processing (3 levels)
+  • Adaptive dropout per level
+  • Temporal attention mechanism
+Mathematical: x = LayerNorm(Linear(x)) * Sigmoid(MLP_temporal(x))
 ```
 
-**Ensemble Combination (UPDATED):**
+**4. CortexFlow-Enhanced:**
 ```
-W = Softmax(MLP_ensemble(x)) ∈ ℝ⁶  # Now 6 variants
-y_ensemble = Σᵢ₌₁⁶ wᵢ · fᵢ(x)
+Purpose: Advanced feature processing
+Architecture: input → 512 → 256 → 784 (output)
+Features:
+  • Integration: MC + Hierarchical + Feature Alignment
+  • EnhancedBlock dengan multiple mechanisms
+  • Residual connections for gradient flow
+  • Feature alignment mechanism
+Mathematical: x_attended + feature_alignment(x_attended)
 ```
+
+**5. CortexFlow-Unified:**
+```
+Purpose: Adaptive complexity processing
+Architecture: input → 512 → 256 → 128 → 784 (output)
+Features:
+  • AdaptiveComplexityBlock
+  • Dual pathways (simple + complex)
+  • Complexity gate mechanism
+  • Adaptive pathway selection
+Mathematical: gate * complex_pathway + (1-gate) * simple_pathway
+```
+
+**6. CortexFlow-Diffusion (BREAKTHROUGH):**
+```
+Purpose: State-of-the-art diffusion-based reconstruction
+Architecture: input → dual pathways → attention → diffusion → 784 (output)
+Features:
+  • Multi-pathway encoder (deep + wide)
+  • Cross-pathway attention mechanism
+  • Diffusion-style progressive processing
+  • Progressive denoising (3 steps)
+  • SiLU activations for diffusion compatibility
+Mathematical:
+  latent = CortexFlow_encoder(x)
+  noise_pred = noise_predictor(latent + timestep)
+  denoised = progressive_denoising(latent, noise_pred, steps=3)
+  output = diffusion_decoder(denoised)
+```
+
+#### **🧠 Learned Ensemble Weighting:**
+```
+Architecture: input → 256 → 128 → 6 weights
+Normalization: Softmax probability distribution
+Combination: y_ensemble = Σᵢ₌₁⁶ wᵢ · fᵢ(x)
+Advantage: Adaptive weighting based on input characteristics
+```
+
+#### **🎯 Ensemble Advantages:**
+- **Comprehensive Coverage**: 6 specialized processing approaches
+- **Adaptive Weighting**: Neural network learns optimal combination
+- **Robust Predictions**: Architectural diversity ensures reliability
+- **State-of-the-Art**: Includes latest diffusion capabilities
+- **Research Innovation**: Novel ensemble design for neural decoding
+- **Academic Contribution**: Advanced framework for fMRI-to-visual reconstruction
 
 ## Statistical Validation
 
