@@ -167,7 +167,7 @@ Evaluasi menggunakan 4 metrik komprehensif untuk analisis yang menyeluruh:
 
 **🏆 CORTEXFLOW ENHANCED 5-FOLD CV ACHIEVES OUTSTANDING PERFORMANCE:**
 
-Evaluasi terbaru menggunakan train.py yang 100% functional dengan enhanced 5-fold cross-validation methodology, 21 comprehensive outputs dan 7 advanced visualizations untuk superior statistical rigor dan academic integrity.
+Evaluasi terbaru menggunakan train.py yang 100% functional dengan enhanced 5-fold cross-validation methodology, 21 comprehensive outputs, 7 advanced visualizations, dan 19 publication-ready architecture diagrams untuk superior statistical rigor dan academic integrity.
 
 #### 3.1.1 Latest Enhanced 5-Fold CV Results (MSE - Lower is Better)
 
@@ -186,12 +186,52 @@ Evaluasi terbaru menggunakan train.py yang 100% functional dengan enhanced 5-fol
 - **CortexFlow Multi-Pathway**: Dominates cross-modal tasks (MindBigData)
 - **CortexFlow-Ensemble**: Wins cross-modal Crell dataset
 - **Enhanced Statistical Rigor**: 5-fold CV dengan n=5 samples untuk superior T-test analysis
+- **Architecture Documentation**: 19 publication-ready diagrams dalam figures/ directory
 
-### 3.2 Detailed Enhanced 5-Fold CV Performance Analysis
+### 3.2 Architecture Documentation dan Visualization
+
+**🎨 PUBLICATION-READY ARCHITECTURE DIAGRAMS:**
+
+Framework CortexFlow dilengkapi dengan comprehensive architecture documentation dalam bentuk 19 professional diagrams yang tersimpan dalam folder `figures/`. Dokumentasi visual ini mencakup:
+
+#### 3.2.1 CortexFlow Architecture Diagrams (8 Models)
+
+**🏗️ Complete CortexFlow Variant Collection:**
+- **CortexFlow-Lite**: Optimized neural decoding architecture (Winner: Vangerven dataset)
+- **CortexFlow-MC**: Monte Carlo uncertainty quantification dengan systematic dropout
+- **CortexFlow-Hierarchical**: Multi-scale temporal processing dengan 3-level hierarchy
+- **CortexFlow-Enhanced**: Advanced integration (MC + Hierarchical + Feature Alignment)
+- **CortexFlow-Unified**: Adaptive complexity processing dengan dual pathways
+- **CortexFlow-Diffusion**: Progressive denoising approach dengan multi-pathway encoder
+- **CortexFlow-CNN**: Lightweight convolutional baseline untuk ensemble diversity
+- **CortexFlow Multi-Pathway**: Cross-attention fusion architecture (Winner: MindBigData)
+
+#### 3.2.2 SOTA Baseline Architecture Diagrams
+
+**🔬 State-of-the-Art Method Documentation:**
+- **Brain-Diffuser**: Pure diffusion approach dengan iterative denoising (Winner: Miyawaki)
+- **MinD-Vis**: CVPR 2023 conditional diffusion dengan sparse masked modeling
+
+#### 3.2.3 Ensemble dan Overview Diagrams
+
+**📋 Framework-Level Visualization:**
+- **CortexFlow-Ensemble**: 8-variant intelligent combination dengan learned weighting (Winner: Crell)
+- **Complete Overview**: Comprehensive framework visualization dengan performance integration
+
+#### 3.2.4 Technical Specifications
+
+**🎯 Publication-Ready Quality:**
+- **Resolution**: 300 DPI untuk academic publications
+- **Formats**: PNG (presentations) + SVG (LaTeX/academic papers)
+- **Mathematical Notation**: LaTeX-style formatting dengan proper equations
+- **Professional Design**: Consistent styling dengan serif fonts
+- **Documentation**: Comprehensive usage guidelines dalam figures/README.md
+
+### 3.3 Detailed Enhanced 5-Fold CV Performance Analysis
 
 **📊 DATASET-SPECIFIC PERFORMANCE BREAKDOWN (2025-06-16) - ENHANCED 5-FOLD CV:**
 
-#### 3.2.1 Miyawaki Dataset (Complex Visual Patterns)
+#### 3.3.1 Miyawaki Dataset (Complex Visual Patterns)
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|
@@ -201,7 +241,7 @@ Evaluasi terbaru menggunakan train.py yang 100% functional dengan enhanced 5-fol
 | **CortexFlow-Lite** | **0.033545** | **+119.7%** | **4th** | **Proposed Method** |
 | **CortexFlow Multi-Pathway** | **0.096494** | **+532.0%** | **5th** | **Proposed Method** |
 
-#### 3.2.2 Vangerven Dataset (Structured Digit Patterns) - 🏆 CORTEXFLOW-LITE WINS
+#### 3.3.2 Vangerven Dataset (Structured Digit Patterns) - 🏆 CORTEXFLOW-LITE WINS
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|
@@ -211,7 +251,7 @@ Evaluasi terbaru menggunakan train.py yang 100% functional dengan enhanced 5-fol
 | **MinD-Vis** | **0.047271** | **+13.0%** | **4th** | **SOTA** |
 | **CortexFlow Multi-Pathway** | **0.053095** | **+27.0%** | **5th** | **Proposed Method** |
 
-#### 3.2.3 MindBigData Dataset (Cross-Modal EEG→fMRI→Visual) - 🏆 CORTEXFLOW MULTI-PATHWAY WINS
+#### 3.3.3 MindBigData Dataset (Cross-Modal EEG→fMRI→Visual) - 🏆 CORTEXFLOW MULTI-PATHWAY WINS
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|
@@ -221,7 +261,7 @@ Evaluasi terbaru menggunakan train.py yang 100% functional dengan enhanced 5-fol
 | **MinD-Vis** | **0.056394** | **+3.3%** | **4th** | **SOTA** |
 | **CortexFlow-Ensemble** | **0.060648** | **+11.1%** | **5th** | **Enhanced 5-Fold** |
 
-#### 3.2.4 Crell Dataset (Cross-Modal EEG→fMRI→Visual) - 🏆 CORTEXFLOW-ENSEMBLE WINS
+#### 3.3.4 Crell Dataset (Cross-Modal EEG→fMRI→Visual) - 🏆 CORTEXFLOW-ENSEMBLE WINS
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|

@@ -20,6 +20,7 @@ CortexFlow is a state-of-the-art neural decoding framework that achieves **break
 - ✅ **Outstanding Performance**: CortexFlow wins 3 out of 4 datasets with enhanced validation
 - ✅ **100% Functional Training**: Complete train.py with 21+ comprehensive outputs
 - ✅ **7 Comprehensive Visualizations**: Statistical significance, CV analysis, radar charts
+- ✅ **Publication-Ready Architecture Figures**: 19 professional diagrams in figures/ directory
 - ✅ **Verified SOTA Implementations**: MinD-Vis (CVPR 2023) and Brain-Diffuser (2023)
 - ✅ **Advanced Statistical Analysis**: Enhanced 5-fold T-test validation, effect sizes
 - ✅ **Professional Documentation**: Auto-generated academic reports with embedded figures
@@ -230,6 +231,37 @@ CortexFlow achieves **outstanding performance on 3 out of 4 datasets** with enha
 - **🥇 MindBigData (Cross-Modal)**: CortexFlow Multi-Pathway WINS (0.054573 MSE)
 - **🥇 Crell (Cross-Modal)**: CortexFlow-Ensemble WINS (0.028666 MSE)
 - **🥇 Miyawaki (Visual)**: Brain-Diffuser WINS (0.015272 MSE) - SOTA performance
+
+## 🎨 **Architecture Figures**
+
+### **📊 Publication-Ready Architecture Diagrams**
+
+The `figures/` directory contains **19 professional architecture diagrams** for all CortexFlow models:
+
+#### **🏗️ CortexFlow Architectures (8 Models):**
+- **CortexFlow-Lite**: Optimized neural decoding (Winner: Vangerven)
+- **CortexFlow-MC**: Monte Carlo uncertainty quantification
+- **CortexFlow-Hierarchical**: Multi-scale temporal processing
+- **CortexFlow-Enhanced**: Integrated MC + Hierarchical + Alignment
+- **CortexFlow-Unified**: Adaptive complexity processing
+- **CortexFlow-Diffusion**: Progressive denoising approach
+- **CortexFlow-CNN**: Lightweight convolutional baseline
+- **CortexFlow Multi-Pathway**: Cross-attention fusion (Winner: MindBigData)
+
+#### **🔬 SOTA Baselines + Ensemble:**
+- **Brain-Diffuser**: Pure diffusion approach (Winner: Miyawaki)
+- **MinD-Vis**: CVPR 2023 conditional diffusion
+- **CortexFlow-Ensemble**: 8-variant intelligent combination (Winner: Crell)
+
+#### **📋 Special Figures:**
+- **Complete Overview**: Comprehensive framework visualization
+- **Detailed Documentation**: figures/README.md with usage guidelines
+
+#### **🎯 Technical Specifications:**
+- **Resolution**: 300 DPI for publication quality
+- **Formats**: PNG (presentations) + SVG (LaTeX/academic papers)
+- **Style**: Professional serif fonts with mathematical notation
+- **Usage**: See `figures/README.md` for detailed guidelines
 
 ## Enhanced Academic Reporting
 
@@ -482,8 +514,21 @@ cortexflow-fmri/
 ├── train.py            # Main training script (MODULAR)
 ├── test.py             # Reproducibility test
 ├── verify.py           # Verification script
+├── create_architecture_figures.py  # Architecture figure generator (NEW!)
+├── create_overview_figure.py       # Overview figure generator (NEW!)
 ├── configs/            # Configuration files
 │   └── project_config.json
+├── figures/            # Architecture diagrams (NEW!)
+│   ├── 📊 cortexflow_lite_architecture.png/.svg           # CortexFlow-Lite diagram
+│   ├── 📊 cortexflow_mc_architecture.png/.svg             # Monte Carlo diagram
+│   ├── 📊 cortexflow_hierarchical_architecture.png/.svg   # Hierarchical diagram
+│   ├── 📊 cortexflow_enhanced_architecture.png/.svg       # Enhanced diagram
+│   ├── 📊 cortexflow_multipathway_architecture.png/.svg   # Multi-Pathway diagram
+│   ├── 📊 cortexflow_ensemble_architecture.png/.svg       # Ensemble diagram
+│   ├── 📊 brain_diffuser_architecture.png/.svg            # Brain-Diffuser diagram
+│   ├── 📊 mindvis_architecture.png/.svg                   # MinD-Vis diagram
+│   ├── 📊 cortexflow_complete_overview.png/.svg           # Complete overview
+│   └── 📄 README.md                                       # Architecture documentation
 ├── src/                # Modular architecture (ENHANCED)
 │   ├── models/         # Neural decoding models
 │   │   ├── baseline.py         # StandardBaselineCNN
