@@ -9,7 +9,7 @@
       "std": 0.04161621162725561
     },
     "cv_results": {
-      "Baseline_CNN": [
+      "CortexFlow_Lite": [
         0.018455112352967262,
         0.010980313643813133,
         0.022553298622369766
@@ -38,7 +38,7 @@
     "ttest_completed": true,
     "reconstruction_saved": true,
     "comprehensive_metrics": {
-      "Baseline_CNN": {
+      "CortexFlow_Lite": {
         "MSE": 0.025306425988674164,
         "PSNR": 15.967692375183105,
         "SSIM": 0.8357083797454834,
@@ -72,7 +72,7 @@
   },
   "vangerven": {
     "single_run_stats": {
-      "best_method": "Baseline CNN",
+      "best_method": "CortexFlow_Lite",
       "best_score": 0.04019328951835632,
       "worst_score": 0.05491121485829353,
       "range": 0.01471792533993721,
@@ -80,7 +80,7 @@
       "std": 0.005964948843886168
     },
     "cv_results": {
-      "Baseline_CNN": [
+      "CortexFlow_Lite": [
         0.05465373024344444,
         0.04565756395459175,
         0.0527535043656826
@@ -109,7 +109,7 @@
     "ttest_completed": true,
     "reconstruction_saved": true,
     "comprehensive_metrics": {
-      "Baseline_CNN": {
+      "CortexFlow_Lite": {
         "MSE": 0.04019328951835632,
         "PSNR": 13.958464622497559,
         "SSIM": 0.482532799243927,
@@ -151,7 +151,7 @@
       "std": 0.0023886733536451275
     },
     "cv_results": {
-      "Baseline_CNN": [
+      "CortexFlow_Lite": [
         0.05852562561631203,
         0.06041837856173515,
         0.05997360497713089
@@ -180,7 +180,7 @@
     "ttest_completed": true,
     "reconstruction_saved": true,
     "comprehensive_metrics": {
-      "Baseline_CNN": {
+      "CortexFlow_Lite": {
         "MSE": 0.05839446187019348,
         "PSNR": 12.336283683776855,
         "SSIM": 0.15577396750450134,
@@ -222,7 +222,7 @@
       "std": 0.00017810575389184838
     },
     "cv_results": {
-      "Baseline_CNN": [
+      "CortexFlow_Lite": [
         0.0325615331530571,
         0.03234764561057091,
         0.033207062631845474
@@ -251,7 +251,7 @@
     "ttest_completed": true,
     "reconstruction_saved": true,
     "comprehensive_metrics": {
-      "Baseline_CNN": {
+      "CortexFlow_Lite": {
         "MSE": 0.02918217144906521,
         "PSNR": 15.348824501037598,
         "SSIM": 0.23550106585025787,

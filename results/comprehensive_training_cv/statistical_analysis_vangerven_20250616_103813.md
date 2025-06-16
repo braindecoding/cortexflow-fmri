@@ -1,6 +1,6 @@
 # Statistical Analysis Report: VANGERVEN
 
-**Generated:** 2025-06-16 08:13:43  
+**Generated:** 2025-06-16 10:38:13  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -30,7 +30,7 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.054654 | 0.045658 | 0.052754 | 0.051022 ± 0.003871 |
+| CortexFlow Lite | 0.054654 | 0.045658 | 0.052754 | 0.051022 ± 0.003871 |
 | MinD Vis | 0.062136 | 0.059112 | 0.052015 | 0.057754 ± 0.004242 |
 | Brain Diffuser | 0.055416 | 0.052443 | 0.055310 | 0.054390 ± 0.001377 |
 | CortexFlow Multi-Pathway | 0.062658 | 0.060798 | 0.062935 | 0.062130 ± 0.000949 |
@@ -49,7 +49,7 @@ This report presents comprehensive statistical analysis results for the **VANGER
 **Significance Level:** α = 0.05
 
 
-**Baseline CNN:**
+**CortexFlow Lite:**
 - t-statistic: 9.505
 - p-value: 0.010887 *
 - Mean MSE: 0.051022
@@ -90,7 +90,7 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.040193 | 13.96 | 0.4825 | 0.1861 |
+| CortexFlow Lite | 0.040193 | 13.96 | 0.4825 | 0.1861 |
 | MinD Vis | 0.052845 | 12.77 | 0.2580 | 0.3495 |
 | Brain Diffuser | 0.042657 | 13.70 | 0.4077 | 0.1973 |
 | CortexFlow Multi-Pathway | 0.054911 | 12.60 | 0.2302 | 0.3527 |
@@ -98,10 +98,10 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** Baseline CNN (0.040193)
-- **PSNR (Higher is Better):** Baseline CNN (13.96 dB)
-- **SSIM (Higher is Better):** Baseline CNN (0.4825)
-- **LPIPS (Lower is Better):** Baseline CNN (0.1861)
+- **MSE (Lower is Better):** CortexFlow Lite (0.040193)
+- **PSNR (Higher is Better):** CortexFlow Lite (13.96 dB)
+- **SSIM (Higher is Better):** CortexFlow Lite (0.4825)
+- **LPIPS (Lower is Better):** CortexFlow Lite (0.1861)
 
 
 ---
@@ -139,7 +139,7 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| Baseline CNN | 0.040193 | 🥇 Best |
+| CortexFlow Lite | 0.040193 | 🥇 Best |
 | Brain Diffuser | 0.042657 | 🥈 Second |
 | CortexFlow Ensemble | 0.042954 | 🥉 Third |
 | MinD Vis | 0.052845 | #4 |

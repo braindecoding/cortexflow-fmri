@@ -66,10 +66,10 @@ def create_statistical_visualization(all_results, output_dir):
     x_pos = np.arange(len(datasets))
     width = 0.15
 
-    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7']
+    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#FF9F43', '#A55EEA', '#26D0CE', '#FD79A8', '#FDCB6E']
 
     for i, (method, scores) in enumerate(dataset_scores.items()):
-        ax1.bar(x_pos + i*width, scores, width, label=method, color=colors[i], alpha=0.8)
+        ax1.bar(x_pos + i*width, scores, width, label=method, color=colors[i % len(colors)], alpha=0.8)
 
     ax1.set_xlabel('Datasets')
     ax1.set_ylabel('MSE (Lower is Better)')
@@ -85,7 +85,7 @@ def create_statistical_visualization(all_results, output_dir):
     method_stds = [np.std(scores) for scores in dataset_scores.values()]
 
     y_pos = np.arange(len(methods))
-    ax2.barh(y_pos, method_means, xerr=method_stds, color=colors, alpha=0.8)
+    ax2.barh(y_pos, method_means, xerr=method_stds, color=colors[:len(methods)], alpha=0.8)
     ax2.set_yticks(y_pos)
     ax2.set_yticklabels(methods)
     ax2.set_xlabel('Mean MSE ± Std')
@@ -101,7 +101,7 @@ def create_statistical_visualization(all_results, output_dir):
         cf_datasets = list(range(len(datasets)))
         for i, (method, scores) in enumerate(cortexflow_scores.items()):
             ax3.plot(cf_datasets, scores, marker='o', linewidth=2,
-                    label=method, color=colors[i+3])
+                    label=method, color=colors[(i+3) % len(colors)])
 
         ax3.set_xlabel('Datasets')
         ax3.set_ylabel('MSE')

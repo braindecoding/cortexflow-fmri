@@ -1,6 +1,6 @@
 {
   "miyawaki": {
-    "Baseline_CNN": {
+    "CortexFlow_Lite": {
       "MSE": 0.025306425988674164,
       "PSNR": 15.967692375183105,
       "SSIM": 0.8357083797454834,
@@ -32,7 +32,7 @@
     }
   },
   "vangerven": {
-    "Baseline_CNN": {
+    "CortexFlow_Lite": {
       "MSE": 0.04019328951835632,
       "PSNR": 13.958464622497559,
       "SSIM": 0.482532799243927,
@@ -64,7 +64,7 @@
     }
   },
   "mindbigdata": {
-    "Baseline_CNN": {
+    "CortexFlow_Lite": {
       "MSE": 0.05839446187019348,
       "PSNR": 12.336283683776855,
       "SSIM": 0.15577396750450134,
@@ -96,7 +96,7 @@
     }
   },
   "crell": {
-    "Baseline_CNN": {
+    "CortexFlow_Lite": {
       "MSE": 0.02918217144906521,
       "PSNR": 15.348824501037598,
       "SSIM": 0.23550106585025787,

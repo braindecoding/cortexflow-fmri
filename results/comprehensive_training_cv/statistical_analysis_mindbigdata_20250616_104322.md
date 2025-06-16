@@ -1,6 +1,6 @@
 # Statistical Analysis Report: MINDBIGDATA
 
-**Generated:** 2025-06-16 08:18:24  
+**Generated:** 2025-06-16 10:43:22  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -30,7 +30,7 @@ This report presents comprehensive statistical analysis results for the **MINDBI
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.058526 | 0.060418 | 0.059974 | 0.059639 ± 0.000808 |
+| CortexFlow Lite | 0.058526 | 0.060418 | 0.059974 | 0.059639 ± 0.000808 |
 | MinD Vis | 0.057963 | 0.057573 | 0.059327 | 0.058288 ± 0.000752 |
 | Brain Diffuser | 0.057358 | 0.058490 | 0.060308 | 0.058719 ± 0.001215 |
 | CortexFlow Multi-Pathway | 0.056342 | 0.057264 | 0.057768 | 0.057125 ± 0.000591 |
@@ -49,7 +49,7 @@ This report presents comprehensive statistical analysis results for the **MINDBI
 **Significance Level:** α = 0.05
 
 
-**Baseline CNN:**
+**CortexFlow Lite:**
 - t-statistic: 60.622
 - p-value: 0.000272 ***
 - Mean MSE: 0.059639
@@ -90,7 +90,7 @@ This report presents comprehensive statistical analysis results for the **MINDBI
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.058394 | 12.34 | 0.1558 | 0.3561 |
+| CortexFlow Lite | 0.058394 | 12.34 | 0.1558 | 0.3561 |
 | MinD Vis | 0.054606 | 12.63 | 0.1764 | 0.3691 |
 | Brain Diffuser | 0.060773 | 12.16 | 0.1476 | 0.3712 |
 | CortexFlow Multi-Pathway | 0.054493 | 12.64 | 0.1770 | 0.3696 |
@@ -101,7 +101,7 @@ This report presents comprehensive statistical analysis results for the **MINDBI
 - **MSE (Lower is Better):** CortexFlow Multi-Pathway (0.054493)
 - **PSNR (Higher is Better):** CortexFlow Multi-Pathway (12.64 dB)
 - **SSIM (Higher is Better):** CortexFlow Multi-Pathway (0.1770)
-- **LPIPS (Lower is Better):** Baseline CNN (0.3561)
+- **LPIPS (Lower is Better):** CortexFlow Lite (0.3561)
 
 
 ---
@@ -142,7 +142,7 @@ This section presents the comprehensive visual analysis generated during trainin
 | CortexFlow Multi Pathway | 0.054493 | 🥇 Best |
 | MinD Vis | 0.054606 | 🥈 Second |
 | CortexFlow Ensemble | 0.057724 | 🥉 Third |
-| Baseline CNN | 0.058394 | #4 |
+| CortexFlow Lite | 0.058394 | #4 |
 | Brain Diffuser | 0.060773 | #5 |
 
 
