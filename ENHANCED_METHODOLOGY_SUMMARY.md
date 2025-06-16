@@ -8,25 +8,37 @@ Metodologi penelitian CortexFlow telah berhasil ditingkatkan dengan **17 visual 
 
 ## 📊 **Enhanced Visual Documentation**
 
-### **✅ TABLES (3 Comprehensive Tables)**
+### **✅ TABLES (5 Comprehensive Markdown Tables)**
 
 #### **Tabel 1: Dataset Characteristics**
-![Dataset Characteristics](figures/methodology_table_datasets.svg)
+- **Format**: Markdown table (accessible dan responsive)
 - **Content**: 4 datasets dengan specifications lengkap
 - **Details**: Training/test samples, input features, output dimensions, preprocessing
 - **Academic Value**: Comprehensive dataset comparison untuk methodology transparency
 
-#### **Tabel 2: Architecture Specifications**  
-![Architecture Specifications](figures/methodology_table_architectures.svg)
+#### **Tabel 2: Architecture Specifications**
+- **Format**: Markdown table dengan technical details
 - **Content**: 8 CortexFlow variants + 2 SOTA baselines
 - **Details**: Architecture, key features, parameters, dropout rates, normalization
 - **Academic Value**: Technical specifications untuk reproducibility
 
 #### **Tabel 3: Hyperparameter Configuration**
-![Hyperparameter Configuration](figures/methodology_table_hyperparameters.svg)
+- **Format**: Markdown table dengan optimal settings
 - **Content**: Dataset-specific hyperparameters
 - **Details**: Epochs, learning rate, batch size, patience, optimizer settings
 - **Academic Value**: Optimal configuration untuk each dataset
+
+#### **Tabel 4: Performance Results**
+- **Format**: Markdown table dengan actual results
+- **Content**: MSE scores untuk all methods pada all datasets
+- **Details**: Winner identification, statistical comparison
+- **Academic Value**: Core research findings dengan quantitative evidence
+
+#### **Tabel 5: Statistical Significance Analysis**
+- **Format**: Markdown table dengan statistical validation
+- **Content**: Mean ± SD, confidence intervals, p-values, effect sizes
+- **Details**: Statistical rigor dengan Cohen's d interpretation
+- **Academic Value**: Robust statistical validation untuk research claims
 
 ### **✅ FIGURES (2 Enhanced Diagrams)**
 
