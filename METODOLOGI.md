@@ -30,44 +30,46 @@ Penelitian ini menggunakan kerangka neural decoding yang terdiri dari:
 
 Penelitian ini menggunakan empat dataset neural decoding yang telah tervalidasi:
 
-**Tabel 1. Karakteristik Dataset Neural Decoding**
+**Tabel 1. Karakteristik Dataset Neural Decoding (Implementasi Aktual)**
 
-| Dataset | Type | Training Samples | Test Samples | Input Features | Output Dimension | Preprocessing |
-|---------|------|------------------|--------------|----------------|------------------|---------------|
-| **Miyawaki** | Visual Patterns | 1,750 | 350 | 3,092 | 28×28 | Z-score + Binary |
-| **Vangerven** | Digit Recognition | 1,000 | 200 | 2,500 | 28×28 | Normalization [0,1] |
-| **MindBigData** | Cross-Modal EEG→fMRI | 2,000 | 400 | 3,500 | 28×28 | Multi-modal Align |
-| **Crell** | Cross-Modal EEG→fMRI | 1,500 | 300 | 2,800 | 28×28 | Cross-modal Sync |
+| Dataset | Type | Input Features | Output Dimension | File | Preprocessing |
+|---------|------|----------------|------------------|------|---------------|
+| **Miyawaki** | Visual Patterns | 967 | 28×28 (784) | miyawaki_structured_28x28.mat | Min-max normalization |
+| **Vangerven** | Digit Recognition | 3,092 | 28×28 (784) | digit69_28x28.mat | Division by 255.0 |
+| **MindBigData** | Cross-Modal EEG→fMRI | 3,092 | 28×28 (784) | mindbigdata.mat | Min-max normalization |
+| **Crell** | Cross-Modal EEG→fMRI | 3,092 | 28×28 (784) | crell.mat | Min-max normalization |
 
-Tabel di atas menunjukkan karakteristik komprehensif dari keempat dataset yang digunakan dalam penelitian. Setiap dataset memiliki spesifikasi unik yang memungkinkan evaluasi kemampuan model dalam berbagai skenario neural decoding.
+Tabel di atas menunjukkan karakteristik aktual dari keempat dataset yang diimplementasikan dalam penelitian. Input features diambil dari konfigurasi project_config.json dan file dataset tersedia di direktori data/processed/. Setiap dataset memiliki spesifikasi unik yang memungkinkan evaluasi kemampuan model dalam berbagai skenario neural decoding.
+
+**Catatan**: Sample counts (training/test) bervariasi per dataset dan ditentukan saat runtime berdasarkan struktur data dalam file .mat. Preprocessing disesuaikan dengan karakteristik masing-masing dataset untuk optimal performance.
 
 #### 2.1.1 Dataset Miyawaki
 - **Karakteristik**: Visual complex patterns dengan binary contrast
-- **Ukuran**: 1.750 sampel training, 350 sampel testing
-- **Dimensi Input**: 3.092 fitur fMRI
-- **Dimensi Output**: 28×28 binary patterns
-- **Preprocessing**: Normalisasi Z-score, binary contrast enhancement
+- **File**: miyawaki_structured_28x28.mat (1.6 MB)
+- **Dimensi Input**: 967 fitur fMRI (project_config.json)
+- **Dimensi Output**: 28×28 binary patterns (784 features)
+- **Preprocessing**: Min-max normalization untuk binary contrast
 
 #### 2.1.2 Dataset Vangerven
 - **Karakteristik**: Digit recognition patterns (0-9)
-- **Ukuran**: 1.000 sampel training, 200 sampel testing
-- **Dimensi Input**: 2.500 fitur fMRI
-- **Dimensi Output**: 28×28 grayscale images
-- **Preprocessing**: Normalisasi [0,1], grayscale conversion
+- **File**: digit69_28x28.mat (2.3 MB)
+- **Dimensi Input**: 3,092 fitur fMRI (project_config.json)
+- **Dimensi Output**: 28×28 grayscale images (784 features)
+- **Preprocessing**: Division by 255.0 untuk normalization [0,1]
 
 #### 2.1.3 Dataset MindBigData
 - **Karakteristik**: Cross-modal EEG→fMRI→Visual translation
-- **Ukuran**: 2.000 sampel training, 400 sampel testing
-- **Dimensi Input**: 3.500 fitur cross-modal
-- **Dimensi Output**: 28×28 visual patterns
-- **Preprocessing**: Multi-modal normalization, feature alignment
+- **File**: mindbigdata.mat (29.2 MB)
+- **Dimensi Input**: 3,092 fitur cross-modal (project_config.json)
+- **Dimensi Output**: 28×28 visual patterns (784 features)
+- **Preprocessing**: Min-max normalization untuk multi-modal alignment
 
 #### 2.1.4 Dataset Crell
 - **Karakteristik**: Cross-modal EEG→fMRI→Visual translation
-- **Ukuran**: 1.500 sampel training, 300 sampel testing
-- **Dimensi Input**: 2.800 fitur cross-modal
-- **Dimensi Output**: 28×28 visual patterns
-- **Preprocessing**: Cross-modal synchronization, temporal alignment
+- **File**: crell.mat (15.6 MB)
+- **Dimensi Input**: 3,092 fitur cross-modal (project_config.json)
+- **Dimensi Output**: 28×28 visual patterns (784 features)
+- **Preprocessing**: Min-max normalization untuk cross-modal sync
 
 ### 2.2 Protokol Preprocessing
 

@@ -28,15 +28,14 @@ plt.rcParams.update({
 def create_dataset_characteristics_table():
     """Create comprehensive dataset characteristics table"""
     
-    # Dataset information
+    # Dataset information (corrected to match actual implementation)
     data = {
         'Dataset': ['Miyawaki', 'Vangerven', 'MindBigData', 'Crell'],
         'Type': ['Visual Patterns', 'Digit Recognition', 'Cross-Modal EEG→fMRI', 'Cross-Modal EEG→fMRI'],
-        'Training Samples': [1750, 1000, 2000, 1500],
-        'Test Samples': [350, 200, 400, 300],
-        'Input Features': [3092, 2500, 3500, 2800],
-        'Output Dimension': ['28×28', '28×28', '28×28', '28×28'],
-        'Preprocessing': ['Z-score + Binary', 'Normalization [0,1]', 'Multi-modal Align', 'Cross-modal Sync']
+        'Input Features': [967, 3092, 3092, 3092],
+        'Output Dimension': ['28×28 (784)', '28×28 (784)', '28×28 (784)', '28×28 (784)'],
+        'File': ['miyawaki_structured_28x28.mat', 'digit69_28x28.mat', 'mindbigdata.mat', 'crell.mat'],
+        'Preprocessing': ['Min-max normalization', 'Division by 255.0', 'Min-max normalization', 'Min-max normalization']
     }
     
     df = pd.DataFrame(data)
@@ -47,7 +46,7 @@ def create_dataset_characteristics_table():
     # Create table
     table = ax.table(cellText=df.values, colLabels=df.columns,
                      cellLoc='center', loc='center',
-                     colWidths=[0.12, 0.18, 0.12, 0.12, 0.12, 0.12, 0.22])
+                     colWidths=[0.15, 0.20, 0.15, 0.15, 0.20, 0.15])
     
     table.auto_set_font_size(False)
     table.set_fontsize(9)
