@@ -1,6 +1,6 @@
 # Statistical Analysis Report: MIYAWAKI
 
-**Generated:** 2025-06-16 10:37:04  
+**Generated:** 2025-06-16 11:27:24  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -30,11 +30,11 @@ This report presents comprehensive statistical analysis results for the **MIYAWA
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| CortexFlow Lite | 0.018455 | 0.010980 | 0.022553 | 0.017330 ± 0.004791 |
-| MinD Vis | 0.015523 | 0.007710 | 0.012289 | 0.011841 ± 0.003206 |
-| Brain Diffuser | 0.013586 | 0.006830 | 0.011655 | 0.010690 ± 0.002841 |
-| CortexFlow Multi-Pathway | 0.060916 | 0.046773 | 0.070195 | 0.059294 ± 0.009630 |
-| CortexFlow Ensemble | 0.019323 | 0.011826 | 0.018156 | 0.016435 ± 0.003294 |
+| CortexFlow Lite | 0.015161 | 0.009499 | 0.018569 | 0.014410 ± 0.003741 |
+| MinD Vis | 0.016034 | 0.007261 | 0.012808 | 0.012034 ± 0.003623 |
+| Brain Diffuser | 0.014678 | 0.007335 | 0.012306 | 0.011440 ± 0.003060 |
+| CortexFlow Multi-Pathway | 0.111286 | 0.057174 | 0.061190 | 0.076550 ± 0.024617 |
+| CortexFlow Ensemble | 0.022219 | 0.013129 | 0.018816 | 0.018055 ± 0.003750 |
 
 
 ---
@@ -50,33 +50,33 @@ This report presents comprehensive statistical analysis results for the **MIYAWA
 
 
 **CortexFlow Lite:**
-- t-statistic: -2.264
-- p-value: 0.151863 ns
-- Mean MSE: 0.017330
+- t-statistic: -4.003
+- p-value: 0.057101 ns
+- Mean MSE: 0.014410
 - Interpretation: ✅ Significantly BETTER than baseline
 
 **MinD Vis:**
-- t-statistic: -5.805
-- p-value: 0.028414 *
-- Mean MSE: 0.011841
+- t-statistic: -5.061
+- p-value: 0.036891 *
+- Mean MSE: 0.012034
 - Interpretation: ✅ Significantly BETTER than baseline
 
 **Brain Diffuser:**
-- t-statistic: -7.122
-- p-value: 0.019151 *
-- Mean MSE: 0.010690
+- t-statistic: -6.268
+- p-value: 0.024521 *
+- Mean MSE: 0.011440
 - Interpretation: ✅ Significantly BETTER than baseline
 
 **CortexFlow Multi-Pathway:**
-- t-statistic: 5.036
-- p-value: 0.037239 *
-- Mean MSE: 0.059294
+- t-statistic: 2.962
+- p-value: 0.097609 ns
+- Mean MSE: 0.076550
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Ensemble:**
-- t-statistic: -3.678
-- p-value: 0.066633 ns
-- Mean MSE: 0.016435
+- t-statistic: -2.620
+- p-value: 0.120050 ns
+- Mean MSE: 0.018055
 - Interpretation: ✅ Significantly BETTER than baseline
 
 
@@ -90,18 +90,18 @@ This report presents comprehensive statistical analysis results for the **MIYAWA
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| CortexFlow Lite | 0.025306 | 15.97 | 0.8357 | 0.0993 |
-| MinD Vis | 0.014612 | 18.35 | 0.8785 | 0.0471 |
-| Brain Diffuser | 0.012881 | 18.90 | 0.8809 | 0.0545 |
-| CortexFlow Multi-Pathway | 0.122712 | 9.11 | 0.5580 | 0.2042 |
-| CortexFlow Ensemble | 0.025085 | 16.01 | 0.8030 | 0.0880 |
+| CortexFlow Lite | 0.018274 | 17.38 | 0.8765 | 0.0582 |
+| MinD Vis | 0.024434 | 16.12 | 0.8309 | 0.0663 |
+| Brain Diffuser | 0.017447 | 17.58 | 0.8604 | 0.0634 |
+| CortexFlow Multi-Pathway | 0.058192 | 12.35 | 0.6654 | 0.1657 |
+| CortexFlow Ensemble | 0.021201 | 16.74 | 0.8104 | 0.0842 |
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** Brain Diffuser (0.012881)
-- **PSNR (Higher is Better):** Brain Diffuser (18.90 dB)
-- **SSIM (Higher is Better):** Brain Diffuser (0.8809)
-- **LPIPS (Lower is Better):** MinD Vis (0.0471)
+- **MSE (Lower is Better):** Brain Diffuser (0.017447)
+- **PSNR (Higher is Better):** Brain Diffuser (17.58 dB)
+- **SSIM (Higher is Better):** CortexFlow Lite (0.8765)
+- **LPIPS (Lower is Better):** CortexFlow Lite (0.0582)
 
 
 ---
@@ -139,11 +139,11 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| Brain Diffuser | 0.012881 | 🥇 Best |
-| MinD Vis | 0.014612 | 🥈 Second |
-| CortexFlow Ensemble | 0.025085 | 🥉 Third |
-| CortexFlow Lite | 0.025306 | #4 |
-| CortexFlow Multi Pathway | 0.122712 | #5 |
+| Brain Diffuser | 0.017447 | 🥇 Best |
+| CortexFlow Lite | 0.018274 | 🥈 Second |
+| CortexFlow Ensemble | 0.021201 | 🥉 Third |
+| MinD Vis | 0.024434 | #4 |
+| CortexFlow Multi Pathway | 0.058192 | #5 |
 
 
 ---

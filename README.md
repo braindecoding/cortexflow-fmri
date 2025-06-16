@@ -9,22 +9,22 @@
 
 CortexFlow is a state-of-the-art neural decoding framework that achieves **breakthrough performance** on multiple datasets with comprehensive statistical validation. The framework implements **CortexFlow-Lite** architecture alongside verified SOTA methods, demonstrating **superior performance on 3 out of 4 datasets** with rigorous scientific methodology.
 
-### 🏆 **Latest Performance Achievements (2025-06-16)**
-- 🥇 **CortexFlow-Lite WINS Vangerven**: 0.040193 MSE (6.2% better than Brain-Diffuser)
-- 🥇 **CortexFlow Multi-Pathway WINS MindBigData**: 0.054493 MSE (0.2% better than MinD-Vis)
-- 🥇 **CortexFlow Multi-Pathway WINS Crell**: 0.028864 MSE (0.7% better than MinD-Vis)
-- 🥈 **Competitive on Miyawaki**: CortexFlow-Ensemble 3rd place (0.025085 MSE)
+### 🏆 **Latest Performance Achievements (2025-06-16) - 8-Variant Ensemble**
+- 🥇 **CortexFlow-Ensemble WINS Vangerven**: 0.039040 MSE (8.2% better than Brain-Diffuser)
+- 🥇 **CortexFlow Multi-Pathway WINS MindBigData**: 0.054178 MSE (1.5% better than MinD-Vis)
+- 🥈 **CortexFlow Multi-Pathway 2nd Crell**: 0.028872 MSE (0.3% behind MinD-Vis)
+- 🥉 **CortexFlow-Ensemble 3rd Miyawaki**: 0.021201 MSE (competitive performance)
 
 ### Key Features
-- ✅ **CortexFlow-Lite Architecture**: Optimized neural decoding with professional branding
-- ✅ **Breakthrough Performance**: Wins 3 out of 4 datasets with statistical validation
-- ✅ **100% Functional Training**: Complete train.py with 17+ comprehensive outputs
+- ✅ **8-Variant Ensemble Architecture**: Enhanced with CortexFlow Multi-Pathway integration
+- ✅ **Superior Performance**: CortexFlow wins 2 out of 4 datasets with statistical validation
+- ✅ **100% Functional Training**: Complete train.py with 20+ comprehensive outputs
 - ✅ **7 Comprehensive Visualizations**: Statistical significance, CV analysis, radar charts
 - ✅ **Verified SOTA Implementations**: MinD-Vis (CVPR 2023) and Brain-Diffuser (2023)
 - ✅ **Advanced Statistical Analysis**: T-test validation, effect sizes, confidence intervals
 - ✅ **Professional Documentation**: Auto-generated academic reports with embedded figures
 - ✅ **Complete Reproducibility**: WSL GPU optimization with deterministic results
-- ✅ **Modular Architecture**: Industry-standard code organization with clean separation
+- ✅ **Enhanced Ensemble Power**: 8 specialized variants with intelligent weighting
 
 ### Novel Mathematical Contributions
 
@@ -99,11 +99,11 @@ F_fused = F_weighted ⊙ G
 p(y|x) = N(μ, σ²)
 ```
 
-### **CortexFlow-Ensemble: Comprehensive 5-Model Architecture**
+### **CortexFlow-Ensemble: Enhanced 8-Variant Architecture**
 
-Our **CortexFlow-Ensemble** represents a breakthrough in neural decoding through intelligent model combination:
+Our **CortexFlow-Ensemble** represents a breakthrough in neural decoding through comprehensive 8-variant integration:
 
-#### **🔄 5 Specialized CortexFlow Models:**
+#### **🔄 8 Specialized CortexFlow Variants:**
 
 **1. CortexFlow-Lite:**
 ```
@@ -113,72 +113,111 @@ Features:
   • Professional branding with proven performance
   • BatchNorm1d normalization for stability
   • Dropout (0.2, 0.15) for optimal regularization
-  • Winner on Vangerven dataset (0.040193 MSE)
+  • Strong performance across all datasets
 ```
 
-**2. MinD-Vis (CVPR 2023):**
+**2. CortexFlow-MC (Monte Carlo):**
 ```
-Purpose: State-of-the-art conditional diffusion
+Purpose: Uncertainty-aware predictions
 Architecture: input → 512 → 256 → 128 → 784 (output)
 Features:
-  • Sparse masked modeling with 15% masking
-  • Conditional diffusion decoder
-  • Noise injection for diffusion simulation
-  • Competitive performance across datasets
-Mathematical: Conditional diffusion with noise schedule
+  • MCDropout (always active, even in eval mode)
+  • Systematic uncertainty quantification
+  • LayerNorm normalization
+  • Probabilistic prediction capabilities
+Mathematical: F.dropout(x, p=0.15, training=True)
 ```
 
-**3. Brain-Diffuser (2023):**
+**3. CortexFlow-Hierarchical:**
 ```
-Purpose: Pure diffusion approach for neural decoding
+Purpose: Temporal pattern recognition
+Architecture: input → 512 → 256 → 128 → 784 (output)
+Features:
+  • HierarchicalBlock dengan temporal attention
+  • Multi-scale processing (3 levels)
+  • Adaptive dropout per level
+  • Temporal attention mechanism
+Mathematical: x = LayerNorm(Linear(x)) * Sigmoid(MLP_temporal(x))
+```
+
+**4. CortexFlow-Enhanced:**
+```
+Purpose: Advanced feature processing
 Architecture: input → 512 → 256 → 784 (output)
 Features:
-  • SiLU activation and LayerNorm
-  • 10 timesteps with beta linear schedule
-  • Iterative denoising inference
-  • Winner on Miyawaki dataset (0.012881 MSE)
-Mathematical: Noise prediction with diffusion process
+  • Integration: MC + Hierarchical + Feature Alignment
+  • EnhancedBlock dengan multiple mechanisms
+  • Residual connections for gradient flow
+  • Feature alignment mechanism
+Mathematical: x_attended + feature_alignment(x_attended)
 ```
 
-**4. CortexFlow Multi-Pathway:**
+**5. CortexFlow-Unified:**
+```
+Purpose: Adaptive complexity processing
+Architecture: input → 512 → 256 → 128 → 784 (output)
+Features:
+  • AdaptiveComplexityBlock
+  • Dual pathways (simple + complex)
+  • Complexity gate mechanism
+  • Adaptive pathway selection
+Mathematical: gate * complex_pathway + (1-gate) * simple_pathway
+```
+
+**6. CortexFlow-Diffusion:**
+```
+Purpose: Diffusion-based reconstruction
+Architecture: input → dual pathways → attention → diffusion → 784 (output)
+Features:
+  • Multi-pathway encoder (deep + wide)
+  • Cross-pathway attention mechanism
+  • Diffusion-style progressive processing
+  • Progressive denoising (3 steps)
+Mathematical: Progressive denoising with noise prediction
+```
+
+**7. CortexFlow-Baseline (CNN):**
+```
+Purpose: Lightweight CNN architecture
+Architecture: 4-layer CNN with adaptive input
+Features:
+  • Convolutional layers with dropout 0.2
+  • Adaptive input for different feature dimensions
+  • Simple but effective CNN baseline
+  • Ensemble diversity contribution
+Mathematical: Standard CNN with adaptive pooling
+```
+
+**8. CortexFlow Multi-Pathway (NEW!):**
 ```
 Purpose: Advanced multi-pathway processing
-Architecture: input → dual pathways → attention → 784 (output)
+Architecture: input → dual pathways → cross-attention → 784 (output)
 Features:
   • Cross-pathway attention mechanism
   • Adaptive pathway weighting
   • Dynamic gated fusion
-  • Winner on MindBigData (0.054493) and Crell (0.028864)
-Mathematical: Multi-pathway with attention-based fusion
+  • Winner on MindBigData (0.054178 MSE)
+  • Uncertainty-aware decoder
+Mathematical: Multi-pathway with cross-attention fusion
 ```
 
-**5. CortexFlow-Ensemble:**
+#### **🧠 Enhanced Learned Ensemble Weighting:**
 ```
-Purpose: Intelligent ensemble combination
-Architecture: Learned weighting of all 4 models above
-Features:
-  • Neural network-based weight learning
-  • Adaptive combination based on input
-  • Consistent top-3 performance
-  • Robust predictions across datasets
-Mathematical: y_ensemble = Σᵢ₌₁⁴ wᵢ · fᵢ(x)
-```
-
-#### **🧠 Learned Ensemble Weighting:**
-```
-Architecture: input → 256 → 128 → 5 weights
+Architecture: input → 512 → 256 → 128 → 8 weights
 Normalization: Softmax probability distribution
-Combination: y_ensemble = Σᵢ₌₁⁵ wᵢ · fᵢ(x)
-Advantage: Adaptive weighting based on input characteristics
+Combination: y_ensemble = Σᵢ₌₁⁸ wᵢ · fᵢ(x)
+Advantage: Adaptive weighting with complexity-aware adjustment
+Enhancement: Multi-Pathway emphasis for complex inputs
 ```
 
-#### **🎯 Ensemble Advantages:**
-- **Proven Performance**: Consistent top-3 performance across datasets
-- **Adaptive Weighting**: Neural network learns optimal combination
-- **Robust Predictions**: Architectural diversity ensures reliability
-- **Professional Integration**: Includes CortexFlow-Lite and SOTA methods
-- **Research Innovation**: Novel ensemble design for neural decoding
-- **Academic Contribution**: Advanced framework for fMRI-to-visual reconstruction
+#### **🎯 Enhanced Ensemble Advantages:**
+- **Superior Performance**: Winner on Vangerven, competitive across all datasets
+- **8-Variant Diversity**: Maximum architectural coverage for neural decoding
+- **Intelligent Weighting**: Neural network learns optimal 8-model combination
+- **Multi-Pathway Integration**: Advanced cross-attention capabilities included
+- **Complexity-Aware**: Dynamic weighting favoring Multi-Pathway for complex tasks
+- **Research Innovation**: Most comprehensive ensemble design for neural decoding
+- **Academic Excellence**: Advanced framework with statistical validation
 
 ## 🎉 **Latest Performance Results (2025-06-16)**
 
@@ -186,11 +225,11 @@ Advantage: Adaptive weighting based on input characteristics
 
 CortexFlow achieves **superior performance on 3 out of 4 datasets** with comprehensive statistical validation:
 
-#### **📊 Dataset Performance Summary:**
-- **🥇 Vangerven (Digit Recognition)**: CortexFlow-Lite WINS (0.040193 MSE)
-- **🥇 MindBigData (Cross-Modal)**: CortexFlow Multi-Pathway WINS (0.054493 MSE)
-- **🥇 Crell (Cross-Modal)**: CortexFlow Multi-Pathway WINS (0.028864 MSE)
-- **🥉 Miyawaki (Visual)**: CortexFlow-Ensemble 3rd place (0.025085 MSE)
+#### **📊 Dataset Performance Summary (8-Variant Ensemble):**
+- **🥇 Vangerven (Digit Recognition)**: CortexFlow-Ensemble WINS (0.039040 MSE)
+- **🥇 MindBigData (Cross-Modal)**: CortexFlow Multi-Pathway WINS (0.054178 MSE)
+- **🥈 Crell (Cross-Modal)**: CortexFlow Multi-Pathway 2nd (0.028872 MSE)
+- **🥉 Miyawaki (Visual)**: CortexFlow-Ensemble 3rd place (0.021201 MSE)
 
 ## Enhanced Academic Reporting
 
@@ -207,26 +246,29 @@ CortexFlow includes **7 comprehensive visualizations** and automatic report gene
 - **📊 Statistical Significance Matrix**: Comprehensive p-value heatmaps
 - **📈 Comprehensive Metrics Visualization**: Multi-dataset performance analysis
 
-#### **📊 Complete Generated Output (17+ Files):**
+#### **📊 Complete Generated Output (20+ Files) - 8-Variant Ensemble:**
 ```
 results/comprehensive_training_cv/
-├── 📄 statistical_analysis_miyawaki_[timestamp].md     # Individual dataset analysis
-├── 📄 statistical_analysis_vangerven_[timestamp].md    # With embedded figures
-├── 📄 statistical_analysis_mindbigdata_[timestamp].md  # Academic formatting
-├── 📄 statistical_analysis_crell_[timestamp].md       # Publication-ready
-├── 📋 comprehensive_training_summary_[timestamp].md    # Overall summary
-├── 🎨 cv_reconstruction_[dataset]_comprehensive.svg    # Reconstruction figures (4)
-├── 📊 comprehensive_statistical_analysis.svg           # Statistical comparison
-├── 📊 comprehensive_metrics_visualization.svg          # Multi-metric analysis
-├── 📊 statistical_significance_matrix.svg              # Significance testing
-├── 📊 overall_method_performance.svg                   # Performance comparison
-├── 📊 statistical_significance_analysis_visualization.svg # T-test analysis
-├── 📊 comprehensive_cv_analysis.svg                    # Cross-validation analysis
-├── 📊 comprehensive_radar_analysis.svg                 # Radar performance charts
-├── 📋 comprehensive_training_results.json              # Performance data
-├── 📋 cross_validation_results.json                    # CV data
-├── 📋 statistical_analysis_with_ttest.json             # Statistical data
-└── 📋 comprehensive_evaluation_metrics.json            # Metrics data
+├── 📄 statistical_analysis_miyawaki_20250616_113048.md     # Individual dataset analysis
+├── 📄 statistical_analysis_vangerven_20250616_113205.md    # With embedded figures
+├── 📄 statistical_analysis_mindbigdata_20250616_113848.md  # Academic formatting
+├── 📄 statistical_analysis_crell_20250616_114324.md       # Publication-ready
+├── 📋 comprehensive_training_summary_20250616_114330.md    # Overall summary
+├── 🎨 cv_reconstruction_miyawaki_comprehensive.svg         # Reconstruction figures (4)
+├── 🎨 cv_reconstruction_vangerven_comprehensive.svg        # High-quality SVG
+├── 🎨 cv_reconstruction_mindbigdata_comprehensive.svg      # Academic standard
+├── 🎨 cv_reconstruction_crell_comprehensive.svg           # Publication-ready
+├── 📊 statistical_analysis_comprehensive.svg               # Statistical comparison
+├── 📊 comprehensive_metrics_visualization.svg              # Multi-metric analysis
+├── 📊 statistical_significance_matrix.svg                  # Significance testing
+├── 📊 overall_method_performance.svg                       # Performance comparison
+├── 📊 statistical_significance_analysis_visualization.svg  # T-test analysis
+├── 📊 comprehensive_cv_analysis.svg                        # Cross-validation analysis
+├── 📊 comprehensive_radar_analysis.svg                     # Radar performance charts
+├── 📋 comprehensive_training_results.json                  # Performance data
+├── 📋 cross_validation_results.json                        # CV data
+├── 📋 statistical_analysis_with_ttest.json                 # Statistical data
+└── 📋 comprehensive_evaluation_metrics.json                # Metrics data
 ```
 
 #### **🎨 Figure Embedding Features:**

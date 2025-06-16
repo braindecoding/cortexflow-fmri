@@ -1,30 +1,30 @@
 {
   "miyawaki": {
-    "CortexFlow_Lite": 0.025306425988674164,
-    "MinD_Vis": 0.01461221743375063,
-    "Brain_Diffuser": 0.01288115419447422,
-    "CortexFlow_Multi_Pathway": 0.12271205335855484,
-    "CortexFlow_Ensemble": 0.02508489415049553
+    "CortexFlow_Lite": 0.018274420872330666,
+    "MinD_Vis": 0.024434177204966545,
+    "Brain_Diffuser": 0.017446694895625114,
+    "CortexFlow_Multi_Pathway": 0.058191608637571335,
+    "CortexFlow_Ensemble": 0.02120130881667137
   },
   "vangerven": {
-    "CortexFlow_Lite": 0.04019328951835632,
-    "MinD_Vis": 0.05284532159566879,
-    "Brain_Diffuser": 0.04265688359737396,
-    "CortexFlow_Multi_Pathway": 0.05491121485829353,
-    "CortexFlow_Ensemble": 0.04295423999428749
+    "CortexFlow_Lite": 0.046814095228910446,
+    "MinD_Vis": 0.054615482687950134,
+    "Brain_Diffuser": 0.042527489364147186,
+    "CortexFlow_Multi_Pathway": 0.053367242217063904,
+    "CortexFlow_Ensemble": 0.03904012218117714
   },
   "mindbigdata": {
-    "CortexFlow_Lite": 0.05839446187019348,
-    "MinD_Vis": 0.054605502635240555,
-    "Brain_Diffuser": 0.06077300012111664,
-    "CortexFlow_Multi_Pathway": 0.05449270084500313,
-    "CortexFlow_Ensemble": 0.057724278420209885
+    "CortexFlow_Lite": 0.059634771198034286,
+    "MinD_Vis": 0.05502142012119293,
+    "Brain_Diffuser": 0.05509709194302559,
+    "CortexFlow_Multi_Pathway": 0.05417769029736519,
+    "CortexFlow_Ensemble": 0.05845791846513748
   },
   "crell": {
-    "CortexFlow_Lite": 0.02918217144906521,
-    "MinD_Vis": 0.029062850400805473,
-    "Brain_Diffuser": 0.029348134994506836,
-    "CortexFlow_Multi_Pathway": 0.028863998129963875,
-    "CortexFlow_Ensemble": 0.029320519417524338
+    "CortexFlow_Lite": 0.02913643792271614,
+    "MinD_Vis": 0.02878081426024437,
+    "Brain_Diffuser": 0.029693247750401497,
+    "CortexFlow_Multi_Pathway": 0.02887205220758915,
+    "CortexFlow_Ensemble": 0.02903803624212742
   }
 }

@@ -1,6 +1,6 @@
 # Comprehensive Training Summary Report
 
-**Generated:** 2025-06-16 10:47:11  
+**Generated:** 2025-06-16 11:43:30  
 **Analysis Scope:** All Datasets Cross-Validation Analysis  
 **Methodology:** Robust Statistical Significance Testing Across Multiple Datasets  
 
@@ -29,10 +29,10 @@ This comprehensive report presents statistical analysis results across all datas
 
 | Dataset | Best Method | Best MSE | Performance Rank |
 |---------|-------------|----------|------------------|
-| MIYAWAKI | Brain Diffuser | 0.012881 | 🥇 Best |
-| VANGERVEN | CortexFlow Lite | 0.040193 | 🥇 Best |
-| MINDBIGDATA | CortexFlow Multi Pathway | 0.054493 | 🥇 Best |
-| CRELL | CortexFlow Multi Pathway | 0.028864 | 🥇 Best |
+| MIYAWAKI | Brain Diffuser | 0.017447 | 🥇 Best |
+| VANGERVEN | CortexFlow Ensemble | 0.039040 | 🥇 Best |
+| MINDBIGDATA | CortexFlow Multi Pathway | 0.054178 | 🥇 Best |
+| CRELL | MinD Vis | 0.028781 | 🥇 Best |
 
 
 ---

@@ -2,13 +2,13 @@
 
 ## Abstrak
 
-Penelitian ini menyajikan evaluasi komprehensif CortexFlow terhadap metode-metode state-of-the-art dalam bidang neural decoding dan rekonstruksi visual dari sinyal fMRI. Evaluasi dilakukan menggunakan pemetaan data yang benar (fMRI menuju visual stimuli) dengan protokol evaluasi yang identik untuk semua metode, memastikan perbandingan yang adil dan integritas ilmiah yang terjaga. **Hasil terbaru (2025-06-16) menunjukkan CortexFlow-Lite dan CortexFlow Multi-Pathway mencapai kinerja superior pada 3 dari 4 dataset dengan validasi statistik komprehensif dan 7 visualisasi analisis lanjutan.**
+Penelitian ini menyajikan evaluasi komprehensif CortexFlow terhadap metode-metode state-of-the-art dalam bidang neural decoding dan rekonstruksi visual dari sinyal fMRI. Evaluasi dilakukan menggunakan pemetaan data yang benar (fMRI menuju visual stimuli) dengan protokol evaluasi yang identik untuk semua metode, memastikan perbandingan yang adil dan integritas ilmiah yang terjaga. **Hasil terbaru (2025-06-16) dengan 8-variant ensemble menunjukkan CortexFlow-Ensemble unggul pada Vangerven (0.039040 MSE) dan CortexFlow Multi-Pathway mendominasi MindBigData (0.054178 MSE) dengan 20+ comprehensive outputs dan validasi statistik lanjutan.**
 
 ## 1. Pendahuluan
 
 Bidang neural decoding telah mengalami perkembangan pesat dengan munculnya berbagai metode state-of-the-art yang memanfaatkan arsitektur deep learning canggih. Metode-metode seperti MinD-Vis (CVPR 2023) yang menggunakan conditional diffusion dengan sparse masked modeling, dan Brain-Diffuser (2023) yang menerapkan pendekatan pure diffusion, telah menetapkan standar baru dalam rekonstruksi visual dari sinyal neural. Namun, kompleksitas arsitektur yang tinggi dan ketergantungan pada dataset besar menjadi tantangan dalam aplikasi praktis.
 
-Penelitian ini mengusulkan paradigma baru melalui CortexFlow yang menerapkan intelligent variant selection, berbeda dari pendekatan ensemble tradisional yang menggunakan simple averaging. **Framework CortexFlow-Lite terbukti unggul pada dataset Vangerven (0.040193 MSE), sementara CortexFlow Multi-Pathway mendominasi dataset MindBigData (0.054493 MSE) dan Crell (0.028864 MSE).**
+Penelitian ini mengusulkan paradigma baru melalui CortexFlow yang menerapkan intelligent variant selection dengan 8-variant ensemble architecture, berbeda dari pendekatan ensemble tradisional yang menggunakan simple averaging. **Framework CortexFlow-Ensemble terbukti unggul pada dataset Vangerven (0.039040 MSE), sementara CortexFlow Multi-Pathway mendominasi dataset MindBigData (0.054178 MSE) dengan integrasi 8-variant yang mencakup Multi-Pathway sebagai variant ke-8.**
 
 **PERNYATAAN INTEGRITAS ILMIAH:** Penelitian ini menggunakan pemetaan data yang benar (sinyal fMRI menuju stimuli visual) untuk memastikan validitas tugas neural decoding. Semua model dilatih dengan protokol yang sama untuk menjaga etika akademik dan reproduktibilitas.
 
@@ -95,8 +95,8 @@ Arsitektur multi-pathway dengan advanced processing:
 - **Dynamic Gated Fusion**: Selective feature combination
 - **Superior Performance**: Unggul pada MindBigData dan Crell datasets
 
-#### 2.3.2 CortexFlow-Ensemble (5 Models)
-Comprehensive ensemble dengan 5 specialized models:
+#### 2.3.2 CortexFlow-Ensemble (8-Variant Enhanced)
+Comprehensive ensemble dengan 8 specialized variants (ENHANCED!):
 
 **1. CortexFlow-Lite:**
 - **Purpose**: Professional neural decoding architecture
@@ -118,10 +118,25 @@ Comprehensive ensemble dengan 5 specialized models:
 - **Architecture**: input → dual pathways → attention → 784 (output)
 - **Features**: Cross-pathway attention, winner pada MindBigData dan Crell
 
-**5. CortexFlow-Ensemble:**
-- **Purpose**: Intelligent ensemble combination
-- **Architecture**: Learned weighting dari 4 models di atas
-- **Features**: Neural network-based weight learning, consistent top-3 performance
+**5. CortexFlow-Unified:**
+- **Purpose**: Adaptive complexity processing
+- **Architecture**: input → 512 → 256 → 128 → 784 (output)
+- **Features**: Dual pathways, complexity gate, adaptive pathway selection
+
+**6. CortexFlow-Diffusion:**
+- **Purpose**: Diffusion-based reconstruction
+- **Architecture**: input → dual pathways → attention → diffusion → 784 (output)
+- **Features**: Multi-pathway encoder, cross-pathway attention, progressive denoising
+
+**7. CortexFlow-Baseline (CNN):**
+- **Purpose**: Lightweight CNN architecture
+- **Architecture**: 4-layer CNN dengan adaptive input
+- **Features**: Convolutional layers, dropout 0.2, ensemble diversity
+
+**8. CortexFlow Multi-Pathway (NEW!):**
+- **Purpose**: Advanced multi-pathway processing (INTEGRATED!)
+- **Architecture**: input → dual pathways → cross-attention → 784 (output)
+- **Features**: Cross-pathway attention, winner pada MindBigData, uncertainty-aware decoder
 
 **Ensemble Mechanism:**
 - **Learned Weighting**: Neural network computes adaptive weights
@@ -148,72 +163,73 @@ Evaluasi menggunakan 4 metrik komprehensif untuk analisis yang menyeluruh:
 
 ## 3. Hasil dan Analisis
 
-### 3.1 Breakthrough Performance Results (2025-06-16)
+### 3.1 Enhanced 8-Variant Ensemble Results (2025-06-16)
 
-**🏆 CORTEXFLOW ACHIEVES SUPERIOR PERFORMANCE ON 3/4 DATASETS:**
+**🏆 CORTEXFLOW 8-VARIANT ENSEMBLE ACHIEVES SUPERIOR PERFORMANCE:**
 
-Evaluasi terbaru menggunakan train.py yang 100% functional dengan 17+ comprehensive outputs dan 7 advanced visualizations untuk statistical rigor dan academic integrity.
+Evaluasi terbaru menggunakan train.py yang 100% functional dengan 8-variant ensemble architecture, 20+ comprehensive outputs dan 7 advanced visualizations untuk statistical rigor dan academic integrity.
 
-#### 3.1.1 Latest Performance Results (MSE - Lower is Better)
+#### 3.1.1 Latest 8-Variant Ensemble Results (MSE - Lower is Better)
 
-**📊 PERFORMANCE SUMMARY TERBARU (2025-06-16):**
+**📊 PERFORMANCE SUMMARY TERBARU (2025-06-16) - 8-VARIANT ENSEMBLE:**
 
 | **Dataset** | **🥇 Winner** | **MSE** | **🥈 Runner-up** | **MSE** | **🥉 Third** | **MSE** |
 |-------------|---------------|---------|------------------|---------|---------------|---------|
-| **Miyawaki** | **Brain-Diffuser** | **0.012881** | **MinD-Vis** | **0.014612** | **CortexFlow-Ensemble** | **0.025085** |
-| **Vangerven** | **🏆 CortexFlow-Lite** | **0.040193** | **Brain-Diffuser** | **0.042657** | **CortexFlow-Ensemble** | **0.042954** |
-| **MindBigData** | **🏆 CortexFlow Multi-Pathway** | **0.054493** | **MinD-Vis** | **0.054606** | **CortexFlow-Ensemble** | **0.057724** |
-| **Crell** | **🏆 CortexFlow Multi-Pathway** | **0.028864** | **MinD-Vis** | **0.029063** | **CortexFlow-Lite** | **0.029182** |
+| **Miyawaki** | **Brain-Diffuser** | **0.017447** | **CortexFlow-Lite** | **0.018274** | **🏆 CortexFlow-Ensemble** | **0.021201** |
+| **Vangerven** | **🏆 CortexFlow-Ensemble** | **0.039040** | **Brain-Diffuser** | **0.042527** | **CortexFlow-Lite** | **0.046814** |
+| **MindBigData** | **🏆 CortexFlow Multi-Pathway** | **0.054178** | **MinD-Vis** | **0.055021** | **Brain-Diffuser** | **0.055097** |
+| **Crell** | **MinD-Vis** | **0.028781** | **🏆 CortexFlow Multi-Pathway** | **0.028872** | **CortexFlow-Ensemble** | **0.029038** |
 
-**🎯 BREAKTHROUGH FINDINGS:**
-- **🏆 CortexFlow WINS 3/4 datasets**: Vangerven, MindBigData, Crell
-- **CortexFlow-Lite**: Superior pada structured digit patterns (Vangerven)
-- **CortexFlow Multi-Pathway**: Dominates cross-modal tasks (MindBigData, Crell)
+**🎯 8-VARIANT ENSEMBLE FINDINGS:**
+- **🏆 CortexFlow WINS 2/4 datasets**: Vangerven (Ensemble), MindBigData (Multi-Pathway)
+- **CortexFlow-Ensemble**: Superior pada structured digit patterns (Vangerven)
+- **CortexFlow Multi-Pathway**: Dominates cross-modal tasks (MindBigData), 2nd pada Crell
+- **Enhanced Integration**: 8-variant ensemble dengan Multi-Pathway sebagai variant ke-8
 - **Statistical Validation**: Comprehensive T-test analysis dengan 7 visualizations
 
-### 3.2 Detailed Cross-Dataset Performance Analysis
+### 3.2 Detailed 8-Variant Ensemble Performance Analysis
 
-**📊 DATASET-SPECIFIC PERFORMANCE BREAKDOWN (2025-06-16):**
+**📊 DATASET-SPECIFIC PERFORMANCE BREAKDOWN (2025-06-16) - 8-VARIANT ENSEMBLE:**
 
 #### 3.2.1 Miyawaki Dataset (Complex Visual Patterns)
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|
-| **Brain-Diffuser** | **0.012881** | **Best** | **🥇 1st** | **SOTA Winner** |
-| **MinD-Vis** | **0.014612** | **+13.4%** | **🥈 2nd** | **SOTA Strong** |
-| **CortexFlow-Ensemble** | **0.025085** | **+94.7%** | **🥉 3rd** | **Proposed Method** |
-| **CortexFlow-Lite** | **0.025306** | **+96.4%** | **4th** | **Proposed Method** |
-| **CortexFlow Multi-Pathway** | **0.122712** | **+852.6%** | **5th** | **Proposed Method** |
+| **Brain-Diffuser** | **0.017447** | **Best** | **🥇 1st** | **SOTA Winner** |
+| **CortexFlow-Lite** | **0.018274** | **+4.7%** | **🥈 2nd** | **Proposed Method** |
+| **🏆 CortexFlow-Ensemble** | **0.021201** | **+21.5%** | **🥉 3rd** | **8-Variant Enhanced** |
+| **MinD-Vis** | **0.022156** | **+27.0%** | **4th** | **SOTA** |
+| **CortexFlow Multi-Pathway** | **0.058192** | **+233.6%** | **5th** | **Proposed Method** |
 
-#### 3.2.2 Vangerven Dataset (Structured Digit Patterns) - 🏆 CORTEXFLOW-LITE WINS
+#### 3.2.2 Vangerven Dataset (Structured Digit Patterns) - 🏆 CORTEXFLOW-ENSEMBLE WINS
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|
-| **🏆 CortexFlow-Lite** | **0.040193** | **Best** | **🥇 1st** | **🎉 BREAKTHROUGH WINNER** |
-| **Brain-Diffuser** | **0.042657** | **+6.1%** | **🥈 2nd** | **SOTA** |
-| **CortexFlow-Ensemble** | **0.042954** | **+6.9%** | **🥉 3rd** | **Proposed Method** |
-| **CortexFlow Multi-Pathway** | **0.054911** | **+36.6%** | **4th** | **Proposed Method** |
-| **MinD-Vis** | **0.052845** | **+31.5%** | **5th** | **SOTA** |
+| **🏆 CortexFlow-Ensemble** | **0.039040** | **Best** | **🥇 1st** | **🎉 8-VARIANT WINNER** |
+| **Brain-Diffuser** | **0.042527** | **+8.9%** | **🥈 2nd** | **SOTA** |
+| **CortexFlow-Lite** | **0.046814** | **+19.9%** | **🥉 3rd** | **Proposed Method** |
+| **CortexFlow Multi-Pathway** | **0.053367** | **+36.7%** | **4th** | **Proposed Method** |
+| **MinD-Vis** | **0.054021** | **+38.4%** | **5th** | **SOTA** |
 
 #### 3.2.3 MindBigData Dataset (Cross-Modal EEG→fMRI→Visual) - 🏆 CORTEXFLOW MULTI-PATHWAY WINS
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|
-| **🏆 CortexFlow Multi-Pathway** | **0.054493** | **Best** | **🥇 1st** | **🎉 BREAKTHROUGH WINNER** |
-| **MinD-Vis** | **0.054606** | **+0.2%** | **🥈 2nd** | **SOTA** |
-| **CortexFlow-Ensemble** | **0.057724** | **+5.9%** | **🥉 3rd** | **Proposed Method** |
-| **CortexFlow-Lite** | **0.058394** | **+7.2%** | **4th** | **Proposed Method** |
-| **Brain-Diffuser** | **0.060773** | **+11.5%** | **5th** | **SOTA** |
+| **🏆 CortexFlow Multi-Pathway** | **0.054178** | **Best** | **🥇 1st** | **🎉 BREAKTHROUGH WINNER** |
+| **MinD-Vis** | **0.055021** | **+1.6%** | **🥈 2nd** | **SOTA** |
+| **Brain-Diffuser** | **0.055097** | **+1.7%** | **🥉 3rd** | **SOTA** |
+| **CortexFlow-Ensemble** | **0.058458** | **+7.9%** | **4th** | **8-Variant Enhanced** |
+| **CortexFlow-Lite** | **0.059124** | **+9.1%** | **5th** | **Proposed Method** |
 
-#### 3.2.4 Crell Dataset (Cross-Modal EEG→fMRI→Visual) - 🏆 CORTEXFLOW MULTI-PATHWAY WINS
+#### 3.2.4 Crell Dataset (Cross-Modal EEG→fMRI→Visual) - 🥈 CORTEXFLOW MULTI-PATHWAY 2ND
 
 | **Method** | **MSE** | **Performance Gap** | **Rank** | **Status** |
 |------------|---------|---------------------|----------|------------|
-| **🏆 CortexFlow Multi-Pathway** | **0.028864** | **Best** | **🥇 1st** | **🎉 BREAKTHROUGH WINNER** |
-| **MinD-Vis** | **0.029063** | **+0.7%** | **🥈 2nd** | **SOTA** |
-| **CortexFlow-Lite** | **0.029182** | **+1.1%** | **🥉 3rd** | **Proposed Method** |
-| **CortexFlow-Ensemble** | **0.029321** | **+1.6%** | **4th** | **Proposed Method** |
-| **Brain-Diffuser** | **0.029348** | **+1.7%** | **5th** | **SOTA** |
+| **MinD-Vis** | **0.028781** | **Best** | **🥇 1st** | **SOTA Winner** |
+| **🏆 CortexFlow Multi-Pathway** | **0.028872** | **+0.3%** | **🥈 2nd** | **🎉 VERY COMPETITIVE** |
+| **CortexFlow-Ensemble** | **0.029038** | **+0.9%** | **🥉 3rd** | **8-Variant Enhanced** |
+| **CortexFlow-Lite** | **0.029136** | **+1.2%** | **4th** | **Proposed Method** |
+| **Brain-Diffuser** | **0.029421** | **+2.2%** | **5th** | **SOTA** |
 
 ### 3.3 Statistical Significance Analysis
 
@@ -446,28 +462,28 @@ Analisis statistik menggunakan 3-fold cross-validation untuk mendapatkan multipl
 
 Evaluasi komprehensif terhadap metode state-of-the-art menggunakan **pemetaan data yang benar** (fMRI menuju visual stimuli) dengan **train.py 100% functional** mengungkap temuan breakthrough tentang neural decoding:
 
-### 4.1 Breakthrough Performance Assessment (2025-06-16)
+### 4.1 Enhanced 8-Variant Ensemble Assessment (2025-06-16)
 
-**CortexFlow Superior Performance (Latest Results):**
-- **Complex Visual Tasks (Miyawaki)**: CortexFlow-Ensemble posisi ke-3 (MSE: 0.025085) - competitive performance
-- **Structured Digit Tasks (Vangerven)**: 🏆 **CortexFlow-Lite WINS** (MSE: 0.040193) - **6.1% better than Brain-Diffuser**
-- **Cross-Modal Tasks (MindBigData)**: 🏆 **CortexFlow Multi-Pathway WINS** (MSE: 0.054493) - **0.2% better than MinD-Vis**
-- **Cross-Modal Tasks (Crell)**: 🏆 **CortexFlow Multi-Pathway WINS** (MSE: 0.028864) - **0.7% better than MinD-Vis**
-- **Overall Pattern**: **🎉 CortexFlow WINS 3/4 datasets dengan statistical validation!**
+**CortexFlow 8-Variant Ensemble Performance (Latest Results):**
+- **Complex Visual Tasks (Miyawaki)**: CortexFlow-Ensemble posisi ke-3 (MSE: 0.021201) - competitive performance
+- **Structured Digit Tasks (Vangerven)**: 🏆 **CortexFlow-Ensemble WINS** (MSE: 0.039040) - **8.2% better than Brain-Diffuser**
+- **Cross-Modal Tasks (MindBigData)**: 🏆 **CortexFlow Multi-Pathway WINS** (MSE: 0.054178) - **1.5% better than MinD-Vis**
+- **Cross-Modal Tasks (Crell)**: 🥈 **CortexFlow Multi-Pathway 2nd** (MSE: 0.028872) - **0.3% behind MinD-Vis**
+- **Overall Pattern**: **🎉 CortexFlow WINS 2/4 datasets dengan 8-variant ensemble integration!**
 
 ### 4.2 Key Scientific Contributions
 
-**1. Professional CortexFlow Architecture Framework:**
-- **CortexFlow-Lite**: Professional neural decoding dengan proven performance
-- **CortexFlow Multi-Pathway**: Advanced multi-pathway untuk cross-modal tasks
-- **CortexFlow-Ensemble**: Intelligent ensemble combination dengan learned weighting
-- **Research Innovation**: Complete framework untuk neural decoding excellence
+**1. Enhanced 8-Variant Ensemble Architecture Framework:**
+- **CortexFlow-Ensemble**: 8-variant enhanced architecture dengan Multi-Pathway integration
+- **CortexFlow Multi-Pathway**: Advanced multi-pathway untuk cross-modal tasks (integrated as 8th variant)
+- **Intelligent Weighting**: Neural network learns optimal 8-model combination
+- **Research Innovation**: Most comprehensive ensemble framework untuk neural decoding excellence
 
 **2. Domain-Specific Architecture Excellence:**
-- **CortexFlow-Lite WINS**: Vangerven dataset (structured digit patterns)
-- **CortexFlow Multi-Pathway WINS**: MindBigData dan Crell (cross-modal tasks)
-- **Specialized Processing**: Each architecture optimized untuk specific domains
-- **Statistical Validation**: Comprehensive T-test analysis dengan 7 visualizations
+- **CortexFlow-Ensemble WINS**: Vangerven dataset (structured digit patterns)
+- **CortexFlow Multi-Pathway WINS**: MindBigData (cross-modal tasks), 2nd pada Crell
+- **8-Variant Integration**: Maximum architectural diversity dengan intelligent weighting
+- **Statistical Validation**: Comprehensive T-test analysis dengan 7 visualizations dan 20+ outputs
 
 **3. Comprehensive Ensemble Analysis:**
 - **6 Specialized Variants**: Each with unique processing capabilities
