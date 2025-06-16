@@ -371,13 +371,13 @@ class CortexFlowEnsemble(nn.Module):
         return CortexFlowDiffusion(input_dim, device).to(device)
 
     def _create_baseline_cnn(self, input_dim, device):
-        """7. Enhanced Baseline CNN: Full-strength CNN architecture matching standalone performance"""
+        """7. CortexFlow-Lite: Lightweight CNN architecture matching standalone performance"""
 
-        class EnhancedBaselineCNN(nn.Module):
+        class CortexFlowLite(nn.Module):
             def __init__(self, input_dim, device):
                 super().__init__()
 
-                # Enhanced MLP projection (matching standalone capacity)
+                # CortexFlow-Lite MLP projection (matching standalone capacity)
                 self.projection = nn.Sequential(
                     nn.Linear(input_dim, 1024),
                     nn.BatchNorm1d(1024),
@@ -391,7 +391,7 @@ class CortexFlowEnsemble(nn.Module):
                     nn.ReLU(inplace=True)
                 )
 
-                # Full CNN processing (matching standalone architecture)
+                # CortexFlow-Lite CNN processing (matching standalone architecture)
                 self.cnn = nn.Sequential(
                     nn.Conv2d(1, 64, 3, padding=1),
                     nn.BatchNorm2d(64),
@@ -418,7 +418,7 @@ class CortexFlowEnsemble(nn.Module):
                 output = self.cnn(reshaped)
                 return output.view(output.size(0), -1)  # Flatten for ensemble
 
-        return EnhancedBaselineCNN(input_dim, device).to(device)
+        return CortexFlowLite(input_dim, device).to(device)
 
     def forward(self, x):
         """
@@ -509,12 +509,12 @@ class CortexFlowEnsemble(nn.Module):
                 '4. Enhanced: Integration of hierarchical + MC + feature alignment',
                 '5. Unified: Adaptive complexity mechanism with dual-pathway processing',
                 '6. Diffusion: CortexFlow with latent diffusion to compete with Brain-Diffuser',
-                '7. Enhanced Baseline CNN: Full-strength CNN architecture matching standalone performance'
+                '7. CortexFlow-Lite: Lightweight CNN architecture matching standalone performance'
             ],
             'weighting': 'Enhanced ensemble weighting with baseline emphasis and complexity-aware adjustment',
             'combination': 'Dynamically weighted combination with baseline CNN emphasis and input complexity analysis',
             'enhancements': [
-                'Enhanced Baseline CNN: Full MLP+CNN architecture matching standalone',
+                'CortexFlow-Lite: Full MLP+CNN architecture matching standalone',
                 'Baseline Emphasis: Learnable emphasis factor for strong performers',
                 'Complexity Analysis: Dynamic weighting based on input complexity',
                 'Advanced Weighting: Deeper network for weight learning',

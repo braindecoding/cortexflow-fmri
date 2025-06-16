@@ -13,7 +13,7 @@ ACADEMIC METHODOLOGY:
 - Publication-ready methodology untuk academic research
 
 FEATURES:
-- 5 neural decoding models: Baseline CNN, MinD-Vis, Brain-Diffuser, CortexFlow-Multi-Pathway, CortexFlow-Ensemble
+- 5 neural decoding models: CortexFlow-Lite, MinD-Vis, Brain-Diffuser, CortexFlow-Multi-Pathway, CortexFlow-Ensemble
 - 4 datasets: Miyawaki, Vangerven, MindBigData, Crell
 - Robust 3-fold cross-validation dengan data shuffling
 - Statistical analysis dengan T-test validation
@@ -140,7 +140,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
     ]
     
     # Use unified training configs for consistency
-    model_names = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
+    model_names = ['CortexFlow_Lite', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
     training_configs = []
     for model_name in model_names:
         config = get_unified_config(dataset_name, model_name)
@@ -188,7 +188,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
     
     kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
     cv_results = {
-        'Baseline_CNN': [],
+        'CortexFlow_Lite': [],
         'MinD_Vis': [],
         'Brain_Diffuser': [],
         'CortexFlow_Multi-Pathway': [],
@@ -213,7 +213,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
             CortexFlowEnsemble(input_dim, device)
         ]
         
-        model_names = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
+        model_names = ['CortexFlow_Lite', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
         
         for model, name in zip(cv_models, model_names):
             print(f"     Training {name}...")
@@ -265,7 +265,7 @@ def evaluate_comprehensive_metrics(predictions, targets, device='cuda'):
     # Initialize evaluator
     evaluator = ComprehensiveEvaluationMetrics(device)
 
-    model_names = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
+    model_names = ['CortexFlow_Lite', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
     comprehensive_results = {}
 
     # Get the minimum number of samples to ensure consistency
@@ -319,7 +319,7 @@ def create_comprehensive_metrics_visualization(statistical_summaries, output_dir
 
     # Extract comprehensive metrics data
     datasets = list(statistical_summaries.keys())
-    methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
+    methods = ['CortexFlow_Lite', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
     valid_metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']  # Only 4 valid metrics (MS-SSIM excluded due to 28x28 size limitation)
 
     # Create comprehensive figure with better aspect ratio
@@ -529,7 +529,7 @@ def create_statistical_significance_matrix_visualization(statistical_summaries, 
 
     # Extract CV results data
     datasets = list(statistical_summaries.keys())
-    methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
+    methods = ['CortexFlow_Lite', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
 
     # Create comprehensive figure with better aspect ratio
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
@@ -681,7 +681,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
 
     # Extract data
     datasets = list(statistical_summaries.keys())
-    methods = ['Baseline_CNN', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
+    methods = ['CortexFlow_Lite', 'MinD_Vis', 'Brain_Diffuser', 'CortexFlow_Multi-Pathway', 'CortexFlow_Ensemble']
     metrics = ['MSE', 'PSNR', 'SSIM', 'LPIPS']
 
     # Create comprehensive figure dengan 4 metrics and better aspect ratio
@@ -797,7 +797,7 @@ def create_overall_method_performance_visualization(statistical_summaries, outpu
         angles = [n / float(N) * 2 * np.pi for n in range(N)]
         angles += angles[:1]  # Complete the circle
 
-        method_colors = {'Baseline_CNN': 'red', 'MinD_Vis': 'orange', 'Brain_Diffuser': 'yellow',
+        method_colors = {'CortexFlow_Lite': 'red', 'MinD_Vis': 'orange', 'Brain_Diffuser': 'yellow',
                         'CortexFlow_Multi-Pathway': 'lightgreen', 'CortexFlow_Ensemble': 'green'}
 
         for method, values in radar_data.items():
@@ -1001,7 +1001,7 @@ def create_cv_reconstruction_figure(dataset_name, reconstructions, mse_results, 
                     bbox=dict(boxstyle="round,pad=0.3", facecolor='lightblue', alpha=0.7))
 
     # Plot reconstructions
-    method_labels = ['Baseline CNN', 'MinD-Vis', 'Brain-Diffuser', 'CortexFlow-Multi-Pathway', 'CortexFlow-Ensemble']
+    method_labels = ['CortexFlow-Lite', 'MinD-Vis', 'Brain-Diffuser', 'CortexFlow-Multi-Pathway', 'CortexFlow-Ensemble']
     for method_idx, (recon, method_label, mse) in enumerate(zip(reconstructions, method_labels, mse_results), 1):
         for i in range(num_samples):
             axes[method_idx, i].imshow(recon[i, 0].numpy(), cmap='gray', vmin=0, vmax=1)

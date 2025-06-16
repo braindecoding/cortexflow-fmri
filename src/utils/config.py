@@ -48,7 +48,7 @@ UNIFIED_TRAINING_CONFIGS = {
     'miyawaki': {
         'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40,
         'models': {
-            'Baseline_CNN': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
+            'CortexFlow_Lite': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
             'MinD_Vis': {'epochs': 250, 'lr': 0.0008, 'batch_size': 64, 'patience': 45},
             'Brain_Diffuser': {'epochs': 150, 'lr': 0.002, 'batch_size': 64, 'patience': 30},
             'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0005, 'batch_size': 64, 'patience': 50},
@@ -58,7 +58,7 @@ UNIFIED_TRAINING_CONFIGS = {
     'vangerven': {
         'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40,
         'models': {
-            'Baseline_CNN': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
+            'CortexFlow_Lite': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
             'MinD_Vis': {'epochs': 250, 'lr': 0.0008, 'batch_size': 64, 'patience': 45},
             'Brain_Diffuser': {'epochs': 150, 'lr': 0.002, 'batch_size': 64, 'patience': 30},
             'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0005, 'batch_size': 64, 'patience': 50},
@@ -68,7 +68,7 @@ UNIFIED_TRAINING_CONFIGS = {
     'mindbigdata': {
         'epochs': 200, 'lr': 0.0005, 'batch_size': 64, 'patience': 40,  # Lower LR for stability
         'models': {
-            'Baseline_CNN': {'epochs': 200, 'lr': 0.0005, 'batch_size': 64, 'patience': 40},
+            'CortexFlow_Lite': {'epochs': 200, 'lr': 0.0005, 'batch_size': 64, 'patience': 40},
             'MinD_Vis': {'epochs': 250, 'lr': 0.0006, 'batch_size': 64, 'patience': 45},
             'Brain_Diffuser': {'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'patience': 30},
             'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0003, 'batch_size': 64, 'patience': 50},
@@ -78,7 +78,7 @@ UNIFIED_TRAINING_CONFIGS = {
     'crell': {
         'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40,
         'models': {
-            'Baseline_CNN': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
+            'CortexFlow_Lite': {'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'patience': 40},
             'MinD_Vis': {'epochs': 250, 'lr': 0.0008, 'batch_size': 64, 'patience': 45},
             'Brain_Diffuser': {'epochs': 150, 'lr': 0.002, 'batch_size': 64, 'patience': 30},
             'CortexFlow_Enhanced': {'epochs': 300, 'lr': 0.0005, 'batch_size': 64, 'patience': 50},
@@ -97,7 +97,7 @@ def get_unified_config(dataset_name, model_name):
     
     Args:
         dataset_name: Name of the dataset ('miyawaki', 'vangerven', etc.)
-        model_name: Name of the model ('Baseline_CNN', 'CortexFlow_Enhanced', etc.)
+        model_name: Name of the model ('CortexFlow_Lite', 'CortexFlow_Enhanced', etc.)
         
     Returns:
         Dictionary with training configuration parameters

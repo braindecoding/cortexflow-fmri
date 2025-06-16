@@ -24,11 +24,11 @@ import torch.nn as nn
 
 
 class StandardBaselineCNN(nn.Module):
-    """Standard Baseline CNN for Neural Decoding (Generic Implementation)"""
+    """CortexFlow Lite: Lightweight CNN for Neural Decoding (Efficient Implementation)"""
 
     def __init__(self, input_dim, device='cuda'):
         super(StandardBaselineCNN, self).__init__()
-        self.name = "Baseline CNN"
+        self.name = "CortexFlow-Lite"
         self.device = device
 
         # Standard MLP projection (common baseline approach)
