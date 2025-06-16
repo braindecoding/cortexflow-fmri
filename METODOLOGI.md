@@ -2,7 +2,7 @@
 
 ## Gambaran Umum
 
-Penelitian ini mengembangkan framework CortexFlow untuk neural decoding yang menggunakan enhanced 5-fold cross-validation methodology dengan comprehensive statistical analysis. Framework ini menerapkan intelligent ensemble approach dengan 5 model neural network yang diimplementasikan dan dilatih secara independen untuk rekonstruksi visual dari sinyal fMRI.
+Penelitian ini mengembangkan kerangka kerja CortexFlow untuk dekoding neural yang menggunakan metodologi validasi silang 5-lipatan yang ditingkatkan dengan analisis statistik komprehensif. Kerangka kerja ini menerapkan pendekatan ensemble cerdas dengan 5 model jaringan neural yang diimplementasikan dan dilatih secara independen untuk rekonstruksi visual dari sinyal fMRI.
 
 ---
 
@@ -32,148 +32,148 @@ Penelitian ini menggunakan empat dataset neural decoding yang telah tervalidasi:
 
 **Tabel 1. Karakteristik Dataset Neural Decoding (Implementasi Aktual)**
 
-| Dataset | Type | Input Features | Output Dimension | File | Preprocessing |
-|---------|------|----------------|------------------|------|---------------|
-| **Miyawaki** | Visual Patterns | 967 | 28×28 (784) | miyawaki_structured_28x28.mat | Min-max normalization |
-| **Vangerven** | Digit Recognition | 3,092 | 28×28 (784) | digit69_28x28.mat | Division by 255.0 |
-| **MindBigData** | Cross-Modal EEG→fMRI | 3,092 | 28×28 (784) | mindbigdata.mat | Min-max normalization |
-| **Crell** | Cross-Modal EEG→fMRI | 3,092 | 28×28 (784) | crell.mat | Min-max normalization |
+| Dataset | Jenis | Fitur Masukan | Dimensi Keluaran | Berkas | Prapemrosesan |
+|---------|-------|---------------|------------------|--------|---------------|
+| **Miyawaki** | Pola Visual | 967 | 28×28 (784) | miyawaki_structured_28x28.mat | Normalisasi min-maks |
+| **Vangerven** | Pengenalan Digit | 3,092 | 28×28 (784) | digit69_28x28.mat | Pembagian dengan 255.0 |
+| **MindBigData** | Lintas-Modal EEG→fMRI | 3,092 | 28×28 (784) | mindbigdata.mat | Normalisasi min-maks |
+| **Crell** | Lintas-Modal EEG→fMRI | 3,092 | 28×28 (784) | crell.mat | Normalisasi min-maks |
 
-Tabel di atas menunjukkan karakteristik aktual dari keempat dataset yang diimplementasikan dalam penelitian. Input features diambil dari konfigurasi project_config.json dan file dataset tersedia di direktori data/processed/. Setiap dataset memiliki spesifikasi unik yang memungkinkan evaluasi kemampuan model dalam berbagai skenario neural decoding.
+Tabel di atas menunjukkan karakteristik aktual dari keempat dataset yang diimplementasikan dalam penelitian. Fitur masukan diambil dari konfigurasi project_config.json dan berkas dataset tersedia di direktori data/processed/. Setiap dataset memiliki spesifikasi unik yang memungkinkan evaluasi kemampuan model dalam berbagai skenario dekoding neural.
 
-**Catatan**: Sample counts (training/test) bervariasi per dataset dan ditentukan saat runtime berdasarkan struktur data dalam file .mat. Preprocessing disesuaikan dengan karakteristik masing-masing dataset untuk optimal performance.
+**Catatan**: Jumlah sampel (pelatihan/pengujian) bervariasi per dataset dan ditentukan saat runtime berdasarkan struktur data dalam berkas .mat. Prapemrosesan disesuaikan dengan karakteristik masing-masing dataset untuk kinerja optimal.
 
 #### 2.1.1 Dataset Miyawaki
-- **Karakteristik**: Visual complex patterns dengan binary contrast
-- **File**: miyawaki_structured_28x28.mat (1.6 MB)
-- **Dimensi Input**: 967 fitur fMRI (project_config.json)
-- **Dimensi Output**: 28×28 binary patterns (784 features)
-- **Preprocessing**: Min-max normalization untuk binary contrast
+- **Karakteristik**: Pola visual kompleks dengan kontras biner
+- **Berkas**: miyawaki_structured_28x28.mat (1.6 MB)
+- **Dimensi Masukan**: 967 fitur fMRI (project_config.json)
+- **Dimensi Keluaran**: 28×28 pola biner (784 fitur)
+- **Prapemrosesan**: Normalisasi min-maks untuk kontras biner
 
 #### 2.1.2 Dataset Vangerven
-- **Karakteristik**: Digit recognition patterns (0-9)
-- **File**: digit69_28x28.mat (2.3 MB)
-- **Dimensi Input**: 3,092 fitur fMRI (project_config.json)
-- **Dimensi Output**: 28×28 grayscale images (784 features)
-- **Preprocessing**: Division by 255.0 untuk normalization [0,1]
+- **Karakteristik**: Pola pengenalan digit (0-9)
+- **Berkas**: digit69_28x28.mat (2.3 MB)
+- **Dimensi Masukan**: 3,092 fitur fMRI (project_config.json)
+- **Dimensi Keluaran**: 28×28 citra skala abu-abu (784 fitur)
+- **Prapemrosesan**: Pembagian dengan 255.0 untuk normalisasi [0,1]
 
 #### 2.1.3 Dataset MindBigData
-- **Karakteristik**: Cross-modal EEG→fMRI→Visual translation
-- **File**: mindbigdata.mat (29.2 MB)
-- **Dimensi Input**: 3,092 fitur cross-modal (project_config.json)
-- **Dimensi Output**: 28×28 visual patterns (784 features)
-- **Preprocessing**: Min-max normalization untuk multi-modal alignment
+- **Karakteristik**: Translasi lintas-modal EEG→fMRI→Visual
+- **Berkas**: mindbigdata.mat (29.2 MB)
+- **Dimensi Masukan**: 3,092 fitur lintas-modal (project_config.json)
+- **Dimensi Keluaran**: 28×28 pola visual (784 fitur)
+- **Prapemrosesan**: Normalisasi min-maks untuk penyelarasan multi-modal
 
 #### 2.1.4 Dataset Crell
-- **Karakteristik**: Cross-modal EEG→fMRI→Visual translation
-- **File**: crell.mat (15.6 MB)
-- **Dimensi Input**: 3,092 fitur cross-modal (project_config.json)
-- **Dimensi Output**: 28×28 visual patterns (784 features)
-- **Preprocessing**: Min-max normalization untuk cross-modal sync
+- **Karakteristik**: Translasi lintas-modal EEG→fMRI→Visual
+- **Berkas**: crell.mat (15.6 MB)
+- **Dimensi Masukan**: 3,092 fitur lintas-modal (project_config.json)
+- **Dimensi Keluaran**: 28×28 pola visual (784 fitur)
+- **Prapemrosesan**: Normalisasi min-maks untuk sinkronisasi lintas-modal
 
-### 2.2 Protokol Preprocessing
+### 2.2 Protokol Prapemrosesan
 
 #### 2.2.1 Normalisasi Data
 ```python
-# GPU-optimized normalization
+# Normalisasi yang dioptimalkan GPU
 X_train = (X_train - X_train.mean()) / (X_train.std() + 1e-8)
 X_test = (X_test - X_test.mean()) / (X_test.std() + 1e-8)
 ```
 
-#### 2.2.2 Dataset-Specific Processing
-- **Miyawaki**: Binary contrast enhancement dengan min-max normalization
-- **Vangerven**: Grayscale normalization [0,1] dengan division by 255
-- **MindBigData & Crell**: Multi-modal feature alignment dengan min-max scaling
+#### 2.2.2 Pemrosesan Khusus Dataset
+- **Miyawaki**: Peningkatan kontras biner dengan normalisasi min-maks
+- **Vangerven**: Normalisasi skala abu-abu [0,1] dengan pembagian 255
+- **MindBigData & Crell**: Penyelarasan fitur multi-modal dengan penskalaan min-maks
 
-#### 2.2.3 GPU Optimization
-- Direct loading ke GPU memory untuk efficiency
-- Memory-efficient tensor operations
-- WSL-compatible configuration untuk optimal performance
+#### 2.2.3 Optimalisasi GPU
+- Pemuatan langsung ke memori GPU untuk efisiensi
+- Operasi tensor yang efisien memori
+- Konfigurasi kompatibel WSL untuk kinerja optimal
 
 ---
 
 ## 3. Arsitektur Model
 
-### 3.1 CortexFlow Framework Architecture
+### 3.1 Arsitektur Kerangka Kerja CortexFlow
 
-Framework CortexFlow terdiri dari 5 model utama yang diimplementasikan dan dilatih secara independen:
+Kerangka kerja CortexFlow terdiri dari 5 model utama yang diimplementasikan dan dilatih secara independen:
 
-**Tabel 2. Spesifikasi Arsitektur Model Neural Decoding (Implementasi Aktual)**
+**Tabel 2. Spesifikasi Arsitektur Model Dekoding Neural (Implementasi Aktual)**
 
-| Model | Architecture | Key Features | Parameters | Dropout Rate | Normalization |
-|-------|-------------|--------------|------------|--------------|---------------|
+| Model | Arsitektur | Fitur Utama | Parameter | Tingkat Dropout | Normalisasi |
+|-------|------------|-------------|-----------|-----------------|-------------|
 | **StandardBaselineCNN** | 1024→512→784 + CNN | BatchNorm+Dropout+CNN | ~2.1M | 0.3, 0.2 | BatchNorm1d |
-| **CortexFlowMultiPathway** | Dual-Pathway+Cross-Attention | Multi-Pathway+Uncertainty | ~2.8M | 0.15, 0.1 | LayerNorm |
-| **CortexFlowEnsemble** | 8 Internal Variants | Learned Weighting | ~15.6M | Variable | Mixed |
-| **OptimizedMinDVis** | 512→256→128→784 | Sparse Masking+Diffusion | ~1.9M | 0.15 | LayerNorm |
-| **OptimizedBrainDiffuser** | 512→256→784 | Iterative Denoising | ~1.7M | 0.1 | LayerNorm |
+| **CortexFlowMultiPathway** | Jalur-Ganda+Perhatian-Silang | Multi-Jalur+Ketidakpastian | ~2.8M | 0.15, 0.1 | LayerNorm |
+| **CortexFlowEnsemble** | 8 Varian Internal | Pembobotan Terpelajar | ~15.6M | Variabel | Campuran |
+| **OptimizedMinDVis** | 512→256→128→784 | Masking Jarang+Difusi | ~1.9M | 0.15 | LayerNorm |
+| **OptimizedBrainDiffuser** | 512→256→784 | Denoising Iteratif | ~1.7M | 0.1 | LayerNorm |
 
-**Catatan**: CortexFlowEnsemble mengandung 8 varian internal (Simple, MC, Hierarchical, Enhanced, Unified, Diffusion, Baseline CNN, Multi-Pathway) yang dilatih sebagai satu model ensemble dengan learned weighting mechanism.
+**Catatan**: CortexFlowEnsemble mengandung 8 varian internal (Sederhana, MC, Hierarkis, Ditingkatkan, Terpadu, Difusi, CNN Dasar, Multi-Jalur) yang dilatih sebagai satu model ensemble dengan mekanisme pembobotan terpelajar.
 
 #### 3.1.1 StandardBaselineCNN (CortexFlow-Lite)
 ```python
-Architecture: input → 1024 → 512 → 784 (output)
-Features:
-  - BatchNorm1d normalization
-  - ReLU activation dengan inplace=True
-  - Dropout (0.3, 0.2) untuk regularization
-  - GPU-optimized implementation
-  - Foundation CNN architecture
+Arsitektur: input → 1024 → 512 → 784 (output)
+Fitur:
+  - Normalisasi BatchNorm1d
+  - Aktivasi ReLU dengan inplace=True
+  - Dropout (0.3, 0.2) untuk regularisasi
+  - Implementasi yang dioptimalkan GPU
+  - Arsitektur CNN dasar
 ```
 
 #### 3.1.2 CortexFlowMultiPathway (Novel Architecture)
 ```python
-Architecture: Dual-pathway dengan cross-attention
-Features:
-  - Deep pathway: 1024 → 512 (hierarchical feature extraction)
-  - Wide pathway: 512 → 512 (broad feature capture)
-  - Cross-pathway attention (8-head, 512-dim)
-  - Adaptive pathway weighting dengan softmax
-  - Dynamic gated fusion mechanism
-  - Uncertainty-aware decoder (mean + variance branches)
+Arsitektur: Jalur-ganda dengan perhatian-silang
+Fitur:
+  - Jalur dalam: 1024 → 512 (ekstraksi fitur hierarkis)
+  - Jalur lebar: 512 → 512 (penangkapan fitur luas)
+  - Perhatian lintas-jalur (8-head, 512-dim)
+  - Pembobotan jalur adaptif dengan softmax
+  - Mekanisme fusi gerbang dinamis
+  - Dekoder sadar ketidakpastian (cabang mean + variance)
 ```
 
 #### 3.1.3 CortexFlowEnsemble (8 Internal Variants)
 ```python
-Architecture: Single ensemble model dengan 8 internal variants
-Internal Variants:
-  1. Simple: Foundation encoder-decoder (512→256→784)
-  2. MC: Monte Carlo dropout (systematic uncertainty)
-  3. Hierarchical: Multi-scale temporal processing
-  4. Enhanced: MC + Hierarchical + Feature alignment
-  5. Unified: Adaptive complexity dengan dual pathways
-  6. Diffusion: Latent diffusion approach
-  7. Baseline CNN: Lightweight CNN architecture
-  8. Multi-Pathway: Cross-attention fusion
-Features:
-  - Learned weighting network (input → 512 → 256 → 128 → 8)
-  - Input-dependent model selection
-  - Complexity-aware weighting mechanism
-  - Ensemble training sebagai single model
+Arsitektur: Model ensemble tunggal dengan 8 varian internal
+Varian Internal:
+  1. Sederhana: Encoder-decoder dasar (512→256→784)
+  2. MC: Dropout Monte Carlo (ketidakpastian sistematis)
+  3. Hierarkis: Pemrosesan temporal multi-skala
+  4. Ditingkatkan: MC + Hierarkis + Penyelarasan fitur
+  5. Terpadu: Kompleksitas adaptif dengan jalur ganda
+  6. Difusi: Pendekatan difusi laten
+  7. CNN Dasar: Arsitektur CNN ringan
+  8. Multi-Jalur: Fusi perhatian-silang
+Fitur:
+  - Jaringan pembobotan terpelajar (input → 512 → 256 → 128 → 8)
+  - Pemilihan model bergantung input
+  - Mekanisme pembobotan sadar kompleksitas
+  - Pelatihan ensemble sebagai model tunggal
 ```
 
 ### 3.2 SOTA Baseline Models
 
 #### 3.2.1 OptimizedMinDVis (CVPR 2023)
 ```python
-Architecture: input → 512 → 256 → 128 → 784 (output)
-Features:
-  - Sparse masked modeling (15% masking ratio)
-  - Conditional diffusion process
-  - LayerNorm untuk stable training
-  - Noise injection untuk robust reconstruction
-  - Proper diffusion timestep scheduling
+Arsitektur: input → 512 → 256 → 128 → 784 (output)
+Fitur:
+  - Pemodelan bertopeng jarang (rasio masking 15%)
+  - Proses difusi kondisional
+  - LayerNorm untuk pelatihan stabil
+  - Injeksi noise untuk rekonstruksi robust
+  - Penjadwalan timestep difusi yang tepat
 ```
 
 #### 3.2.2 OptimizedBrainDiffuser (Scientific Reports 2023)
 ```python
-Architecture: input → 512 → 256 → 784 (output)
-Features:
-  - SiLU activation dan LayerNorm
-  - 10 timesteps dengan beta linear schedule (0.0001 to 0.02)
-  - Iterative denoising process (3 steps for efficiency)
-  - Proper noise prediction dan removal
-  - Diffusion network architecture
+Arsitektur: input → 512 → 256 → 784 (output)
+Fitur:
+  - Aktivasi SiLU dan LayerNorm
+  - 10 timestep dengan jadwal beta linear (0.0001 hingga 0.02)
+  - Proses denoising iteratif (3 langkah untuk efisiensi)
+  - Prediksi dan penghapusan noise yang tepat
+  - Arsitektur jaringan difusi
 ```
 
 ### 3.3 CortexFlowEnsemble Internal Architecture
@@ -196,32 +196,32 @@ Training: End-to-end training sebagai single model
 7. **Baseline CNN**: Lightweight CNN architecture
 8. **Multi-Pathway**: Advanced multi-pathway dengan cross-attention
 
-#### 3.3.3 Ensemble Training Strategy
-- **Single Model Training**: All 8 variants trained together
-- **Learned Weighting**: Neural network learns optimal combination
-- **Input-Dependent Selection**: Dynamic weighting based on input characteristics
-- **Architectural Diversity**: 8 different approaches ensure robustness
+#### 3.3.3 Strategi Pelatihan Ensemble
+- **Pelatihan Model Tunggal**: Semua 8 varian dilatih bersama
+- **Pembobotan Terpelajar**: Jaringan neural mempelajari kombinasi optimal
+- **Pemilihan Bergantung Input**: Pembobotan dinamis berdasarkan karakteristik input
+- **Keragaman Arsitektural**: 8 pendekatan berbeda memastikan ketahanan
 
 ---
 
-## 4. Metodologi Training
+## 4. Metodologi Pelatihan
 
-### 4.1 Enhanced 5-Fold Cross-Validation
+### 4.1 Validasi Silang 5-Lipatan yang Ditingkatkan
 
-#### 4.1.1 Protokol Cross-Validation
+#### 4.1.1 Protokol Validasi Silang
 
-![Cross-Validation Diagram](figures/methodology_cv_diagram.png)
+![Diagram Validasi Silang](figures/methodology_cv_diagram.png)
 
-**Gambar 2. Enhanced 5-Fold Cross-Validation dengan Statistical Rigor**
+**Gambar 2. Validasi Silang 5-Lipatan yang Ditingkatkan dengan Ketelitian Statistik**
 
-Diagram cross-validation menunjukkan systematic data splitting dengan 80% training dan 20% validation per fold, menghasilkan n=5 samples untuk robust statistical analysis.
+Diagram validasi silang menunjukkan pembagian data sistematis dengan 80% pelatihan dan 20% validasi per lipatan, menghasilkan n=5 sampel untuk analisis statistik yang robust.
 ```python
 from sklearn.model_selection import KFold
 
 # Enhanced 5-fold CV setup
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
-# 5 models untuk training
+# 5 model untuk pelatihan
 models = [
     StandardBaselineCNN(input_dim, device),
     CortexFlowMultiPathway(input_dim, device),
@@ -230,12 +230,12 @@ models = [
     OptimizedBrainDiffuser(input_dim, device)
 ]
 
-# Data splitting dan training
+# Pembagian data dan pelatihan
 for fold, (train_idx, val_idx) in enumerate(kf.split(X_combined)):
     X_train_fold = X_combined[train_idx]  # 80% data
     X_val_fold = X_combined[val_idx]      # 20% data
 
-    # Train each of 5 models dengan reduced epochs untuk CV
+    # Latih setiap dari 5 model dengan epoch yang dikurangi untuk CV
     cv_config = {
         'epochs': max(30, config['epochs'] // 5),
         'lr': config['lr'],
@@ -244,28 +244,28 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_combined)):
     }
 ```
 
-#### 4.1.2 Statistical Rigor Enhancement
-- **Sample Size**: n=5 untuk robust T-test analysis
-- **Random Shuffling**: Systematic data shuffling untuk bias avoidance
-- **Stratified Splitting**: Balanced distribution across folds
-- **Reproducibility**: Fixed random seed (42) untuk consistent results
+#### 4.1.2 Peningkatan Ketelitian Statistik
+- **Ukuran Sampel**: n=5 untuk analisis Uji-T yang robust
+- **Pengacakan**: Pengacakan data sistematis untuk menghindari bias
+- **Pembagian Berstrata**: Distribusi seimbang di seluruh lipatan
+- **Reproduksibilitas**: Seed acak tetap (42) untuk hasil konsisten
 
-### 4.2 Training Configuration
+### 4.2 Konfigurasi Pelatihan
 
-**Tabel 3. Konfigurasi Hyperparameter per Dataset**
+**Tabel 3. Konfigurasi Hiperparameter per Dataset**
 
-| Dataset | Epochs | Learning Rate | Batch Size | Patience | Optimizer | Weight Decay | Scheduler |
-|---------|--------|---------------|------------|----------|-----------|--------------|-----------|
+| Dataset | Epoch | Tingkat Pembelajaran | Ukuran Batch | Kesabaran | Pengoptimal | Peluruhan Bobot | Penjadwal |
+|---------|-------|---------------------|---------------|-----------|-------------|-----------------|-----------|
 | **Miyawaki** | 150 | 0.001 | 64 | 20 | Adam | 1e-4 | ReduceLROnPlateau |
 | **Vangerven** | 120 | 0.0015 | 32 | 15 | Adam | 1e-4 | ReduceLROnPlateau |
 | **MindBigData** | 100 | 0.002 | 48 | 12 | Adam | 1e-4 | ReduceLROnPlateau |
 | **Crell** | 130 | 0.0012 | 40 | 18 | Adam | 1e-4 | ReduceLROnPlateau |
 
-Tabel konfigurasi hyperparameter menunjukkan parameter optimal yang telah dituning untuk setiap dataset berdasarkan extensive experimentation.
+Tabel konfigurasi hiperparameter menunjukkan parameter optimal yang telah disetel untuk setiap dataset berdasarkan eksperimentasi ekstensif.
 
-#### 4.2.1 Hyperparameter Optimization
+#### 4.2.1 Optimalisasi Hiperparameter
 ```python
-# Dataset-specific configurations
+# Konfigurasi khusus dataset
 configs = {
     'miyawaki': {
         'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'patience': 20
@@ -282,17 +282,17 @@ configs = {
 }
 ```
 
-#### 4.2.2 GPU Optimization
-- **Device**: CUDA GPU dengan WSL optimization
-- **Memory Management**: Direct GPU loading untuk efficiency
-- **Batch Processing**: Optimized batch sizes untuk memory constraints
-- **Mixed Precision**: Automatic mixed precision untuk faster training
+#### 4.2.2 Optimalisasi GPU
+- **Perangkat**: CUDA GPU dengan optimalisasi WSL
+- **Manajemen Memori**: Pemuatan GPU langsung untuk efisiensi
+- **Pemrosesan Batch**: Ukuran batch yang dioptimalkan untuk batasan memori
+- **Presisi Campuran**: Presisi campuran otomatis untuk pelatihan lebih cepat
 
-#### 4.2.3 Early Stopping dan Regularization
-- **Early Stopping**: Patience-based dengan validation loss monitoring
-- **Dropout**: Adaptive dropout rates per architecture
-- **Batch Normalization**: Layer normalization untuk stability
-- **Weight Decay**: L2 regularization untuk overfitting prevention
+#### 4.2.3 Penghentian Dini dan Regularisasi
+- **Penghentian Dini**: Berbasis kesabaran dengan pemantauan loss validasi
+- **Dropout**: Tingkat dropout adaptif per arsitektur
+- **Normalisasi Batch**: Normalisasi layer untuk stabilitas
+- **Peluruhan Bobot**: Regularisasi L2 untuk pencegahan overfitting
 
 ---
 
@@ -304,151 +304,151 @@ configs = {
 ```python
 MSE = (1/n) * Σᵢ₌₁ⁿ (yᵢ - ŷᵢ)²
 ```
-- **Purpose**: Primary metric untuk reconstruction quality
-- **Range**: [0, ∞), lower is better
-- **Interpretation**: Average squared difference between prediction dan ground truth
+- **Tujuan**: Metrik utama untuk kualitas rekonstruksi
+- **Rentang**: [0, ∞), semakin rendah semakin baik
+- **Interpretasi**: Rata-rata perbedaan kuadrat antara prediksi dan kebenaran dasar
 
 #### 5.1.2 Peak Signal-to-Noise Ratio (PSNR)
 ```python
 PSNR = 20 * log₁₀(MAX_I / √MSE)
 ```
-- **Purpose**: Signal quality assessment
-- **Range**: [0, ∞), higher is better
-- **Interpretation**: Ratio of maximum signal power to noise power
+- **Tujuan**: Penilaian kualitas sinyal
+- **Rentang**: [0, ∞), semakin tinggi semakin baik
+- **Interpretasi**: Rasio kekuatan sinyal maksimum terhadap kekuatan noise
 
 #### 5.1.3 Structural Similarity Index (SSIM)
 ```python
 SSIM = (2μₓμᵧ + c₁)(2σₓᵧ + c₂) / ((μₓ² + μᵧ² + c₁)(σₓ² + σᵧ² + c₂))
 ```
-- **Purpose**: Structural similarity assessment
-- **Range**: [0, 1], higher is better
-- **Interpretation**: Perceptual similarity between images
+- **Tujuan**: Penilaian kemiripan struktural
+- **Rentang**: [0, 1], semakin tinggi semakin baik
+- **Interpretasi**: Kemiripan perseptual antara citra
 
 #### 5.1.4 Learned Perceptual Image Patch Similarity (LPIPS)
 ```python
-LPIPS = Deep network-based perceptual distance
+LPIPS = Jarak perseptual berbasis jaringan dalam
 ```
-- **Purpose**: Perceptual similarity measurement
-- **Range**: [0, ∞), lower is better
-- **Interpretation**: Human-like perceptual assessment
+- **Tujuan**: Pengukuran kemiripan perseptual
+- **Rentang**: [0, ∞), semakin rendah semakin baik
+- **Interpretasi**: Penilaian perseptual seperti manusia
 
-### 5.2 Statistical Analysis Protocol
+### 5.2 Protokol Analisis Statistik
 
-#### 5.2.1 T-Test Analysis
+#### 5.2.1 Analisis Uji-T
 ```python
 from scipy.stats import ttest_rel
 
-# Paired t-test untuk method comparison
+# Uji-t berpasangan untuk perbandingan metode
 t_stat, p_value = ttest_rel(method1_scores, method2_scores)
 effect_size = (mean1 - mean2) / pooled_std  # Cohen's d
 ```
 
-#### 5.2.2 Confidence Intervals
+#### 5.2.2 Interval Kepercayaan
 ```python
-# 95% confidence intervals
+# Interval kepercayaan 95%
 ci_lower = mean - 1.96 * (std / √n)
 ci_upper = mean + 1.96 * (std / √n)
 ```
 
-#### 5.2.3 Effect Size Calculation
-- **Cohen's d**: Standardized effect size measurement
-- **Interpretation**: Small (0.2), Medium (0.5), Large (0.8)
-- **Statistical Power**: Enhanced dengan n=5 samples per method
+#### 5.2.3 Perhitungan Ukuran Efek
+- **Cohen's d**: Pengukuran ukuran efek yang distandarisasi
+- **Interpretasi**: Kecil (0.2), Sedang (0.5), Besar (0.8)
+- **Kekuatan Statistik**: Ditingkatkan dengan n=5 sampel per metode
 
 ---
 
-## 6. Pipeline Implementasi
+## 6. Jalur Pemrosesan Implementasi
 
 ### 6.1 Alur Metodologi Komprehensif
 
-![Enhanced Methodology Flowchart](figures/methodology_flowchart_enhanced.png)
+![Bagan Alur Metodologi yang Ditingkatkan](figures/methodology_flowchart_enhanced.png)
 
-**Gambar 1. Enhanced Methodology Flowchart CortexFlow Neural Decoding Framework**
+**Gambar 1. Bagan Alur Metodologi CortexFlow yang Ditingkatkan untuk Kerangka Kerja Dekoding Neural**
 
-Flowchart metodologi menunjukkan 4 fase utama penelitian: Data Preparation, Model Training, Evaluation, dan Analysis dengan detail komponen di setiap fase.
+Bagan alur metodologi menunjukkan 4 fase utama penelitian: Persiapan Data, Pelatihan Model, Evaluasi, dan Analisis dengan detail komponen di setiap fase.
 
 ### 6.2 Tahapan Implementasi
 
-#### 6.2.1 Data Loading dan Preprocessing
-1. **GPU-optimized loading** dari 4 datasets
+#### 6.2.1 Pemuatan Data dan Prapemrosesan
+1. **Pemuatan yang dioptimalkan GPU** dari 4 dataset
 2. **Normalisasi** sesuai karakteristik dataset
-3. **Feature alignment** untuk cross-modal datasets
-4. **Memory optimization** untuk efficient processing
+3. **Penyelarasan fitur** untuk dataset lintas-modal
+4. **Optimalisasi memori** untuk pemrosesan efisien
 
-#### 6.2.2 Cross-Validation Training
-1. **5-fold splitting** dengan random shuffling
-2. **Independent training** dari 5 neural decoding models
-3. **Hyperparameter optimization** per dataset dan model
-4. **Early stopping** dengan validation monitoring
+#### 6.2.2 Pelatihan Validasi Silang
+1. **Pembagian 5-lipatan** dengan pengacakan acak
+2. **Pelatihan independen** dari 5 model dekoding neural
+3. **Optimalisasi hiperparameter** per dataset dan model
+4. **Penghentian dini** dengan pemantauan validasi
 
-#### 6.2.3 Model Training Strategy
-1. **StandardBaselineCNN**: Foundation CNN training
-2. **CortexFlowMultiPathway**: Novel architecture training
-3. **CortexFlowEnsemble**: End-to-end ensemble training (8 internal variants)
-4. **OptimizedMinDVis**: SOTA baseline training
-5. **OptimizedBrainDiffuser**: SOTA baseline training
+#### 6.2.3 Strategi Pelatihan Model
+1. **StandardBaselineCNN**: Pelatihan CNN dasar
+2. **CortexFlowMultiPathway**: Pelatihan arsitektur novel
+3. **CortexFlowEnsemble**: Pelatihan ensemble ujung-ke-ujung (8 varian internal)
+4. **OptimizedMinDVis**: Pelatihan dasar SOTA
+5. **OptimizedBrainDiffuser**: Pelatihan dasar SOTA
 
-#### 6.2.4 Comprehensive Evaluation
-1. **Multi-metric assessment** (MSE, PSNR, SSIM, LPIPS)
-2. **Cross-validation scoring** untuk statistical rigor
-3. **Reconstruction visualization** untuk qualitative analysis
-4. **Performance comparison** dengan SOTA baselines
+#### 6.2.4 Evaluasi Komprehensif
+1. **Penilaian multi-metrik** (MSE, PSNR, SSIM, LPIPS)
+2. **Penilaian validasi silang** untuk ketelitian statistik
+3. **Visualisasi rekonstruksi** untuk analisis kualitatif
+4. **Perbandingan kinerja** dengan dasar SOTA
 
-#### 6.2.5 Statistical Analysis
-1. **T-test significance testing** untuk method comparison
-2. **Effect size calculation** dengan Cohen's d
-3. **Confidence interval estimation** untuk reliability
-4. **Statistical power analysis** dengan enhanced sample size
+#### 6.2.5 Analisis Statistik
+1. **Pengujian signifikansi Uji-T** untuk perbandingan metode
+2. **Perhitungan ukuran efek** dengan Cohen's d
+3. **Estimasi interval kepercayaan** untuk keandalan
+4. **Analisis kekuatan statistik** dengan ukuran sampel yang ditingkatkan
 
-### 6.3 Quality Assurance
+### 6.3 Jaminan Kualitas
 
-#### 6.3.1 Reproducibility Protocol
-- **Fixed Random Seeds**: Deterministic results across runs
-- **Version Control**: Systematic code versioning
-- **Environment Documentation**: Complete dependency specification
-- **Result Validation**: Cross-platform testing (WSL/Linux)
+#### 6.3.1 Protokol Reproduksibilitas
+- **Seed Acak Tetap**: Hasil deterministik di seluruh eksekusi
+- **Kontrol Versi**: Versioning kode sistematis
+- **Dokumentasi Lingkungan**: Spesifikasi dependensi lengkap
+- **Validasi Hasil**: Pengujian lintas-platform (WSL/Linux)
 
-#### 6.3.2 Academic Integrity
-- **Authentic Data**: Exclusively real datasets, no synthetic data
-- **Transparent Methodology**: Open-source implementation
-- **Statistical Rigor**: Proper significance testing
-- **Peer-Review Standards**: Publication-ready methodology
+#### 6.3.2 Integritas Akademik
+- **Data Autentik**: Secara eksklusif dataset nyata, tanpa data sintetis
+- **Metodologi Transparan**: Implementasi sumber terbuka
+- **Ketelitian Statistik**: Pengujian signifikansi yang tepat
+- **Standar Tinjauan Sejawat**: Metodologi siap publikasi
 
 ---
 
 ## 7. Validasi dan Verifikasi
 
-### 7.1 Internal Validation
-- **Cross-Validation Consistency**: Stable performance across folds
-- **Hyperparameter Sensitivity**: Robust performance across parameter ranges
-- **Architecture Ablation**: Component contribution analysis
-- **Ensemble Effectiveness**: Individual vs. ensemble performance
+### 7.1 Validasi Internal
+- **Konsistensi Validasi Silang**: Kinerja stabil di seluruh lipatan
+- **Sensitivitas Hiperparameter**: Kinerja robust di seluruh rentang parameter
+- **Ablasi Arsitektur**: Analisis kontribusi komponen
+- **Efektivitas Ensemble**: Kinerja individual vs. ensemble
 
-### 7.2 External Validation
-- **SOTA Comparison**: Performance against established baselines
-- **Multi-Dataset Evaluation**: Generalization across different datasets
-- **Statistical Significance**: Rigorous statistical validation
-- **Reproducibility Testing**: Independent replication capability
-
-
+### 7.2 Validasi Eksternal
+- **Perbandingan SOTA**: Kinerja terhadap dasar yang mapan
+- **Evaluasi Multi-Dataset**: Generalisasi di seluruh dataset berbeda
+- **Signifikansi Statistik**: Validasi statistik yang ketat
+- **Pengujian Reproduksibilitas**: Kemampuan replikasi independen
 
 
 
-### 7.3 Limitation Assessment
-- **Computational Requirements**: GPU memory dan processing constraints
-- **Dataset Specificity**: Performance variation across datasets
-- **Architecture Complexity**: Trade-off between complexity dan performance
-- **Generalization Scope**: Applicability to other neural decoding tasks
+
+
+### 7.3 Penilaian Keterbatasan
+- **Kebutuhan Komputasi**: Batasan memori GPU dan pemrosesan
+- **Spesifisitas Dataset**: Variasi kinerja di seluruh dataset
+- **Kompleksitas Arsitektur**: Trade-off antara kompleksitas dan kinerja
+- **Ruang Lingkup Generalisasi**: Penerapan pada tugas dekoding neural lainnya
 
 ---
 
 ## 8. Kesimpulan Metodologi
 
-Metodologi penelitian CortexFlow menerapkan enhanced 5-fold cross-validation dengan comprehensive statistical analysis untuk memastikan rigor akademik dan reliabilitas evaluasi. Framework ini mengintegrasikan 5 model neural network yang diimplementasikan secara independen untuk comprehensive neural decoding research.
+Metodologi penelitian CortexFlow menerapkan validasi silang 5-lipatan yang ditingkatkan dengan analisis statistik komprehensif untuk memastikan ketelitian akademik dan keandalan evaluasi. Kerangka kerja ini mengintegrasikan 5 model jaringan neural yang diimplementasikan secara independen untuk penelitian dekoding neural yang komprehensif.
 
-Kontribusi metodologis utama meliputi: (1) Enhanced statistical rigor dengan n=5 samples untuk robust T-test analysis, (2) Comprehensive multi-metric evaluation framework, (3) Intelligent ensemble weighting mechanism, dan (4) GPU-optimized implementation untuk efficient training.
+Kontribusi metodologis utama meliputi: (1) Ketelitian statistik yang ditingkatkan dengan n=5 sampel untuk analisis Uji-T yang robust, (2) Kerangka kerja evaluasi multi-metrik yang komprehensif, (3) Mekanisme pembobotan ensemble cerdas, dan (4) Implementasi yang dioptimalkan GPU untuk pelatihan efisien.
 
-Metodologi ini memenuhi standar akademik internasional untuk penelitian neural decoding dan memberikan foundation yang solid untuk advancement dalam bidang brain-computer interface dan neural signal processing.
+Metodologi ini memenuhi standar akademik internasional untuk penelitian dekoding neural dan memberikan fondasi yang solid untuk kemajuan dalam bidang antarmuka otak-komputer dan pemrosesan sinyal neural.
 
 ---
 
@@ -457,11 +457,11 @@ Metodologi ini memenuhi standar akademik internasional untuk penelitian neural d
 ### 13.1 Algoritma Implementasi Detail
 Untuk detail implementasi algoritma yang digunakan dalam metodologi ini, lihat dokumen terpisah:
 - **METHODOLOGY_ALGORITHMS.md**: 5 algoritma kunci dengan pseudocode lengkap
-  - Algoritma 1: Enhanced 5-Fold Cross-Validation
-  - Algoritma 2: Intelligent Ensemble Weighting
-  - Algoritma 3: Multi-Metric Comprehensive Evaluation
-  - Algoritma 4: Statistical Significance Testing
-  - Algoritma 5: GPU-Optimized Training Pipeline
+  - Algoritma 1: Validasi Silang 5-Lipatan yang Ditingkatkan
+  - Algoritma 2: Pembobotan Ensemble Cerdas
+  - Algoritma 3: Evaluasi Komprehensif Multi-Metrik
+  - Algoritma 4: Pengujian Signifikansi Statistik
+  - Algoritma 5: Jalur Pemrosesan Pelatihan yang Dioptimalkan GPU
 
 ### 13.2 Metodologi Visual Documentation
 Metodologi ini dilengkapi dengan comprehensive visual documentation:
@@ -471,24 +471,24 @@ Metodologi ini dilengkapi dengan comprehensive visual documentation:
 - **Tabel 2**: Model Architecture Specifications dan Technical Details
 - **Tabel 3**: Hyperparameter Configuration dan Training Settings
 
-#### 13.2.2 Methodology Diagrams (2 items)
-- **Gambar 1**: Enhanced Methodology Flowchart (4-phase pipeline)
-- **Gambar 2**: 5-Fold Cross-Validation Methodology Diagram
+#### 13.2.2 Diagram Metodologi (2 item)
+- **Gambar 1**: Bagan Alur Metodologi yang Ditingkatkan (jalur pemrosesan 4-fase)
+- **Gambar 2**: Diagram Metodologi Validasi Silang 5-Lipatan
 
-#### 13.2.3 Implementation Examples (30+ blocks)
-- Python implementation examples untuk reproducibility
-- Configuration specifications untuk different datasets
-- GPU optimization code untuk efficient training
-- Statistical analysis methodology untuk robust evaluation
+#### 13.2.3 Contoh Implementasi (30+ blok)
+- Contoh implementasi Python untuk reproduksibilitas
+- Spesifikasi konfigurasi untuk dataset berbeda
+- Kode optimalisasi GPU untuk pelatihan efisien
+- Metodologi analisis statistik untuk evaluasi robust
 
-### 13.3 Reproducibility Framework
-Metodologi documentation terintegrasi dengan:
-- **METODOLOGI.md**: Complete methodology specification
-- **METHODOLOGY_ALGORITHMS.md**: Detailed algorithm implementations
-- **figures/**: Methodology visualization diagrams
-- **Code examples**: Implementation guidelines untuk reproducibility
+### 13.3 Kerangka Kerja Reproduksibilitas
+Dokumentasi metodologi terintegrasi dengan:
+- **METODOLOGI.md**: Spesifikasi metodologi lengkap
+- **METHODOLOGY_ALGORITHMS.md**: Implementasi algoritma terperinci
+- **figures/**: Diagram visualisasi metodologi
+- **Contoh kode**: Panduan implementasi untuk reproduksibilitas
 
-Total metodologi documentation: **Complete framework** untuk academic research dan implementation guidance.
+Total dokumentasi metodologi: **Kerangka kerja lengkap** untuk penelitian akademik dan panduan implementasi.
 
 ---
 

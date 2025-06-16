@@ -1,0 +1,1255 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodologi Penelitian CortexFlow</title>
+    <style>
+        @media print {
+            @page {
+                size: A4;
+                margin: 2.5cm;
+            }
+            
+            .title-page {
+                page-break-after: always;
+            }
+            
+            h1 {
+                page-break-before: auto;
+            }
+            
+            table {
+                page-break-inside: avoid;
+            }
+            
+            pre {
+                page-break-inside: avoid;
+            }
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12pt;
+            line-height: 1.6;
+            color: #333;
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 2cm;
+            text-align: justify;
+        }
+        
+        .title-page {
+            text-align: center;
+            margin-top: 5cm;
+            margin-bottom: 5cm;
+        }
+        
+        .title-page h1 {
+            font-size: 24pt;
+            font-weight: bold;
+            margin-bottom: 1cm;
+            color: #2c3e50;
+        }
+        
+        .title-page h2 {
+            font-size: 18pt;
+            font-weight: normal;
+            font-style: italic;
+            margin-bottom: 2cm;
+            color: #34495e;
+        }
+        
+        .title-page .date {
+            font-size: 14pt;
+            margin-top: 3cm;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5em;
+        }
+        
+        h2 {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+        
+        h3 {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+        }
+        
+        h4 {
+            font-size: 13pt;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        
+        p {
+            margin-bottom: 0.8em;
+            text-indent: 0.5cm;
+        }
+        
+        ul, ol {
+            margin-bottom: 1em;
+            padding-left: 1.5cm;
+        }
+        
+        li {
+            margin-bottom: 0.3em;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            font-size: 11pt;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        
+        pre {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            background-color: #f8f9fa;
+            padding: 1em;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            margin: 1em 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 1em;
+            margin: 1em 0;
+            font-style: italic;
+            color: #555;
+            background-color: #f8f9fa;
+            padding: 1em;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .figure-caption {
+            text-align: center;
+            font-style: italic;
+            margin: 0.5em 0;
+            font-size: 11pt;
+            color: #666;
+        }
+        
+        .table-caption {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+            font-size: 12pt;
+            color: #2c3e50;
+        }
+        
+        strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        em {
+            font-style: italic;
+        }
+        
+        .toc {
+            background-color: #f8f9fa;
+            padding: 1em;
+            border-radius: 5px;
+            margin: 2em 0;
+            border: 1px solid #ddd;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .print-instruction {
+            background-color: #e8f5e8;
+            padding: 1em;
+            border-radius: 5px;
+            margin: 1em 0;
+            border-left: 4px solid #27ae60;
+        }
+        
+        @media screen {
+            .print-instruction {
+                display: block;
+            }
+        }
+        
+        @media print {
+            .print-instruction {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-instruction">
+        <strong>📄 Instruksi Cetak PDF:</strong><br>
+        Untuk mengkonversi ke PDF: Tekan <strong>Ctrl+P</strong> → Pilih "Save as PDF" → Atur margin "Minimum" → Centang "Background graphics" → Save
+    </div>
+    
+    <div class="title-page">
+        <h1>METODOLOGI PENELITIAN CORTEXFLOW</h1>
+        <h2>Kerangka Kerja Dekoding Neural dengan<br>Validasi Silang yang Ditingkatkan</h2>
+        <div class="date">
+            Tanggal: 16 June 2025
+        </div>
+    </div>
+    
+    <div class="content">
+        <h1 id="metodologi-penelitian-cortexflow">Metodologi Penelitian CortexFlow</h1>
+<h2 id="gambaran-umum">Gambaran Umum</h2>
+<p>Penelitian ini mengembangkan kerangka kerja CortexFlow untuk dekoding neural yang menggunakan metodologi validasi silang 5-lipatan yang ditingkatkan dengan analisis statistik komprehensif. Kerangka kerja ini menerapkan pendekatan ensemble cerdas dengan 5 model jaringan neural yang diimplementasikan dan dilatih secara independen untuk rekonstruksi visual dari sinyal fMRI.</p>
+<hr />
+<h2 id="1-desain-penelitian">1. Desain Penelitian</h2>
+<h3 id="11-paradigma-penelitian">1.1 Paradigma Penelitian</h3>
+<ul>
+<li><strong>Jenis Penelitian</strong>: Eksperimental komputasional dengan pendekatan quantitative</li>
+<li><strong>Desain</strong>: Cross-sectional comparative study dengan multiple baseline comparison</li>
+<li><strong>Metodologi</strong>: Enhanced cross-validation dengan statistical rigor testing</li>
+<li><strong>Validasi</strong>: 5-fold cross-validation dengan T-test statistical significance analysis</li>
+</ul>
+<h3 id="12-kerangka-konseptual">1.2 Kerangka Konseptual</h3>
+<p>Penelitian ini menggunakan kerangka neural decoding yang terdiri dari:
+1. <strong>Input Layer</strong>: Sinyal fMRI multi-dimensional
+2. <strong>Processing Layer</strong>: 5 model neural decoding (3 CortexFlow + 2 SOTA)
+3. <strong>Ensemble Layer</strong>: CortexFlowEnsemble dengan 8 internal variants
+4. <strong>Output Layer</strong>: Rekonstruksi visual 28×28 pixels
+5. <strong>Evaluation Layer</strong>: Multi-metric comprehensive assessment</p>
+<hr />
+<h2 id="2-dataset-dan-preprocessing">2. Dataset dan Preprocessing</h2>
+<h3 id="21-dataset-yang-digunakan">2.1 Dataset yang Digunakan</h3>
+<p>Penelitian ini menggunakan empat dataset neural decoding yang telah tervalidasi:</p>
+<p><strong>Tabel 1. Karakteristik Dataset Neural Decoding (Implementasi Aktual)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Jenis</th>
+<th>Fitur Masukan</th>
+<th>Dimensi Keluaran</th>
+<th>Berkas</th>
+<th>Prapemrosesan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Miyawaki</strong></td>
+<td>Pola Visual</td>
+<td>967</td>
+<td>28×28 (784)</td>
+<td>miyawaki_structured_28x28.mat</td>
+<td>Normalisasi min-maks</td>
+</tr>
+<tr>
+<td><strong>Vangerven</strong></td>
+<td>Pengenalan Digit</td>
+<td>3,092</td>
+<td>28×28 (784)</td>
+<td>digit69_28x28.mat</td>
+<td>Pembagian dengan 255.0</td>
+</tr>
+<tr>
+<td><strong>MindBigData</strong></td>
+<td>Lintas-Modal EEG→fMRI</td>
+<td>3,092</td>
+<td>28×28 (784)</td>
+<td>mindbigdata.mat</td>
+<td>Normalisasi min-maks</td>
+</tr>
+<tr>
+<td><strong>Crell</strong></td>
+<td>Lintas-Modal EEG→fMRI</td>
+<td>3,092</td>
+<td>28×28 (784)</td>
+<td>crell.mat</td>
+<td>Normalisasi min-maks</td>
+</tr>
+</tbody>
+</table>
+<p>Tabel di atas menunjukkan karakteristik aktual dari keempat dataset yang diimplementasikan dalam penelitian. Fitur masukan diambil dari konfigurasi project_config.json dan berkas dataset tersedia di direktori data/processed/. Setiap dataset memiliki spesifikasi unik yang memungkinkan evaluasi kemampuan model dalam berbagai skenario dekoding neural.</p>
+<p><strong>Catatan</strong>: Jumlah sampel (pelatihan/pengujian) bervariasi per dataset dan ditentukan saat runtime berdasarkan struktur data dalam berkas .mat. Prapemrosesan disesuaikan dengan karakteristik masing-masing dataset untuk kinerja optimal.</p>
+<h4 id="211-dataset-miyawaki">2.1.1 Dataset Miyawaki</h4>
+<ul>
+<li><strong>Karakteristik</strong>: Pola visual kompleks dengan kontras biner</li>
+<li><strong>Berkas</strong>: miyawaki_structured_28x28.mat (1.6 MB)</li>
+<li><strong>Dimensi Masukan</strong>: 967 fitur fMRI (project_config.json)</li>
+<li><strong>Dimensi Keluaran</strong>: 28×28 pola biner (784 fitur)</li>
+<li><strong>Prapemrosesan</strong>: Normalisasi min-maks untuk kontras biner</li>
+</ul>
+<h4 id="212-dataset-vangerven">2.1.2 Dataset Vangerven</h4>
+<ul>
+<li><strong>Karakteristik</strong>: Pola pengenalan digit (0-9)</li>
+<li><strong>Berkas</strong>: digit69_28x28.mat (2.3 MB)</li>
+<li><strong>Dimensi Masukan</strong>: 3,092 fitur fMRI (project_config.json)</li>
+<li><strong>Dimensi Keluaran</strong>: 28×28 citra skala abu-abu (784 fitur)</li>
+<li><strong>Prapemrosesan</strong>: Pembagian dengan 255.0 untuk normalisasi [0,1]</li>
+</ul>
+<h4 id="213-dataset-mindbigdata">2.1.3 Dataset MindBigData</h4>
+<ul>
+<li><strong>Karakteristik</strong>: Translasi lintas-modal EEG→fMRI→Visual</li>
+<li><strong>Berkas</strong>: mindbigdata.mat (29.2 MB)</li>
+<li><strong>Dimensi Masukan</strong>: 3,092 fitur lintas-modal (project_config.json)</li>
+<li><strong>Dimensi Keluaran</strong>: 28×28 pola visual (784 fitur)</li>
+<li><strong>Prapemrosesan</strong>: Normalisasi min-maks untuk penyelarasan multi-modal</li>
+</ul>
+<h4 id="214-dataset-crell">2.1.4 Dataset Crell</h4>
+<ul>
+<li><strong>Karakteristik</strong>: Translasi lintas-modal EEG→fMRI→Visual</li>
+<li><strong>Berkas</strong>: crell.mat (15.6 MB)</li>
+<li><strong>Dimensi Masukan</strong>: 3,092 fitur lintas-modal (project_config.json)</li>
+<li><strong>Dimensi Keluaran</strong>: 28×28 pola visual (784 fitur)</li>
+<li><strong>Prapemrosesan</strong>: Normalisasi min-maks untuk sinkronisasi lintas-modal</li>
+</ul>
+<h3 id="22-protokol-prapemrosesan">2.2 Protokol Prapemrosesan</h3>
+<h4 id="221-normalisasi-data">2.2.1 Normalisasi Data</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Normalisasi yang dioptimalkan GPU</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_train</span> <span class="o">-</span> <span class="n">X_train</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_test</span> <span class="o">-</span> <span class="n">X_test</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="222-pemrosesan-khusus-dataset">2.2.2 Pemrosesan Khusus Dataset</h4>
+<ul>
+<li><strong>Miyawaki</strong>: Peningkatan kontras biner dengan normalisasi min-maks</li>
+<li><strong>Vangerven</strong>: Normalisasi skala abu-abu [0,1] dengan pembagian 255</li>
+<li><strong>MindBigData &amp; Crell</strong>: Penyelarasan fitur multi-modal dengan penskalaan min-maks</li>
+</ul>
+<h4 id="223-optimalisasi-gpu">2.2.3 Optimalisasi GPU</h4>
+<ul>
+<li>Pemuatan langsung ke memori GPU untuk efisiensi</li>
+<li>Operasi tensor yang efisien memori</li>
+<li>Konfigurasi kompatibel WSL untuk kinerja optimal</li>
+</ul>
+<hr />
+<h2 id="3-arsitektur-model">3. Arsitektur Model</h2>
+<h3 id="31-arsitektur-kerangka-kerja-cortexflow">3.1 Arsitektur Kerangka Kerja CortexFlow</h3>
+<p>Kerangka kerja CortexFlow terdiri dari 5 model utama yang diimplementasikan dan dilatih secara independen:</p>
+<p><strong>Tabel 2. Spesifikasi Arsitektur Model Dekoding Neural (Implementasi Aktual)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Arsitektur</th>
+<th>Fitur Utama</th>
+<th>Parameter</th>
+<th>Tingkat Dropout</th>
+<th>Normalisasi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>StandardBaselineCNN</strong></td>
+<td>1024→512→784 + CNN</td>
+<td>BatchNorm+Dropout+CNN</td>
+<td>~2.1M</td>
+<td>0.3, 0.2</td>
+<td>BatchNorm1d</td>
+</tr>
+<tr>
+<td><strong>CortexFlowMultiPathway</strong></td>
+<td>Jalur-Ganda+Perhatian-Silang</td>
+<td>Multi-Jalur+Ketidakpastian</td>
+<td>~2.8M</td>
+<td>0.15, 0.1</td>
+<td>LayerNorm</td>
+</tr>
+<tr>
+<td><strong>CortexFlowEnsemble</strong></td>
+<td>8 Varian Internal</td>
+<td>Pembobotan Terpelajar</td>
+<td>~15.6M</td>
+<td>Variabel</td>
+<td>Campuran</td>
+</tr>
+<tr>
+<td><strong>OptimizedMinDVis</strong></td>
+<td>512→256→128→784</td>
+<td>Masking Jarang+Difusi</td>
+<td>~1.9M</td>
+<td>0.15</td>
+<td>LayerNorm</td>
+</tr>
+<tr>
+<td><strong>OptimizedBrainDiffuser</strong></td>
+<td>512→256→784</td>
+<td>Denoising Iteratif</td>
+<td>~1.7M</td>
+<td>0.1</td>
+<td>LayerNorm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Catatan</strong>: CortexFlowEnsemble mengandung 8 varian internal (Sederhana, MC, Hierarkis, Ditingkatkan, Terpadu, Difusi, CNN Dasar, Multi-Jalur) yang dilatih sebagai satu model ensemble dengan mekanisme pembobotan terpelajar.</p>
+<h4 id="311-standardbaselinecnn-cortexflow-lite">3.1.1 StandardBaselineCNN (CortexFlow-Lite)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Arsitektur</span><span class="p">:</span> <span class="nb">input</span> <span class="err">→</span> <span class="mi">1024</span> <span class="err">→</span> <span class="mi">512</span> <span class="err">→</span> <span class="mi">784</span> <span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="n">Fitur</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">Normalisasi</span> <span class="n">BatchNorm1d</span>
+  <span class="o">-</span> <span class="n">Aktivasi</span> <span class="n">ReLU</span> <span class="n">dengan</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+  <span class="o">-</span> <span class="n">Dropout</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span> <span class="n">untuk</span> <span class="n">regularisasi</span>
+  <span class="o">-</span> <span class="n">Implementasi</span> <span class="n">yang</span> <span class="n">dioptimalkan</span> <span class="n">GPU</span>
+  <span class="o">-</span> <span class="n">Arsitektur</span> <span class="n">CNN</span> <span class="n">dasar</span>
+</code></pre></div>
+
+<h4 id="312-cortexflowmultipathway-novel-architecture">3.1.2 CortexFlowMultiPathway (Novel Architecture)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Arsitektur</span><span class="p">:</span> <span class="n">Jalur</span><span class="o">-</span><span class="n">ganda</span> <span class="n">dengan</span> <span class="n">perhatian</span><span class="o">-</span><span class="n">silang</span>
+<span class="n">Fitur</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">Jalur</span> <span class="n">dalam</span><span class="p">:</span> <span class="mi">1024</span> <span class="err">→</span> <span class="mi">512</span> <span class="p">(</span><span class="n">ekstraksi</span> <span class="n">fitur</span> <span class="n">hierarkis</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">Jalur</span> <span class="n">lebar</span><span class="p">:</span> <span class="mi">512</span> <span class="err">→</span> <span class="mi">512</span> <span class="p">(</span><span class="n">penangkapan</span> <span class="n">fitur</span> <span class="n">luas</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">Perhatian</span> <span class="n">lintas</span><span class="o">-</span><span class="n">jalur</span> <span class="p">(</span><span class="mi">8</span><span class="o">-</span><span class="n">head</span><span class="p">,</span> <span class="mi">512</span><span class="o">-</span><span class="n">dim</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">Pembobotan</span> <span class="n">jalur</span> <span class="n">adaptif</span> <span class="n">dengan</span> <span class="n">softmax</span>
+  <span class="o">-</span> <span class="n">Mekanisme</span> <span class="n">fusi</span> <span class="n">gerbang</span> <span class="n">dinamis</span>
+  <span class="o">-</span> <span class="n">Dekoder</span> <span class="n">sadar</span> <span class="n">ketidakpastian</span> <span class="p">(</span><span class="n">cabang</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">variance</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="313-cortexflowensemble-8-internal-variants">3.1.3 CortexFlowEnsemble (8 Internal Variants)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Arsitektur</span><span class="p">:</span> <span class="n">Model</span> <span class="n">ensemble</span> <span class="n">tunggal</span> <span class="n">dengan</span> <span class="mi">8</span> <span class="n">varian</span> <span class="n">internal</span>
+<span class="n">Varian</span> <span class="n">Internal</span><span class="p">:</span>
+  <span class="mf">1.</span> <span class="n">Sederhana</span><span class="p">:</span> <span class="n">Encoder</span><span class="o">-</span><span class="n">decoder</span> <span class="n">dasar</span> <span class="p">(</span><span class="mi">512</span><span class="err">→</span><span class="mi">256</span><span class="err">→</span><span class="mi">784</span><span class="p">)</span>
+  <span class="mf">2.</span> <span class="n">MC</span><span class="p">:</span> <span class="n">Dropout</span> <span class="n">Monte</span> <span class="n">Carlo</span> <span class="p">(</span><span class="n">ketidakpastian</span> <span class="n">sistematis</span><span class="p">)</span>
+  <span class="mf">3.</span> <span class="n">Hierarkis</span><span class="p">:</span> <span class="n">Pemrosesan</span> <span class="n">temporal</span> <span class="n">multi</span><span class="o">-</span><span class="n">skala</span>
+  <span class="mf">4.</span> <span class="n">Ditingkatkan</span><span class="p">:</span> <span class="n">MC</span> <span class="o">+</span> <span class="n">Hierarkis</span> <span class="o">+</span> <span class="n">Penyelarasan</span> <span class="n">fitur</span>
+  <span class="mf">5.</span> <span class="n">Terpadu</span><span class="p">:</span> <span class="n">Kompleksitas</span> <span class="n">adaptif</span> <span class="n">dengan</span> <span class="n">jalur</span> <span class="n">ganda</span>
+  <span class="mf">6.</span> <span class="n">Difusi</span><span class="p">:</span> <span class="n">Pendekatan</span> <span class="n">difusi</span> <span class="n">laten</span>
+  <span class="mf">7.</span> <span class="n">CNN</span> <span class="n">Dasar</span><span class="p">:</span> <span class="n">Arsitektur</span> <span class="n">CNN</span> <span class="n">ringan</span>
+  <span class="mf">8.</span> <span class="n">Multi</span><span class="o">-</span><span class="n">Jalur</span><span class="p">:</span> <span class="n">Fusi</span> <span class="n">perhatian</span><span class="o">-</span><span class="n">silang</span>
+<span class="n">Fitur</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">Jaringan</span> <span class="n">pembobotan</span> <span class="n">terpelajar</span> <span class="p">(</span><span class="nb">input</span> <span class="err">→</span> <span class="mi">512</span> <span class="err">→</span> <span class="mi">256</span> <span class="err">→</span> <span class="mi">128</span> <span class="err">→</span> <span class="mi">8</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">Pemilihan</span> <span class="n">model</span> <span class="n">bergantung</span> <span class="nb">input</span>
+  <span class="o">-</span> <span class="n">Mekanisme</span> <span class="n">pembobotan</span> <span class="n">sadar</span> <span class="n">kompleksitas</span>
+  <span class="o">-</span> <span class="n">Pelatihan</span> <span class="n">ensemble</span> <span class="n">sebagai</span> <span class="n">model</span> <span class="n">tunggal</span>
+</code></pre></div>
+
+<h3 id="32-sota-baseline-models">3.2 SOTA Baseline Models</h3>
+<h4 id="321-optimizedmindvis-cvpr-2023">3.2.1 OptimizedMinDVis (CVPR 2023)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Arsitektur</span><span class="p">:</span> <span class="nb">input</span> <span class="err">→</span> <span class="mi">512</span> <span class="err">→</span> <span class="mi">256</span> <span class="err">→</span> <span class="mi">128</span> <span class="err">→</span> <span class="mi">784</span> <span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="n">Fitur</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">Pemodelan</span> <span class="n">bertopeng</span> <span class="n">jarang</span> <span class="p">(</span><span class="n">rasio</span> <span class="n">masking</span> <span class="mi">15</span><span class="o">%</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">Proses</span> <span class="n">difusi</span> <span class="n">kondisional</span>
+  <span class="o">-</span> <span class="n">LayerNorm</span> <span class="n">untuk</span> <span class="n">pelatihan</span> <span class="n">stabil</span>
+  <span class="o">-</span> <span class="n">Injeksi</span> <span class="n">noise</span> <span class="n">untuk</span> <span class="n">rekonstruksi</span> <span class="n">robust</span>
+  <span class="o">-</span> <span class="n">Penjadwalan</span> <span class="n">timestep</span> <span class="n">difusi</span> <span class="n">yang</span> <span class="n">tepat</span>
+</code></pre></div>
+
+<h4 id="322-optimizedbraindiffuser-scientific-reports-2023">3.2.2 OptimizedBrainDiffuser (Scientific Reports 2023)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Arsitektur</span><span class="p">:</span> <span class="nb">input</span> <span class="err">→</span> <span class="mi">512</span> <span class="err">→</span> <span class="mi">256</span> <span class="err">→</span> <span class="mi">784</span> <span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="n">Fitur</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">Aktivasi</span> <span class="n">SiLU</span> <span class="n">dan</span> <span class="n">LayerNorm</span>
+  <span class="o">-</span> <span class="mi">10</span> <span class="n">timestep</span> <span class="n">dengan</span> <span class="n">jadwal</span> <span class="n">beta</span> <span class="n">linear</span> <span class="p">(</span><span class="mf">0.0001</span> <span class="n">hingga</span> <span class="mf">0.02</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">Proses</span> <span class="n">denoising</span> <span class="n">iteratif</span> <span class="p">(</span><span class="mi">3</span> <span class="n">langkah</span> <span class="n">untuk</span> <span class="n">efisiensi</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">Prediksi</span> <span class="n">dan</span> <span class="n">penghapusan</span> <span class="n">noise</span> <span class="n">yang</span> <span class="n">tepat</span>
+  <span class="o">-</span> <span class="n">Arsitektur</span> <span class="n">jaringan</span> <span class="n">difusi</span>
+</code></pre></div>
+
+<h3 id="33-cortexflowensemble-internal-architecture">3.3 CortexFlowEnsemble Internal Architecture</h3>
+<h4 id="331-learned-weighting-network">3.3.1 Learned Weighting Network</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Architecture</span><span class="p">:</span> <span class="nb">input</span> <span class="err">→</span> <span class="mi">512</span> <span class="err">→</span> <span class="mi">256</span> <span class="err">→</span> <span class="mi">128</span> <span class="err">→</span> <span class="mi">8</span> <span class="n">weights</span>
+<span class="n">Normalization</span><span class="p">:</span> <span class="n">Softmax</span> <span class="n">probability</span> <span class="n">distribution</span>
+<span class="n">Combination</span><span class="p">:</span> <span class="n">y_ensemble</span> <span class="o">=</span> <span class="n">Σᵢ</span><span class="err">₌₁⁸</span> <span class="n">wᵢ</span> <span class="err">·</span> <span class="n">fᵢ</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">Training</span><span class="p">:</span> <span class="n">End</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">end</span> <span class="n">training</span> <span class="n">sebagai</span> <span class="n">single</span> <span class="n">model</span>
+</code></pre></div>
+
+<h4 id="332-internal-variant-details">3.3.2 Internal Variant Details</h4>
+<ol>
+<li><strong>Simple</strong>: Foundation encoder-decoder dengan optimal regularization</li>
+<li><strong>MC</strong>: Monte Carlo uncertainty dengan systematic dropout (always active)</li>
+<li><strong>Hierarchical</strong>: Multi-scale temporal processing dengan attention</li>
+<li><strong>Enhanced</strong>: Integration MC + Hierarchical + feature alignment</li>
+<li><strong>Unified</strong>: Adaptive complexity dengan dual-pathway processing</li>
+<li><strong>Diffusion</strong>: CortexFlow dengan latent diffusion approach</li>
+<li><strong>Baseline CNN</strong>: Lightweight CNN architecture</li>
+<li><strong>Multi-Pathway</strong>: Advanced multi-pathway dengan cross-attention</li>
+</ol>
+<h4 id="333-strategi-pelatihan-ensemble">3.3.3 Strategi Pelatihan Ensemble</h4>
+<ul>
+<li><strong>Pelatihan Model Tunggal</strong>: Semua 8 varian dilatih bersama</li>
+<li><strong>Pembobotan Terpelajar</strong>: Jaringan neural mempelajari kombinasi optimal</li>
+<li><strong>Pemilihan Bergantung Input</strong>: Pembobotan dinamis berdasarkan karakteristik input</li>
+<li><strong>Keragaman Arsitektural</strong>: 8 pendekatan berbeda memastikan ketahanan</li>
+</ul>
+<hr />
+<h2 id="4-metodologi-pelatihan">4. Metodologi Pelatihan</h2>
+<h3 id="41-validasi-silang-5-lipatan-yang-ditingkatkan">4.1 Validasi Silang 5-Lipatan yang Ditingkatkan</h3>
+<h4 id="411-protokol-validasi-silang">4.1.1 Protokol Validasi Silang</h4>
+<p><img alt="Diagram Validasi Silang" src="figures/methodology_cv_diagram.png" /></p>
+<p><strong>Gambar 2. Validasi Silang 5-Lipatan yang Ditingkatkan dengan Ketelitian Statistik</strong></p>
+<p>Diagram validasi silang menunjukkan pembagian data sistematis dengan 80% pelatihan dan 20% validasi per lipatan, menghasilkan n=5 sampel untuk analisis statistik yang robust.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">KFold</span>
+
+<span class="c1"># Enhanced 5-fold CV setup</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># 5 model untuk pelatihan</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">StandardBaselineCNN</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">device</span><span class="p">),</span>
+    <span class="n">CortexFlowMultiPathway</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">device</span><span class="p">),</span>
+    <span class="n">CortexFlowEnsemble</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">device</span><span class="p">),</span>
+    <span class="n">OptimizedMinDVis</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">device</span><span class="p">),</span>
+    <span class="n">OptimizedBrainDiffuser</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Pembagian data dan pelatihan</span>
+<span class="k">for</span> <span class="n">fold</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_combined</span><span class="p">)):</span>
+    <span class="n">X_train_fold</span> <span class="o">=</span> <span class="n">X_combined</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>  <span class="c1"># 80% data</span>
+    <span class="n">X_val_fold</span> <span class="o">=</span> <span class="n">X_combined</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span>      <span class="c1"># 20% data</span>
+
+    <span class="c1"># Latih setiap dari 5 model dengan epoch yang dikurangi untuk CV</span>
+    <span class="n">cv_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]),</span>
+        <span class="s1">&#39;patience&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;patience&#39;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+<h4 id="412-peningkatan-ketelitian-statistik">4.1.2 Peningkatan Ketelitian Statistik</h4>
+<ul>
+<li><strong>Ukuran Sampel</strong>: n=5 untuk analisis Uji-T yang robust</li>
+<li><strong>Pengacakan</strong>: Pengacakan data sistematis untuk menghindari bias</li>
+<li><strong>Pembagian Berstrata</strong>: Distribusi seimbang di seluruh lipatan</li>
+<li><strong>Reproduksibilitas</strong>: Seed acak tetap (42) untuk hasil konsisten</li>
+</ul>
+<h3 id="42-konfigurasi-pelatihan">4.2 Konfigurasi Pelatihan</h3>
+<p><strong>Tabel 3. Konfigurasi Hiperparameter per Dataset</strong></p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Epoch</th>
+<th>Tingkat Pembelajaran</th>
+<th>Ukuran Batch</th>
+<th>Kesabaran</th>
+<th>Pengoptimal</th>
+<th>Peluruhan Bobot</th>
+<th>Penjadwal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Miyawaki</strong></td>
+<td>150</td>
+<td>0.001</td>
+<td>64</td>
+<td>20</td>
+<td>Adam</td>
+<td>1e-4</td>
+<td>ReduceLROnPlateau</td>
+</tr>
+<tr>
+<td><strong>Vangerven</strong></td>
+<td>120</td>
+<td>0.0015</td>
+<td>32</td>
+<td>15</td>
+<td>Adam</td>
+<td>1e-4</td>
+<td>ReduceLROnPlateau</td>
+</tr>
+<tr>
+<td><strong>MindBigData</strong></td>
+<td>100</td>
+<td>0.002</td>
+<td>48</td>
+<td>12</td>
+<td>Adam</td>
+<td>1e-4</td>
+<td>ReduceLROnPlateau</td>
+</tr>
+<tr>
+<td><strong>Crell</strong></td>
+<td>130</td>
+<td>0.0012</td>
+<td>40</td>
+<td>18</td>
+<td>Adam</td>
+<td>1e-4</td>
+<td>ReduceLROnPlateau</td>
+</tr>
+</tbody>
+</table>
+<p>Tabel konfigurasi hiperparameter menunjukkan parameter optimal yang telah disetel untuk setiap dataset berdasarkan eksperimentasi ekstensif.</p>
+<h4 id="421-optimalisasi-hiperparameter">4.2.1 Optimalisasi Hiperparameter</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Konfigurasi khusus dataset</span>
+<span class="n">configs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;miyawaki&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span> <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span> <span class="s1">&#39;patience&#39;</span><span class="p">:</span> <span class="mi">20</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;vangerven&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.0015</span><span class="p">,</span> <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;patience&#39;</span><span class="p">:</span> <span class="mi">15</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;mindbigdata&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.002</span><span class="p">,</span> <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span> <span class="s1">&#39;patience&#39;</span><span class="p">:</span> <span class="mi">12</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;crell&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.0012</span><span class="p">,</span> <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;patience&#39;</span><span class="p">:</span> <span class="mi">18</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="422-optimalisasi-gpu">4.2.2 Optimalisasi GPU</h4>
+<ul>
+<li><strong>Perangkat</strong>: CUDA GPU dengan optimalisasi WSL</li>
+<li><strong>Manajemen Memori</strong>: Pemuatan GPU langsung untuk efisiensi</li>
+<li><strong>Pemrosesan Batch</strong>: Ukuran batch yang dioptimalkan untuk batasan memori</li>
+<li><strong>Presisi Campuran</strong>: Presisi campuran otomatis untuk pelatihan lebih cepat</li>
+</ul>
+<h4 id="423-penghentian-dini-dan-regularisasi">4.2.3 Penghentian Dini dan Regularisasi</h4>
+<ul>
+<li><strong>Penghentian Dini</strong>: Berbasis kesabaran dengan pemantauan loss validasi</li>
+<li><strong>Dropout</strong>: Tingkat dropout adaptif per arsitektur</li>
+<li><strong>Normalisasi Batch</strong>: Normalisasi layer untuk stabilitas</li>
+<li><strong>Peluruhan Bobot</strong>: Regularisasi L2 untuk pencegahan overfitting</li>
+</ul>
+<hr />
+<h2 id="5-protokol-evaluasi">5. Protokol Evaluasi</h2>
+<h3 id="51-metrik-evaluasi-komprehensif">5.1 Metrik Evaluasi Komprehensif</h3>
+<h4 id="511-mean-squared-error-mse">5.1.1 Mean Squared Error (MSE)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">MSE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">Σᵢ</span><span class="err">₌₁</span><span class="n">ⁿ</span> <span class="p">(</span><span class="n">yᵢ</span> <span class="o">-</span> <span class="n">ŷᵢ</span><span class="p">)</span><span class="err">²</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Tujuan</strong>: Metrik utama untuk kualitas rekonstruksi</li>
+<li><strong>Rentang</strong>: [0, ∞), semakin rendah semakin baik</li>
+<li><strong>Interpretasi</strong>: Rata-rata perbedaan kuadrat antara prediksi dan kebenaran dasar</li>
+</ul>
+<h4 id="512-peak-signal-to-noise-ratio-psnr">5.1.2 Peak Signal-to-Noise Ratio (PSNR)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">PSNR</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">log</span><span class="err">₁₀</span><span class="p">(</span><span class="n">MAX_I</span> <span class="o">/</span> <span class="err">√</span><span class="n">MSE</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Tujuan</strong>: Penilaian kualitas sinyal</li>
+<li><strong>Rentang</strong>: [0, ∞), semakin tinggi semakin baik</li>
+<li><strong>Interpretasi</strong>: Rasio kekuatan sinyal maksimum terhadap kekuatan noise</li>
+</ul>
+<h4 id="513-structural-similarity-index-ssim">5.1.3 Structural Similarity Index (SSIM)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">SSIM</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="n">μₓμᵧ</span> <span class="o">+</span> <span class="n">c</span><span class="err">₁</span><span class="p">)(</span><span class="mi">2</span><span class="n">σₓᵧ</span> <span class="o">+</span> <span class="n">c</span><span class="err">₂</span><span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="n">μₓ</span><span class="err">²</span> <span class="o">+</span> <span class="n">μᵧ</span><span class="err">²</span> <span class="o">+</span> <span class="n">c</span><span class="err">₁</span><span class="p">)(</span><span class="n">σₓ</span><span class="err">²</span> <span class="o">+</span> <span class="n">σᵧ</span><span class="err">²</span> <span class="o">+</span> <span class="n">c</span><span class="err">₂</span><span class="p">))</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Tujuan</strong>: Penilaian kemiripan struktural</li>
+<li><strong>Rentang</strong>: [0, 1], semakin tinggi semakin baik</li>
+<li><strong>Interpretasi</strong>: Kemiripan perseptual antara citra</li>
+</ul>
+<h4 id="514-learned-perceptual-image-patch-similarity-lpips">5.1.4 Learned Perceptual Image Patch Similarity (LPIPS)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">LPIPS</span> <span class="o">=</span> <span class="n">Jarak</span> <span class="n">perseptual</span> <span class="n">berbasis</span> <span class="n">jaringan</span> <span class="n">dalam</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Tujuan</strong>: Pengukuran kemiripan perseptual</li>
+<li><strong>Rentang</strong>: [0, ∞), semakin rendah semakin baik</li>
+<li><strong>Interpretasi</strong>: Penilaian perseptual seperti manusia</li>
+</ul>
+<h3 id="52-protokol-analisis-statistik">5.2 Protokol Analisis Statistik</h3>
+<h4 id="521-analisis-uji-t">5.2.1 Analisis Uji-T</h4>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">ttest_rel</span>
+
+<span class="c1"># Uji-t berpasangan untuk perbandingan metode</span>
+<span class="n">t_stat</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">ttest_rel</span><span class="p">(</span><span class="n">method1_scores</span><span class="p">,</span> <span class="n">method2_scores</span><span class="p">)</span>
+<span class="n">effect_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">mean1</span> <span class="o">-</span> <span class="n">mean2</span><span class="p">)</span> <span class="o">/</span> <span class="n">pooled_std</span>  <span class="c1"># Cohen&#39;s d</span>
+</code></pre></div>
+
+<h4 id="522-interval-kepercayaan">5.2.2 Interval Kepercayaan</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Interval kepercayaan 95%</span>
+<span class="n">ci_lower</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">-</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="p">(</span><span class="n">std</span> <span class="o">/</span> <span class="err">√</span><span class="n">n</span><span class="p">)</span>
+<span class="n">ci_upper</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">+</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="p">(</span><span class="n">std</span> <span class="o">/</span> <span class="err">√</span><span class="n">n</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="523-perhitungan-ukuran-efek">5.2.3 Perhitungan Ukuran Efek</h4>
+<ul>
+<li><strong>Cohen's d</strong>: Pengukuran ukuran efek yang distandarisasi</li>
+<li><strong>Interpretasi</strong>: Kecil (0.2), Sedang (0.5), Besar (0.8)</li>
+<li><strong>Kekuatan Statistik</strong>: Ditingkatkan dengan n=5 sampel per metode</li>
+</ul>
+<hr />
+<h2 id="6-jalur-pemrosesan-implementasi">6. Jalur Pemrosesan Implementasi</h2>
+<h3 id="61-alur-metodologi-komprehensif">6.1 Alur Metodologi Komprehensif</h3>
+<p><img alt="Bagan Alur Metodologi yang Ditingkatkan" src="figures/methodology_flowchart_enhanced.png" /></p>
+<p><strong>Gambar 1. Bagan Alur Metodologi CortexFlow yang Ditingkatkan untuk Kerangka Kerja Dekoding Neural</strong></p>
+<p>Bagan alur metodologi menunjukkan 4 fase utama penelitian: Persiapan Data, Pelatihan Model, Evaluasi, dan Analisis dengan detail komponen di setiap fase.</p>
+<h3 id="62-tahapan-implementasi">6.2 Tahapan Implementasi</h3>
+<h4 id="621-pemuatan-data-dan-prapemrosesan">6.2.1 Pemuatan Data dan Prapemrosesan</h4>
+<ol>
+<li><strong>Pemuatan yang dioptimalkan GPU</strong> dari 4 dataset</li>
+<li><strong>Normalisasi</strong> sesuai karakteristik dataset</li>
+<li><strong>Penyelarasan fitur</strong> untuk dataset lintas-modal</li>
+<li><strong>Optimalisasi memori</strong> untuk pemrosesan efisien</li>
+</ol>
+<h4 id="622-pelatihan-validasi-silang">6.2.2 Pelatihan Validasi Silang</h4>
+<ol>
+<li><strong>Pembagian 5-lipatan</strong> dengan pengacakan acak</li>
+<li><strong>Pelatihan independen</strong> dari 5 model dekoding neural</li>
+<li><strong>Optimalisasi hiperparameter</strong> per dataset dan model</li>
+<li><strong>Penghentian dini</strong> dengan pemantauan validasi</li>
+</ol>
+<h4 id="623-strategi-pelatihan-model">6.2.3 Strategi Pelatihan Model</h4>
+<ol>
+<li><strong>StandardBaselineCNN</strong>: Pelatihan CNN dasar</li>
+<li><strong>CortexFlowMultiPathway</strong>: Pelatihan arsitektur novel</li>
+<li><strong>CortexFlowEnsemble</strong>: Pelatihan ensemble ujung-ke-ujung (8 varian internal)</li>
+<li><strong>OptimizedMinDVis</strong>: Pelatihan dasar SOTA</li>
+<li><strong>OptimizedBrainDiffuser</strong>: Pelatihan dasar SOTA</li>
+</ol>
+<h4 id="624-evaluasi-komprehensif">6.2.4 Evaluasi Komprehensif</h4>
+<ol>
+<li><strong>Penilaian multi-metrik</strong> (MSE, PSNR, SSIM, LPIPS)</li>
+<li><strong>Penilaian validasi silang</strong> untuk ketelitian statistik</li>
+<li><strong>Visualisasi rekonstruksi</strong> untuk analisis kualitatif</li>
+<li><strong>Perbandingan kinerja</strong> dengan dasar SOTA</li>
+</ol>
+<h4 id="625-analisis-statistik">6.2.5 Analisis Statistik</h4>
+<ol>
+<li><strong>Pengujian signifikansi Uji-T</strong> untuk perbandingan metode</li>
+<li><strong>Perhitungan ukuran efek</strong> dengan Cohen's d</li>
+<li><strong>Estimasi interval kepercayaan</strong> untuk keandalan</li>
+<li><strong>Analisis kekuatan statistik</strong> dengan ukuran sampel yang ditingkatkan</li>
+</ol>
+<h3 id="63-jaminan-kualitas">6.3 Jaminan Kualitas</h3>
+<h4 id="631-protokol-reproduksibilitas">6.3.1 Protokol Reproduksibilitas</h4>
+<ul>
+<li><strong>Seed Acak Tetap</strong>: Hasil deterministik di seluruh eksekusi</li>
+<li><strong>Kontrol Versi</strong>: Versioning kode sistematis</li>
+<li><strong>Dokumentasi Lingkungan</strong>: Spesifikasi dependensi lengkap</li>
+<li><strong>Validasi Hasil</strong>: Pengujian lintas-platform (WSL/Linux)</li>
+</ul>
+<h4 id="632-integritas-akademik">6.3.2 Integritas Akademik</h4>
+<ul>
+<li><strong>Data Autentik</strong>: Secara eksklusif dataset nyata, tanpa data sintetis</li>
+<li><strong>Metodologi Transparan</strong>: Implementasi sumber terbuka</li>
+<li><strong>Ketelitian Statistik</strong>: Pengujian signifikansi yang tepat</li>
+<li><strong>Standar Tinjauan Sejawat</strong>: Metodologi siap publikasi</li>
+</ul>
+<hr />
+<h2 id="7-validasi-dan-verifikasi">7. Validasi dan Verifikasi</h2>
+<h3 id="71-validasi-internal">7.1 Validasi Internal</h3>
+<ul>
+<li><strong>Konsistensi Validasi Silang</strong>: Kinerja stabil di seluruh lipatan</li>
+<li><strong>Sensitivitas Hiperparameter</strong>: Kinerja robust di seluruh rentang parameter</li>
+<li><strong>Ablasi Arsitektur</strong>: Analisis kontribusi komponen</li>
+<li><strong>Efektivitas Ensemble</strong>: Kinerja individual vs. ensemble</li>
+</ul>
+<h3 id="72-validasi-eksternal">7.2 Validasi Eksternal</h3>
+<ul>
+<li><strong>Perbandingan SOTA</strong>: Kinerja terhadap dasar yang mapan</li>
+<li><strong>Evaluasi Multi-Dataset</strong>: Generalisasi di seluruh dataset berbeda</li>
+<li><strong>Signifikansi Statistik</strong>: Validasi statistik yang ketat</li>
+<li><strong>Pengujian Reproduksibilitas</strong>: Kemampuan replikasi independen</li>
+</ul>
+<h3 id="73-penilaian-keterbatasan">7.3 Penilaian Keterbatasan</h3>
+<ul>
+<li><strong>Kebutuhan Komputasi</strong>: Batasan memori GPU dan pemrosesan</li>
+<li><strong>Spesifisitas Dataset</strong>: Variasi kinerja di seluruh dataset</li>
+<li><strong>Kompleksitas Arsitektur</strong>: Trade-off antara kompleksitas dan kinerja</li>
+<li><strong>Ruang Lingkup Generalisasi</strong>: Penerapan pada tugas dekoding neural lainnya</li>
+</ul>
+<hr />
+<h2 id="8-kesimpulan-metodologi">8. Kesimpulan Metodologi</h2>
+<p>Metodologi penelitian CortexFlow menerapkan validasi silang 5-lipatan yang ditingkatkan dengan analisis statistik komprehensif untuk memastikan ketelitian akademik dan keandalan evaluasi. Kerangka kerja ini mengintegrasikan 5 model jaringan neural yang diimplementasikan secara independen untuk penelitian dekoding neural yang komprehensif.</p>
+<p>Kontribusi metodologis utama meliputi: (1) Ketelitian statistik yang ditingkatkan dengan n=5 sampel untuk analisis Uji-T yang robust, (2) Kerangka kerja evaluasi multi-metrik yang komprehensif, (3) Mekanisme pembobotan ensemble cerdas, dan (4) Implementasi yang dioptimalkan GPU untuk pelatihan efisien.</p>
+<p>Metodologi ini memenuhi standar akademik internasional untuk penelitian dekoding neural dan memberikan fondasi yang solid untuk kemajuan dalam bidang antarmuka otak-komputer dan pemrosesan sinyal neural.</p>
+<hr />
+<h2 id="13-metodologi-documentation-dan-implementasi">13. Metodologi Documentation dan Implementasi</h2>
+<h3 id="131-algoritma-implementasi-detail">13.1 Algoritma Implementasi Detail</h3>
+<p>Untuk detail implementasi algoritma yang digunakan dalam metodologi ini, lihat dokumen terpisah:
+- <strong>METHODOLOGY_ALGORITHMS.md</strong>: 5 algoritma kunci dengan pseudocode lengkap
+  - Algoritma 1: Validasi Silang 5-Lipatan yang Ditingkatkan
+  - Algoritma 2: Pembobotan Ensemble Cerdas
+  - Algoritma 3: Evaluasi Komprehensif Multi-Metrik
+  - Algoritma 4: Pengujian Signifikansi Statistik
+  - Algoritma 5: Jalur Pemrosesan Pelatihan yang Dioptimalkan GPU</p>
+<h3 id="132-metodologi-visual-documentation">13.2 Metodologi Visual Documentation</h3>
+<p>Metodologi ini dilengkapi dengan comprehensive visual documentation:</p>
+<h4 id="1321-specification-tables-3-items">13.2.1 Specification Tables (3 items)</h4>
+<ul>
+<li><strong>Tabel 1</strong>: Dataset Characteristics dan Preprocessing Specifications</li>
+<li><strong>Tabel 2</strong>: Model Architecture Specifications dan Technical Details</li>
+<li><strong>Tabel 3</strong>: Hyperparameter Configuration dan Training Settings</li>
+</ul>
+<h4 id="1322-diagram-metodologi-2-item">13.2.2 Diagram Metodologi (2 item)</h4>
+<ul>
+<li><strong>Gambar 1</strong>: Bagan Alur Metodologi yang Ditingkatkan (jalur pemrosesan 4-fase)</li>
+<li><strong>Gambar 2</strong>: Diagram Metodologi Validasi Silang 5-Lipatan</li>
+</ul>
+<h4 id="1323-contoh-implementasi-30-blok">13.2.3 Contoh Implementasi (30+ blok)</h4>
+<ul>
+<li>Contoh implementasi Python untuk reproduksibilitas</li>
+<li>Spesifikasi konfigurasi untuk dataset berbeda</li>
+<li>Kode optimalisasi GPU untuk pelatihan efisien</li>
+<li>Metodologi analisis statistik untuk evaluasi robust</li>
+</ul>
+<h3 id="133-kerangka-kerja-reproduksibilitas">13.3 Kerangka Kerja Reproduksibilitas</h3>
+<p>Dokumentasi metodologi terintegrasi dengan:
+- <strong>METODOLOGI.md</strong>: Spesifikasi metodologi lengkap
+- <strong>METHODOLOGY_ALGORITHMS.md</strong>: Implementasi algoritma terperinci
+- <strong>figures/</strong>: Diagram visualisasi metodologi
+- <strong>Contoh kode</strong>: Panduan implementasi untuk reproduksibilitas</p>
+<p>Total dokumentasi metodologi: <strong>Kerangka kerja lengkap</strong> untuk penelitian akademik dan panduan implementasi.</p>
+<hr />
+<h2 id="9-protokol-eksperimen-detail">9. Protokol Eksperimen Detail</h2>
+<h3 id="91-konfigurasi-lingkungan-komputasi">9.1 Konfigurasi Lingkungan Komputasi</h3>
+<h4 id="911-spesifikasi-hardware">9.1.1 Spesifikasi Hardware</h4>
+<ul>
+<li><strong>GPU</strong>: NVIDIA CUDA-compatible dengan minimum 8GB VRAM</li>
+<li><strong>CPU</strong>: Multi-core processor untuk parallel processing</li>
+<li><strong>RAM</strong>: Minimum 16GB untuk dataset loading</li>
+<li><strong>Storage</strong>: SSD untuk fast I/O operations</li>
+</ul>
+<h4 id="912-konfigurasi-software">9.1.2 Konfigurasi Software</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Environment setup</span>
+<span class="n">Python</span><span class="p">:</span> <span class="mf">3.8</span><span class="o">+</span>
+<span class="n">PyTorch</span><span class="p">:</span> <span class="mf">2.0</span><span class="o">+</span> <span class="n">dengan</span> <span class="n">CUDA</span> <span class="n">support</span>
+<span class="n">CUDA</span><span class="p">:</span> <span class="mf">11.8</span><span class="o">+</span> <span class="n">untuk</span> <span class="n">GPU</span> <span class="n">acceleration</span>
+<span class="n">WSL</span><span class="p">:</span> <span class="n">Windows</span> <span class="n">Subsystem</span> <span class="k">for</span> <span class="n">Linux</span> <span class="n">untuk</span> <span class="n">optimization</span>
+
+<span class="c1"># Key dependencies</span>
+<span class="n">torch</span><span class="o">&gt;=</span><span class="mf">2.0.0</span>
+<span class="n">torchvision</span><span class="o">&gt;=</span><span class="mf">0.15.0</span>
+<span class="n">scipy</span><span class="o">&gt;=</span><span class="mf">1.9.0</span>
+<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">&gt;=</span><span class="mf">1.2.0</span>
+<span class="n">matplotlib</span><span class="o">&gt;=</span><span class="mf">3.6.0</span>
+<span class="n">seaborn</span><span class="o">&gt;=</span><span class="mf">0.12.0</span>
+</code></pre></div>
+
+<h4 id="913-wsl-optimization-protocol">9.1.3 WSL Optimization Protocol</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># WSL GPU optimization</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTORCH_CUDA_ALLOC_CONF</span><span class="o">=</span>max_split_size_mb:512
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
+
+<span class="c1"># Memory optimization</span>
+<span class="nb">ulimit</span><span class="w"> </span>-m<span class="w"> </span>unlimited
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;vm.overcommit_memory=1&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/sysctl.conf
+</code></pre></div>
+
+<h3 id="92-data-management-protocol">9.2 Data Management Protocol</h3>
+<h4 id="921-dataset-organization">9.2.1 Dataset Organization</h4>
+<div class="codehilite"><pre><span></span><code>data/
+├── processed/
+│   ├── miyawaki_structured_28x28.mat
+│   ├── digit69_28x28.mat
+│   ├── mindbigdata.mat
+│   └── crell.mat
+├── external/
+│   └── [original dataset sources]
+└── raw/
+    └── [unprocessed data files]
+</code></pre></div>
+
+<h4 id="922-data-integrity-verification">9.2.2 Data Integrity Verification</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Data validation protocol</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fmriTrn&#39;</span><span class="p">,</span> <span class="s1">&#39;stimTrn&#39;</span><span class="p">,</span> <span class="s1">&#39;fmriTest&#39;</span><span class="p">,</span> <span class="s1">&#39;stimTest&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">required_fields</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">data</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Missing required field: </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># Shape consistency checks</span>
+    <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;fmriTrn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;stimTrn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;fmriTest&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;stimTest&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Data type validation</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;fmriTrn&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;stimTrn&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</code></pre></div>
+
+<h4 id="923-preprocessing-quality-control">9.2.3 Preprocessing Quality Control</h4>
+<ul>
+<li><strong>Normalization Verification</strong>: Statistical properties check post-normalization</li>
+<li><strong>Outlier Detection</strong>: Automated outlier identification dan handling</li>
+<li><strong>Missing Value Assessment</strong>: Comprehensive missing data analysis</li>
+<li><strong>Feature Distribution Analysis</strong>: Statistical distribution validation</li>
+</ul>
+<h3 id="93-training-protocol-detail">9.3 Training Protocol Detail</h3>
+<h4 id="931-model-initialization-strategy">9.3.1 Model Initialization Strategy</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Reproducible initialization</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Deterministic operations</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+</code></pre></div>
+
+<h4 id="932-loss-function-implementation">9.3.2 Loss Function Implementation</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Primary loss function</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+
+<span class="c1"># Alternative loss functions untuk ablation</span>
+<span class="n">criterion_l1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">L1Loss</span><span class="p">()</span>
+<span class="n">criterion_huber</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SmoothL1Loss</span><span class="p">()</span>
+<span class="n">criterion_ssim</span> <span class="o">=</span> <span class="n">SSIMLoss</span><span class="p">()</span>  <span class="c1"># Custom implementation</span>
+</code></pre></div>
+
+<h4 id="933-optimizer-configuration">9.3.3 Optimizer Configuration</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Adaptive optimizer selection untuk 5 models</span>
+<span class="n">optimizers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;StandardBaselineCNN&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">),</span>
+    <span class="s1">&#39;CortexFlowMultiPathway&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.0007</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">),</span>
+    <span class="s1">&#39;CortexFlowEnsemble&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.0009</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">5e-4</span><span class="p">),</span>
+    <span class="s1">&#39;OptimizedMinDVis&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.0008</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">),</span>
+    <span class="s1">&#39;OptimizedBrainDiffuser&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="934-learning-rate-scheduling">9.3.4 Learning Rate Scheduling</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Adaptive learning rate scheduling</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ReduceLROnPlateau</span><span class="p">(</span>
+    <span class="n">optimizer</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Warmup strategy</span>
+<span class="n">warmup_scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">LinearLR</span><span class="p">(</span>
+    <span class="n">optimizer</span><span class="p">,</span> <span class="n">start_factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">total_iters</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="94-evaluation-protocol-komprehensif">9.4 Evaluation Protocol Komprehensif</h3>
+<h4 id="941-metric-computation-implementation">9.4.1 Metric Computation Implementation</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ComprehensiveEvaluationMetrics</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lpips_model</span> <span class="o">=</span> <span class="n">lpips</span><span class="o">.</span><span class="n">LPIPS</span><span class="p">(</span><span class="n">net</span><span class="o">=</span><span class="s1">&#39;alex&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_mse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_psnr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">mse</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mse</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_ssim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ssim</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">data_range</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_lpips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># Convert to 3-channel untuk LPIPS</span>
+        <span class="n">pred_3ch</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">target_3ch</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lpips_model</span><span class="p">(</span><span class="n">pred_3ch</span><span class="p">,</span> <span class="n">target_3ch</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</code></pre></div>
+
+<h4 id="942-statistical-testing-implementation">9.4.2 Statistical Testing Implementation</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">comprehensive_ttest_analysis</span><span class="p">(</span><span class="n">cv_results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comprehensive T-test analysis dengan effect size calculation&quot;&quot;&quot;</span>
+
+    <span class="n">methods</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv_results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">n_methods</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">methods</span><span class="p">)</span>
+
+    <span class="c1"># Pairwise t-test matrix</span>
+    <span class="n">p_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_methods</span><span class="p">,</span> <span class="n">n_methods</span><span class="p">))</span>
+    <span class="n">effect_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_methods</span><span class="p">,</span> <span class="n">n_methods</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">method1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">methods</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">method2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">methods</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">scores1</span> <span class="o">=</span> <span class="n">cv_results</span><span class="p">[</span><span class="n">method1</span><span class="p">]</span>
+                <span class="n">scores2</span> <span class="o">=</span> <span class="n">cv_results</span><span class="p">[</span><span class="n">method2</span><span class="p">]</span>
+
+                <span class="c1"># Paired t-test</span>
+                <span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">ttest_rel</span><span class="p">(</span><span class="n">scores1</span><span class="p">,</span> <span class="n">scores2</span><span class="p">)</span>
+                <span class="n">p_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_val</span>
+
+                <span class="c1"># Cohen&#39;s d effect size</span>
+                <span class="n">pooled_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">scores2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">effect_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores2</span><span class="p">))</span> <span class="o">/</span> <span class="n">pooled_std</span>
+                <span class="n">effect_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">effect_size</span>
+
+    <span class="k">return</span> <span class="n">p_matrix</span><span class="p">,</span> <span class="n">effect_matrix</span>
+</code></pre></div>
+
+<h4 id="943-cross-validation-scoring-protocol">9.4.3 Cross-Validation Scoring Protocol</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">cross_validation_scoring</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Robust cross-validation scoring dengan comprehensive metrics&quot;&quot;&quot;</span>
+
+    <span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">cv_folds</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;psnr&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;ssim&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;lpips&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+
+    <span class="k">for</span> <span class="n">fold</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+        <span class="c1"># Data splitting</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span>
+        <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span>
+
+        <span class="c1"># Model training</span>
+        <span class="n">model_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">trained_model</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+        <span class="c1"># Evaluation</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">predictions</span> <span class="o">=</span> <span class="n">trained_model</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+
+            <span class="c1"># Compute all metrics</span>
+            <span class="n">evaluator</span> <span class="o">=</span> <span class="n">ComprehensiveEvaluationMetrics</span><span class="p">()</span>
+            <span class="n">fold_scores</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">compute_all_metrics</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">metric</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">fold_scores</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">scores</span>
+</code></pre></div>
+
+<h3 id="95-quality-assurance-dan-validation">9.5 Quality Assurance dan Validation</h3>
+<h4 id="951-model-validation-checklist">9.5.1 Model Validation Checklist</h4>
+<ul>
+<li>[ ] <strong>Architecture Consistency</strong>: Semua models implement required interfaces</li>
+<li>[ ] <strong>Parameter Initialization</strong>: Reproducible weight initialization</li>
+<li>[ ] <strong>Forward Pass Validation</strong>: Output shape dan range verification</li>
+<li>[ ] <strong>Gradient Flow Check</strong>: Backpropagation functionality verification</li>
+<li>[ ] <strong>Memory Efficiency</strong>: GPU memory usage optimization</li>
+<li>[ ] <strong>Numerical Stability</strong>: NaN dan infinity detection</li>
+</ul>
+<h4 id="952-training-validation-protocol">9.5.2 Training Validation Protocol</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate_training_process</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comprehensive training validation&quot;&quot;&quot;</span>
+
+    <span class="c1"># 1. Overfitting check</span>
+    <span class="n">train_loss</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+    <span class="n">val_loss</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
+    <span class="n">overfitting_ratio</span> <span class="o">=</span> <span class="n">val_loss</span> <span class="o">/</span> <span class="n">train_loss</span>
+
+    <span class="k">assert</span> <span class="n">overfitting_ratio</span> <span class="o">&lt;</span> <span class="mf">2.0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Potential overfitting: </span><span class="si">{</span><span class="n">overfitting_ratio</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># 2. Gradient magnitude check</span>
+    <span class="n">total_norm</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param_norm</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">total_norm</span> <span class="o">+=</span> <span class="n">param_norm</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">total_norm</span> <span class="o">=</span> <span class="n">total_norm</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">total_norm</span> <span class="o">&lt;</span> <span class="mf">10.0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Gradient explosion detected: </span><span class="si">{</span><span class="n">total_norm</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># 3. Learning progress validation</span>
+    <span class="k">assert</span> <span class="n">val_loss</span> <span class="o">&lt;</span> <span class="n">initial_val_loss</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;No learning progress detected&quot;</span>
+</code></pre></div>
+
+<h4 id="953-result-validation-framework">9.5.3 Result Validation Framework</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate_experimental_results</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comprehensive result validation&quot;&quot;&quot;</span>
+
+    <span class="c1"># 1. Statistical significance validation</span>
+    <span class="k">for</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">methods</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">method_scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">methods</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="c1"># Check for reasonable score ranges</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">score</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">method_scores</span><span class="p">),</span> \
+            <span class="sa">f</span><span class="s2">&quot;Invalid score range in </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Check for statistical diversity</span>
+        <span class="n">score_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">method_scores</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">score_std</span> <span class="o">&gt;</span> <span class="mf">0.001</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Insufficient method diversity in </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># 2. Cross-dataset consistency</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;CortexFlow_Lite&#39;</span><span class="p">,</span> <span class="s1">&#39;Brain_Diffuser&#39;</span><span class="p">]:</span>
+        <span class="n">method_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">ds</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">]</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">method_scores</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">method_scores</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">cv</span> <span class="o">&lt;</span> <span class="mf">2.0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Excessive cross-dataset variation for </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># 3. Ensemble effectiveness validation</span>
+    <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">:</span>
+        <span class="n">ensemble_score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="s1">&#39;CortexFlow_Ensemble&#39;</span><span class="p">]</span>
+        <span class="n">individual_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">method</span><span class="p">]</span>
+                           <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span>
+                           <span class="k">if</span> <span class="n">method</span> <span class="o">!=</span> <span class="s1">&#39;CortexFlow_Ensemble&#39;</span><span class="p">]</span>
+
+        <span class="n">best_individual</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">individual_scores</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">ensemble_score</span> <span class="o">&lt;=</span> <span class="n">best_individual</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">,</span> \
+            <span class="sa">f</span><span class="s2">&quot;Ensemble not competitive in </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<hr />
+<h2 id="10-dokumentasi-dan-reproducibility">10. Dokumentasi dan Reproducibility</h2>
+<h3 id="101-code-documentation-standards">10.1 Code Documentation Standards</h3>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Function documentation template:</span>
+
+<span class="sd">Args:</span>
+<span class="sd">    param_name (type): Description dengan expected range/format</span>
+
+<span class="sd">Returns:</span>
+<span class="sd">    return_type: Description dengan interpretation guidelines</span>
+
+<span class="sd">Raises:</span>
+<span class="sd">    ExceptionType: Conditions yang menyebabkan exception</span>
+
+<span class="sd">Example:</span>
+<span class="sd">    &gt;&gt;&gt; result = function_call(param1, param2)</span>
+<span class="sd">    &gt;&gt;&gt; print(result)</span>
+<span class="sd">    Expected output description</span>
+
+<span class="sd">Academic Notes:</span>
+<span class="sd">    - Methodological considerations</span>
+<span class="sd">    - Statistical implications</span>
+<span class="sd">    - Computational complexity</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+
+<h3 id="102-experiment-logging-protocol">10.2 Experiment Logging Protocol</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Comprehensive experiment logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_experiment_logging</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup comprehensive experiment logging&quot;&quot;&quot;</span>
+
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+    <span class="n">log_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.log&quot;</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">handlers</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">log_file</span><span class="p">),</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Log experiment configuration</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;experiment_name&#39;</span><span class="p">:</span> <span class="n">experiment_name</span><span class="p">,</span>
+        <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+        <span class="s1">&#39;environment&#39;</span><span class="p">:</span> <span class="n">get_environment_info</span><span class="p">(),</span>
+        <span class="s1">&#39;datasets&#39;</span><span class="p">:</span> <span class="n">get_dataset_info</span><span class="p">(),</span>
+        <span class="s1">&#39;models&#39;</span><span class="p">:</span> <span class="n">get_model_configurations</span><span class="p">(),</span>
+        <span class="s1">&#39;hyperparameters&#39;</span><span class="p">:</span> <span class="n">get_hyperparameter_settings</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;configs/</span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="103-result-archival-system">10.3 Result Archival System</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">archive_experiment_results</span><span class="p">(</span><span class="n">experiment_id</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comprehensive result archival dengan metadata&quot;&quot;&quot;</span>
+
+    <span class="n">archive_structure</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;experiment_metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">experiment_id</span><span class="p">,</span>
+            <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s1">&#39;duration&#39;</span><span class="p">:</span> <span class="n">calculate_experiment_duration</span><span class="p">(),</span>
+            <span class="s1">&#39;computational_resources&#39;</span><span class="p">:</span> <span class="n">get_resource_usage</span><span class="p">(),</span>
+            <span class="s1">&#39;reproducibility_hash&#39;</span><span class="p">:</span> <span class="n">calculate_reproducibility_hash</span><span class="p">()</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;training_results&#39;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;training&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;evaluation_metrics&#39;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;evaluation&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;statistical_analysis&#39;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;statistics&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;visualizations&#39;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;figures&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;model_checkpoints&#39;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Save dengan multiple formats untuk accessibility</span>
+    <span class="n">save_json</span><span class="p">(</span><span class="n">archive_structure</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;archives/</span><span class="si">{</span><span class="n">experiment_id</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
+    <span class="n">save_pickle</span><span class="p">(</span><span class="n">archive_structure</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;archives/</span><span class="si">{</span><span class="n">experiment_id</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span>
+    <span class="n">save_matlab</span><span class="p">(</span><span class="n">archive_structure</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;archives/</span><span class="si">{</span><span class="n">experiment_id</span><span class="si">}</span><span class="s2">.mat&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="11-ethical-considerations-dan-compliance">11. Ethical Considerations dan Compliance</h2>
+<h3 id="111-data-ethics-protocol">11.1 Data Ethics Protocol</h3>
+<ul>
+<li><strong>Data Anonymization</strong>: Semua personal identifiers removed</li>
+<li><strong>Consent Verification</strong>: Proper consent untuk dataset usage</li>
+<li><strong>Privacy Protection</strong>: No individual-level data exposure</li>
+<li><strong>Usage Compliance</strong>: Adherence to dataset license terms</li>
+</ul>
+<h3 id="112-research-integrity-standards">11.2 Research Integrity Standards</h3>
+<ul>
+<li><strong>No Data Fabrication</strong>: Exclusively authentic experimental data</li>
+<li><strong>No Result Manipulation</strong>: Raw results reported without modification</li>
+<li><strong>Transparent Methodology</strong>: Complete method disclosure</li>
+<li><strong>Reproducible Research</strong>: Full code dan data availability</li>
+</ul>
+<h3 id="113-academic-honesty-framework">11.3 Academic Honesty Framework</h3>
+<ul>
+<li><strong>Proper Attribution</strong>: All sources properly cited</li>
+<li><strong>Original Contribution</strong>: Novel methodology clearly identified</li>
+<li><strong>Collaborative Transparency</strong>: All collaborations acknowledged</li>
+<li><strong>Conflict of Interest</strong>: No undisclosed conflicts</li>
+</ul>
+<hr />
+<h2 id="12-kesimpulan-metodologi-komprehensif">12. Kesimpulan Metodologi Komprehensif</h2>
+<p>Metodologi penelitian CortexFlow telah dirancang dengan standar akademik tertinggi untuk memastikan rigor ilmiah, reproducibility, dan kontribusi yang signifikan dalam bidang neural decoding. Framework ini mengintegrasikan best practices dalam machine learning research dengan enhanced statistical validation untuk menghasilkan findings yang robust dan reliable.</p>
+<p>Kontribusi metodologis utama meliputi: (1) Enhanced 5-fold cross-validation dengan n=5 statistical rigor, (2) Comprehensive multi-metric evaluation framework, (3) Intelligent ensemble architecture dengan learned weighting, (4) GPU-optimized implementation untuk computational efficiency, dan (5) Complete reproducibility framework dengan comprehensive documentation.</p>
+<p>Framework metodologi ini memberikan foundation yang solid untuk implementasi penelitian neural decoding dengan 5 model neural network yang diimplementasikan secara independen. Metodologi CortexFlow dengan enhanced statistical rigor dan comprehensive evaluation dapat diadaptasi untuk future research dalam neural decoding dan brain-computer interface applications dengan maintaining academic standards dan reproducibility requirements.</p>
+    </div>
+    
+    <script>
+        // Add table captions
+        document.addEventListener('DOMContentLoaded', function() {
+            const tables = document.querySelectorAll('table');
+            tables.forEach((table, index) => {
+                const caption = table.previousElementSibling;
+                if (caption && caption.tagName === 'P' && caption.textContent.includes('Tabel')) {
+                    caption.className = 'table-caption';
+                }
+            });
+            
+            // Add figure captions
+            const images = document.querySelectorAll('img');
+            images.forEach((img, index) => {
+                const caption = img.nextElementSibling;
+                if (caption && caption.tagName === 'P') {
+                    caption.className = 'figure-caption';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
