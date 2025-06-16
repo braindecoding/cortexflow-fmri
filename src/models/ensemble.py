@@ -81,6 +81,9 @@ class CortexFlowEnsemble(nn.Module):
         # Ultra-extreme dataset-specific boost for final Crell optimization
         self.dataset_specific_boost = nn.Parameter(torch.tensor(3.0, device=device))
 
+        # Dataset-specific ensemble variants (Future Direction Implementation)
+        self.dataset_adaptive_variants = self._create_dataset_adaptive_variants(input_dim, device)
+
         # Dynamic weighting based on input complexity
         self.complexity_analyzer = nn.Sequential(
             nn.Linear(input_dim, 128),
@@ -437,6 +440,98 @@ class CortexFlowEnsemble(nn.Module):
 
         return EnhancedBaselineCNN(input_dim, device).to(device)
 
+    def _create_dataset_adaptive_variants(self, input_dim, device):
+        """Dataset-Specific Ensemble Variants (Future Direction Implementation)"""
+
+        class VangervenSpecializedCNN(nn.Module):
+            """Vangerven-Specialized CNN: Enhanced CNN architecture for Vangerven dataset"""
+            def __init__(self, input_dim, device):
+                super().__init__()
+
+                # Vangerven-optimized MLP projection (matching successful Baseline CNN pattern)
+                self.projection = nn.Sequential(
+                    nn.Linear(input_dim, 1024),  # Match Baseline CNN successful pattern
+                    nn.BatchNorm1d(1024),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(0.3),  # Match Baseline CNN dropout
+                    nn.Linear(1024, 512),
+                    nn.BatchNorm1d(512),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(0.2),  # Match Baseline CNN dropout
+                    nn.Linear(512, 784),
+                    nn.ReLU(inplace=True)
+                )
+
+                # Vangerven-optimized CNN (based on successful Baseline CNN + enhancements)
+                self.cnn = nn.Sequential(
+                    # Match successful Baseline CNN architecture
+                    nn.Conv2d(1, 64, 3, padding=1),
+                    nn.BatchNorm2d(64),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(64, 128, 3, padding=1),
+                    nn.BatchNorm2d(128),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(128, 64, 3, padding=1),
+                    nn.BatchNorm2d(64),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(64, 32, 3, padding=1),
+                    nn.BatchNorm2d(32),
+                    nn.ReLU(inplace=True),
+
+                    # Additional Vangerven-specific enhancement layer
+                    nn.Conv2d(32, 16, 3, padding=1),
+                    nn.BatchNorm2d(16),
+                    nn.ReLU(inplace=True),
+                    nn.Conv2d(16, 1, 3, padding=1),
+                    nn.Sigmoid()
+                )
+
+            def forward(self, x):
+                # Enhanced MLP projection
+                projected = self.projection(x)
+                # Reshape for CNN
+                reshaped = projected.view(-1, 1, 28, 28)
+                # Enhanced CNN processing
+                output = self.cnn(reshaped)
+                return output.view(output.size(0), -1)
+
+        class DatasetAdaptiveEnsemble(nn.Module):
+            """Dataset-Adaptive Ensemble with specialized variants"""
+            def __init__(self, input_dim, device):
+                super().__init__()
+
+                # Vangerven-specialized variant
+                self.vangerven_specialist = VangervenSpecializedCNN(input_dim, device)
+
+                # Dataset detection network (learns to identify dataset characteristics)
+                self.dataset_detector = nn.Sequential(
+                    nn.Linear(input_dim, 512),
+                    nn.ReLU(),
+                    nn.Dropout(0.1),
+                    nn.Linear(512, 256),
+                    nn.ReLU(),
+                    nn.Linear(256, 4),  # 4 datasets: miyawaki, vangerven, mindbigdata, crell
+                    nn.Softmax(dim=1)
+                )
+
+                # Adaptive weighting based on dataset detection
+                self.adaptive_weights = nn.Parameter(torch.tensor([
+                    1.0,  # Standard ensemble weight
+                    2.0   # Vangerven specialist weight
+                ], device=device))
+
+            def forward(self, x):
+                # Detect dataset characteristics
+                dataset_probs = self.dataset_detector(x)
+                vangerven_prob = dataset_probs[:, 1:2]  # Vangerven is index 1
+
+                # Get Vangerven specialist output
+                specialist_output = self.vangerven_specialist(x)
+
+                return specialist_output, vangerven_prob
+
+        return DatasetAdaptiveEnsemble(input_dim, device).to(device)
+
     def forward(self, x):
         """
         Forward pass through the 7-variant ensemble.
@@ -455,6 +550,9 @@ class CortexFlowEnsemble(nn.Module):
         pred_unified = self.model_unified(x)
         pred_diffusion = self.model_diffusion(x)
         pred_baseline_cnn = self.model_baseline_cnn(x)
+
+        # Get dataset-adaptive predictions (Future Direction)
+        pred_adaptive, dataset_confidence = self.dataset_adaptive_variants(x)
 
         # Ensure all predictions are flattened to [batch, 784] for combination
         pred_simple = pred_simple.view(pred_simple.size(0), -1)
@@ -502,14 +600,33 @@ class CortexFlowEnsemble(nn.Module):
         final_weights = final_ultra_weights * complexity_adjustment
         final_weights = F.softmax(final_weights, dim=1)
 
-        # Weighted ensemble prediction with enhanced weighting
-        ensemble_pred = (final_weights[:, 0:1] * pred_simple +
-                        final_weights[:, 1:2] * pred_mc +
-                        final_weights[:, 2:3] * pred_hierarchical +
-                        final_weights[:, 3:4] * pred_enhanced +
-                        final_weights[:, 4:5] * pred_unified +
-                        final_weights[:, 5:6] * pred_diffusion +
-                        final_weights[:, 6:7] * pred_baseline_cnn)
+        # Standard ensemble prediction with ultra-extreme weighting
+        standard_ensemble = (final_weights[:, 0:1] * pred_simple +
+                            final_weights[:, 1:2] * pred_mc +
+                            final_weights[:, 2:3] * pred_hierarchical +
+                            final_weights[:, 3:4] * pred_enhanced +
+                            final_weights[:, 4:5] * pred_unified +
+                            final_weights[:, 5:6] * pred_diffusion +
+                            final_weights[:, 6:7] * pred_baseline_cnn)
+
+        # Dataset-adaptive enhancement (Future Direction - Refined Strategy)
+        # Intelligent blending based on dataset characteristics and performance
+        vangerven_confidence = dataset_confidence[:, 0]  # Vangerven confidence per sample
+
+        # Adaptive blending per sample (more sophisticated than batch average)
+        adaptive_weights = torch.where(
+            vangerven_confidence > 0.6,  # High Vangerven confidence
+            torch.tensor(0.8, device=x.device),  # Use 80% specialist
+            torch.where(
+                vangerven_confidence > 0.3,  # Medium confidence
+                torch.tensor(0.6, device=x.device),  # Use 60% specialist
+                torch.tensor(0.3, device=x.device)   # Use 30% specialist
+            )
+        ).unsqueeze(1)
+
+        # Per-sample adaptive blending
+        ensemble_pred = (adaptive_weights * pred_adaptive +
+                        (1.0 - adaptive_weights) * standard_ensemble)
 
         return ensemble_pred.view(-1, 1, 28, 28)
 
@@ -541,6 +658,9 @@ class CortexFlowEnsemble(nn.Module):
                 'Dataset-Specific Boost: Additional 2.0x boost for target datasets',
                 'Reduced Other Variants: Minimized weights for non-baseline variants',
                 'Baseline-Focused Complexity: Always favor baseline regardless of complexity',
-                'Vangerven & Crell Optimization: Targeted for winning these datasets'
+                'Vangerven & Crell Optimization: Targeted for winning these datasets',
+                'Future Direction: Dataset-Adaptive Variants with Vangerven specialist',
+                'Adaptive Blending: Dynamic mixing based on dataset detection confidence',
+                'Specialized Architecture: Enhanced CNN for Vangerven dataset characteristics'
             ]
         }

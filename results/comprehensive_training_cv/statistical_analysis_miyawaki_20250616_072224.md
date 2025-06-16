@@ -1,6 +1,6 @@
-# Statistical Analysis Report: CRELL
+# Statistical Analysis Report: MIYAWAKI
 
-**Generated:** 2025-06-16 07:07:19  
+**Generated:** 2025-06-16 07:22:24  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -8,7 +8,7 @@
 
 ## 📊 Executive Summary
 
-This report presents comprehensive statistical analysis results for the **CRELL** dataset using robust cross-validation methodology and statistical significance testing.
+This report presents comprehensive statistical analysis results for the **MIYAWAKI** dataset using robust cross-validation methodology and statistical significance testing.
 
 ### Key Findings
 - **Cross-Validation Methodology:** 3-fold cross-validation with data shuffling
@@ -30,11 +30,11 @@ This report presents comprehensive statistical analysis results for the **CRELL*
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.032590 | 0.032365 | 0.033052 | 0.032669 ± 0.000286 |
-| MinD Vis | 0.032445 | 0.032209 | 0.032969 | 0.032541 ± 0.000318 |
-| Brain Diffuser | 0.032572 | 0.032564 | 0.033091 | 0.032742 ± 0.000247 |
-| CortexFlow Multi-Pathway | 0.032380 | 0.032280 | 0.032887 | 0.032516 ± 0.000266 |
-| CortexFlow Ensemble | 0.032711 | 0.032336 | 0.033008 | 0.032685 ± 0.000275 |
+| Baseline CNN | 0.018455 | 0.010980 | 0.022553 | 0.017330 ± 0.004791 |
+| MinD Vis | 0.015523 | 0.007710 | 0.012289 | 0.011841 ± 0.003206 |
+| Brain Diffuser | 0.013586 | 0.006830 | 0.011655 | 0.010690 ± 0.002841 |
+| CortexFlow Multi-Pathway | 0.060916 | 0.046773 | 0.070195 | 0.059294 ± 0.009630 |
+| CortexFlow Ensemble | 0.020566 | 0.013012 | 0.022359 | 0.018646 ± 0.004050 |
 
 
 ---
@@ -50,34 +50,34 @@ This report presents comprehensive statistical analysis results for the **CRELL*
 
 
 **Baseline CNN:**
-- t-statistic: 37.928
-- p-value: 0.000694 ***
-- Mean MSE: 0.032669
-- Interpretation: ❌ Not significantly better
+- t-statistic: -2.264
+- p-value: 0.151863 ns
+- Mean MSE: 0.017330
+- Interpretation: ✅ Significantly BETTER than baseline
 
 **MinD Vis:**
-- t-statistic: 33.577
-- p-value: 0.000886 ***
-- Mean MSE: 0.032541
-- Interpretation: ❌ Not significantly better
+- t-statistic: -5.805
+- p-value: 0.028414 *
+- Mean MSE: 0.011841
+- Interpretation: ✅ Significantly BETTER than baseline
 
 **Brain Diffuser:**
-- t-statistic: 44.391
-- p-value: 0.000507 ***
-- Mean MSE: 0.032742
-- Interpretation: ❌ Not significantly better
+- t-statistic: -7.122
+- p-value: 0.019151 *
+- Mean MSE: 0.010690
+- Interpretation: ✅ Significantly BETTER than baseline
 
 **CortexFlow Multi-Pathway:**
-- t-statistic: 39.992
-- p-value: 0.000625 ***
-- Mean MSE: 0.032516
+- t-statistic: 5.036
+- p-value: 0.037239 *
+- Mean MSE: 0.059294
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Ensemble:**
-- t-statistic: 39.562
-- p-value: 0.000638 ***
-- Mean MSE: 0.032685
-- Interpretation: ❌ Not significantly better
+- t-statistic: -2.219
+- p-value: 0.156740 ns
+- Mean MSE: 0.018646
+- Interpretation: ✅ Significantly BETTER than baseline
 
 
 ---
@@ -90,18 +90,18 @@ This report presents comprehensive statistical analysis results for the **CRELL*
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.028709 | 15.42 | 0.2398 | 0.3316 |
-| MinD Vis | 0.029102 | 15.36 | 0.2315 | 0.3325 |
-| Brain Diffuser | 0.029476 | 15.31 | 0.2333 | 0.3240 |
-| CortexFlow Multi-Pathway | 0.028858 | 15.40 | 0.2352 | 0.3277 |
-| CortexFlow Ensemble | 0.029108 | 15.36 | 0.2390 | 0.3302 |
+| Baseline CNN | 0.025306 | 15.97 | 0.8357 | 0.0993 |
+| MinD Vis | 0.014612 | 18.35 | 0.8785 | 0.0471 |
+| Brain Diffuser | 0.012881 | 18.90 | 0.8809 | 0.0545 |
+| CortexFlow Multi-Pathway | 0.122712 | 9.11 | 0.5580 | 0.2042 |
+| CortexFlow Ensemble | 0.020878 | 16.80 | 0.8590 | 0.0710 |
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** Baseline CNN (0.028709)
-- **PSNR (Higher is Better):** Baseline CNN (15.42 dB)
-- **SSIM (Higher is Better):** Baseline CNN (0.2398)
-- **LPIPS (Lower is Better):** Brain Diffuser (0.3240)
+- **MSE (Lower is Better):** Brain Diffuser (0.012881)
+- **PSNR (Higher is Better):** Brain Diffuser (18.90 dB)
+- **SSIM (Higher is Better):** Brain Diffuser (0.8809)
+- **LPIPS (Lower is Better):** MinD Vis (0.0471)
 
 
 ---
@@ -113,9 +113,9 @@ This section presents the comprehensive visual analysis generated during trainin
 
 
 #### Reconstruction Analysis
-**Figure 1:** Comprehensive reconstruction comparison showing original targets vs model predictions for CRELL dataset.
+**Figure 1:** Comprehensive reconstruction comparison showing original targets vs model predictions for MIYAWAKI dataset.
 
-![Reconstruction Analysis](../cv_reconstruction_crell_comprehensive.svg)
+![Reconstruction Analysis](../cv_reconstruction_miyawaki_comprehensive.svg)
 
 *Figure 1: Visual reconstruction comparison across all models. Shows original target images (top row) and reconstructions from each model with corresponding MSE scores. This visualization demonstrates the qualitative performance differences between methods.*
 
@@ -139,11 +139,11 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| Baseline CNN | 0.028709 | 🥇 Best |
-| CortexFlow Multi Pathway | 0.028858 | 🥈 Second |
-| MinD Vis | 0.029102 | 🥉 Third |
-| CortexFlow Ensemble | 0.029108 | #4 |
-| Brain Diffuser | 0.029476 | #5 |
+| Brain Diffuser | 0.012881 | 🥇 Best |
+| MinD Vis | 0.014612 | 🥈 Second |
+| CortexFlow Ensemble | 0.020878 | 🥉 Third |
+| Baseline CNN | 0.025306 | #4 |
+| CortexFlow Multi Pathway | 0.122712 | #5 |
 
 
 ---
