@@ -443,42 +443,77 @@ class CortexFlowEnsemble(nn.Module):
     def _create_dataset_adaptive_variants(self, input_dim, device):
         """Dataset-Specific Ensemble Variants (Future Direction Implementation)"""
 
-        class VangervenSpecializedCNN(nn.Module):
-            """Vangerven-Specialized CNN: Enhanced CNN architecture for Vangerven dataset"""
+        class AdvancedVangervenSpecialist(nn.Module):
+            """Advanced Vangerven Specialist: Refined architecture with multiple improvements"""
             def __init__(self, input_dim, device):
                 super().__init__()
 
-                # Vangerven-optimized MLP projection (matching successful Baseline CNN pattern)
-                self.projection = nn.Sequential(
-                    nn.Linear(input_dim, 1024),  # Match Baseline CNN successful pattern
+                # Advanced multi-path MLP projection for Vangerven's 3092 input
+                self.primary_projection = nn.Sequential(
+                    nn.Linear(input_dim, 1024),
                     nn.BatchNorm1d(1024),
                     nn.ReLU(inplace=True),
-                    nn.Dropout(0.3),  # Match Baseline CNN dropout
+                    nn.Dropout(0.3),
                     nn.Linear(1024, 512),
                     nn.BatchNorm1d(512),
                     nn.ReLU(inplace=True),
-                    nn.Dropout(0.2),  # Match Baseline CNN dropout
+                    nn.Dropout(0.2),
                     nn.Linear(512, 784),
                     nn.ReLU(inplace=True)
                 )
 
-                # Vangerven-optimized CNN (based on successful Baseline CNN + enhancements)
-                self.cnn = nn.Sequential(
-                    # Match successful Baseline CNN architecture
+                # Secondary pathway for feature enhancement
+                self.secondary_projection = nn.Sequential(
+                    nn.Linear(input_dim, 512),
+                    nn.BatchNorm1d(512),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(0.25),
+                    nn.Linear(512, 256),
+                    nn.BatchNorm1d(256),
+                    nn.ReLU(inplace=True),
+                    nn.Linear(256, 784),
+                    nn.ReLU(inplace=True)
+                )
+
+                # Pathway fusion mechanism
+                self.pathway_fusion = nn.Sequential(
+                    nn.Linear(1568, 1024),  # 784 + 784 = 1568
+                    nn.BatchNorm1d(1024),
+                    nn.ReLU(inplace=True),
+                    nn.Dropout(0.1),
+                    nn.Linear(1024, 784),
+                    nn.ReLU(inplace=True)
+                )
+
+                # Advanced CNN with residual connections
+                self.cnn_block1 = nn.Sequential(
                     nn.Conv2d(1, 64, 3, padding=1),
                     nn.BatchNorm2d(64),
                     nn.ReLU(inplace=True),
+                    nn.Conv2d(64, 64, 3, padding=1),
+                    nn.BatchNorm2d(64),
+                    nn.ReLU(inplace=True)
+                )
+
+                self.cnn_block2 = nn.Sequential(
                     nn.Conv2d(64, 128, 3, padding=1),
                     nn.BatchNorm2d(128),
                     nn.ReLU(inplace=True),
+                    nn.Conv2d(128, 128, 3, padding=1),
+                    nn.BatchNorm2d(128),
+                    nn.ReLU(inplace=True)
+                )
+
+                self.cnn_block3 = nn.Sequential(
                     nn.Conv2d(128, 64, 3, padding=1),
                     nn.BatchNorm2d(64),
                     nn.ReLU(inplace=True),
                     nn.Conv2d(64, 32, 3, padding=1),
                     nn.BatchNorm2d(32),
-                    nn.ReLU(inplace=True),
+                    nn.ReLU(inplace=True)
+                )
 
-                    # Additional Vangerven-specific enhancement layer
+                self.cnn_final = nn.Sequential(
                     nn.Conv2d(32, 16, 3, padding=1),
                     nn.BatchNorm2d(16),
                     nn.ReLU(inplace=True),
@@ -486,13 +521,32 @@ class CortexFlowEnsemble(nn.Module):
                     nn.Sigmoid()
                 )
 
+                # Skip connection for CNN
+                self.skip_conv = nn.Conv2d(1, 1, 1)
+
             def forward(self, x):
-                # Enhanced MLP projection
-                projected = self.projection(x)
+                # Multi-path projection
+                primary_path = self.primary_projection(x)
+                secondary_path = self.secondary_projection(x)
+
+                # Fuse pathways
+                fused = torch.cat([primary_path, secondary_path], dim=1)
+                enhanced_features = self.pathway_fusion(fused)
+
                 # Reshape for CNN
-                reshaped = projected.view(-1, 1, 28, 28)
-                # Enhanced CNN processing
-                output = self.cnn(reshaped)
+                reshaped = enhanced_features.view(-1, 1, 28, 28)
+
+                # Advanced CNN with skip connection
+                skip = self.skip_conv(reshaped)
+
+                x1 = self.cnn_block1(reshaped)
+                x2 = self.cnn_block2(x1)
+                x3 = self.cnn_block3(x2)
+                output = self.cnn_final(x3)
+
+                # Add skip connection
+                output = output + skip
+
                 return output.view(output.size(0), -1)
 
         class DatasetAdaptiveEnsemble(nn.Module):
@@ -500,18 +554,42 @@ class CortexFlowEnsemble(nn.Module):
             def __init__(self, input_dim, device):
                 super().__init__()
 
-                # Vangerven-specialized variant
-                self.vangerven_specialist = VangervenSpecializedCNN(input_dim, device)
+                # Advanced Vangerven-specialized variant
+                self.vangerven_specialist = AdvancedVangervenSpecialist(input_dim, device)
 
-                # Dataset detection network (learns to identify dataset characteristics)
-                self.dataset_detector = nn.Sequential(
-                    nn.Linear(input_dim, 512),
+                # Advanced dataset detection network with attention mechanism
+                self.feature_extractor = nn.Sequential(
+                    nn.Linear(input_dim, 1024),
+                    nn.BatchNorm1d(1024),
+                    nn.ReLU(),
+                    nn.Dropout(0.2),
+                    nn.Linear(1024, 512),
+                    nn.BatchNorm1d(512),
+                    nn.ReLU(),
+                    nn.Dropout(0.1)
+                )
+
+                # Attention mechanism for dataset characteristics
+                self.attention = nn.MultiheadAttention(512, 8, batch_first=True)
+
+                # Dataset classifier with confidence estimation
+                self.dataset_classifier = nn.Sequential(
+                    nn.Linear(512, 256),
+                    nn.BatchNorm1d(256),
                     nn.ReLU(),
                     nn.Dropout(0.1),
+                    nn.Linear(256, 128),
+                    nn.ReLU(),
+                    nn.Linear(128, 4),  # 4 datasets: miyawaki, vangerven, mindbigdata, crell
+                    nn.Softmax(dim=1)
+                )
+
+                # Confidence estimator
+                self.confidence_estimator = nn.Sequential(
                     nn.Linear(512, 256),
                     nn.ReLU(),
-                    nn.Linear(256, 4),  # 4 datasets: miyawaki, vangerven, mindbigdata, crell
-                    nn.Softmax(dim=1)
+                    nn.Linear(256, 1),
+                    nn.Sigmoid()
                 )
 
                 # Adaptive weighting based on dataset detection
@@ -521,14 +599,25 @@ class CortexFlowEnsemble(nn.Module):
                 ], device=device))
 
             def forward(self, x):
+                # Extract features for dataset detection
+                features = self.feature_extractor(x)
+
+                # Apply attention mechanism (treat each sample as sequence of 1)
+                features_expanded = features.unsqueeze(1)  # Add sequence dimension
+                attended_features, _ = self.attention(features_expanded, features_expanded, features_expanded)
+                attended_features = attended_features.squeeze(1)  # Remove sequence dimension
+
                 # Detect dataset characteristics
-                dataset_probs = self.dataset_detector(x)
+                dataset_probs = self.dataset_classifier(attended_features)
                 vangerven_prob = dataset_probs[:, 1:2]  # Vangerven is index 1
 
-                # Get Vangerven specialist output
+                # Estimate confidence
+                confidence = self.confidence_estimator(attended_features)
+
+                # Get advanced Vangerven specialist output
                 specialist_output = self.vangerven_specialist(x)
 
-                return specialist_output, vangerven_prob
+                return specialist_output, vangerven_prob, confidence
 
         return DatasetAdaptiveEnsemble(input_dim, device).to(device)
 
@@ -551,8 +640,8 @@ class CortexFlowEnsemble(nn.Module):
         pred_diffusion = self.model_diffusion(x)
         pred_baseline_cnn = self.model_baseline_cnn(x)
 
-        # Get dataset-adaptive predictions (Future Direction)
-        pred_adaptive, dataset_confidence = self.dataset_adaptive_variants(x)
+        # Get advanced dataset-adaptive predictions (Refined Future Direction)
+        pred_adaptive, vangerven_prob, detection_confidence = self.dataset_adaptive_variants(x)
 
         # Ensure all predictions are flattened to [batch, 784] for combination
         pred_simple = pred_simple.view(pred_simple.size(0), -1)
@@ -609,26 +698,53 @@ class CortexFlowEnsemble(nn.Module):
                             final_weights[:, 5:6] * pred_diffusion +
                             final_weights[:, 6:7] * pred_baseline_cnn)
 
-        # Dataset-adaptive enhancement (Future Direction - Refined Strategy)
-        # Intelligent blending based on dataset characteristics and performance
-        vangerven_confidence = dataset_confidence[:, 0]  # Vangerven confidence per sample
+        # Advanced Dataset-Adaptive Enhancement (Refined Future Direction)
+        # Multi-factor intelligent blending with confidence and probability
 
-        # Adaptive blending per sample (more sophisticated than batch average)
+        # Combine Vangerven probability and detection confidence
+        vangerven_confidence = vangerven_prob.squeeze(1)  # Vangerven probability per sample
+        overall_confidence = detection_confidence.squeeze(1)  # Detection confidence per sample
+
+        # Advanced adaptive weighting with multiple factors
+        # Factor 1: Vangerven probability (how likely this is Vangerven data)
+        # Factor 2: Detection confidence (how confident the detector is)
+        combined_confidence = vangerven_confidence * overall_confidence
+
+        # Sophisticated adaptive blending with confidence thresholds
         adaptive_weights = torch.where(
-            vangerven_confidence > 0.6,  # High Vangerven confidence
-            torch.tensor(0.8, device=x.device),  # Use 80% specialist
+            combined_confidence > 0.7,  # Very high confidence
+            torch.tensor(0.9, device=x.device),  # Use 90% specialist
             torch.where(
-                vangerven_confidence > 0.3,  # Medium confidence
-                torch.tensor(0.6, device=x.device),  # Use 60% specialist
-                torch.tensor(0.3, device=x.device)   # Use 30% specialist
+                combined_confidence > 0.5,  # High confidence
+                torch.tensor(0.75, device=x.device),  # Use 75% specialist
+                torch.where(
+                    combined_confidence > 0.3,  # Medium confidence
+                    torch.tensor(0.6, device=x.device),  # Use 60% specialist
+                    torch.where(
+                        combined_confidence > 0.1,  # Low confidence
+                        torch.tensor(0.4, device=x.device),  # Use 40% specialist
+                        torch.tensor(0.2, device=x.device)   # Use 20% specialist
+                    )
+                )
             )
         ).unsqueeze(1)
 
-        # Per-sample adaptive blending
+        # Advanced per-sample adaptive blending
         ensemble_pred = (adaptive_weights * pred_adaptive +
                         (1.0 - adaptive_weights) * standard_ensemble)
 
         return ensemble_pred.view(-1, 1, 28, 28)
+
+    def get_specialized_training_info(self):
+        """Get information about specialized training strategies for refinement"""
+        return {
+            'multi_objective_loss': 'Combines reconstruction loss + detection accuracy + confidence calibration',
+            'adaptive_learning_rates': 'Different learning rates for specialist vs ensemble components',
+            'progressive_training': 'Stage 1: Train detector, Stage 2: Train specialist, Stage 3: Joint training',
+            'confidence_regularization': 'Penalize overconfident predictions to improve calibration',
+            'dataset_augmentation': 'Synthetic Vangerven-like samples for specialist training',
+            'curriculum_learning': 'Start with easy samples, progress to difficult ones'
+        }
 
     def get_ensemble_info(self):
         """
@@ -659,8 +775,11 @@ class CortexFlowEnsemble(nn.Module):
                 'Reduced Other Variants: Minimized weights for non-baseline variants',
                 'Baseline-Focused Complexity: Always favor baseline regardless of complexity',
                 'Vangerven & Crell Optimization: Targeted for winning these datasets',
-                'Future Direction: Dataset-Adaptive Variants with Vangerven specialist',
-                'Adaptive Blending: Dynamic mixing based on dataset detection confidence',
-                'Specialized Architecture: Enhanced CNN for Vangerven dataset characteristics'
+                'Future Direction: Dataset-Adaptive Variants with Advanced Vangerven specialist',
+                'Advanced Adaptive Blending: Multi-factor confidence-based mixing',
+                'Specialized Architecture: Multi-path CNN with residual connections',
+                'Advanced Dataset Detection: Attention-based characteristic identification',
+                'Confidence Estimation: Sophisticated reliability assessment',
+                'Specialized Training: Multi-objective optimization strategy'
             ]
         }
