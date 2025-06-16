@@ -246,14 +246,14 @@ CortexFlow includes **7 comprehensive visualizations** and automatic report gene
 - **📊 Statistical Significance Matrix**: Comprehensive p-value heatmaps
 - **📈 Comprehensive Metrics Visualization**: Multi-dataset performance analysis
 
-#### **📊 Complete Generated Output (20+ Files) - 8-Variant Ensemble:**
+#### **📊 Complete Generated Output (21 Files) - Enhanced 5-Fold CV:**
 ```
 results/comprehensive_training_cv/
-├── 📄 statistical_analysis_miyawaki_20250616_113048.md     # Individual dataset analysis
-├── 📄 statistical_analysis_vangerven_20250616_113205.md    # With embedded figures
-├── 📄 statistical_analysis_mindbigdata_20250616_113848.md  # Academic formatting
-├── 📄 statistical_analysis_crell_20250616_114324.md       # Publication-ready
-├── 📋 comprehensive_training_summary_20250616_114330.md    # Overall summary
+├── 📄 statistical_analysis_miyawaki_20250616_123706.md     # Individual dataset analysis
+├── 📄 statistical_analysis_vangerven_20250616_123706.md    # With embedded figures
+├── 📄 statistical_analysis_mindbigdata_20250616_123706.md  # Academic formatting
+├── 📄 statistical_analysis_crell_20250616_123706.md       # Publication-ready
+├── 📋 comprehensive_training_summary_20250616_123706.md    # Overall summary
 ├── 🎨 cv_reconstruction_miyawaki_comprehensive.svg         # Reconstruction figures (4)
 ├── 🎨 cv_reconstruction_vangerven_comprehensive.svg        # High-quality SVG
 ├── 🎨 cv_reconstruction_mindbigdata_comprehensive.svg      # Academic standard
