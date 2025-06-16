@@ -1,6 +1,6 @@
 # Statistical Analysis Report: CRELL
 
-**Generated:** 2025-06-16 06:44:59  
+**Generated:** 2025-06-16 07:07:19  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -30,11 +30,11 @@ This report presents comprehensive statistical analysis results for the **CRELL*
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.032562 | 0.032348 | 0.033207 | 0.032705 ± 0.000365 |
-| MinD Vis | 0.032356 | 0.032358 | 0.032900 | 0.032538 ± 0.000256 |
-| Brain Diffuser | 0.032701 | 0.032530 | 0.033205 | 0.032812 ± 0.000287 |
-| CortexFlow Multi-Pathway | 0.032335 | 0.032264 | 0.033022 | 0.032540 ± 0.000342 |
-| CortexFlow Ensemble | 0.032597 | 0.032336 | 0.033040 | 0.032658 ± 0.000291 |
+| Baseline CNN | 0.032590 | 0.032365 | 0.033052 | 0.032669 ± 0.000286 |
+| MinD Vis | 0.032445 | 0.032209 | 0.032969 | 0.032541 ± 0.000318 |
+| Brain Diffuser | 0.032572 | 0.032564 | 0.033091 | 0.032742 ± 0.000247 |
+| CortexFlow Multi-Pathway | 0.032380 | 0.032280 | 0.032887 | 0.032516 ± 0.000266 |
+| CortexFlow Ensemble | 0.032711 | 0.032336 | 0.033008 | 0.032685 ± 0.000275 |
 
 
 ---
@@ -50,33 +50,33 @@ This report presents comprehensive statistical analysis results for the **CRELL*
 
 
 **Baseline CNN:**
-- t-statistic: 29.830
-- p-value: 0.001122 **
-- Mean MSE: 0.032705
+- t-statistic: 37.928
+- p-value: 0.000694 ***
+- Mean MSE: 0.032669
 - Interpretation: ❌ Not significantly better
 
 **MinD Vis:**
-- t-statistic: 41.629
-- p-value: 0.000577 ***
-- Mean MSE: 0.032538
+- t-statistic: 33.577
+- p-value: 0.000886 ***
+- Mean MSE: 0.032541
 - Interpretation: ❌ Not significantly better
 
 **Brain Diffuser:**
-- t-statistic: 38.549
-- p-value: 0.000672 ***
-- Mean MSE: 0.032812
+- t-statistic: 44.391
+- p-value: 0.000507 ***
+- Mean MSE: 0.032742
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Multi-Pathway:**
-- t-statistic: 31.209
-- p-value: 0.001025 **
-- Mean MSE: 0.032540
+- t-statistic: 39.992
+- p-value: 0.000625 ***
+- Mean MSE: 0.032516
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Ensemble:**
-- t-statistic: 37.236
-- p-value: 0.000720 ***
-- Mean MSE: 0.032658
+- t-statistic: 39.562
+- p-value: 0.000638 ***
+- Mean MSE: 0.032685
 - Interpretation: ❌ Not significantly better
 
 
@@ -90,18 +90,18 @@ This report presents comprehensive statistical analysis results for the **CRELL*
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.029182 | 15.35 | 0.2355 | 0.3290 |
-| MinD Vis | 0.029063 | 15.37 | 0.2321 | 0.3313 |
-| Brain Diffuser | 0.029348 | 15.32 | 0.2358 | 0.3180 |
-| CortexFlow Multi-Pathway | 0.028864 | 15.40 | 0.2350 | 0.3277 |
-| CortexFlow Ensemble | 0.029321 | 15.33 | 0.2322 | 0.3389 |
+| Baseline CNN | 0.028709 | 15.42 | 0.2398 | 0.3316 |
+| MinD Vis | 0.029102 | 15.36 | 0.2315 | 0.3325 |
+| Brain Diffuser | 0.029476 | 15.31 | 0.2333 | 0.3240 |
+| CortexFlow Multi-Pathway | 0.028858 | 15.40 | 0.2352 | 0.3277 |
+| CortexFlow Ensemble | 0.029108 | 15.36 | 0.2390 | 0.3302 |
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** CortexFlow Multi-Pathway (0.028864)
-- **PSNR (Higher is Better):** CortexFlow Multi-Pathway (15.40 dB)
-- **SSIM (Higher is Better):** Brain Diffuser (0.2358)
-- **LPIPS (Lower is Better):** Brain Diffuser (0.3180)
+- **MSE (Lower is Better):** Baseline CNN (0.028709)
+- **PSNR (Higher is Better):** Baseline CNN (15.42 dB)
+- **SSIM (Higher is Better):** Baseline CNN (0.2398)
+- **LPIPS (Lower is Better):** Brain Diffuser (0.3240)
 
 
 ---
@@ -139,11 +139,11 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| CortexFlow Multi Pathway | 0.028864 | 🥇 Best |
-| MinD Vis | 0.029063 | 🥈 Second |
-| Baseline CNN | 0.029182 | 🥉 Third |
-| CortexFlow Ensemble | 0.029321 | #4 |
-| Brain Diffuser | 0.029348 | #5 |
+| Baseline CNN | 0.028709 | 🥇 Best |
+| CortexFlow Multi Pathway | 0.028858 | 🥈 Second |
+| MinD Vis | 0.029102 | 🥉 Third |
+| CortexFlow Ensemble | 0.029108 | #4 |
+| Brain Diffuser | 0.029476 | #5 |
 
 
 ---

@@ -1,6 +1,6 @@
-# Statistical Analysis Report: MIYAWAKI
+# Statistical Analysis Report: MINDBIGDATA
 
-**Generated:** 2025-06-16 06:34:22  
+**Generated:** 2025-06-16 07:03:28  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -8,7 +8,7 @@
 
 ## 📊 Executive Summary
 
-This report presents comprehensive statistical analysis results for the **MIYAWAKI** dataset using robust cross-validation methodology and statistical significance testing.
+This report presents comprehensive statistical analysis results for the **MINDBIGDATA** dataset using robust cross-validation methodology and statistical significance testing.
 
 ### Key Findings
 - **Cross-Validation Methodology:** 3-fold cross-validation with data shuffling
@@ -30,11 +30,11 @@ This report presents comprehensive statistical analysis results for the **MIYAWA
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.018455 | 0.010980 | 0.022553 | 0.017330 ± 0.004791 |
-| MinD Vis | 0.015523 | 0.007710 | 0.012289 | 0.011841 ± 0.003206 |
-| Brain Diffuser | 0.013586 | 0.006830 | 0.011655 | 0.010690 ± 0.002841 |
-| CortexFlow Multi-Pathway | 0.060916 | 0.046773 | 0.070195 | 0.059294 ± 0.009630 |
-| CortexFlow Ensemble | 0.019323 | 0.011826 | 0.018156 | 0.016435 ± 0.003294 |
+| Baseline CNN | 0.057909 | 0.059861 | 0.059155 | 0.058975 ± 0.000807 |
+| MinD Vis | 0.057984 | 0.057191 | 0.059272 | 0.058149 ± 0.000857 |
+| Brain Diffuser | 0.057235 | 0.057932 | 0.059114 | 0.058094 ± 0.000776 |
+| CortexFlow Multi-Pathway | 0.056271 | 0.057151 | 0.057640 | 0.057020 ± 0.000566 |
+| CortexFlow Ensemble | 0.057835 | 0.061070 | 0.062019 | 0.060308 ± 0.001791 |
 
 
 ---
@@ -50,34 +50,34 @@ This report presents comprehensive statistical analysis results for the **MIYAWA
 
 
 **Baseline CNN:**
-- t-statistic: -2.264
-- p-value: 0.151863 ns
-- Mean MSE: 0.017330
-- Interpretation: ✅ Significantly BETTER than baseline
+- t-statistic: 59.555
+- p-value: 0.000282 ***
+- Mean MSE: 0.058975
+- Interpretation: ❌ Not significantly better
 
 **MinD Vis:**
-- t-statistic: -5.805
-- p-value: 0.028414 *
-- Mean MSE: 0.011841
-- Interpretation: ✅ Significantly BETTER than baseline
+- t-statistic: 54.682
+- p-value: 0.000334 ***
+- Mean MSE: 0.058149
+- Interpretation: ❌ Not significantly better
 
 **Brain Diffuser:**
-- t-statistic: -7.122
-- p-value: 0.019151 *
-- Mean MSE: 0.010690
-- Interpretation: ✅ Significantly BETTER than baseline
+- t-statistic: 60.341
+- p-value: 0.000275 ***
+- Mean MSE: 0.058094
+- Interpretation: ❌ Not significantly better
 
 **CortexFlow Multi-Pathway:**
-- t-statistic: 5.036
-- p-value: 0.037239 *
-- Mean MSE: 0.059294
+- t-statistic: 79.943
+- p-value: 0.000156 ***
+- Mean MSE: 0.057020
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Ensemble:**
-- t-statistic: -3.678
-- p-value: 0.066633 ns
-- Mean MSE: 0.016435
-- Interpretation: ✅ Significantly BETTER than baseline
+- t-statistic: 27.879
+- p-value: 0.001284 **
+- Mean MSE: 0.060308
+- Interpretation: ❌ Not significantly better
 
 
 ---
@@ -90,18 +90,18 @@ This report presents comprehensive statistical analysis results for the **MIYAWA
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.025306 | 15.97 | 0.8357 | 0.0993 |
-| MinD Vis | 0.014612 | 18.35 | 0.8785 | 0.0471 |
-| Brain Diffuser | 0.012881 | 18.90 | 0.8809 | 0.0545 |
-| CortexFlow Multi-Pathway | 0.122712 | 9.11 | 0.5580 | 0.2042 |
-| CortexFlow Ensemble | 0.025085 | 16.01 | 0.8030 | 0.0880 |
+| Baseline CNN | 0.061317 | 12.12 | 0.1415 | 0.3440 |
+| MinD Vis | 0.055045 | 12.59 | 0.1723 | 0.3662 |
+| Brain Diffuser | 0.053748 | 12.70 | 0.2022 | 0.3247 |
+| CortexFlow Multi-Pathway | 0.054277 | 12.65 | 0.1827 | 0.3587 |
+| CortexFlow Ensemble | 0.059568 | 12.25 | 0.1458 | 0.3721 |
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** Brain Diffuser (0.012881)
-- **PSNR (Higher is Better):** Brain Diffuser (18.90 dB)
-- **SSIM (Higher is Better):** Brain Diffuser (0.8809)
-- **LPIPS (Lower is Better):** MinD Vis (0.0471)
+- **MSE (Lower is Better):** Brain Diffuser (0.053748)
+- **PSNR (Higher is Better):** Brain Diffuser (12.70 dB)
+- **SSIM (Higher is Better):** Brain Diffuser (0.2022)
+- **LPIPS (Lower is Better):** Brain Diffuser (0.3247)
 
 
 ---
@@ -113,9 +113,9 @@ This section presents the comprehensive visual analysis generated during trainin
 
 
 #### Reconstruction Analysis
-**Figure 1:** Comprehensive reconstruction comparison showing original targets vs model predictions for MIYAWAKI dataset.
+**Figure 1:** Comprehensive reconstruction comparison showing original targets vs model predictions for MINDBIGDATA dataset.
 
-![Reconstruction Analysis](../cv_reconstruction_miyawaki_comprehensive.svg)
+![Reconstruction Analysis](../cv_reconstruction_mindbigdata_comprehensive.svg)
 
 *Figure 1: Visual reconstruction comparison across all models. Shows original target images (top row) and reconstructions from each model with corresponding MSE scores. This visualization demonstrates the qualitative performance differences between methods.*
 
@@ -139,11 +139,11 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| Brain Diffuser | 0.012881 | 🥇 Best |
-| MinD Vis | 0.014612 | 🥈 Second |
-| CortexFlow Ensemble | 0.025085 | 🥉 Third |
-| Baseline CNN | 0.025306 | #4 |
-| CortexFlow Multi Pathway | 0.122712 | #5 |
+| Brain Diffuser | 0.053748 | 🥇 Best |
+| CortexFlow Multi Pathway | 0.054277 | 🥈 Second |
+| MinD Vis | 0.055045 | 🥉 Third |
+| CortexFlow Ensemble | 0.059568 | #4 |
+| Baseline CNN | 0.061317 | #5 |
 
 
 ---
