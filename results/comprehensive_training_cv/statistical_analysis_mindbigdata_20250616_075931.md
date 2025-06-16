@@ -1,6 +1,6 @@
 # Statistical Analysis Report: MINDBIGDATA
 
-**Generated:** 2025-06-16 07:28:22  
+**Generated:** 2025-06-16 07:59:31  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -30,11 +30,11 @@ This report presents comprehensive statistical analysis results for the **MINDBI
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.057679 | 0.059419 | 0.059066 | 0.058722 ± 0.000751 |
-| MinD Vis | 0.059068 | 0.057993 | 0.059535 | 0.058865 ± 0.000646 |
-| Brain Diffuser | 0.057396 | 0.057879 | 0.059328 | 0.058201 ± 0.000821 |
-| CortexFlow Multi-Pathway | 0.056450 | 0.057194 | 0.057691 | 0.057112 ± 0.000510 |
-| CortexFlow Ensemble | 0.057921 | 0.061173 | 0.059282 | 0.059459 ± 0.001334 |
+| Baseline CNN | 0.057305 | 0.060226 | 0.058633 | 0.058721 ± 0.001194 |
+| MinD Vis | 0.057520 | 0.057796 | 0.058149 | 0.057821 ± 0.000258 |
+| Brain Diffuser | 0.058001 | 0.058577 | 0.060049 | 0.058876 ± 0.000862 |
+| CortexFlow Multi-Pathway | 0.056187 | 0.057126 | 0.057612 | 0.056975 ± 0.000591 |
+| CortexFlow Ensemble | 0.058407 | 0.061878 | 0.061889 | 0.060724 ± 0.001639 |
 
 
 ---
@@ -50,33 +50,33 @@ This report presents comprehensive statistical analysis results for the **MINDBI
 
 
 **Baseline CNN:**
-- t-statistic: 63.495
-- p-value: 0.000248 ***
-- Mean MSE: 0.058722
+- t-statistic: 39.935
+- p-value: 0.000626 ***
+- Mean MSE: 0.058721
 - Interpretation: ❌ Not significantly better
 
 **MinD Vis:**
-- t-statistic: 74.195
-- p-value: 0.000182 ***
-- Mean MSE: 0.058865
+- t-statistic: 180.209
+- p-value: 0.000031 ***
+- Mean MSE: 0.057821
 - Interpretation: ❌ Not significantly better
 
 **Brain Diffuser:**
-- t-statistic: 57.190
-- p-value: 0.000306 ***
-- Mean MSE: 0.058201
+- t-statistic: 55.566
+- p-value: 0.000324 ***
+- Mean MSE: 0.058876
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Multi-Pathway:**
-- t-statistic: 89.080
-- p-value: 0.000126 ***
-- Mean MSE: 0.057112
+- t-statistic: 76.496
+- p-value: 0.000171 ***
+- Mean MSE: 0.056975
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Ensemble:**
-- t-statistic: 36.536
-- p-value: 0.000748 ***
-- Mean MSE: 0.059459
+- t-statistic: 30.828
+- p-value: 0.001051 **
+- Mean MSE: 0.060724
 - Interpretation: ❌ Not significantly better
 
 
@@ -90,18 +90,18 @@ This report presents comprehensive statistical analysis results for the **MINDBI
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.057955 | 12.37 | 0.1562 | 0.3588 |
-| MinD Vis | 0.055484 | 12.56 | 0.1762 | 0.3409 |
-| Brain Diffuser | 0.055409 | 12.56 | 0.1718 | 0.3817 |
-| CortexFlow Multi-Pathway | 0.054576 | 12.63 | 0.1755 | 0.3738 |
-| CortexFlow Ensemble | 0.059647 | 12.24 | 0.1520 | 0.3567 |
+| Baseline CNN | 0.057783 | 12.38 | 0.1666 | 0.3510 |
+| MinD Vis | 0.057739 | 12.39 | 0.1735 | 0.3366 |
+| Brain Diffuser | 0.056260 | 12.50 | 0.1645 | 0.3912 |
+| CortexFlow Multi-Pathway | 0.054666 | 12.62 | 0.1760 | 0.3740 |
+| CortexFlow Ensemble | 0.056865 | 12.45 | 0.1717 | 0.3491 |
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** CortexFlow Multi-Pathway (0.054576)
-- **PSNR (Higher is Better):** CortexFlow Multi-Pathway (12.63 dB)
-- **SSIM (Higher is Better):** MinD Vis (0.1762)
-- **LPIPS (Lower is Better):** MinD Vis (0.3409)
+- **MSE (Lower is Better):** CortexFlow Multi-Pathway (0.054666)
+- **PSNR (Higher is Better):** CortexFlow Multi-Pathway (12.62 dB)
+- **SSIM (Higher is Better):** CortexFlow Multi-Pathway (0.1760)
+- **LPIPS (Lower is Better):** MinD Vis (0.3366)
 
 
 ---
@@ -139,11 +139,11 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| CortexFlow Multi Pathway | 0.054576 | 🥇 Best |
-| Brain Diffuser | 0.055409 | 🥈 Second |
-| MinD Vis | 0.055484 | 🥉 Third |
-| Baseline CNN | 0.057955 | #4 |
-| CortexFlow Ensemble | 0.059647 | #5 |
+| CortexFlow Multi Pathway | 0.054666 | 🥇 Best |
+| Brain Diffuser | 0.056260 | 🥈 Second |
+| CortexFlow Ensemble | 0.056865 | 🥉 Third |
+| MinD Vis | 0.057739 | #4 |
+| Baseline CNN | 0.057783 | #5 |
 
 
 ---

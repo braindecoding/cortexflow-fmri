@@ -1,6 +1,6 @@
 # Statistical Analysis Report: VANGERVEN
 
-**Generated:** 2025-06-16 07:23:27  
+**Generated:** 2025-06-16 07:52:41  
 **Analysis Type:** Comprehensive T-Test Analysis with Cross-Validation  
 **Methodology:** Robust Statistical Significance Testing  
 
@@ -30,11 +30,11 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 | Model | Fold 1 MSE | Fold 2 MSE | Fold 3 MSE | Mean ± Std |
 |-------|------------|------------|------------|------------|
-| Baseline CNN | 0.054654 | 0.045658 | 0.055163 | 0.051825 ± 0.004366 |
-| MinD Vis | 0.062136 | 0.059112 | 0.053358 | 0.058202 ± 0.003641 |
-| Brain Diffuser | 0.055416 | 0.052443 | 0.055844 | 0.054568 ± 0.001513 |
-| CortexFlow Multi-Pathway | 0.062658 | 0.060798 | 0.063821 | 0.062426 ± 0.001245 |
-| CortexFlow Ensemble | 0.053981 | 0.055793 | 0.051550 | 0.053775 ± 0.001738 |
+| Baseline CNN | 0.052575 | 0.055984 | 0.053520 | 0.054026 ± 0.001437 |
+| MinD Vis | 0.052303 | 0.051741 | 0.052230 | 0.052091 ± 0.000250 |
+| Brain Diffuser | 0.057298 | 0.057792 | 0.055324 | 0.056804 ± 0.001066 |
+| CortexFlow Multi-Pathway | 0.062767 | 0.060272 | 0.063152 | 0.062064 ± 0.001276 |
+| CortexFlow Ensemble | 0.053213 | 0.051664 | 0.056825 | 0.053901 ± 0.002162 |
 
 
 ---
@@ -50,33 +50,33 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 
 **Baseline CNN:**
-- t-statistic: 8.689
-- p-value: 0.012987 *
-- Mean MSE: 0.051825
+- t-statistic: 28.560
+- p-value: 0.001224 **
+- Mean MSE: 0.054026
 - Interpretation: ❌ Not significantly better
 
 **MinD Vis:**
-- t-statistic: 12.896
-- p-value: 0.005959 **
-- Mean MSE: 0.058202
+- t-statistic: 153.522
+- p-value: 0.000042 ***
+- Mean MSE: 0.052091
 - Interpretation: ❌ Not significantly better
 
 **Brain Diffuser:**
-- t-statistic: 27.646
-- p-value: 0.001306 **
-- Mean MSE: 0.054568
+- t-statistic: 42.184
+- p-value: 0.000561 ***
+- Mean MSE: 0.056804
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Multi-Pathway:**
-- t-statistic: 42.512
-- p-value: 0.000553 ***
-- Mean MSE: 0.062426
+- t-statistic: 41.063
+- p-value: 0.000593 ***
+- Mean MSE: 0.062064
 - Interpretation: ❌ Not significantly better
 
 **CortexFlow Ensemble:**
-- t-statistic: 23.412
-- p-value: 0.001819 **
-- Mean MSE: 0.053775
+- t-statistic: 18.902
+- p-value: 0.002787 **
+- Mean MSE: 0.053901
 - Interpretation: ❌ Not significantly better
 
 
@@ -90,18 +90,18 @@ This report presents comprehensive statistical analysis results for the **VANGER
 
 | Model | MSE ↓ | PSNR ↑ (dB) | SSIM ↑ | LPIPS ↓ |
 |-------|-------|-------------|--------|----------|
-| Baseline CNN | 0.040193 | 13.96 | 0.4825 | 0.1861 |
-| MinD Vis | 0.052845 | 12.77 | 0.2580 | 0.3495 |
-| Brain Diffuser | 0.042657 | 13.70 | 0.4077 | 0.1973 |
-| CortexFlow Multi-Pathway | 0.054911 | 12.60 | 0.2302 | 0.3527 |
-| CortexFlow Ensemble | 0.047820 | 13.20 | 0.4267 | 0.1655 |
+| Baseline CNN | 0.044580 | 13.51 | 0.4371 | 0.1813 |
+| MinD Vis | 0.042719 | 13.69 | 0.3756 | 0.2421 |
+| Brain Diffuser | 0.041418 | 13.83 | 0.4064 | 0.2135 |
+| CortexFlow Multi-Pathway | 0.054656 | 12.62 | 0.2524 | 0.3252 |
+| CortexFlow Ensemble | 0.062245 | 12.06 | 0.3392 | 0.1840 |
 
 
 ### Best Performing Methods
-- **MSE (Lower is Better):** Baseline CNN (0.040193)
-- **PSNR (Higher is Better):** Baseline CNN (13.96 dB)
-- **SSIM (Higher is Better):** Baseline CNN (0.4825)
-- **LPIPS (Lower is Better):** CortexFlow Ensemble (0.1655)
+- **MSE (Lower is Better):** Brain Diffuser (0.041418)
+- **PSNR (Higher is Better):** Brain Diffuser (13.83 dB)
+- **SSIM (Higher is Better):** Baseline CNN (0.4371)
+- **LPIPS (Lower is Better):** Baseline CNN (0.1813)
 
 
 ---
@@ -139,11 +139,11 @@ This section presents the comprehensive visual analysis generated during trainin
 
 | Model | MSE | Performance |
 |-------|-----|-------------|
-| Baseline CNN | 0.040193 | 🥇 Best |
-| Brain Diffuser | 0.042657 | 🥈 Second |
-| CortexFlow Ensemble | 0.047820 | 🥉 Third |
-| MinD Vis | 0.052845 | #4 |
-| CortexFlow Multi Pathway | 0.054911 | #5 |
+| Brain Diffuser | 0.041418 | 🥇 Best |
+| MinD Vis | 0.042719 | 🥈 Second |
+| Baseline CNN | 0.044580 | 🥉 Third |
+| CortexFlow Multi Pathway | 0.054656 | #4 |
+| CortexFlow Ensemble | 0.062245 | #5 |
 
 
 ---

@@ -61,28 +61,8 @@ class CortexFlowEnsemble(nn.Module):
             nn.Softmax(dim=1)
         ).to(device)
 
-        # Ultra-extreme baseline emphasis mechanism (99% Baseline CNN dominance)
-        self.baseline_emphasis = nn.Parameter(torch.tensor(8.0, device=device))  # Ultra-extreme emphasis
-
-        # Ultra-extreme performance-based weighting (Near-complete Baseline CNN dominance)
-        # Analysis: Vangerven wins by 28%, Crell behind by 1.94% - need final push
-        # Strategy: Make ensemble essentially pure Baseline CNN with tiny ensemble benefit
-        performance_weights = torch.tensor([
-            0.1,   # Simple - minimal weight
-            0.1,   # MC - minimal weight
-            0.1,   # Hierarchical - minimal weight
-            0.1,   # Enhanced - minimal weight
-            0.1,   # Unified - minimal weight
-            0.1,   # Diffusion - minimal weight
-            10.0   # Baseline CNN - EXTREME weight (near-complete dominance)
-        ], device=device)
-        self.performance_weights = nn.Parameter(performance_weights)
-
-        # Ultra-extreme dataset-specific boost for final Crell optimization
-        self.dataset_specific_boost = nn.Parameter(torch.tensor(3.0, device=device))
-
-        # Dataset-specific ensemble variants (Future Direction Implementation)
-        self.dataset_adaptive_variants = self._create_dataset_adaptive_variants(input_dim, device)
+        # Baseline emphasis mechanism (give more weight to strong performers)
+        self.baseline_emphasis = nn.Parameter(torch.tensor(1.5, device=device))  # Learnable emphasis factor
 
         # Dynamic weighting based on input complexity
         self.complexity_analyzer = nn.Sequential(
@@ -440,187 +420,6 @@ class CortexFlowEnsemble(nn.Module):
 
         return EnhancedBaselineCNN(input_dim, device).to(device)
 
-    def _create_dataset_adaptive_variants(self, input_dim, device):
-        """Dataset-Specific Ensemble Variants (Future Direction Implementation)"""
-
-        class AdvancedVangervenSpecialist(nn.Module):
-            """Advanced Vangerven Specialist: Refined architecture with multiple improvements"""
-            def __init__(self, input_dim, device):
-                super().__init__()
-
-                # Advanced multi-path MLP projection for Vangerven's 3092 input
-                self.primary_projection = nn.Sequential(
-                    nn.Linear(input_dim, 1024),
-                    nn.BatchNorm1d(1024),
-                    nn.ReLU(inplace=True),
-                    nn.Dropout(0.3),
-                    nn.Linear(1024, 512),
-                    nn.BatchNorm1d(512),
-                    nn.ReLU(inplace=True),
-                    nn.Dropout(0.2),
-                    nn.Linear(512, 784),
-                    nn.ReLU(inplace=True)
-                )
-
-                # Secondary pathway for feature enhancement
-                self.secondary_projection = nn.Sequential(
-                    nn.Linear(input_dim, 512),
-                    nn.BatchNorm1d(512),
-                    nn.ReLU(inplace=True),
-                    nn.Dropout(0.25),
-                    nn.Linear(512, 256),
-                    nn.BatchNorm1d(256),
-                    nn.ReLU(inplace=True),
-                    nn.Linear(256, 784),
-                    nn.ReLU(inplace=True)
-                )
-
-                # Pathway fusion mechanism
-                self.pathway_fusion = nn.Sequential(
-                    nn.Linear(1568, 1024),  # 784 + 784 = 1568
-                    nn.BatchNorm1d(1024),
-                    nn.ReLU(inplace=True),
-                    nn.Dropout(0.1),
-                    nn.Linear(1024, 784),
-                    nn.ReLU(inplace=True)
-                )
-
-                # Advanced CNN with residual connections
-                self.cnn_block1 = nn.Sequential(
-                    nn.Conv2d(1, 64, 3, padding=1),
-                    nn.BatchNorm2d(64),
-                    nn.ReLU(inplace=True),
-                    nn.Conv2d(64, 64, 3, padding=1),
-                    nn.BatchNorm2d(64),
-                    nn.ReLU(inplace=True)
-                )
-
-                self.cnn_block2 = nn.Sequential(
-                    nn.Conv2d(64, 128, 3, padding=1),
-                    nn.BatchNorm2d(128),
-                    nn.ReLU(inplace=True),
-                    nn.Conv2d(128, 128, 3, padding=1),
-                    nn.BatchNorm2d(128),
-                    nn.ReLU(inplace=True)
-                )
-
-                self.cnn_block3 = nn.Sequential(
-                    nn.Conv2d(128, 64, 3, padding=1),
-                    nn.BatchNorm2d(64),
-                    nn.ReLU(inplace=True),
-                    nn.Conv2d(64, 32, 3, padding=1),
-                    nn.BatchNorm2d(32),
-                    nn.ReLU(inplace=True)
-                )
-
-                self.cnn_final = nn.Sequential(
-                    nn.Conv2d(32, 16, 3, padding=1),
-                    nn.BatchNorm2d(16),
-                    nn.ReLU(inplace=True),
-                    nn.Conv2d(16, 1, 3, padding=1),
-                    nn.Sigmoid()
-                )
-
-                # Skip connection for CNN
-                self.skip_conv = nn.Conv2d(1, 1, 1)
-
-            def forward(self, x):
-                # Multi-path projection
-                primary_path = self.primary_projection(x)
-                secondary_path = self.secondary_projection(x)
-
-                # Fuse pathways
-                fused = torch.cat([primary_path, secondary_path], dim=1)
-                enhanced_features = self.pathway_fusion(fused)
-
-                # Reshape for CNN
-                reshaped = enhanced_features.view(-1, 1, 28, 28)
-
-                # Advanced CNN with skip connection
-                skip = self.skip_conv(reshaped)
-
-                x1 = self.cnn_block1(reshaped)
-                x2 = self.cnn_block2(x1)
-                x3 = self.cnn_block3(x2)
-                output = self.cnn_final(x3)
-
-                # Add skip connection
-                output = output + skip
-
-                return output.view(output.size(0), -1)
-
-        class DatasetAdaptiveEnsemble(nn.Module):
-            """Dataset-Adaptive Ensemble with specialized variants"""
-            def __init__(self, input_dim, device):
-                super().__init__()
-
-                # Advanced Vangerven-specialized variant
-                self.vangerven_specialist = AdvancedVangervenSpecialist(input_dim, device)
-
-                # Advanced dataset detection network with attention mechanism
-                self.feature_extractor = nn.Sequential(
-                    nn.Linear(input_dim, 1024),
-                    nn.BatchNorm1d(1024),
-                    nn.ReLU(),
-                    nn.Dropout(0.2),
-                    nn.Linear(1024, 512),
-                    nn.BatchNorm1d(512),
-                    nn.ReLU(),
-                    nn.Dropout(0.1)
-                )
-
-                # Attention mechanism for dataset characteristics
-                self.attention = nn.MultiheadAttention(512, 8, batch_first=True)
-
-                # Dataset classifier with confidence estimation
-                self.dataset_classifier = nn.Sequential(
-                    nn.Linear(512, 256),
-                    nn.BatchNorm1d(256),
-                    nn.ReLU(),
-                    nn.Dropout(0.1),
-                    nn.Linear(256, 128),
-                    nn.ReLU(),
-                    nn.Linear(128, 4),  # 4 datasets: miyawaki, vangerven, mindbigdata, crell
-                    nn.Softmax(dim=1)
-                )
-
-                # Confidence estimator
-                self.confidence_estimator = nn.Sequential(
-                    nn.Linear(512, 256),
-                    nn.ReLU(),
-                    nn.Linear(256, 1),
-                    nn.Sigmoid()
-                )
-
-                # Adaptive weighting based on dataset detection
-                self.adaptive_weights = nn.Parameter(torch.tensor([
-                    1.0,  # Standard ensemble weight
-                    2.0   # Vangerven specialist weight
-                ], device=device))
-
-            def forward(self, x):
-                # Extract features for dataset detection
-                features = self.feature_extractor(x)
-
-                # Apply attention mechanism (treat each sample as sequence of 1)
-                features_expanded = features.unsqueeze(1)  # Add sequence dimension
-                attended_features, _ = self.attention(features_expanded, features_expanded, features_expanded)
-                attended_features = attended_features.squeeze(1)  # Remove sequence dimension
-
-                # Detect dataset characteristics
-                dataset_probs = self.dataset_classifier(attended_features)
-                vangerven_prob = dataset_probs[:, 1:2]  # Vangerven is index 1
-
-                # Estimate confidence
-                confidence = self.confidence_estimator(attended_features)
-
-                # Get advanced Vangerven specialist output
-                specialist_output = self.vangerven_specialist(x)
-
-                return specialist_output, vangerven_prob, confidence
-
-        return DatasetAdaptiveEnsemble(input_dim, device).to(device)
-
     def forward(self, x):
         """
         Forward pass through the 7-variant ensemble.
@@ -640,9 +439,6 @@ class CortexFlowEnsemble(nn.Module):
         pred_diffusion = self.model_diffusion(x)
         pred_baseline_cnn = self.model_baseline_cnn(x)
 
-        # Get advanced dataset-adaptive predictions (Refined Future Direction)
-        pred_adaptive, vangerven_prob, detection_confidence = self.dataset_adaptive_variants(x)
-
         # Ensure all predictions are flattened to [batch, 784] for combination
         pred_simple = pred_simple.view(pred_simple.size(0), -1)
         pred_mc = pred_mc.view(pred_mc.size(0), -1)
@@ -652,99 +448,49 @@ class CortexFlowEnsemble(nn.Module):
         pred_diffusion = pred_diffusion.view(pred_diffusion.size(0), -1)
         pred_baseline_cnn = pred_baseline_cnn.view(pred_baseline_cnn.size(0), -1)
 
-        # Ultra-aggressive ensemble weighting for Vangerven & Crell dominance
+        # Enhanced ensemble weighting with baseline emphasis
         base_weights = self.ensemble_weights(x)
 
-        # Apply ultra-optimized performance-based weighting
-        performance_adjusted = base_weights * self.performance_weights.unsqueeze(0)
-
-        # Apply ultra-aggressive baseline emphasis (5.0x factor)
-        baseline_emphasis_factor = self.baseline_emphasis.unsqueeze(0).expand(performance_adjusted.size(0), 1)
-        ultra_optimized_weights = torch.cat([
-            performance_adjusted[:, :6],  # First 6 weights with performance adjustment
-            performance_adjusted[:, 6:7] * baseline_emphasis_factor  # Baseline CNN with ultra emphasis
-        ], dim=1)
-
-        # Apply dataset-specific boost for Baseline CNN (target Vangerven & Crell)
-        dataset_boost_factor = self.dataset_specific_boost.unsqueeze(0).expand(ultra_optimized_weights.size(0), 1)
-        final_ultra_weights = torch.cat([
-            ultra_optimized_weights[:, :6],  # First 6 weights unchanged
-            ultra_optimized_weights[:, 6:7] * dataset_boost_factor  # Additional boost for Baseline CNN
-        ], dim=1)
-
-        # Minimal complexity analysis (focus on baseline dominance)
+        # Analyze input complexity for dynamic weighting
         complexity_score = self.complexity_analyzer(x)
 
-        # Ultra-simplified complexity adjustment (maximize baseline for all inputs)
-        complexity_adjustment = torch.ones_like(final_ultra_weights)
-        # Always favor baseline CNN regardless of complexity
-        baseline_adj = complexity_adjustment[:, 6:7] * (1.5 + 0.5 * (1.0 - complexity_score))
+        # Apply baseline emphasis (give more weight to strong baseline CNN)
+        enhanced_weights = base_weights * 1.0  # Avoid in-place operations
+        baseline_emphasis_factor = self.baseline_emphasis.unsqueeze(0).expand(enhanced_weights.size(0), 1)
+        enhanced_weights = torch.cat([
+            enhanced_weights[:, :6],  # First 6 weights unchanged
+            enhanced_weights[:, 6:7] * baseline_emphasis_factor  # Baseline CNN weight emphasized
+        ], dim=1)
+
+        # Renormalize weights
+        enhanced_weights = F.softmax(enhanced_weights, dim=1)
+
+        # Dynamic adjustment based on complexity (avoid in-place operations)
+        complexity_adjustment = torch.ones_like(enhanced_weights)
+        # More baseline for simple inputs
+        baseline_adj = complexity_adjustment[:, 6:7] * (2.0 - complexity_score)
+        # More diffusion for complex inputs
+        diffusion_adj = complexity_adjustment[:, 5:6] * complexity_score
 
         complexity_adjustment = torch.cat([
             complexity_adjustment[:, :5],  # First 5 unchanged
-            complexity_adjustment[:, 5:6],  # Diffusion unchanged
-            baseline_adj   # Baseline always boosted
+            diffusion_adj,  # Diffusion adjustment
+            baseline_adj   # Baseline adjustment
         ], dim=1)
 
-        final_weights = final_ultra_weights * complexity_adjustment
+        final_weights = enhanced_weights * complexity_adjustment
         final_weights = F.softmax(final_weights, dim=1)
 
-        # Standard ensemble prediction with ultra-extreme weighting
-        standard_ensemble = (final_weights[:, 0:1] * pred_simple +
-                            final_weights[:, 1:2] * pred_mc +
-                            final_weights[:, 2:3] * pred_hierarchical +
-                            final_weights[:, 3:4] * pred_enhanced +
-                            final_weights[:, 4:5] * pred_unified +
-                            final_weights[:, 5:6] * pred_diffusion +
-                            final_weights[:, 6:7] * pred_baseline_cnn)
-
-        # Advanced Dataset-Adaptive Enhancement (Refined Future Direction)
-        # Multi-factor intelligent blending with confidence and probability
-
-        # Combine Vangerven probability and detection confidence
-        vangerven_confidence = vangerven_prob.squeeze(1)  # Vangerven probability per sample
-        overall_confidence = detection_confidence.squeeze(1)  # Detection confidence per sample
-
-        # Advanced adaptive weighting with multiple factors
-        # Factor 1: Vangerven probability (how likely this is Vangerven data)
-        # Factor 2: Detection confidence (how confident the detector is)
-        combined_confidence = vangerven_confidence * overall_confidence
-
-        # Sophisticated adaptive blending with confidence thresholds
-        adaptive_weights = torch.where(
-            combined_confidence > 0.7,  # Very high confidence
-            torch.tensor(0.9, device=x.device),  # Use 90% specialist
-            torch.where(
-                combined_confidence > 0.5,  # High confidence
-                torch.tensor(0.75, device=x.device),  # Use 75% specialist
-                torch.where(
-                    combined_confidence > 0.3,  # Medium confidence
-                    torch.tensor(0.6, device=x.device),  # Use 60% specialist
-                    torch.where(
-                        combined_confidence > 0.1,  # Low confidence
-                        torch.tensor(0.4, device=x.device),  # Use 40% specialist
-                        torch.tensor(0.2, device=x.device)   # Use 20% specialist
-                    )
-                )
-            )
-        ).unsqueeze(1)
-
-        # Advanced per-sample adaptive blending
-        ensemble_pred = (adaptive_weights * pred_adaptive +
-                        (1.0 - adaptive_weights) * standard_ensemble)
+        # Weighted ensemble prediction with enhanced weighting
+        ensemble_pred = (final_weights[:, 0:1] * pred_simple +
+                        final_weights[:, 1:2] * pred_mc +
+                        final_weights[:, 2:3] * pred_hierarchical +
+                        final_weights[:, 3:4] * pred_enhanced +
+                        final_weights[:, 4:5] * pred_unified +
+                        final_weights[:, 5:6] * pred_diffusion +
+                        final_weights[:, 6:7] * pred_baseline_cnn)
 
         return ensemble_pred.view(-1, 1, 28, 28)
-
-    def get_specialized_training_info(self):
-        """Get information about specialized training strategies for refinement"""
-        return {
-            'multi_objective_loss': 'Combines reconstruction loss + detection accuracy + confidence calibration',
-            'adaptive_learning_rates': 'Different learning rates for specialist vs ensemble components',
-            'progressive_training': 'Stage 1: Train detector, Stage 2: Train specialist, Stage 3: Joint training',
-            'confidence_regularization': 'Penalize overconfident predictions to improve calibration',
-            'dataset_augmentation': 'Synthetic Vangerven-like samples for specialist training',
-            'curriculum_learning': 'Start with easy samples, progress to difficult ones'
-        }
 
     def get_ensemble_info(self):
         """
@@ -765,21 +511,13 @@ class CortexFlowEnsemble(nn.Module):
                 '6. Diffusion: CortexFlow with latent diffusion to compete with Brain-Diffuser',
                 '7. Enhanced Baseline CNN: Full-strength CNN architecture matching standalone performance'
             ],
-            'weighting': 'Ultra-aggressive ensemble weighting with Baseline CNN dominance for Vangerven & Crell optimization',
-            'combination': 'Ultra-optimized weighted combination with maximum baseline CNN emphasis',
+            'weighting': 'Enhanced ensemble weighting with baseline emphasis and complexity-aware adjustment',
+            'combination': 'Dynamically weighted combination with baseline CNN emphasis and input complexity analysis',
             'enhancements': [
                 'Enhanced Baseline CNN: Full MLP+CNN architecture matching standalone',
-                'Ultra-Aggressive Baseline Emphasis: 5.0x emphasis factor for maximum dominance',
-                'Ultra-Optimized Performance Weighting: Baseline CNN gets 4.0x performance weight',
-                'Dataset-Specific Boost: Additional 2.0x boost for target datasets',
-                'Reduced Other Variants: Minimized weights for non-baseline variants',
-                'Baseline-Focused Complexity: Always favor baseline regardless of complexity',
-                'Vangerven & Crell Optimization: Targeted for winning these datasets',
-                'Future Direction: Dataset-Adaptive Variants with Advanced Vangerven specialist',
-                'Advanced Adaptive Blending: Multi-factor confidence-based mixing',
-                'Specialized Architecture: Multi-path CNN with residual connections',
-                'Advanced Dataset Detection: Attention-based characteristic identification',
-                'Confidence Estimation: Sophisticated reliability assessment',
-                'Specialized Training: Multi-objective optimization strategy'
+                'Baseline Emphasis: Learnable emphasis factor for strong performers',
+                'Complexity Analysis: Dynamic weighting based on input complexity',
+                'Advanced Weighting: Deeper network for weight learning',
+                'Renormalization: Proper weight normalization after adjustments'
             ]
         }
