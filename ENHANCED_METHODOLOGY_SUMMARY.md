@@ -159,25 +159,22 @@ Output: Trained_model, Training_history
 
 ---
 
-## 📊 **Performance Integration**
+## 📊 **Metodologi Implementation Framework**
 
-### **Actual Results Integration**
-Metodologi enhanced ini telah terbukti menghasilkan:
+### **Enhanced Statistical Methodology**
+Metodologi enhanced ini menyediakan framework untuk:
 
-| **Dataset** | **CortexFlow Winner** | **MSE Score** | **Statistical Significance** |
-|-------------|----------------------|---------------|------------------------------|
-| **Miyawaki** | Brain-Diffuser | 0.015272 | p < 0.05 (SOTA superior) |
-| **Vangerven** | CortexFlow-Lite | 0.041823 | p < 0.05 (CortexFlow wins) |
-| **MindBigData** | CortexFlow Multi-Pathway | 0.054573 | p < 0.05 (CortexFlow wins) |
-| **Crell** | CortexFlow-Ensemble | 0.028666 | p < 0.05 (CortexFlow wins) |
-
-**Overall Result: CortexFlow wins 3/4 datasets dengan enhanced statistical validation**
-
-### **Statistical Validation Results**
-- **5-Fold CV**: n=5 samples untuk robust T-test analysis
-- **Effect Sizes**: Large effect sizes (Cohen's d > 0.8) untuk key comparisons
-- **Confidence Intervals**: 95% CI dengan narrow margins
+#### **Statistical Rigor Components:**
+- **5-Fold CV**: n=5 samples untuk robust statistical analysis
+- **Effect Size Calculation**: Cohen's d untuk practical significance assessment
+- **Confidence Intervals**: 95% CI untuk reliability estimation
 - **Statistical Power**: Enhanced power analysis dengan sufficient sample size
+
+#### **Evaluation Framework:**
+- **Multi-Metric Assessment**: MSE, PSNR, SSIM, LPIPS untuk comprehensive evaluation
+- **Cross-Validation Protocol**: Systematic data splitting untuk unbiased assessment
+- **Statistical Testing**: T-test analysis untuk significance determination
+- **Reproducibility Standards**: Fixed seeds dan deterministic operations
 
 ---
 

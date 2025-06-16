@@ -2,7 +2,7 @@
 
 ## Gambaran Umum
 
-Penelitian ini mengembangkan framework CortexFlow untuk neural decoding yang menggunakan enhanced 5-fold cross-validation methodology dengan comprehensive statistical analysis. Framework ini menerapkan intelligent ensemble approach dengan 8 varian arsitektur neural network untuk rekonstruksi visual dari sinyal fMRI.
+Penelitian ini mengembangkan framework CortexFlow untuk neural decoding yang menggunakan enhanced 5-fold cross-validation methodology dengan comprehensive statistical analysis. Framework ini menerapkan intelligent ensemble approach dengan 5 model neural network yang diimplementasikan dan dilatih secara independen untuk rekonstruksi visual dari sinyal fMRI.
 
 ---
 
@@ -17,8 +17,8 @@ Penelitian ini mengembangkan framework CortexFlow untuk neural decoding yang men
 ### 1.2 Kerangka Konseptual
 Penelitian ini menggunakan kerangka neural decoding yang terdiri dari:
 1. **Input Layer**: Sinyal fMRI multi-dimensional
-2. **Processing Layer**: 8 varian arsitektur CortexFlow
-3. **Ensemble Layer**: Intelligent weighting mechanism
+2. **Processing Layer**: 5 model neural decoding (3 CortexFlow + 2 SOTA)
+3. **Ensemble Layer**: CortexFlowEnsemble dengan 8 internal variants
 4. **Output Layer**: Rekonstruksi visual 28×28 pixels
 5. **Evaluation Layer**: Multi-metric comprehensive assessment
 
@@ -94,24 +94,21 @@ X_test = (X_test - X_test.mean()) / (X_test.std() + 1e-8)
 
 ### 3.1 CortexFlow Framework Architecture
 
-Framework CortexFlow terdiri dari 8 varian arsitektur yang terintegrasi dalam ensemble:
+Framework CortexFlow terdiri dari 5 model utama yang diimplementasikan dan dilatih secara independen:
 
-**Tabel 2. Spesifikasi Arsitektur Model Neural Decoding**
+**Tabel 2. Spesifikasi Arsitektur Model Neural Decoding (Implementasi Aktual)**
 
 | Model | Architecture | Key Features | Parameters | Dropout Rate | Normalization |
 |-------|-------------|--------------|------------|--------------|---------------|
-| **CortexFlow-Lite** | 1024→512→784 | BatchNorm+Dropout | ~2.1M | 0.3, 0.2 | BatchNorm1d |
-| **CortexFlow-MC** | 512→256→128→784 | MCDropout+LayerNorm | ~1.8M | 0.15 (MC) | LayerNorm |
-| **CortexFlow-Hierarchical** | 3-Level Hierarchy | Temporal Attention | ~2.5M | 0.3, 0.2, 0.1 | LayerNorm |
-| **CortexFlow-Enhanced** | MC+Hierarchical+Align | Multi-Component | ~3.2M | Adaptive | Mixed |
-| **CortexFlow-Multi-Pathway** | Dual-Pathway+Attention | Cross-Attention | ~2.8M | Adaptive | LayerNorm |
-| **CortexFlow-Ensemble** | 8-Variant Ensemble | Learned Weighting | ~15.6M | Ensemble | Mixed |
-| **MinD-Vis** | 512→256→128→784 | Sparse Masking | ~1.9M | 0.15 | LayerNorm |
-| **Brain-Diffuser** | 512→256→784 | Diffusion Process | ~1.7M | 0.1 | LayerNorm |
+| **StandardBaselineCNN** | 1024→512→784 + CNN | BatchNorm+Dropout+CNN | ~2.1M | 0.3, 0.2 | BatchNorm1d |
+| **CortexFlowMultiPathway** | Dual-Pathway+Cross-Attention | Multi-Pathway+Uncertainty | ~2.8M | 0.15, 0.1 | LayerNorm |
+| **CortexFlowEnsemble** | 8 Internal Variants | Learned Weighting | ~15.6M | Variable | Mixed |
+| **OptimizedMinDVis** | 512→256→128→784 | Sparse Masking+Diffusion | ~1.9M | 0.15 | LayerNorm |
+| **OptimizedBrainDiffuser** | 512→256→784 | Iterative Denoising | ~1.7M | 0.1 | LayerNorm |
 
-Tabel spesifikasi arsitektur menunjukkan detail teknis dari semua model yang digunakan dalam penelitian, termasuk 8 varian CortexFlow dan 2 baseline SOTA.
+**Catatan**: CortexFlowEnsemble mengandung 8 varian internal (Simple, MC, Hierarchical, Enhanced, Unified, Diffusion, Baseline CNN, Multi-Pathway) yang dilatih sebagai satu model ensemble dengan learned weighting mechanism.
 
-#### 3.1.1 CortexFlow-Lite (Baseline Enhanced)
+#### 3.1.1 StandardBaselineCNN (CortexFlow-Lite)
 ```python
 Architecture: input → 1024 → 512 → 784 (output)
 Features:
@@ -119,115 +116,89 @@ Features:
   - ReLU activation dengan inplace=True
   - Dropout (0.3, 0.2) untuk regularization
   - GPU-optimized implementation
+  - Foundation CNN architecture
 ```
 
-#### 3.1.2 CortexFlow-MC (Monte Carlo)
-```python
-Architecture: input → 512 → 256 → 128 → 784 (output)
-Features:
-  - MCDropout (always active, training=True)
-  - LayerNorm normalization
-  - Uncertainty quantification capability
-  - Systematic dropout rate: 0.15
-```
-
-#### 3.1.3 CortexFlow-Hierarchical
-```python
-Architecture: Multi-level processing (3 levels)
-Features:
-  - Level 1: Coarse processing (512 → 256)
-  - Level 2: Medium processing (256 → 128)
-  - Level 3: Fine processing (128 → 64)
-  - Temporal attention mechanism
-  - Adaptive dropout per level (0.3, 0.2, 0.1)
-```
-
-#### 3.1.4 CortexFlow-Enhanced
-```python
-Architecture: Integrated MC + Hierarchical + Feature Alignment
-Features:
-  - Multi-component integration
-  - Residual connections untuk gradient flow
-  - Feature alignment mechanism
-  - Enhanced block processing
-```
-
-#### 3.1.5 CortexFlow-Unified
-```python
-Architecture: Adaptive complexity processing
-Features:
-  - Dual pathways (simple + complex)
-  - Complexity gate mechanism
-  - Adaptive pathway selection
-  - Dynamic routing based on input complexity
-```
-
-#### 3.1.6 CortexFlow-Diffusion
-```python
-Architecture: Progressive denoising approach
-Features:
-  - Multi-pathway encoder (deep + wide)
-  - Cross-pathway attention mechanism
-  - Progressive denoising (3 steps)
-  - Diffusion-style processing
-```
-
-#### 3.1.7 CortexFlow-CNN (Baseline)
-```python
-Architecture: 4-layer CNN dengan adaptive input
-Features:
-  - Convolutional layers dengan dropout 0.2
-  - Adaptive input untuk different feature dimensions
-  - Standard CNN baseline untuk ensemble diversity
-```
-
-#### 3.1.8 CortexFlow Multi-Pathway (Novel)
+#### 3.1.2 CortexFlowMultiPathway (Novel Architecture)
 ```python
 Architecture: Dual-pathway dengan cross-attention
 Features:
-  - Deep pathway: 512 → 256 → 128 → 64
-  - Wide pathway: 512 → 512 → 256 → 128
-  - Cross-pathway attention mechanism
-  - Adaptive fusion dengan gated combination
-  - Uncertainty-aware decoder
+  - Deep pathway: 1024 → 512 (hierarchical feature extraction)
+  - Wide pathway: 512 → 512 (broad feature capture)
+  - Cross-pathway attention (8-head, 512-dim)
+  - Adaptive pathway weighting dengan softmax
+  - Dynamic gated fusion mechanism
+  - Uncertainty-aware decoder (mean + variance branches)
+```
+
+#### 3.1.3 CortexFlowEnsemble (8 Internal Variants)
+```python
+Architecture: Single ensemble model dengan 8 internal variants
+Internal Variants:
+  1. Simple: Foundation encoder-decoder (512→256→784)
+  2. MC: Monte Carlo dropout (systematic uncertainty)
+  3. Hierarchical: Multi-scale temporal processing
+  4. Enhanced: MC + Hierarchical + Feature alignment
+  5. Unified: Adaptive complexity dengan dual pathways
+  6. Diffusion: Latent diffusion approach
+  7. Baseline CNN: Lightweight CNN architecture
+  8. Multi-Pathway: Cross-attention fusion
+Features:
+  - Learned weighting network (input → 512 → 256 → 128 → 8)
+  - Input-dependent model selection
+  - Complexity-aware weighting mechanism
+  - Ensemble training sebagai single model
 ```
 
 ### 3.2 SOTA Baseline Models
 
-#### 3.2.1 MinD-Vis (CVPR 2023)
+#### 3.2.1 OptimizedMinDVis (CVPR 2023)
 ```python
 Architecture: input → 512 → 256 → 128 → 784 (output)
 Features:
-  - Sparse masked modeling (15% masking)
-  - Conditional diffusion decoder
-  - Noise injection untuk diffusion simulation
-  - State-of-the-art conditional approach
+  - Sparse masked modeling (15% masking ratio)
+  - Conditional diffusion process
+  - LayerNorm untuk stable training
+  - Noise injection untuk robust reconstruction
+  - Proper diffusion timestep scheduling
 ```
 
-#### 3.2.2 Brain-Diffuser (2023)
+#### 3.2.2 OptimizedBrainDiffuser (Scientific Reports 2023)
 ```python
 Architecture: input → 512 → 256 → 784 (output)
 Features:
   - SiLU activation dan LayerNorm
-  - 10 timesteps dengan beta linear schedule
-  - Iterative denoising inference
-  - Pure diffusion approach
+  - 10 timesteps dengan beta linear schedule (0.0001 to 0.02)
+  - Iterative denoising process (3 steps for efficiency)
+  - Proper noise prediction dan removal
+  - Diffusion network architecture
 ```
 
-### 3.3 CortexFlow-Ensemble Architecture
+### 3.3 CortexFlowEnsemble Internal Architecture
 
 #### 3.3.1 Learned Weighting Network
 ```python
 Architecture: input → 512 → 256 → 128 → 8 weights
 Normalization: Softmax probability distribution
 Combination: y_ensemble = Σᵢ₌₁⁸ wᵢ · fᵢ(x)
+Training: End-to-end training sebagai single model
 ```
 
-#### 3.3.2 Intelligent Ensemble Strategy
-- **Adaptive Weighting**: Neural network learns optimal combination
-- **Complexity-Aware**: Dynamic weighting berdasarkan input characteristics
-- **Multi-Pathway Emphasis**: Enhanced weighting untuk complex inputs
-- **Robust Prediction**: Architectural diversity ensures reliability
+#### 3.3.2 Internal Variant Details
+1. **Simple**: Foundation encoder-decoder dengan optimal regularization
+2. **MC**: Monte Carlo uncertainty dengan systematic dropout (always active)
+3. **Hierarchical**: Multi-scale temporal processing dengan attention
+4. **Enhanced**: Integration MC + Hierarchical + feature alignment
+5. **Unified**: Adaptive complexity dengan dual-pathway processing
+6. **Diffusion**: CortexFlow dengan latent diffusion approach
+7. **Baseline CNN**: Lightweight CNN architecture
+8. **Multi-Pathway**: Advanced multi-pathway dengan cross-attention
+
+#### 3.3.3 Ensemble Training Strategy
+- **Single Model Training**: All 8 variants trained together
+- **Learned Weighting**: Neural network learns optimal combination
+- **Input-Dependent Selection**: Dynamic weighting based on input characteristics
+- **Architectural Diversity**: 8 different approaches ensure robustness
 
 ---
 
@@ -248,12 +219,21 @@ from sklearn.model_selection import KFold
 # Enhanced 5-fold CV setup
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
-# Data splitting
+# 5 models untuk training
+models = [
+    StandardBaselineCNN(input_dim, device),
+    CortexFlowMultiPathway(input_dim, device),
+    CortexFlowEnsemble(input_dim, device),
+    OptimizedMinDVis(input_dim, device),
+    OptimizedBrainDiffuser(input_dim, device)
+]
+
+# Data splitting dan training
 for fold, (train_idx, val_idx) in enumerate(kf.split(X_combined)):
     X_train_fold = X_combined[train_idx]  # 80% data
     X_val_fold = X_combined[val_idx]      # 20% data
-    
-    # Train each model dengan reduced epochs untuk CV
+
+    # Train each of 5 models dengan reduced epochs untuk CV
     cv_config = {
         'epochs': max(30, config['epochs'] // 5),
         'lr': config['lr'],
@@ -395,15 +375,16 @@ Flowchart metodologi menunjukkan 4 fase utama penelitian: Data Preparation, Mode
 
 #### 6.2.2 Cross-Validation Training
 1. **5-fold splitting** dengan random shuffling
-2. **Parallel training** dari 8 CortexFlow variants
-3. **Hyperparameter optimization** per dataset
+2. **Independent training** dari 5 neural decoding models
+3. **Hyperparameter optimization** per dataset dan model
 4. **Early stopping** dengan validation monitoring
 
-#### 6.2.3 Ensemble Learning
-1. **Learned weighting network** training
-2. **Adaptive combination** dari 8 variants
-3. **Complexity-aware weighting** mechanism
-4. **Robust prediction** generation
+#### 6.2.3 Model Training Strategy
+1. **StandardBaselineCNN**: Foundation CNN training
+2. **CortexFlowMultiPathway**: Novel architecture training
+3. **CortexFlowEnsemble**: End-to-end ensemble training (8 internal variants)
+4. **OptimizedMinDVis**: SOTA baseline training
+5. **OptimizedBrainDiffuser**: SOTA baseline training
 
 #### 6.2.4 Comprehensive Evaluation
 1. **Multi-metric assessment** (MSE, PSNR, SSIM, LPIPS)
@@ -447,31 +428,9 @@ Flowchart metodologi menunjukkan 4 fase utama penelitian: Data Preparation, Mode
 - **Statistical Significance**: Rigorous statistical validation
 - **Reproducibility Testing**: Independent replication capability
 
-**Tabel 4. Hasil Kinerja Komprehensif (MSE - Lower is Better)**
 
-| Model | Miyawaki | Vangerven | MindBigData | Crell | Wins |
-|-------|----------|-----------|-------------|-------|------|
-| **CortexFlow-Lite** | 0.025841 | **0.041823** | 0.067234 | 0.035678 | 1/4 |
-| **CortexFlow-MC** | 0.028456 | 0.045123 | 0.071892 | 0.038234 | 0/4 |
-| **CortexFlow-Hierarchical** | 0.026789 | 0.043567 | 0.069123 | 0.036789 | 0/4 |
-| **CortexFlow-Enhanced** | 0.024567 | 0.042891 | 0.065432 | 0.034567 | 0/4 |
-| **CortexFlow-Multi-Pathway** | 0.023456 | 0.044123 | **0.054573** | 0.032456 | 1/4 |
-| **CortexFlow-Ensemble** | 0.022345 | 0.043234 | 0.058901 | **0.028666** | 1/4 |
-| **MinD-Vis** | 0.019876 | 0.048567 | 0.072345 | 0.041234 | 0/4 |
-| **Brain-Diffuser** | **0.015272** | 0.046789 | 0.068901 | 0.039567 | 1/4 |
 
-**Catatan**: Bold menunjukkan pemenang per dataset. CortexFlow memenangkan 3 dari 4 dataset dengan enhanced statistical validation.
 
-**Tabel 5. Analisis Signifikansi Statistik (5-Fold Cross-Validation)**
-
-| Dataset | Winner | Mean ± SD | 95% CI | p-value | Effect Size (Cohen's d) |
-|---------|--------|-----------|--------|---------|-------------------------|
-| **Miyawaki** | Brain-Diffuser | 0.015272 ± 0.002134 | [0.013138, 0.017406] | p < 0.001 | d = 1.24 (Large) |
-| **Vangerven** | CortexFlow-Lite | 0.041823 ± 0.003456 | [0.038367, 0.045279] | p < 0.01 | d = 0.89 (Large) |
-| **MindBigData** | CortexFlow Multi-Pathway | 0.054573 ± 0.004123 | [0.050450, 0.058696] | p < 0.05 | d = 0.76 (Medium-Large) |
-| **Crell** | CortexFlow-Ensemble | 0.028666 ± 0.002891 | [0.025775, 0.031557] | p < 0.01 | d = 0.92 (Large) |
-
-**Interpretasi**: Semua pemenang menunjukkan signifikansi statistik (p < 0.05) dengan effect sizes yang substantial (d > 0.5), mengkonfirmasi superioritas metode yang dipilih pada setiap dataset.
 
 ### 7.3 Limitation Assessment
 - **Computational Requirements**: GPU memory dan processing constraints
@@ -483,7 +442,7 @@ Flowchart metodologi menunjukkan 4 fase utama penelitian: Data Preparation, Mode
 
 ## 8. Kesimpulan Metodologi
 
-Metodologi penelitian CortexFlow menerapkan enhanced 5-fold cross-validation dengan comprehensive statistical analysis untuk memastikan rigor akademik dan reliabilitas hasil. Framework ini mengintegrasikan 8 varian arsitektur neural network dalam intelligent ensemble approach yang terbukti superior pada 3 dari 4 dataset evaluasi.
+Metodologi penelitian CortexFlow menerapkan enhanced 5-fold cross-validation dengan comprehensive statistical analysis untuk memastikan rigor akademik dan reliabilitas evaluasi. Framework ini mengintegrasikan 5 model neural network yang diimplementasikan secara independen untuk comprehensive neural decoding research.
 
 Kontribusi metodologis utama meliputi: (1) Enhanced statistical rigor dengan n=5 samples untuk robust T-test analysis, (2) Comprehensive multi-metric evaluation framework, (3) Intelligent ensemble weighting mechanism, dan (4) GPU-optimized implementation untuk efficient training.
 
@@ -491,7 +450,7 @@ Metodologi ini memenuhi standar akademik internasional untuk penelitian neural d
 
 ---
 
-## 13. Referensi Algoritma dan Visual Elements
+## 13. Metodologi Documentation dan Implementasi
 
 ### 13.1 Algoritma Implementasi Detail
 Untuk detail implementasi algoritma yang digunakan dalam metodologi ini, lihat dokumen terpisah:
@@ -502,32 +461,32 @@ Untuk detail implementasi algoritma yang digunakan dalam metodologi ini, lihat d
   - Algoritma 4: Statistical Significance Testing
   - Algoritma 5: GPU-Optimized Training Pipeline
 
-### 13.2 Visual Elements Summary
+### 13.2 Metodologi Visual Documentation
 Metodologi ini dilengkapi dengan comprehensive visual documentation:
 
-#### 13.2.1 Tables (3 items)
-- **Tabel 1**: Dataset Characteristics Comparison
-- **Tabel 2**: Model Architecture Specifications
-- **Tabel 3**: Hyperparameter Configuration per Dataset
+#### 13.2.1 Specification Tables (3 items)
+- **Tabel 1**: Dataset Characteristics dan Preprocessing Specifications
+- **Tabel 2**: Model Architecture Specifications dan Technical Details
+- **Tabel 3**: Hyperparameter Configuration dan Training Settings
 
-#### 13.2.2 Figures (2 items)
+#### 13.2.2 Methodology Diagrams (2 items)
 - **Gambar 1**: Enhanced Methodology Flowchart (4-phase pipeline)
-- **Gambar 2**: 5-Fold Cross-Validation Diagram (statistical rigor visualization)
+- **Gambar 2**: 5-Fold Cross-Validation Methodology Diagram
 
-#### 13.2.3 Code Examples (30+ blocks)
-- Python implementation examples
-- Configuration specifications
-- Statistical analysis code
-- GPU optimization scripts
+#### 13.2.3 Implementation Examples (30+ blocks)
+- Python implementation examples untuk reproducibility
+- Configuration specifications untuk different datasets
+- GPU optimization code untuk efficient training
+- Statistical analysis methodology untuk robust evaluation
 
-### 13.3 Documentation Integration
-Metodologi visual elements terintegrasi dengan:
-- **METODOLOGI.md**: Main methodology document (900+ lines)
-- **METHODOLOGY_ALGORITHMS.md**: Detailed algorithms (300+ lines)
-- **figures/**: Visual elements directory (5 new methodology figures)
-- **DISSERTATION_FIGURES.md**: Comprehensive figure documentation
+### 13.3 Reproducibility Framework
+Metodologi documentation terintegrasi dengan:
+- **METODOLOGI.md**: Complete methodology specification
+- **METHODOLOGY_ALGORITHMS.md**: Detailed algorithm implementations
+- **figures/**: Methodology visualization diagrams
+- **Code examples**: Implementation guidelines untuk reproducibility
 
-Total dokumentasi metodologi: **1200+ lines** dengan **17 visual elements** untuk academic excellence dan comprehensive understanding.
+Total metodologi documentation: **Complete framework** untuk academic research dan implementation guidance.
 
 ---
 
@@ -638,13 +597,13 @@ criterion_ssim = SSIMLoss()  # Custom implementation
 
 #### 9.3.3 Optimizer Configuration
 ```python
-# Adaptive optimizer selection
+# Adaptive optimizer selection untuk 5 models
 optimizers = {
-    'CortexFlow_Lite': torch.optim.Adam(lr=0.001, weight_decay=1e-4),
-    'CortexFlow_MC': torch.optim.AdamW(lr=0.0008, weight_decay=1e-3),
-    'CortexFlow_Hierarchical': torch.optim.RMSprop(lr=0.0012, alpha=0.9),
-    'CortexFlow_Enhanced': torch.optim.Adam(lr=0.0009, weight_decay=5e-4),
-    'CortexFlow_Multi_Pathway': torch.optim.AdamW(lr=0.0007, weight_decay=1e-3)
+    'StandardBaselineCNN': torch.optim.Adam(lr=0.001, weight_decay=1e-4),
+    'CortexFlowMultiPathway': torch.optim.AdamW(lr=0.0007, weight_decay=1e-3),
+    'CortexFlowEnsemble': torch.optim.Adam(lr=0.0009, weight_decay=5e-4),
+    'OptimizedMinDVis': torch.optim.AdamW(lr=0.0008, weight_decay=1e-3),
+    'OptimizedBrainDiffuser': torch.optim.Adam(lr=0.001, weight_decay=1e-4)
 }
 ```
 
@@ -944,4 +903,4 @@ Metodologi penelitian CortexFlow telah dirancang dengan standar akademik terting
 
 Kontribusi metodologis utama meliputi: (1) Enhanced 5-fold cross-validation dengan n=5 statistical rigor, (2) Comprehensive multi-metric evaluation framework, (3) Intelligent ensemble architecture dengan learned weighting, (4) GPU-optimized implementation untuk computational efficiency, dan (5) Complete reproducibility framework dengan comprehensive documentation.
 
-Implementasi metodologi ini telah terbukti menghasilkan superior performance pada 3 dari 4 dataset evaluasi, dengan statistical significance yang tervalidasi melalui comprehensive T-test analysis. Framework CortexFlow memberikan foundation yang solid untuk future research dalam neural decoding dan brain-computer interface applications.
+Framework metodologi ini memberikan foundation yang solid untuk implementasi penelitian neural decoding dengan 5 model neural network yang diimplementasikan secara independen. Metodologi CortexFlow dengan enhanced statistical rigor dan comprehensive evaluation dapat diadaptasi untuk future research dalam neural decoding dan brain-computer interface applications dengan maintaining academic standards dan reproducibility requirements.
