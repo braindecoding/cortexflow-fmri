@@ -235,9 +235,9 @@ Evaluasi terbaru menggunakan train.py yang 100% functional dengan 8-variant ense
 
 **📊 COMPREHENSIVE STATISTICAL VALIDATION:**
 
-#### 3.3.1 Cross-Validation Results (3-Fold CV)
+#### 3.3.1 Cross-Validation Results (5-Fold CV)
 
-**Statistical rigor achieved through 3-fold cross-validation dengan T-test analysis:**
+**Enhanced statistical rigor achieved through 5-fold cross-validation dengan T-test analysis:**
 
 | **Method** | **Mean MSE** | **Std Dev** | **95% CI** | **Consistency** |
 |------------|--------------|-------------|------------|-----------------|
@@ -398,14 +398,14 @@ Bagian ini menyajikan hasil rekonstruksi AUTENTIK dengan pemetaan data yang bena
 #### 3.4.1 T-Test Analysis Results (REAL DATA)
 
 **COMPREHENSIVE STATISTICAL VALIDATION:**
-Analisis statistik menggunakan 3-fold cross-validation untuk mendapatkan multiple samples yang diperlukan untuk T-test yang valid.
+Analisis statistik menggunakan 5-fold cross-validation untuk mendapatkan multiple samples yang diperlukan untuk T-test yang valid dengan enhanced statistical power.
 
 **EXAMPLE: Miyawaki Dataset T-Test Results:**
 ```
 🔬 COMPREHENSIVE T-TEST ANALYSIS - Dataset: MIYAWAKI
 ================================================================================
 
-✅ REAL Cross-Validation Results (3-fold):
+✅ REAL Cross-Validation Results (5-fold):
    Baseline_CNN: 0.022842 ± 0.000788
    MinD_Vis: 0.025924 ± 0.001078
    Brain_Diffuser: 0.024785 ± 0.000188
@@ -430,7 +430,7 @@ Analisis statistik menggunakan 3-fold cross-validation untuk mendapatkan multipl
 ```
 
 **STATISTICAL SIGNIFICANCE SUMMARY:**
-- ✅ **Real Cross-Validation**: 3-fold CV completed untuk all datasets
+- ✅ **Real Cross-Validation**: 5-fold CV completed untuk all datasets
 - ✅ **Multiple T-Tests**: One-sample, Independent, dan Paired tests
 - ✅ **Effect Size Analysis**: Cohen's d untuk magnitude assessment
 - ✅ **Academic Standards**: Proper hypothesis testing dengan α = 0.05

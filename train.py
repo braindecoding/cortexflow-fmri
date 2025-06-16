@@ -15,7 +15,7 @@ ACADEMIC METHODOLOGY:
 FEATURES:
 - 5 neural decoding models: CortexFlow-Lite, MinD-Vis, Brain-Diffuser, CortexFlow-Multi-Pathway, CortexFlow-Ensemble
 - 4 datasets: Miyawaki, Vangerven, MindBigData, Crell
-- Robust 3-fold cross-validation dengan data shuffling
+- Robust 5-fold cross-validation dengan data shuffling
 - Statistical analysis dengan T-test validation
 - Reconstruction visualizations untuk semua datasets
 - Comprehensive statistical reporting
@@ -90,7 +90,7 @@ from src.utils import (
 # Set reproducibility for consistency with train.py
 set_reproducibility_seeds(42)
 
-def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
+def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=5):
     """
     Comprehensive training dengan cross-validation untuk robust model evaluation
 
@@ -100,7 +100,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
     Args:
         dataset_name (str): Dataset name ('miyawaki', 'vangerven', 'mindbigdata', 'crell')
         device (str): Computing device ('cuda' or 'cpu')
-        k_folds (int): Number of cross-validation folds (default: 3)
+        k_folds (int): Number of cross-validation folds (default: 5)
 
     Returns:
         tuple: (full_results, cv_results, reconstructions, mse_results)
@@ -110,7 +110,7 @@ def comprehensive_training_with_cv(dataset_name, device='cuda', k_folds=3):
             - mse_results: MSE scores untuk each model
 
     Academic Features:
-        - Robust 3-fold cross-validation dengan data shuffling
+        - Robust 5-fold cross-validation dengan data shuffling
         - Statistical significance testing preparation
         - Reconstruction visualization data generation
         - Publication-ready methodology
@@ -893,7 +893,7 @@ def create_comprehensive_cv_analysis(statistical_summaries, output_dir):
                 for method, method_label in zip(methods, method_labels):
                     if method in cv_results:
                         scores = cv_results[method]
-                        if len(scores) >= 3:  # Ensure we have 3 folds
+                        if len(scores) >= 5:  # Ensure we have 5 folds
                             mean_score = np.mean(scores)
                             std_score = np.std(scores)
                             cv_coeff = std_score / mean_score if mean_score > 0 else 0
@@ -1489,7 +1489,7 @@ def main():
             print(f"{'='*60}")
             
             # Run comprehensive training dengan CV
-            full_results, cv_results, reconstructions, mse_results = comprehensive_training_with_cv(dataset, device, k_folds=3)
+            full_results, cv_results, reconstructions, mse_results = comprehensive_training_with_cv(dataset, device, k_folds=5)
 
             if full_results and cv_results:
                 # Store results
