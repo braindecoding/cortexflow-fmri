@@ -512,18 +512,22 @@ After running `train.py`, you will get:
 
 ```
 cortexflow-fmri/
-├── README.md            # Main documentation
-├── SOTA.md             # Detailed analysis and results
-├── LICENSE             # MIT License
-├── requirements.txt    # Python dependencies
-├── train.py            # Main training script (MODULAR)
-├── test.py             # Reproducibility test
-├── verify.py           # Verification script
-├── create_architecture_figures.py  # Architecture figure generator (NEW!)
-├── create_overview_figure.py       # Overview figure generator (NEW!)
-├── configs/            # Configuration files
+├── README.md                          # Main documentation
+├── SOTA.md                           # State-of-the-art comparison
+├── LICENSE                           # MIT License
+├── requirements.txt                  # Python dependencies
+├── research_documentation_index.md   # Complete research index
+├── train.py                         # Main training script
+├── configs/                         # Configuration files
 │   └── project_config.json
-├── figures/            # Architecture diagrams (NEW!)
+├── src/                             # Source code
+│   ├── models/                      # Neural network architectures
+│   ├── data/                        # Data loading and preprocessing
+│   ├── training/                    # Training loops and optimization
+│   └── evaluation/                  # Evaluation metrics and analysis
+├── data/                            # Dataset storage
+├── results/                         # Training results and outputs
+├── figures/                         # Architecture diagrams
 │   ├── 📊 cortexflow_lite_architecture.png/.svg           # CortexFlow-Lite diagram
 │   ├── 📊 cortexflow_mc_architecture.png/.svg             # Monte Carlo diagram
 │   ├── 📊 cortexflow_hierarchical_architecture.png/.svg   # Hierarchical diagram
@@ -534,43 +538,54 @@ cortexflow-fmri/
 │   ├── 📊 mindvis_architecture.png/.svg                   # MinD-Vis diagram
 │   ├── 📊 cortexflow_complete_overview.png/.svg           # Complete overview
 │   └── 📄 README.md                                       # Architecture documentation
-├── src/                # Modular architecture (ENHANCED)
-│   ├── models/         # Neural decoding models
-│   │   ├── baseline.py         # StandardBaselineCNN
-│   │   ├── mind_vis.py         # OptimizedMinDVis (CVPR 2023)
-│   │   ├── brain_diffuser.py   # OptimizedBrainDiffuser (2023)
-│   │   ├── cortexflow.py       # CortexFlowMultiPathway (Novel)
-│   │   ├── miyawaki_advanced.py # MiyawakiAdvancedCortexFlow
-│   │   └── ensemble.py         # CortexFlowEnsemble (7 variants)
-│   ├── training/       # Training functions
-│   │   └── gpu_training.py     # GPU-optimized training
-│   ├── evaluation/     # Evaluation metrics
-│   │   ├── metrics.py          # ComprehensiveEvaluationMetrics
-│   │   └── statistics.py       # Statistical analysis with T-tests
-│   ├── data/           # Data loading
-│   │   └── loader.py           # Dataset loading functions
-│   ├── visualization/  # Visualization functions
-│   │   └── statistical_plots.py # Statistical and reconstruction plots (FIXED)
-│   └── utils/          # Utility functions
-│       ├── config.py           # Configuration management
-│       └── report_generator.py # Markdown report generation (NEW)
-├── data/               # Dataset storage
-│   ├── processed/      # Processed .mat files
-│   ├── external/       # External datasets
-│   └── raw/            # Raw datasets
-└── results/            # Training results
-    └── comprehensive_training_cv/  # Enhanced training outputs (NEW)
-        ├── 📄 statistical_analysis_[dataset]_[timestamp].md  # Individual reports
-        ├── 📋 comprehensive_training_summary_[timestamp].md  # Overall summary
-        ├── 🎨 cv_reconstruction_[dataset]_comprehensive.svg  # Reconstruction figures
-        ├── 📊 comprehensive_metrics_visualization.svg        # Multi-metric analysis
-        ├── 📊 statistical_analysis_comprehensive.svg         # Statistical plots
-        ├── 📊 statistical_significance_matrix.svg            # Significance testing
-        ├── 📊 overall_method_performance.svg                 # Performance comparison
-        ├── 📄 comprehensive_training_results.json            # Training data
-        ├── 📄 statistical_analysis_with_ttest.json           # Statistical data
-        ├── 📄 comprehensive_evaluation_metrics.json          # Metrics data
-        └── 📄 cross_validation_results.json                  # CV data
+├── src/                             # Source code
+│   ├── models/                      # Neural network architectures
+│   │   ├── baseline.py             # StandardBaselineCNN
+│   │   ├── mind_vis.py             # OptimizedMinDVis (CVPR 2023)
+│   │   ├── brain_diffuser.py       # OptimizedBrainDiffuser (2023)
+│   │   ├── cortexflow.py           # CortexFlowMultiPathway (Novel)
+│   │   ├── miyawaki_advanced.py    # MiyawakiAdvancedCortexFlow
+│   │   └── ensemble.py             # CortexFlowEnsemble (7 variants)
+│   ├── training/                   # Training functions
+│   │   └── gpu_training.py         # GPU-optimized training
+│   ├── evaluation/                 # Evaluation metrics
+│   │   ├── metrics.py              # ComprehensiveEvaluationMetrics
+│   │   └── statistics.py           # Statistical analysis with T-tests
+│   ├── data/                       # Data loading
+│   │   └── loader.py               # Dataset loading functions
+│   ├── visualization/              # Visualization functions
+│   │   └── statistical_plots.py   # Statistical and reconstruction plots
+│   └── utils/                      # Utility functions
+│       ├── config.py               # Configuration management
+│       └── report_generator.py     # Markdown report generation
+├── data/                           # Dataset storage
+│   ├── processed/                  # Processed .mat files
+│   ├── external/                   # External datasets
+│   └── raw/                        # Raw datasets
+├── results/                        # Training results and outputs
+│   └── comprehensive_training_cv/  # Training outputs
+├── docs/                           # Documentation
+│   ├── methodology/                # Methodology documentation
+│   ├── results/                    # Results documentation
+│   ├── figures/                    # Figure documentation
+│   ├── updates/                    # Update summaries
+│   └── cleanup/                    # Cleanup documentation
+├── scripts/                        # Utility scripts
+│   ├── analysis/                   # Analysis scripts
+│   ├── figures/                    # Figure generation scripts
+│   ├── cleanup/                    # Cleanup scripts
+│   ├── conversion/                 # Conversion scripts
+│   ├── language/                   # Language processing scripts
+│   └── verification/               # Verification scripts
+├── tests/                          # Test files
+│   ├── ensemble/                   # Ensemble testing
+│   ├── training/                   # Training testing
+│   └── verification/               # Verification testing
+└── archive/                        # Archived files
+    ├── summaries/                  # Old summary files
+    ├── reports/                    # Old report files
+    ├── language/                   # Language correction files
+    └── cleanup/                    # Cleanup history
 ```
 
 ### Professional Modular Architecture

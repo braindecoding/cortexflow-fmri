@@ -1,26 +1,42 @@
-# Metodologi Penelitian CortexFlow
+# Metodologi Penelitian CortexFlow: Hypothesis-Driven Neural Decoding Framework
 
 ## Gambaran Umum
 
-Penelitian ini mengembangkan kerangka kerja CortexFlow untuk dekoding neural yang menggunakan metodologi validasi silang 5-lipatan yang ditingkatkan dengan analisis statistik komprehensif. Kerangka kerja ini menerapkan pendekatan ensemble cerdas dengan 5 model jaringan neural yang diimplementasikan dan dilatih secara independen untuk rekonstruksi visual dari sinyal fMRI.
+Penelitian ini mengembangkan kerangka kerja CortexFlow untuk dekoding neural yang menggunakan metodologi hypothesis-driven dengan 7 hipotesis penelitian spesifik yang diuji menggunakan framework statistical testing yang komprehensif. Kerangka kerja ini menerapkan pendekatan multi-criteria consistency assessment dengan 5 model jaringan neural yang diimplementasikan dan dilatih secara independen untuk rekonstruksi visual dari sinyal fMRI dengan validasi statistik yang definitif.
 
 ---
 
-## 1. Desain Penelitian
+## 1. Desain Penelitian Hypothesis-Driven
 
 ### 1.1 Paradigma Penelitian
-- **Jenis Penelitian**: Eksperimental komputasional dengan pendekatan quantitative
-- **Desain**: Cross-sectional comparative study dengan multiple baseline comparison
-- **Metodologi**: Enhanced cross-validation dengan statistical rigor testing
-- **Validasi**: 5-fold cross-validation dengan T-test statistical significance analysis
+- **Jenis Penelitian**: Eksperimental komputasional dengan pendekatan hypothesis-driven quantitative
+- **Desain**: Cross-sectional comparative study dengan definitive hypothesis testing
+- **Metodologi**: Hypothesis-driven analysis dengan multi-criteria statistical validation
+- **Validasi**: 5-fold cross-validation dengan comprehensive hypothesis testing framework
 
-### 1.2 Kerangka Konseptual
-Penelitian ini menggunakan kerangka neural decoding yang terdiri dari:
-1. **Input Layer**: Sinyal fMRI multi-dimensional
-2. **Processing Layer**: 5 model neural decoding (3 CortexFlow + 2 SOTA)
-3. **Ensemble Layer**: CortexFlowEnsemble dengan 8 internal variants
-4. **Output Layer**: Rekonstruksi visual 28×28 pixels
-5. **Evaluation Layer**: Multi-metric comprehensive assessment
+### 1.2 Kerangka Konseptual Hypothesis-Driven
+Penelitian ini menggunakan kerangka neural decoding berbasis hipotesis yang terdiri dari:
+1. **Input Layer**: Sinyal fMRI multi-dimensional dengan karakteristik dataset yang bervariasi
+2. **Processing Layer**: 5 model neural decoding (3 CortexFlow + 2 SOTA) untuk pengujian hipotesis
+3. **Ensemble Layer**: CortexFlowEnsemble dengan 8 internal variants untuk analisis ensemble learning
+4. **Output Layer**: Rekonstruksi visual 28×28 pixels dengan evaluasi multi-metrik
+5. **Hypothesis Testing Layer**: 7 hipotesis penelitian dengan statistical rigor testing
+
+### 1.3 Hipotesis Penelitian Utama
+Penelitian ini menguji 7 hipotesis penelitian spesifik yang dirancang untuk menjawab pertanyaan fundamental dalam neural decoding:
+
+#### 1.3.1 Individual Model Consistency Hypotheses (H1-H5)
+**H1**: Model MinD_Vis memiliki performa yang konsisten untuk semua dataset
+**H2**: Model CortexFlow_Lite memiliki performa yang konsisten untuk semua dataset
+**H3**: Model CortexFlow_Multi-Pathway memiliki performa yang konsisten untuk semua dataset
+**H4**: Model CortexFlow_Ensemble memiliki performa yang konsisten untuk semua dataset
+**H5**: Model Brain_Diffuser memiliki performa yang konsisten untuk semua dataset
+
+#### 1.3.2 Architecture-Dataset Complexity Hypothesis (H6)
+**H6**: Terdapat korelasi positif antara kompleksitas arsitektur model dengan kompleksitas karakteristik dataset dalam neural decoding
+
+#### 1.3.3 Modality Specialization Hypothesis (H7)
+**H7**: Model neural decoding menunjukkan spesialisasi yang signifikan berdasarkan modalitas data (single-modal vs cross-modal)
 
 ---
 
@@ -296,7 +312,7 @@ configs = {
 
 ---
 
-## 5. Protokol Evaluasi
+## 5. Protokol Evaluasi Hypothesis-Driven
 
 ### 5.1 Metrik Evaluasi Komprehensif
 
@@ -304,15 +320,16 @@ configs = {
 ```python
 MSE = (1/n) * Σᵢ₌₁ⁿ (yᵢ - ŷᵢ)²
 ```
-- **Tujuan**: Metrik utama untuk kualitas rekonstruksi
+- **Tujuan**: Metrik utama untuk kualitas rekonstruksi dan pengujian hipotesis
 - **Rentang**: [0, ∞), semakin rendah semakin baik
 - **Interpretasi**: Rata-rata perbedaan kuadrat antara prediksi dan kebenaran dasar
+- **Penggunaan Hipotesis**: Primary metric untuk semua pengujian konsistensi model
 
 #### 5.1.2 Peak Signal-to-Noise Ratio (PSNR)
 ```python
 PSNR = 20 * log₁₀(MAX_I / √MSE)
 ```
-- **Tujuan**: Penilaian kualitas sinyal
+- **Tujuan**: Penilaian kualitas sinyal untuk validasi sekunder
 - **Rentang**: [0, ∞), semakin tinggi semakin baik
 - **Interpretasi**: Rasio kekuatan sinyal maksimum terhadap kekuatan noise
 
@@ -320,7 +337,7 @@ PSNR = 20 * log₁₀(MAX_I / √MSE)
 ```python
 SSIM = (2μₓμᵧ + c₁)(2σₓᵧ + c₂) / ((μₓ² + μᵧ² + c₁)(σₓ² + σᵧ² + c₂))
 ```
-- **Tujuan**: Penilaian kemiripan struktural
+- **Tujuan**: Penilaian kemiripan struktural untuk analisis kualitatif
 - **Rentang**: [0, 1], semakin tinggi semakin baik
 - **Interpretasi**: Kemiripan perseptual antara citra
 
@@ -328,32 +345,100 @@ SSIM = (2μₓμᵧ + c₁)(2σₓᵧ + c₂) / ((μₓ² + μᵧ² + c₁)(σ�
 ```python
 LPIPS = Jarak perseptual berbasis jaringan dalam
 ```
-- **Tujuan**: Pengukuran kemiripan perseptual
+- **Tujuan**: Pengukuran kemiripan perseptual untuk validasi komprehensif
 - **Rentang**: [0, ∞), semakin rendah semakin baik
 - **Interpretasi**: Penilaian perseptual seperti manusia
 
-### 5.2 Protokol Analisis Statistik
+### 5.2 Framework Pengujian Hipotesis Statistik
 
-#### 5.2.1 Analisis Uji-T
+#### 5.2.1 Multi-Criteria Consistency Assessment (H1-H5)
+Setiap hipotesis konsistensi model individual diuji menggunakan 3 kriteria statistik:
+
+**Kriteria 1: CV Coefficient Test**
 ```python
-from scipy.stats import ttest_rel
-
-# Uji-t berpasangan untuk perbandingan metode
-t_stat, p_value = ttest_rel(method1_scores, method2_scores)
-effect_size = (mean1 - mean2) / pooled_std  # Cohen's d
+cv_coefficient = std_dev / mean
+consistency_threshold = 0.3  # CV < 0.3 = consistent
+cv_consistent = cv_coefficient < consistency_threshold
 ```
 
-#### 5.2.2 Interval Kepercayaan
+**Kriteria 2: One-Sample T-Test**
 ```python
-# Interval kepercayaan 95%
-ci_lower = mean - 1.96 * (std / √n)
-ci_upper = mean + 1.96 * (std / √n)
+# H0: Model MSE ≠ Overall Mean (inconsistent)
+# H1: Model MSE = Overall Mean (consistent)
+t_stat, p_value = stats.ttest_1samp(model_scores, overall_mean)
+t_consistent = p_value > 0.05  # Not significantly different = consistent
 ```
 
-#### 5.2.3 Perhitungan Ukuran Efek
+**Kriteria 3: Ranking Consistency Test**
+```python
+ranking_std = np.std(model_rankings)
+ranking_threshold = 1.5  # Ranking std < 1.5 = consistent
+ranking_consistent = ranking_std < ranking_threshold
+```
+
+**Decision Rule untuk H1-H5:**
+```python
+consistency_score = sum([cv_consistent, t_consistent, ranking_consistent])
+hypothesis_supported = consistency_score >= 2  # Majority rule (≥2/3 criteria)
+```
+
+#### 5.2.2 Architecture-Dataset Complexity Analysis (H6)
+```python
+# Pearson correlation between architecture complexity and dataset complexity
+from scipy.stats import pearsonr
+
+# Architecture complexity metrics
+architecture_complexity = [model_parameters, layer_depth, attention_mechanisms]
+
+# Dataset complexity metrics
+dataset_complexity = [feature_dimensionality, cross_modal_nature, pattern_complexity]
+
+# Correlation analysis
+correlation_coeff, p_value = pearsonr(architecture_complexity, dataset_complexity)
+h6_supported = correlation_coeff > 0 and p_value < 0.05
+```
+
+#### 5.2.3 Modality Specialization Analysis (H7)
+```python
+# Independent samples t-test for single-modal vs cross-modal performance
+single_modal_scores = [miyawaki_scores, vangerven_scores]  # Single-modal datasets
+cross_modal_scores = [mindbigdata_scores, crell_scores]    # Cross-modal datasets
+
+t_stat, p_value = stats.ttest_ind(single_modal_scores, cross_modal_scores)
+h7_supported = p_value < 0.05  # Significant difference = specialization exists
+```
+
+#### 5.2.4 Comprehensive Statistical Framework
+```python
+def comprehensive_hypothesis_testing(cv_results):
+    """
+    Comprehensive hypothesis testing framework untuk 7 hipotesis penelitian
+    """
+
+    # H1-H5: Individual model consistency testing
+    individual_results = {}
+    for model in ['MinD_Vis', 'CortexFlow_Lite', 'CortexFlow_Multi-Pathway',
+                  'CortexFlow_Ensemble', 'Brain_Diffuser']:
+        individual_results[model] = test_individual_consistency(cv_results, model)
+
+    # H6: Architecture-dataset complexity correlation
+    h6_result = test_complexity_correlation(cv_results)
+
+    # H7: Modality specialization analysis
+    h7_result = test_modality_specialization(cv_results)
+
+    return {
+        'individual_consistency': individual_results,
+        'complexity_correlation': h6_result,
+        'modality_specialization': h7_result
+    }
+```
+
+#### 5.2.5 Effect Size dan Statistical Power
 - **Cohen's d**: Pengukuran ukuran efek yang distandarisasi
 - **Interpretasi**: Kecil (0.2), Sedang (0.5), Besar (0.8)
-- **Kekuatan Statistik**: Ditingkatkan dengan n=5 sampel per metode
+- **Statistical Power**: Enhanced dengan n=5 cross-validation samples
+- **Confidence Intervals**: 95% CI untuk semua estimasi parameter
 
 ---
 
@@ -442,67 +527,253 @@ Bagan alur metodologi menunjukkan 4 fase utama penelitian: Persiapan Data, Pelat
 
 ---
 
-## 8. Kesimpulan Metodologi
+## 8. Kesimpulan Metodologi Hypothesis-Driven
 
-Metodologi penelitian CortexFlow menerapkan validasi silang 5-lipatan yang ditingkatkan dengan analisis statistik komprehensif untuk memastikan ketelitian akademik dan keandalan evaluasi. Kerangka kerja ini mengintegrasikan 5 model jaringan neural yang diimplementasikan secara independen untuk penelitian dekoding neural yang komprehensif.
+Metodologi penelitian CortexFlow menerapkan pendekatan hypothesis-driven dengan 7 hipotesis penelitian spesifik yang diuji menggunakan framework statistical testing yang komprehensif. Kerangka kerja ini mengintegrasikan multi-criteria consistency assessment, architecture-dataset complexity analysis, dan modality specialization testing untuk penelitian dekoding neural yang definitif.
 
-Kontribusi metodologis utama meliputi: (1) Ketelitian statistik yang ditingkatkan dengan n=5 sampel untuk analisis Uji-T yang robust, (2) Kerangka kerja evaluasi multi-metrik yang komprehensif, (3) Mekanisme pembobotan ensemble cerdas, dan (4) Implementasi yang dioptimalkan GPU untuk pelatihan efisien.
+### 8.1 Kontribusi Metodologis Utama
 
-Metodologi ini memenuhi standar akademik internasional untuk penelitian dekoding neural dan memberikan fondasi yang solid untuk kemajuan dalam bidang antarmuka otak-komputer dan pemrosesan sinyal neural.
+1. **Definitive Hypothesis-Driven Analysis**: 7 hipotesis penelitian dengan rigorous statistical testing
+2. **Multi-Criteria Consistency Assessment**: 3 kriteria statistik untuk pengujian konsistensi model (CV Coefficient, T-Test, Ranking Consistency)
+3. **Architecture-Dataset Complexity Matching**: Analisis korelasi Pearson untuk menguji hubungan kompleksitas arsitektur dengan karakteristik dataset
+4. **Modality Specialization Testing**: Independent samples t-test untuk menganalisis spesialisasi model berdasarkan modalitas data
+5. **Enhanced Statistical Rigor**: Decision rule ≥2/3 criteria untuk validasi hipotesis yang robust
+6. **Comprehensive Evaluation Framework**: Multi-metrik assessment dengan MSE sebagai primary metric
+7. **GPU-Optimized Implementation**: Implementasi yang dioptimalkan untuk computational efficiency
+
+### 8.2 Keunggulan Metodologi
+
+- **Scientific Rigor**: Hypothesis-driven approach dengan statistical validation yang ketat
+- **Reproducibility**: Fixed random seeds dan deterministic algorithms untuk hasil konsisten
+- **Academic Standards**: Metodologi siap publikasi dengan comprehensive documentation
+- **Practical Applicability**: Framework yang dapat diadaptasi untuk neural decoding research lainnya
+- **Statistical Power**: Enhanced dengan n=5 cross-validation samples untuk robust analysis
+
+### 8.3 Validasi Akademik
+
+Metodologi ini memenuhi standar akademik internasional untuk penelitian dekoding neural dengan:
+- Hypothesis-driven research design yang jelas dan terstruktur
+- Statistical testing framework yang comprehensive dan valid
+- Multi-criteria assessment untuk menghindari bias dalam evaluasi
+- Reproducibility guarantees dengan complete documentation
+- Publication-ready methodology dengan rigorous scientific approach
+
+Metodologi CortexFlow memberikan fondasi yang solid untuk kemajuan dalam bidang antarmuka otak-komputer dan pemrosesan sinyal neural dengan pendekatan yang definitif dan scientifically sound.
 
 ---
 
 ## 13. Metodologi Documentation dan Implementasi
 
-### 13.1 Algoritma Implementasi Detail
-Untuk detail implementasi algoritma yang digunakan dalam metodologi ini, lihat dokumen terpisah:
-- **METHODOLOGY_ALGORITHMS.md**: 5 algoritma kunci dengan pseudocode lengkap
-  - Algoritma 1: Validasi Silang 5-Lipatan yang Ditingkatkan
-  - Algoritma 2: Pembobotan Ensemble Cerdas
-  - Algoritma 3: Evaluasi Komprehensif Multi-Metrik
-  - Algoritma 4: Pengujian Signifikansi Statistik
-  - Algoritma 5: Jalur Pemrosesan Pelatihan yang Dioptimalkan GPU
+### 13.1 Algoritma Implementasi Hypothesis-Driven
+Untuk detail implementasi algoritma yang digunakan dalam metodologi hypothesis-driven ini, lihat dokumen terpisah:
+- **METHODOLOGY_ALGORITHMS.md**: 7 algoritma kunci dengan pseudocode lengkap
+  - Algoritma 1: Multi-Criteria Consistency Assessment (H1-H5)
+  - Algoritma 2: Architecture-Dataset Complexity Correlation Analysis (H6)
+  - Algoritma 3: Modality Specialization Testing (H7)
+  - Algoritma 4: Comprehensive Hypothesis Testing Framework
+  - Algoritma 5: Statistical Decision Rule Implementation
+  - Algoritma 6: Cross-Validation dengan Hypothesis Validation
+  - Algoritma 7: Effect Size dan Statistical Power Calculation
 
-### 13.2 Metodologi Visual Documentation
-Metodologi ini dilengkapi dengan comprehensive visual documentation:
+### 13.2 Metodologi Visual Documentation Hypothesis-Driven
+Metodologi hypothesis-driven ini dilengkapi dengan comprehensive visual documentation:
 
-#### 13.2.1 Specification Tables (3 items)
+#### 13.2.1 Specification Tables (4 items)
 - **Tabel 1**: Dataset Characteristics dan Preprocessing Specifications
 - **Tabel 2**: Model Architecture Specifications dan Technical Details
 - **Tabel 3**: Hyperparameter Configuration dan Training Settings
+- **Tabel 4**: Hypothesis Testing Framework dan Statistical Criteria
 
-#### 13.2.2 Diagram Metodologi (2 item)
-- **Gambar 1**: Bagan Alur Metodologi yang Ditingkatkan (jalur pemrosesan 4-fase)
-- **Gambar 2**: Diagram Metodologi Validasi Silang 5-Lipatan
+#### 13.2.2 Diagram Metodologi (3 items)
+- **Gambar 1**: Bagan Alur Metodologi Hypothesis-Driven (7-hypothesis framework)
+- **Gambar 2**: Diagram Multi-Criteria Consistency Assessment
+- **Gambar 3**: Statistical Testing Decision Tree untuk Hypothesis Validation
 
-#### 13.2.3 Contoh Implementasi (30+ blok)
-- Contoh implementasi Python untuk reproduksibilitas
-- Spesifikasi konfigurasi untuk dataset berbeda
-- Kode optimalisasi GPU untuk pelatihan efisien
-- Metodologi analisis statistik untuk evaluasi robust
+#### 13.2.3 Contoh Implementasi Hypothesis-Driven (40+ blok)
+- Implementasi multi-criteria consistency assessment
+- Statistical testing framework untuk 7 hipotesis
+- Architecture-dataset complexity correlation analysis
+- Modality specialization testing implementation
+- Decision rule algorithms untuk hypothesis validation
+- Effect size dan statistical power calculations
+- Comprehensive hypothesis testing framework
 
-### 13.3 Kerangka Kerja Reproduksibilitas
-Dokumentasi metodologi terintegrasi dengan:
-- **METODOLOGI.md**: Spesifikasi metodologi lengkap
-- **METHODOLOGY_ALGORITHMS.md**: Implementasi algoritma terperinci
-- **figures/**: Diagram visualisasi metodologi
-- **Contoh kode**: Panduan implementasi untuk reproduksibilitas
+### 13.3 Kerangka Kerja Reproduksibilitas Hypothesis-Driven
+Dokumentasi metodologi hypothesis-driven terintegrasi dengan:
+- **METODOLOGI.md**: Spesifikasi metodologi hypothesis-driven lengkap
+- **METHODOLOGY_ALGORITHMS.md**: Implementasi algoritma hypothesis testing terperinci
+- **figures/**: Diagram visualisasi metodologi dan statistical framework
+- **scripts/analysis/**: Implementation scripts untuk 7 hipotesis penelitian
+- **Contoh kode**: Panduan implementasi hypothesis-driven untuk reproduksibilitas
 
-Total dokumentasi metodologi: **Kerangka kerja lengkap** untuk penelitian akademik dan panduan implementasi.
+Total dokumentasi metodologi: **Kerangka kerja hypothesis-driven lengkap** untuk penelitian akademik dengan definitive statistical validation dan comprehensive implementation guidance.
 
 ---
 
-## 9. Protokol Eksperimen Detail
+## 9. Framework Hypothesis Testing Detail
 
-### 9.1 Konfigurasi Lingkungan Komputasi
+### 9.1 Individual Model Consistency Testing (H1-H5)
 
-#### 9.1.1 Spesifikasi Hardware
-- **GPU**: NVIDIA CUDA-compatible dengan minimum 8GB VRAM
-- **CPU**: Multi-core processor untuk parallel processing
-- **RAM**: Minimum 16GB untuk dataset loading
-- **Storage**: SSD untuk fast I/O operations
+#### 9.1.1 Multi-Criteria Assessment Framework
+Setiap hipotesis konsistensi model individual (H1-H5) diuji menggunakan framework 3-kriteria yang komprehensif:
 
-#### 9.1.2 Konfigurasi Software
+**Tabel 4. Framework Multi-Criteria Consistency Assessment**
+
+| Kriteria | Threshold | Interpretasi | Formula |
+|----------|-----------|--------------|---------|
+| **CV Coefficient** | < 0.3 | Variasi rendah = konsisten | `cv = std_dev / mean` |
+| **T-Test vs Mean** | p > 0.05 | Tidak berbeda signifikan = konsisten | `ttest_1samp(scores, overall_mean)` |
+| **Ranking Consistency** | std < 1.5 | Ranking stabil = konsisten | `std(rankings_across_datasets)` |
+
+**Decision Rule**: Hipotesis didukung jika ≥2/3 kriteria terpenuhi (majority rule)
+
+#### 9.1.2 Implementasi Statistical Testing
+```python
+def test_individual_model_consistency(cv_results, model_name, hypothesis_num):
+    """
+    Test consistency hypothesis for individual model
+
+    H0: Model shows significant variation across datasets (inconsistent)
+    H1: Model shows consistent performance across datasets
+    """
+
+    # Kriteria 1: CV Coefficient Test
+    cv_coefficient = np.std(model_scores) / np.mean(model_scores)
+    cv_consistent = cv_coefficient < 0.3
+
+    # Kriteria 2: One-Sample T-Test
+    t_stat, p_value = stats.ttest_1samp(model_scores, overall_mean)
+    t_consistent = p_value > 0.05
+
+    # Kriteria 3: Ranking Consistency
+    ranking_std = np.std(model_rankings)
+    ranking_consistent = ranking_std < 1.5
+
+    # Decision Rule
+    consistency_score = sum([cv_consistent, t_consistent, ranking_consistent])
+    hypothesis_supported = consistency_score >= 2
+
+    return {
+        'hypothesis': f'H{hypothesis_num}',
+        'model': model_name,
+        'cv_coefficient': cv_coefficient,
+        't_test_pvalue': p_value,
+        'ranking_std': ranking_std,
+        'consistency_score': f'{consistency_score}/3',
+        'result': 'SUPPORTED' if hypothesis_supported else 'REJECTED'
+    }
+```
+
+### 9.2 Architecture-Dataset Complexity Analysis (H6)
+
+#### 9.2.1 Complexity Metrics Definition
+**Architecture Complexity Metrics:**
+- Parameter count (normalized)
+- Layer depth
+- Attention mechanisms presence
+- Ensemble components count
+
+**Dataset Complexity Metrics:**
+- Feature dimensionality
+- Cross-modal nature (binary: 0=single, 1=cross)
+- Pattern complexity (estimated from MSE variance)
+
+#### 9.2.2 Correlation Analysis Implementation
+```python
+def test_complexity_correlation(cv_results):
+    """
+    H6: Test correlation between architecture complexity and dataset complexity
+    """
+
+    # Architecture complexity scores
+    architecture_scores = {
+        'CortexFlow_Lite': 1.0,        # Baseline complexity
+        'MinD_Vis': 1.2,               # Slightly more complex
+        'Brain_Diffuser': 1.3,         # Diffusion complexity
+        'CortexFlow_Multi-Pathway': 1.8, # Multi-pathway complexity
+        'CortexFlow_Ensemble': 2.5     # Highest complexity
+    }
+
+    # Dataset complexity scores
+    dataset_scores = {
+        'miyawaki': 1.0,     # Single-modal, binary patterns
+        'vangerven': 1.2,    # Single-modal, grayscale
+        'mindbigdata': 1.8,  # Cross-modal, complex
+        'crell': 1.6         # Cross-modal, moderate
+    }
+
+    # Pearson correlation analysis
+    correlation_coeff, p_value = pearsonr(architecture_values, dataset_values)
+
+    return {
+        'hypothesis': 'H6',
+        'correlation_coefficient': correlation_coeff,
+        'p_value': p_value,
+        'result': 'SUPPORTED' if correlation_coeff > 0 and p_value < 0.05 else 'REJECTED'
+    }
+```
+
+### 9.3 Modality Specialization Testing (H7)
+
+#### 9.3.1 Modality Classification
+**Single-Modal Datasets:**
+- Miyawaki: fMRI → Visual (direct neural-visual mapping)
+- Vangerven: fMRI → Visual (digit recognition)
+
+**Cross-Modal Datasets:**
+- MindBigData: EEG → fMRI → Visual (multi-step translation)
+- Crell: EEG → fMRI → Visual (cross-modal decoding)
+
+#### 9.3.2 Specialization Analysis Implementation
+```python
+def test_modality_specialization(cv_results):
+    """
+    H7: Test if models show specialization based on data modality
+    """
+
+    # Separate performance by modality
+    single_modal_performance = []
+    cross_modal_performance = []
+
+    for model in models:
+        single_modal_scores = [
+            cv_results[model]['miyawaki']['mse'],
+            cv_results[model]['vangerven']['mse']
+        ]
+        cross_modal_scores = [
+            cv_results[model]['mindbigdata']['mse'],
+            cv_results[model]['crell']['mse']
+        ]
+
+        single_modal_performance.extend(single_modal_scores)
+        cross_modal_performance.extend(cross_modal_scores)
+
+    # Independent samples t-test
+    t_stat, p_value = stats.ttest_ind(single_modal_performance, cross_modal_performance)
+
+    return {
+        'hypothesis': 'H7',
+        'single_modal_mean': np.mean(single_modal_performance),
+        'cross_modal_mean': np.mean(cross_modal_performance),
+        't_statistic': t_stat,
+        'p_value': p_value,
+        'result': 'SUPPORTED' if p_value < 0.05 else 'REJECTED'
+    }
+```
+
+---
+
+## 10. Protokol Eksperimen Detail
+
+### 10.1 Konfigurasi Lingkungan Komputasi Hypothesis-Driven
+
+#### 10.1.1 Spesifikasi Hardware untuk Statistical Computing
+- **GPU**: NVIDIA CUDA-compatible dengan minimum 8GB VRAM untuk model training
+- **CPU**: Multi-core processor untuk statistical analysis dan hypothesis testing
+- **RAM**: Minimum 16GB untuk cross-validation dan statistical computations
+- **Storage**: SSD untuk fast I/O operations dan results storage
+
+#### 10.1.2 Konfigurasi Software untuk Hypothesis Testing
 ```python
 # Environment setup
 Python: 3.8+
@@ -903,6 +1174,28 @@ def archive_experiment_results(experiment_id, results):
 
 Metodologi penelitian CortexFlow telah dirancang dengan standar akademik tertinggi untuk memastikan rigor ilmiah, reproducibility, dan kontribusi yang signifikan dalam bidang neural decoding. Framework ini mengintegrasikan best practices dalam machine learning research dengan enhanced statistical validation untuk menghasilkan findings yang robust dan reliable.
 
-Kontribusi metodologis utama meliputi: (1) Enhanced 5-fold cross-validation dengan n=5 statistical rigor, (2) Comprehensive multi-metric evaluation framework, (3) Intelligent ensemble architecture dengan learned weighting, (4) GPU-optimized implementation untuk computational efficiency, dan (5) Complete reproducibility framework dengan comprehensive documentation.
+Kontribusi metodologis utama meliputi: (1) Definitive hypothesis-driven analysis dengan 7 hipotesis penelitian spesifik, (2) Multi-criteria consistency assessment dengan 3 kriteria statistik, (3) Architecture-dataset complexity matching analysis, (4) Modality specialization testing framework, (5) Enhanced statistical rigor dengan decision rule ≥2/3 criteria, (6) Comprehensive multi-metric evaluation framework, dan (7) GPU-optimized implementation untuk computational efficiency.
 
-Framework metodologi ini memberikan foundation yang solid untuk implementasi penelitian neural decoding dengan 5 model neural network yang diimplementasikan secara independen. Metodologi CortexFlow dengan enhanced statistical rigor dan comprehensive evaluation dapat diadaptasi untuk future research dalam neural decoding dan brain-computer interface applications dengan maintaining academic standards dan reproducibility requirements.
+Framework metodologi hypothesis-driven ini memberikan foundation yang solid untuk implementasi penelitian neural decoding dengan scientific rigor yang definitif. Metodologi CortexFlow dengan 7 hipotesis penelitian dan comprehensive statistical testing dapat diadaptasi untuk future research dalam neural decoding dan brain-computer interface applications dengan maintaining highest academic standards dan complete reproducibility requirements.
+
+---
+
+## 🔬 **SUMMARY: HYPOTHESIS-DRIVEN METHODOLOGY FRAMEWORK**
+
+### **✅ 7 Hipotesis Penelitian yang Diuji:**
+1. **H1-H5**: Individual Model Consistency (Multi-criteria assessment)
+2. **H6**: Architecture-Dataset Complexity Correlation
+3. **H7**: Modality Specialization Analysis
+
+### **📊 Multi-Criteria Statistical Framework:**
+- **3 Kriteria Konsistensi**: CV Coefficient, T-Test, Ranking Consistency
+- **Decision Rule**: ≥2/3 criteria untuk validasi hipotesis
+- **Statistical Power**: Enhanced dengan n=5 cross-validation samples
+
+### **🎯 Keunggulan Metodologi:**
+- **Definitive**: Hypothesis-driven approach dengan clear research questions
+- **Rigorous**: Multi-criteria statistical validation
+- **Reproducible**: Complete documentation dan implementation scripts
+- **Academic**: Publication-ready dengan highest scientific standards
+
+Metodologi CortexFlow Hypothesis-Driven Framework telah siap untuk implementasi penelitian neural decoding dengan validasi statistik yang definitif dan comprehensive.
