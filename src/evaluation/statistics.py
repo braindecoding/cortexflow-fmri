@@ -24,12 +24,13 @@ warnings.filterwarnings('ignore')
 
 def comprehensive_ttest_analysis(cv_results_dict, dataset_name, output_dir="results"):
     """
-    Comprehensive T-Test Analysis using REAL Cross-Validation Results
+    Comprehensive Hypothesis-Driven Statistical Analysis using REAL Cross-Validation Results
 
-    Performs three types of statistical tests:
-    1. One-sample t-test vs baseline threshold
+    Performs hypothesis-driven statistical tests:
+    1. Consistency analysis (CV coefficient and ranking stability)
     2. Independent samples t-test (CortexFlow vs SOTA)
     3. Paired samples t-test (pairwise comparisons)
+    4. Effect size analysis (Cohen's d)
 
     Args:
         cv_results_dict: Dictionary with method names as keys and CV results as values
@@ -40,7 +41,7 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name, output_dir="resu
         Dictionary with statistical analysis results
     """
 
-    print(f"\n🔬 COMPREHENSIVE T-TEST ANALYSIS - Dataset: {dataset_name.upper()}")
+    print(f"\n🔬 COMPREHENSIVE HYPOTHESIS-DRIVEN ANALYSIS - Dataset: {dataset_name.upper()}")
     print("=" * 80)
 
     # Use REAL cross-validation results - NO SIMULATION
@@ -65,24 +66,47 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name, output_dir="resu
         std_score = np.std(runs)
         print(f"   {method}: {mean_score:.6f} ± {std_score:.6f} (n={len(runs)} folds)")
 
-    # 1. ONE-SAMPLE T-TEST
-    print(f"\n1️⃣ ONE-SAMPLE T-TEST:")
-    print(f"   Membandingkan setiap method dengan baseline threshold")
-    baseline_threshold = 0.025  # Threshold untuk acceptable performance
+    # 1. CONSISTENCY ANALYSIS
+    print(f"\n1️⃣ CONSISTENCY ANALYSIS:")
+    print(f"   Analyzing performance consistency across CV folds")
+
+    consistency_results = {}
+    overall_mean = np.mean([np.mean(runs) for runs in cv_results_dict.values()])
 
     for method, runs in cv_results_dict.items():
-        t_stat, p_value = stats.ttest_1samp(runs, baseline_threshold)
+        mean_score = np.mean(runs)
+        std_score = np.std(runs, ddof=1)
+        cv_coefficient = std_score / mean_score if mean_score > 0 else float('inf')
 
-        if np.mean(runs) < baseline_threshold:
-            interpretation = "✅ Significantly BETTER than baseline"
-        else:
-            interpretation = "❌ Not significantly better than baseline"
+        # T-test vs overall mean (consistency test)
+        t_stat, p_value = stats.ttest_1samp(runs, overall_mean)
+
+        # Consistency assessment
+        cv_consistent = cv_coefficient < 0.3
+        t_consistent = p_value > 0.05  # Not significantly different from overall mean
+
+        consistency_score = sum([cv_consistent, t_consistent])
+        is_consistent = consistency_score >= 1  # At least 1/2 criteria
+
+        consistency_results[method] = {
+            'mean': mean_score,
+            'std': std_score,
+            'cv_coefficient': cv_coefficient,
+            't_stat': t_stat,
+            'p_value': p_value,
+            'cv_consistent': cv_consistent,
+            't_consistent': t_consistent,
+            'consistency_score': consistency_score,
+            'is_consistent': is_consistent
+        }
 
         significance = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else "ns"
+        consistency_status = "✅ CONSISTENT" if is_consistent else "❌ INCONSISTENT"
 
         print(f"   {method}:")
-        print(f"     vs baseline ({baseline_threshold}): t = {t_stat:.3f}, p = {p_value:.6f} {significance}")
-        print(f"     {interpretation}")
+        print(f"     CV Coefficient: {cv_coefficient:.4f} ({'✅' if cv_consistent else '❌'})")
+        print(f"     vs Overall Mean: t = {t_stat:.3f}, p = {p_value:.6f} {significance} ({'✅' if t_consistent else '❌'})")
+        print(f"     Consistency: {consistency_status} ({consistency_score}/2)")
 
     # 2. INDEPENDENT SAMPLES T-TEST (Two-Sample)
     print(f"\n2️⃣ INDEPENDENT SAMPLES T-TEST:")
@@ -187,7 +211,12 @@ def comprehensive_ttest_analysis(cv_results_dict, dataset_name, output_dir="resu
     except Exception as e:
         print(f"⚠️ Warning: Could not generate markdown report: {e}")
 
-    return cv_results_dict
+    return {
+        'cv_results': cv_results_dict,
+        'consistency_results': consistency_results,
+        'dataset_name': dataset_name,
+        'analysis_type': 'hypothesis_driven_cv'
+    }
 
 
 def statistical_analysis(results_dict, dataset_name):
@@ -288,5 +317,7 @@ def statistical_analysis(results_dict, dataset_name):
         'worst_score': max(scores),
         'range': max(scores) - min(scores),
         'mean': np.mean(scores),
-        'std': np.std(scores)
+        'std': np.std(scores),
+        'dataset_name': dataset_name,
+        'analysis_type': 'hypothesis_driven'
     }

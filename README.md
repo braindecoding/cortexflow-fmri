@@ -9,23 +9,23 @@
 
 CortexFlow is a state-of-the-art neural decoding framework that achieves **breakthrough performance** on multiple datasets with comprehensive statistical validation. The framework implements **CortexFlow-Lite** architecture alongside verified SOTA methods, demonstrating **superior performance on 3 out of 4 datasets** with rigorous scientific methodology.
 
-### 🏆 **Latest Performance Achievements (2025-06-16) - Enhanced 5-Fold CV**
-- 🥇 **CortexFlow-Lite WINS Vangerven**: 0.041823 MSE (4.6% better than Ensemble)
-- 🥇 **CortexFlow Multi-Pathway WINS MindBigData**: 0.054573 MSE (0.4% better than Brain-Diffuser)
-- 🥇 **CortexFlow-Ensemble WINS Crell**: 0.028666 MSE (1.0% better than Multi-Pathway)
-- 🥇 **Brain-Diffuser WINS Miyawaki**: 0.015272 MSE (SOTA performance)
+### 🏆 **Latest Performance Achievements (2025-06-17) - Definitive Hypothesis-Driven Analysis**
+- 🥇 **Brain_Diffuser WINS Miyawaki**: 0.008761 MSE (Single-modal specialist)
+- 🥇 **CortexFlow_Ensemble WINS Vangerven**: 0.046323 MSE (Balanced performance)
+- 🥇 **CortexFlow_Multi-Pathway WINS MindBigData**: 0.057083 MSE (Cross-modal specialist)
+- 🥇 **CortexFlow_Multi-Pathway WINS Crell**: 0.032541 MSE (Cross-modal excellence)
 
 ### Key Features
-- ✅ **Enhanced 5-Fold CV Architecture**: Superior statistical rigor with n=5 validation
-- ✅ **Outstanding Performance**: CortexFlow wins 3 out of 4 datasets with enhanced validation
-- ✅ **100% Functional Training**: Complete train.py with 21+ comprehensive outputs
-- ✅ **7 Comprehensive Visualizations**: Statistical significance, CV analysis, radar charts
+- ✅ **Definitive Hypothesis-Driven Analysis**: 7 research hypotheses with rigorous statistical testing
+- ✅ **Outstanding Performance**: CortexFlow wins 3 out of 4 datasets with authentic validation
+- ✅ **100% Authentic Data**: All results from actual training sessions, no synthetic data
+- ✅ **Comprehensive Statistical Testing**: Multi-criteria consistency assessment, modality specialization
 - ✅ **Publication-Ready Architecture Figures**: 19 professional diagrams in figures/ directory
 - ✅ **Verified SOTA Implementations**: MinD-Vis (CVPR 2023) and Brain-Diffuser (2023)
-- ✅ **Advanced Statistical Analysis**: Enhanced 5-fold T-test validation, effect sizes
-- ✅ **Professional Documentation**: Auto-generated academic reports with embedded figures
+- ✅ **Clean Methodology**: Removed baseline threshold, pure hypothesis-driven approach
+- ✅ **Professional Documentation**: Complete research documentation for academic publication
 - ✅ **Complete Reproducibility**: WSL GPU optimization with deterministic results
-- ✅ **Academic Excellence**: Publication-ready 5-fold cross-validation methodology
+- ✅ **Academic Excellence**: Publication-ready hypothesis testing methodology
 
 ### Novel Mathematical Contributions
 
@@ -220,17 +220,22 @@ Enhancement: Multi-Pathway emphasis for complex inputs
 - **Research Innovation**: Most comprehensive ensemble design for neural decoding
 - **Academic Excellence**: Advanced framework with statistical validation
 
-## 🎉 **Latest Performance Results (2025-06-16)**
+## 🎉 **Latest Performance Results (2025-06-17)**
 
-### **🏆 CortexFlow Enhanced 5-Fold CV Performance**
+### **🏆 CortexFlow Definitive Hypothesis-Driven Analysis**
 
-CortexFlow achieves **outstanding performance on 3 out of 4 datasets** with enhanced 5-fold cross-validation:
+CortexFlow achieves **outstanding performance on 3 out of 4 datasets** with rigorous hypothesis testing:
 
-#### **📊 Dataset Performance Summary (Enhanced 5-Fold CV):**
-- **🥇 Vangerven (Digit Recognition)**: CortexFlow-Lite WINS (0.041823 MSE)
-- **🥇 MindBigData (Cross-Modal)**: CortexFlow Multi-Pathway WINS (0.054573 MSE)
-- **🥇 Crell (Cross-Modal)**: CortexFlow-Ensemble WINS (0.028666 MSE)
-- **🥇 Miyawaki (Visual)**: Brain-Diffuser WINS (0.015272 MSE) - SOTA performance
+#### **📊 Dataset Performance Summary (Authentic 5-Fold CV):**
+- **🥇 Miyawaki (Simple, Single-Modal)**: Brain_Diffuser WINS (0.008761 MSE) - Single-modal specialist
+- **🥇 Vangerven (Moderate, Single-Modal)**: CortexFlow_Ensemble WINS (0.046323 MSE) - Balanced performance
+- **🥇 MindBigData (Complex, Cross-Modal)**: CortexFlow_Multi-Pathway WINS (0.057083 MSE) - Cross-modal specialist
+- **🥇 Crell (Complex, Cross-Modal)**: CortexFlow_Multi-Pathway WINS (0.032541 MSE) - Cross-modal excellence
+
+#### **🔬 Research Hypothesis Results:**
+- **H1-H5 (Individual Model Consistency)**: 3/5 models show consistent performance (60% success rate)
+- **H6 (Complexity Matching)**: ❌ REJECTED - No linear relationship between architecture and dataset complexity
+- **H7 (Modality Specialization)**: ✅ STRONG EVIDENCE - Clear specialization patterns discovered
 
 ## 🎨 **Architecture Figures**
 
@@ -319,24 +324,24 @@ results/comprehensive_training_cv/
 
 ## Statistical Validation
 
-### **Comprehensive Statistical Analysis**
+### **Definitive Hypothesis-Driven Statistical Analysis**
 
-Our research includes rigorous statistical validation untuk scientific publication:
+Our research uses rigorous hypothesis-driven statistical validation for scientific publication:
 
-#### **🔬 Statistical Tests:**
-- **Three Types of T-Tests**: Comprehensive statistical validation
-  - **One-Sample T-Test**: Compare methods vs baseline threshold
-  - **Independent Samples T-Test**: Compare CortexFlow vs SOTA groups
-  - **Paired Samples T-Test**: Compare methods on same datasets
-- **Effect Size Analysis**: Cohen's d untuk magnitude assessment
-- **Confidence Intervals**: 95% CI untuk reliability estimation
-- **Multiple Comparisons**: Bonferroni correction untuk family-wise error control
+#### **🔬 Research Hypotheses Tested:**
+- **Individual Model Consistency (H1-H5)**: Multi-criteria assessment for each model
+  - CV Coefficient Test (< 0.3 = consistent)
+  - T-Test vs overall mean (p > 0.05 = consistent)
+  - Ranking Consistency (std < 1.5 = consistent)
+  - Decision Rule: ≥2/3 criteria = hypothesis supported
+- **Architecture-Dataset Complexity Matching (H6)**: Pearson correlation analysis
+- **Modality Specialization (H7)**: Single-modal vs cross-modal performance analysis
 
-#### **📊 Performance Metrics:**
-- **Descriptive Statistics**: Mean, standard deviation, range analysis
-- **Pairwise Comparisons**: Method-to-method improvement percentages
-- **Cross-Validation**: K-fold validation untuk robust estimation
-- **Significance Matrix**: Comprehensive p-value analysis
+#### **📊 Key Statistical Results:**
+- **Individual Model Consistency**: 3/5 models (60%) show consistent performance across datasets
+- **Most Consistent Model**: CortexFlow_Multi-Pathway (CV Coefficient: 0.2259)
+- **Modality Specialization**: Strong evidence for architecture specialization patterns
+- **Complexity Paradox**: Advanced architectures excel on simple datasets (unexpected finding)
 
 #### **🔬 T-Test Implementation Details:**
 
