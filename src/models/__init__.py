@@ -19,6 +19,11 @@ from .mind_vis import OptimizedMinDVis
 from .brain_diffuser import OptimizedBrainDiffuser
 from .cortexflow import CortexFlowMultiPathway
 from .cortexflow_enhanced import CortexFlowEnhanced
+from .cortexflow_lite_enhanced import CortexFlowLiteEnhanced, CortexFlowLiteUltra
+from .cortexflow_lite_diffusion import (
+    CortexFlowLiteDiffusion, CortexFlowLiteMinimal, CortexFlowLiteOptimal,
+    CortexFlowLiteDeep, CortexFlowLiteEnsemble
+)
 from .miyawaki_advanced import MiyawakiAdvancedCortexFlow
 from .ensemble import CortexFlowEnsemble
 
@@ -28,6 +33,13 @@ __all__ = [
     'OptimizedBrainDiffuser',
     'CortexFlowMultiPathway',
     'CortexFlowEnhanced',
+    'CortexFlowLiteEnhanced',
+    'CortexFlowLiteUltra',
+    'CortexFlowLiteDiffusion',
+    'CortexFlowLiteMinimal',
+    'CortexFlowLiteOptimal',
+    'CortexFlowLiteDeep',
+    'CortexFlowLiteEnsemble',
     'MiyawakiAdvancedCortexFlow',
     'CortexFlowEnsemble'
 ]
