@@ -1,0 +1,186 @@
+{
+  "miyawaki": {
+    "CortexFlow-Lite-Minimal": {
+      "training": {
+        "best_val_loss": 0.009377846494317055,
+        "epochs_trained": 243
+      },
+      "metrics": {
+        "mse": 0.009445630945265293,
+        "psnr": 20.247690200805664,
+        "ssim": 0.8955294489860535,
+        "lpips": 0.04571210965514183
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 250,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 64
+      }
+    },
+    "Brain-Diffuser": {
+      "training": {
+        "best_val_loss": 0.00759532768279314,
+        "epochs_trained": 250
+      },
+      "metrics": {
+        "mse": 0.009486996568739414,
+        "psnr": 20.22871208190918,
+        "ssim": 0.8896986842155457,
+        "lpips": 0.04763440415263176
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 250,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 64
+      }
+    }
+  },
+  "vangerven": {
+    "CortexFlow-Lite-Minimal": {
+      "training": {
+        "best_val_loss": 0.04323221370577812,
+        "epochs_trained": 63
+      },
+      "metrics": {
+        "mse": 0.04466985538601875,
+        "psnr": 13.499855041503906,
+        "ssim": 0.5228641033172607,
+        "lpips": 0.12971298396587372
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 150,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 32
+      }
+    },
+    "Brain-Diffuser": {
+      "training": {
+        "best_val_loss": 0.04295959696173668,
+        "epochs_trained": 85
+      },
+      "metrics": {
+        "mse": 0.041263703256845474,
+        "psnr": 13.844318389892578,
+        "ssim": 0.4883592128753662,
+        "lpips": 0.14626507461071014
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 150,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 32
+      }
+    }
+  },
+  "mindbigdata": {
+    "CortexFlow-Lite-Minimal": {
+      "training": {
+        "best_val_loss": 0.057529193038741745,
+        "epochs_trained": 32
+      },
+      "metrics": {
+        "mse": 0.061860937625169754,
+        "psnr": 12.085836410522461,
+        "ssim": 0.1496879756450653,
+        "lpips": 0.32273975014686584
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 120,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 40
+      }
+    },
+    "Brain-Diffuser": {
+      "training": {
+        "best_val_loss": 0.05749401946862539,
+        "epochs_trained": 34
+      },
+      "metrics": {
+        "mse": 0.06197867915034294,
+        "psnr": 12.077577590942383,
+        "ssim": 0.15159401297569275,
+        "lpips": 0.33983364701271057
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 120,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 40
+      }
+    }
+  },
+  "crell": {
+    "CortexFlow-Lite-Minimal": {
+      "training": {
+        "best_val_loss": 0.03292322298511863,
+        "epochs_trained": 117
+      },
+      "metrics": {
+        "mse": 0.0321878120303154,
+        "psnr": 14.92308521270752,
+        "ssim": 0.26938220858573914,
+        "lpips": 0.3584249019622803
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 140,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 36
+      }
+    },
+    "Brain-Diffuser": {
+      "training": {
+        "best_val_loss": 0.03297829441726208,
+        "epochs_trained": 87
+      },
+      "metrics": {
+        "mse": 0.03228919953107834,
+        "psnr": 14.909427642822266,
+        "ssim": 0.26810383796691895,
+        "lpips": 0.35804682970046997
+      },
+      "config": {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "epochs": 140,
+        "patience": 25,
+        "gradient_clip": 0.5,
+        "scheduler_factor": 0.5,
+        "scheduler_patience": 15,
+        "batch_size": 36
+      }
+    }
+  }
+}
