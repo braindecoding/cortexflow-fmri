@@ -176,6 +176,40 @@ class ComprehensiveEvaluationMetrics:
         return metrics
 
 
+def calculate_comprehensive_metrics(pred, target, device='cuda', data_range=1.0):
+    """
+    Convenience function for calculating comprehensive metrics
+
+    Args:
+        pred: Predicted images [B, C, H, W] or [B, H, W]
+        target: Target images [B, C, H, W] or [B, H, W]
+        device: Device for computation
+        data_range: Maximum possible pixel value
+
+    Returns:
+        Dictionary with metrics: mse, psnr, ssim, lpips
+    """
+    # Initialize evaluator
+    evaluator = ComprehensiveEvaluationMetrics(device)
+
+    # Ensure 4D tensors
+    if pred.dim() == 3:
+        pred = pred.unsqueeze(1)
+    if target.dim() == 3:
+        target = target.unsqueeze(1)
+
+    # Compute metrics
+    metrics = evaluator.compute_all_metrics(pred, target, data_range)
+
+    # Convert to lowercase keys for consistency
+    return {
+        'mse': metrics['MSE'],
+        'psnr': metrics['PSNR'],
+        'ssim': metrics['SSIM'],
+        'lpips': metrics['LPIPS']
+    }
+
+
 def test_evaluation_metrics():
     """Test function untuk 4 evaluation metrics"""
     print("🧪 TESTING 4 COMPREHENSIVE EVALUATION METRICS")

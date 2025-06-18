@@ -18,14 +18,16 @@ from .baseline import StandardBaselineCNN
 from .mind_vis import OptimizedMinDVis
 from .brain_diffuser import OptimizedBrainDiffuser
 from .cortexflow import CortexFlowMultiPathway
+from .cortexflow_enhanced import CortexFlowEnhanced
 from .miyawaki_advanced import MiyawakiAdvancedCortexFlow
 from .ensemble import CortexFlowEnsemble
 
 __all__ = [
     'StandardBaselineCNN',
-    'OptimizedMinDVis', 
+    'OptimizedMinDVis',
     'OptimizedBrainDiffuser',
     'CortexFlowMultiPathway',
+    'CortexFlowEnhanced',
     'MiyawakiAdvancedCortexFlow',
     'CortexFlowEnsemble'
 ]
