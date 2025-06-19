@@ -1,0 +1,191 @@
+{
+  "miyawaki": {
+    "all_configs": [
+      {
+        "val_loss": 0.007780373562127352,
+        "test_mse": 0.009569444693624973,
+        "config": {
+          "name": "Ultra-Stable",
+          "lr": 0.0003,
+          "batch_size": 8,
+          "weight_decay": 1e-08,
+          "epochs": 200,
+          "patience": 25,
+          "scheduler_factor": 0.3
+        }
+      },
+      {
+        "val_loss": 0.006680796854197979,
+        "test_mse": 0.010162489488720894,
+        "config": {
+          "name": "Balanced",
+          "lr": 0.0005,
+          "batch_size": 16,
+          "weight_decay": 5e-08,
+          "epochs": 150,
+          "patience": 20,
+          "scheduler_factor": 0.5
+        }
+      },
+      {
+        "val_loss": 0.01746521797031164,
+        "test_mse": 0.04443693906068802,
+        "config": {
+          "name": "Aggressive",
+          "lr": 0.0008,
+          "batch_size": 12,
+          "weight_decay": 1e-07,
+          "epochs": 120,
+          "patience": 15,
+          "scheduler_factor": 0.7
+        }
+      }
+    ],
+    "best_result": {
+      "val_loss": 0.007780373562127352,
+      "test_mse": 0.009569444693624973,
+      "config": {
+        "name": "Ultra-Stable",
+        "lr": 0.0003,
+        "batch_size": 8,
+        "weight_decay": 1e-08,
+        "epochs": 200,
+        "patience": 25,
+        "scheduler_factor": 0.3
+      }
+    },
+    "target": 0.009845
+  },
+  "vangerven": {
+    "all_configs": [
+      {
+        "val_loss": 0.04264595607916514,
+        "test_mse": 0.040100112557411194,
+        "config": {
+          "name": "Small-Dataset-Opt",
+          "lr": 0.0003,
+          "batch_size": 8,
+          "weight_decay": 1e-08,
+          "epochs": 180,
+          "patience": 25,
+          "scheduler_factor": 0.3
+        }
+      },
+      {
+        "val_loss": 0.042020283639431,
+        "test_mse": 0.03703742474317551,
+        "config": {
+          "name": "Medium-Stable",
+          "lr": 0.0005,
+          "batch_size": 12,
+          "weight_decay": 5e-08,
+          "epochs": 150,
+          "patience": 20,
+          "scheduler_factor": 0.5
+        }
+      }
+    ],
+    "best_result": {
+      "val_loss": 0.042020283639431,
+      "test_mse": 0.03703742474317551,
+      "config": {
+        "name": "Medium-Stable",
+        "lr": 0.0005,
+        "batch_size": 12,
+        "weight_decay": 5e-08,
+        "epochs": 150,
+        "patience": 20,
+        "scheduler_factor": 0.5
+      }
+    },
+    "target": 0.045659
+  },
+  "mindbigdata": {
+    "all_configs": [
+      {
+        "val_loss": 0.057399658752339225,
+        "test_mse": 0.05668487027287483,
+        "config": {
+          "name": "Large-Dataset-Opt",
+          "lr": 0.001,
+          "batch_size": 32,
+          "weight_decay": 1e-06,
+          "epochs": 100,
+          "patience": 12,
+          "scheduler_factor": 0.5
+        }
+      },
+      {
+        "val_loss": 0.05745968595147133,
+        "test_mse": 0.057029787451028824,
+        "config": {
+          "name": "Conservative",
+          "lr": 0.0008,
+          "batch_size": 24,
+          "weight_decay": 5e-07,
+          "epochs": 120,
+          "patience": 15,
+          "scheduler_factor": 0.3
+        }
+      }
+    ],
+    "best_result": {
+      "val_loss": 0.057399658752339225,
+      "test_mse": 0.05668487027287483,
+      "config": {
+        "name": "Large-Dataset-Opt",
+        "lr": 0.001,
+        "batch_size": 32,
+        "weight_decay": 1e-06,
+        "epochs": 100,
+        "patience": 12,
+        "scheduler_factor": 0.5
+      }
+    },
+    "target": 0.057348
+  },
+  "crell": {
+    "all_configs": [
+      {
+        "val_loss": 0.03272086878617605,
+        "test_mse": 0.03205512836575508,
+        "config": {
+          "name": "Medium-Dataset-Opt",
+          "lr": 0.0008,
+          "batch_size": 20,
+          "weight_decay": 5e-07,
+          "epochs": 120,
+          "patience": 15,
+          "scheduler_factor": 0.5
+        }
+      },
+      {
+        "val_loss": 0.03232261352241039,
+        "test_mse": 0.03206436336040497,
+        "config": {
+          "name": "High-Precision",
+          "lr": 0.0005,
+          "batch_size": 16,
+          "weight_decay": 1e-07,
+          "epochs": 150,
+          "patience": 20,
+          "scheduler_factor": 0.3
+        }
+      }
+    ],
+    "best_result": {
+      "val_loss": 0.03272086878617605,
+      "test_mse": 0.03205512836575508,
+      "config": {
+        "name": "Medium-Dataset-Opt",
+        "lr": 0.0008,
+        "batch_size": 20,
+        "weight_decay": 5e-07,
+        "epochs": 120,
+        "patience": 15,
+        "scheduler_factor": 0.5
+      }
+    },
+    "target": 0.032525
+  }
+}

@@ -26,6 +26,12 @@ from .cortexflow_lite_diffusion import (
 )
 from .miyawaki_advanced import MiyawakiAdvancedCortexFlow
 from .ensemble import CortexFlowEnsemble
+from .cortexflow_lite_clip import (
+    CortexFlowLiteCLIP,
+    CortexFlowLiteCLIPAdvanced,
+    CortexFlowLiteCLIPOptimal,
+    CLIPLoss
+)
 
 __all__ = [
     'StandardBaselineCNN',
@@ -41,5 +47,9 @@ __all__ = [
     'CortexFlowLiteDeep',
     'CortexFlowLiteEnsemble',
     'MiyawakiAdvancedCortexFlow',
-    'CortexFlowEnsemble'
+    'CortexFlowEnsemble',
+    'CortexFlowLiteCLIP',
+    'CortexFlowLiteCLIPAdvanced',
+    'CortexFlowLiteCLIPOptimal',
+    'CLIPLoss'
 ]

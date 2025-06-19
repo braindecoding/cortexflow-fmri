@@ -1,0 +1,30 @@
+{
+  "miyawaki": {
+    "best_score": Infinity,
+    "best_params": null,
+    "all_results": [],
+    "beats_champion": false,
+    "target_score": 0.009845
+  },
+  "vangerven": {
+    "best_score": Infinity,
+    "best_params": null,
+    "all_results": [],
+    "beats_champion": false,
+    "target_score": 0.045659
+  },
+  "mindbigdata": {
+    "best_score": Infinity,
+    "best_params": null,
+    "all_results": [],
+    "beats_champion": false,
+    "target_score": 0.057348
+  },
+  "crell": {
+    "best_score": Infinity,
+    "best_params": null,
+    "all_results": [],
+    "beats_champion": false,
+    "target_score": 0.032525
+  }
+}
