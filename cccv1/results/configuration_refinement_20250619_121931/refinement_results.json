@@ -1,0 +1,678 @@
+{
+  "vangerven": {
+    "best_score": 0.03924791018168131,
+    "best_config": {
+      "lr": 0.0003,
+      "batch_size": 8,
+      "weight_decay": 1e-08,
+      "epochs": 250,
+      "patience": 30,
+      "scheduler_factor": 0.4,
+      "dropout_encoder": 0.04,
+      "dropout_decoder": 0.015,
+      "clip_residual_weight": 0.08
+    },
+    "all_results": [
+      {
+        "trial": 1,
+        "config": {
+          "lr": 0.0005,
+          "batch_size": 8,
+          "weight_decay": 5e-08,
+          "epochs": 250,
+          "patience": 30,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.041965704411268234,
+        "beats_champion": true
+      },
+      {
+        "trial": 2,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 6,
+          "weight_decay": 1e-08,
+          "epochs": 200,
+          "patience": 40,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.04134262974063555,
+        "beats_champion": true
+      },
+      {
+        "trial": 3,
+        "config": {
+          "lr": 0.0002,
+          "batch_size": 10,
+          "weight_decay": 5e-09,
+          "epochs": 300,
+          "patience": 30,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.04296373389661312,
+        "beats_champion": true
+      },
+      {
+        "trial": 4,
+        "config": {
+          "lr": 0.0005,
+          "batch_size": 8,
+          "weight_decay": 1e-08,
+          "epochs": 200,
+          "patience": 30,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.04423008362452189,
+        "beats_champion": true
+      },
+      {
+        "trial": 5,
+        "config": {
+          "lr": 0.0005,
+          "batch_size": 10,
+          "weight_decay": 5e-08,
+          "epochs": 300,
+          "patience": 35,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.04619489796459675,
+        "beats_champion": false
+      },
+      {
+        "trial": 6,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 8,
+          "weight_decay": 5e-09,
+          "epochs": 250,
+          "patience": 40,
+          "scheduler_factor": 0.3,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.04122500618298849,
+        "beats_champion": true
+      },
+      {
+        "trial": 7,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 12,
+          "weight_decay": 2e-08,
+          "epochs": 200,
+          "patience": 40,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.042900897562503815,
+        "beats_champion": true
+      },
+      {
+        "trial": 8,
+        "config": {
+          "lr": 0.0004,
+          "batch_size": 6,
+          "weight_decay": 2e-08,
+          "epochs": 200,
+          "patience": 30,
+          "scheduler_factor": 0.3,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.041579386840264,
+        "beats_champion": true
+      },
+      {
+        "trial": 9,
+        "config": {
+          "lr": 0.0004,
+          "batch_size": 12,
+          "weight_decay": 2e-08,
+          "epochs": 300,
+          "patience": 35,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.04353698343038559,
+        "beats_champion": true
+      },
+      {
+        "trial": 10,
+        "config": {
+          "lr": 0.0005,
+          "batch_size": 6,
+          "weight_decay": 5e-09,
+          "epochs": 300,
+          "patience": 40,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.048628597209850945,
+        "beats_champion": false
+      },
+      {
+        "trial": 11,
+        "config": {
+          "lr": 0.0004,
+          "batch_size": 6,
+          "weight_decay": 1e-08,
+          "epochs": 200,
+          "patience": 35,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.04192666088541349,
+        "beats_champion": true
+      },
+      {
+        "trial": 12,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 6,
+          "weight_decay": 5e-09,
+          "epochs": 300,
+          "patience": 35,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.04170010859767596,
+        "beats_champion": true
+      },
+      {
+        "trial": 13,
+        "config": {
+          "lr": 0.0004,
+          "batch_size": 8,
+          "weight_decay": 1e-08,
+          "epochs": 300,
+          "patience": 35,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.04115091264247894,
+        "beats_champion": true
+      },
+      {
+        "trial": 14,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 12,
+          "weight_decay": 5e-09,
+          "epochs": 200,
+          "patience": 35,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.04418794810771942,
+        "beats_champion": true
+      },
+      {
+        "trial": 15,
+        "config": {
+          "lr": 0.0005,
+          "batch_size": 6,
+          "weight_decay": 1e-08,
+          "epochs": 200,
+          "patience": 35,
+          "scheduler_factor": 0.3,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.040018729865550995,
+        "beats_champion": true
+      },
+      {
+        "trial": 16,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 10,
+          "weight_decay": 5e-09,
+          "epochs": 200,
+          "patience": 40,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.041204316541552544,
+        "beats_champion": true
+      },
+      {
+        "trial": 17,
+        "config": {
+          "lr": 0.0005,
+          "batch_size": 8,
+          "weight_decay": 1e-08,
+          "epochs": 250,
+          "patience": 30,
+          "scheduler_factor": 0.3,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.040069578836361565,
+        "beats_champion": true
+      },
+      {
+        "trial": 18,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 8,
+          "weight_decay": 2e-08,
+          "epochs": 200,
+          "patience": 40,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.03949473798274994,
+        "beats_champion": true
+      },
+      {
+        "trial": 19,
+        "config": {
+          "lr": 0.0003,
+          "batch_size": 8,
+          "weight_decay": 1e-08,
+          "epochs": 250,
+          "patience": 30,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.03924791018168131,
+        "beats_champion": true
+      },
+      {
+        "trial": 20,
+        "config": {
+          "lr": 0.0004,
+          "batch_size": 8,
+          "weight_decay": 5e-09,
+          "epochs": 300,
+          "patience": 40,
+          "scheduler_factor": 0.2,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.01,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.04213071366151174,
+        "beats_champion": true
+      }
+    ],
+    "beats_champion": true,
+    "target_score": 0.045659
+  },
+  "crell": {
+    "best_score": 0.032256037928164005,
+    "best_config": {
+      "lr": 0.0007,
+      "batch_size": 16,
+      "weight_decay": 3e-07,
+      "epochs": 160,
+      "patience": 18,
+      "scheduler_factor": 0.5,
+      "dropout_encoder": 0.04,
+      "dropout_decoder": 0.02,
+      "clip_residual_weight": 0.12
+    },
+    "all_results": [
+      {
+        "trial": 1,
+        "config": {
+          "lr": 0.0006,
+          "batch_size": 22,
+          "weight_decay": 1e-06,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.5,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.025,
+          "clip_residual_weight": 0.12
+        },
+        "val_loss": 0.03274663724005222,
+        "beats_champion": false
+      },
+      {
+        "trial": 2,
+        "config": {
+          "lr": 0.0009,
+          "batch_size": 22,
+          "weight_decay": 5e-07,
+          "epochs": 180,
+          "patience": 22,
+          "scheduler_factor": 0.6,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.03271994243065516,
+        "beats_champion": false
+      },
+      {
+        "trial": 3,
+        "config": {
+          "lr": 0.0009,
+          "batch_size": 24,
+          "weight_decay": 1e-06,
+          "epochs": 180,
+          "patience": 18,
+          "scheduler_factor": 0.5,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.03266933262348175,
+        "beats_champion": false
+      },
+      {
+        "trial": 4,
+        "config": {
+          "lr": 0.0007,
+          "batch_size": 22,
+          "weight_decay": 3e-07,
+          "epochs": 180,
+          "patience": 22,
+          "scheduler_factor": 0.6,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.025,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.03274349061151346,
+        "beats_champion": false
+      },
+      {
+        "trial": 5,
+        "config": {
+          "lr": 0.0008,
+          "batch_size": 18,
+          "weight_decay": 1e-06,
+          "epochs": 160,
+          "patience": 20,
+          "scheduler_factor": 0.6,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.025,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.03274245240858623,
+        "beats_champion": false
+      },
+      {
+        "trial": 6,
+        "config": {
+          "lr": 0.0006,
+          "batch_size": 20,
+          "weight_decay": 5e-07,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.025,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.03271154096970955,
+        "beats_champion": false
+      },
+      {
+        "trial": 7,
+        "config": {
+          "lr": 0.0009,
+          "batch_size": 18,
+          "weight_decay": 5e-07,
+          "epochs": 160,
+          "patience": 22,
+          "scheduler_factor": 0.6,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.12
+        },
+        "val_loss": 0.03274603161428656,
+        "beats_champion": false
+      },
+      {
+        "trial": 8,
+        "config": {
+          "lr": 0.001,
+          "batch_size": 22,
+          "weight_decay": 1e-06,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.03274991735816002,
+        "beats_champion": false
+      },
+      {
+        "trial": 9,
+        "config": {
+          "lr": 0.0007,
+          "batch_size": 18,
+          "weight_decay": 1e-06,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.03272771090269089,
+        "beats_champion": false
+      },
+      {
+        "trial": 10,
+        "config": {
+          "lr": 0.0006,
+          "batch_size": 24,
+          "weight_decay": 7e-07,
+          "epochs": 140,
+          "patience": 20,
+          "scheduler_factor": 0.6,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.12
+        },
+        "val_loss": 0.03267054855823517,
+        "beats_champion": false
+      },
+      {
+        "trial": 11,
+        "config": {
+          "lr": 0.0007,
+          "batch_size": 22,
+          "weight_decay": 5e-07,
+          "epochs": 140,
+          "patience": 20,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.12
+        },
+        "val_loss": 0.032746014185249805,
+        "beats_champion": false
+      },
+      {
+        "trial": 12,
+        "config": {
+          "lr": 0.0006,
+          "batch_size": 24,
+          "weight_decay": 5e-07,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.025,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.03265503123402595,
+        "beats_champion": false
+      },
+      {
+        "trial": 13,
+        "config": {
+          "lr": 0.0007,
+          "batch_size": 24,
+          "weight_decay": 5e-07,
+          "epochs": 180,
+          "patience": 22,
+          "scheduler_factor": 0.5,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.12
+        },
+        "val_loss": 0.032637198269367215,
+        "beats_champion": false
+      },
+      {
+        "trial": 14,
+        "config": {
+          "lr": 0.001,
+          "batch_size": 22,
+          "weight_decay": 7e-07,
+          "epochs": 160,
+          "patience": 22,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.12
+        },
+        "val_loss": 0.032744990972181164,
+        "beats_champion": false
+      },
+      {
+        "trial": 15,
+        "config": {
+          "lr": 0.001,
+          "batch_size": 24,
+          "weight_decay": 3e-07,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.032636808604002,
+        "beats_champion": false
+      },
+      {
+        "trial": 16,
+        "config": {
+          "lr": 0.0008,
+          "batch_size": 18,
+          "weight_decay": 7e-07,
+          "epochs": 180,
+          "patience": 22,
+          "scheduler_factor": 0.4,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.015,
+          "clip_residual_weight": 0.06
+        },
+        "val_loss": 0.03272997907229832,
+        "beats_champion": false
+      },
+      {
+        "trial": 17,
+        "config": {
+          "lr": 0.0009,
+          "batch_size": 22,
+          "weight_decay": 3e-07,
+          "epochs": 140,
+          "patience": 22,
+          "scheduler_factor": 0.6,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.025,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.032734887984891735,
+        "beats_champion": false
+      },
+      {
+        "trial": 18,
+        "config": {
+          "lr": 0.0007,
+          "batch_size": 16,
+          "weight_decay": 3e-07,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.5,
+          "dropout_encoder": 0.04,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.12
+        },
+        "val_loss": 0.032256037928164005,
+        "beats_champion": true
+      },
+      {
+        "trial": 19,
+        "config": {
+          "lr": 0.0006,
+          "batch_size": 24,
+          "weight_decay": 1e-06,
+          "epochs": 160,
+          "patience": 18,
+          "scheduler_factor": 0.5,
+          "dropout_encoder": 0.05,
+          "dropout_decoder": 0.025,
+          "clip_residual_weight": 0.08
+        },
+        "val_loss": 0.03266742751002312,
+        "beats_champion": false
+      },
+      {
+        "trial": 20,
+        "config": {
+          "lr": 0.001,
+          "batch_size": 22,
+          "weight_decay": 5e-07,
+          "epochs": 160,
+          "patience": 22,
+          "scheduler_factor": 0.6,
+          "dropout_encoder": 0.06,
+          "dropout_decoder": 0.02,
+          "clip_residual_weight": 0.1
+        },
+        "val_loss": 0.032704127952456474,
+        "beats_champion": false
+      }
+    ],
+    "beats_champion": true,
+    "target_score": 0.032525
+  }
+}
